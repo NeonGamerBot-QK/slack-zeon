@@ -11,12 +11,12 @@ app.command('/ping',async ({ command, ack, respond }) => {
     const stamp = Date.now()
     await ack()
  respond(`Pong took: \`${Date.now() - stamp}ms\``).then(d => {
-console.log(d)
  })
 })
 // Listen for users opening your App Home
 app.event('app_home_opened', async ({ event, client, logger }) => {
     try {
+      console.log(`USER: ${event.user}`)
       // Call views.publish with the built-in client
       const result = await client.views.publish({
         // Use the user ID associated with the event
