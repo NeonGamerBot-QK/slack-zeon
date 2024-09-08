@@ -2,6 +2,7 @@ import "dotenv/config"
 import "./modules/watch-git"
 // import "./modules/smee"
 import app from './modules/slackapp'
+import { View } from "@slack/bolt"
 
 app.start(process.env.PORT || 3000).then((d) => {
     console.log(`App is UP (please help)`)
@@ -17,11 +18,28 @@ app.command('/ping',async ({ command, ack, respond }) => {
 app.event('app_home_opened', async ({ event, client, logger }) => {
     try {
       console.log(`USER: ${event.user}`)
-      // Call views.publish with the built-in client
-      const result = await client.views.publish({
-        // Use the user ID associated with the event
-        user_id: event.user,
-        view: {
+      function genView():View {
+      if(process.env.MY_USER_ID !== event.user)  return {
+          // Home tabs must be enabled in your app configuration page under "App Home"
+          type: "home",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "*Not for you <@" + event.user + "> :x: *"
+              }
+            },
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "Nothing on the home page for you :P."
+              }
+            }
+          ]
+        }
+        return {
           // Home tabs must be enabled in your app configuration page under "App Home"
           type: "home",
           blocks: [
@@ -41,9 +59,15 @@ app.event('app_home_opened', async ({ event, client, logger }) => {
             }
           ]
         }
+      }
+      // Call views.publish with the built-in client
+      const result = await client.views.publish({
+        // Use the user ID associated with the event
+        user_id: event.user,
+        view: genView()
       });
   
-      logger.info(result);
+      // logger.info(result);
     }
     catch (error) {
       logger.error(error);
