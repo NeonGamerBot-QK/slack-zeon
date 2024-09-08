@@ -1,0 +1,19 @@
+{
+  "name": "slack-zeon",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Saahil <neon@saahild.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.21.2",
+    "dotenv": "^16.4.5",
+    "smee-client": "^2.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
