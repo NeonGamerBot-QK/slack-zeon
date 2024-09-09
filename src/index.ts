@@ -41,114 +41,114 @@ app.event("app_home_opened", async ({ event, client, logger }) => {
           ],
         };
       return {
-        "type": "home",
-        "blocks": [
+        type: "home",
+        blocks: [
           {
-            "type": "header",
-            "text": {
-              "type": "plain_text",
-              "text": "Main",
-              "emoji": true
-            }
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "Main",
+              emoji: true,
+            },
           },
           {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Zeons Home page"
-            }
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Zeons Home page",
+            },
           },
           {
-            "type": "divider"
+            type: "divider",
           },
           {
-            "type": "header",
-            "text": {
-              "type": "plain_text",
-              "text": "Stats",
-              "emoji": true
-            }
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "Stats",
+              emoji: true,
+            },
           },
           {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Uptime: {uptime}"
-            }
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Uptime: {uptime}",
+            },
           },
           {
-            "type": "divider"
+            type: "divider",
           },
           {
-            "type": "header",
-            "text": {
-              "type": "plain_text",
-              "text": "Zeon Links",
-              "emoji": true
-            }
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "Zeon Links",
+              emoji: true,
+            },
           },
           {
-            "type": "actions",
-            "elements": [
+            type: "actions",
+            elements: [
               {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "My Site",
-                  "emoji": true
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "My Site",
+                  emoji: true,
                 },
-                "value": "my_site_link",
-                "url": "https://saahild.com/zeon"
+                value: "my_site_link",
+                url: "https://saahild.com/zeon",
               },
               {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "My code",
-                  "emoji": true
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "My code",
+                  emoji: true,
                 },
-                "value": "my_source_link",
-                "url": "https://github.com/NeonGamerBot-QK/slack-zeon"
+                value: "my_source_link",
+                url: "https://github.com/NeonGamerBot-QK/slack-zeon",
               },
               {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "My panel",
-                  "emoji": true
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "My panel",
+                  emoji: true,
                 },
-                "value": "my_panel_url",
-                "url": "https://gp.saahild.com/server/cd4830c1"
-              }
-            ]
+                value: "my_panel_url",
+                url: "https://gp.saahild.com/server/cd4830c1",
+              },
+            ],
           },
           {
-            "type": "divider"
+            type: "divider",
           },
           {
-            "type": "header",
-            "text": {
-              "type": "plain_text",
-              "text": "Zeon - Danger Zone",
-              "emoji": true
-            }
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "Zeon - Danger Zone",
+              emoji: true,
+            },
           },
           {
-            "type": "actions",
-            "elements": [
+            type: "actions",
+            elements: [
               {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": "Restart",
-                  "emoji": true
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Restart",
+                  emoji: true,
                 },
-                "style": "danger",
-                "value": "restart-instance"
-              }
-            ]
-          }
-        ]
+                style: "danger",
+                value: "restart-instance",
+              },
+            ],
+          },
+        ],
       };
     }
     // Call views.publish with the built-in client
