@@ -12,6 +12,14 @@ app.start(process.env.PORT || 3000).then((d) => {
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
 cmdLoader.runQuery();
+function  formatUptime (uptime: number = process.uptime()) {
+  const seconds = Math.floor(uptime % 60)
+  const minutes = Math.floor((uptime / 60) % 60)
+  const hours = Math.floor((uptime / (60 * 60)) % 24)
+  const days = Math.floor(uptime / (60 * 60 * 24))
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`
+}
 
 // Listen for users opening your App Home
 //@see https://api.slack.com/tools/block-kit-builder
@@ -73,7 +81,7 @@ app.event("app_home_opened", async ({ event, client, logger }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "Uptime: {uptime}",
+              text: "Uptime: `{uptime}`".replace('{uptime}', formatUptime()),
             },
           },
           {

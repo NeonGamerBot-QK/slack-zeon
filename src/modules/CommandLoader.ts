@@ -38,6 +38,7 @@ export default class CommandLoader {
         const commandClass = await import(path.join(this.dir, file));
         const cmd = new commandClass.default();
         cmd.run(this._app);
+        console.log(`Loaded ${file}`)
       } catch (e) {
         console.error(`Failed to load ${file}`);
       }
