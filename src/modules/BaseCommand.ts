@@ -10,3 +10,10 @@ export interface Command {
     [k: string]: any
    }
 }
+export function onlyForMe(user: string):boolean {
+if(user === process.env.MY_USER_ID) {
+    return true; 
+} else {
+    return false;
+}
+}

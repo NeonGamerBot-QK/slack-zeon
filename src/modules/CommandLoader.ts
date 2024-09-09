@@ -36,12 +36,10 @@ const files = this.getFiles()
 for (const file of files) {
     try {
         const commandClass = await import(path.join(this.dir, file))
-        console.log(commandClass)
         const cmd = new commandClass.default()
         cmd.run(this._app)
 
     } catch (e) {
-        console.error(e)
         console.error(`Failed to load ${file}`)
     }
     

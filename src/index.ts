@@ -8,6 +8,7 @@ import path from "path"
 app.start(process.env.PORT || 3000).then((d) => {
     console.log(`App is UP (please help)`)
 })
+// app.client.cha 
 const cmdLoader = new Loader(app, path.join(__dirname, 'commands'))
 // this is temp i swear
 cmdLoader.runQuery()
