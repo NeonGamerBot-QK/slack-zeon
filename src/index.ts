@@ -3,17 +3,21 @@ import "./modules/watch-git"
 // import "./modules/smee"
 import app from './modules/slackapp'
 import { View } from "@slack/bolt"
-
+import Loader from "./modules/CommandLoader"
+import path from "path"
 app.start(process.env.PORT || 3000).then((d) => {
     console.log(`App is UP (please help)`)
 })
+const cmdLoader = new Loader(app, path.join(__dirname, 'commands'))
 // this is temp i swear
-app.command('/ping',async ({ command, ack, respond }) => {
-    const stamp = Date.now()
-    await ack()
- respond(`Pong took: \`${Date.now() - stamp}ms\``).then(d => {
- })
-})
+cmdLoader.runQuery()
+
+// app.command('/ping',async ({ command, ack, respond }) => {
+//     const stamp = Date.now()
+//     await ack()
+//  respond(`Pong took: \`${Date.now() - stamp}ms\``).then(d => {
+//  })
+// })
 // Listen for users opening your App Home
 app.event('app_home_opened', async ({ event, client, logger }) => {
     try {
