@@ -13,13 +13,8 @@ const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
 cmdLoader.runQuery();
 
-// app.command('/ping',async ({ command, ack, respond }) => {
-//     const stamp = Date.now()
-//     await ack()
-//  respond(`Pong took: \`${Date.now() - stamp}ms\``).then(d => {
-//  })
-// })
 // Listen for users opening your App Home
+//@see https://api.slack.com/tools/block-kit-builder
 app.event("app_home_opened", async ({ event, client, logger }) => {
   try {
     console.log(`USER: ${event.user}`);
@@ -46,24 +41,114 @@ app.event("app_home_opened", async ({ event, client, logger }) => {
           ],
         };
       return {
-        // Home tabs must be enabled in your app configuration page under "App Home"
-        type: "home",
-        blocks: [
+        "type": "home",
+        "blocks": [
           {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*Welcome home, <@" + event.user + "> :house:*",
-            },
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "Main",
+              "emoji": true
+            }
           },
           {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>.",
-            },
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "Zeons Home page"
+            }
           },
-        ],
+          {
+            "type": "divider"
+          },
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "Stats",
+              "emoji": true
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "Uptime: {uptime}"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "Zeon Links",
+              "emoji": true
+            }
+          },
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "My Site",
+                  "emoji": true
+                },
+                "value": "my_site_link",
+                "url": "https://saahild.com/zeon"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "My code",
+                  "emoji": true
+                },
+                "value": "my_source_link",
+                "url": "https://github.com/NeonGamerBot-QK/slack-zeon"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "My panel",
+                  "emoji": true
+                },
+                "value": "my_panel_url",
+                "url": "https://gp.saahild.com/server/cd4830c1"
+              }
+            ]
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "Zeon - Danger Zone",
+              "emoji": true
+            }
+          },
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": "Restart",
+                  "emoji": true
+                },
+                "style": "danger",
+                "value": "restart-instance"
+              }
+            ]
+          }
+        ]
       };
     }
     // Call views.publish with the built-in client
