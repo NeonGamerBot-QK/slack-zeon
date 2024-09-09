@@ -12,9 +12,9 @@ export default class Ping implements Command {
   }
   run(app: App) {
     // app.command()
-    app.event(this.name, async ({event, say}) => {
-        //@ts-ignore
-await    say(`Pingy ping ping`)
+    app.event(this.name, async ({ event, say }) => {
+      //@ts-ignore
+      await say(`Pingy ping ping`);
     });
   }
 }
