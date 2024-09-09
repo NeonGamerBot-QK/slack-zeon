@@ -5,7 +5,7 @@ export interface Command {
   onload?: () => void;
   name: string;
   description: string;
-  is_event?: boolean
+  is_event?: boolean;
   usage?: string;
   custom_properties?: {
     [k: string]: any;
