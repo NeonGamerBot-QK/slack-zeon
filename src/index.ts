@@ -8,8 +8,10 @@ import path from "path";
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   setInterval(() => {
-    fetch("https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK&ping=")
-  }, 60_000)
+    fetch(
+      "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK&ping=",
+    );
+  }, 60_000);
 });
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
