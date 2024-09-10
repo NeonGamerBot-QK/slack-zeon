@@ -14,8 +14,8 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   }, 60_000);
   app.client.chat.postMessage({
     channel: `D07LBMXD9FF`,
-    text: `Starting Slack Bot :D`
-  })
+    text: `Starting Slack Bot :D`,
+  });
 });
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
