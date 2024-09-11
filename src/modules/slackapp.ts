@@ -18,7 +18,7 @@ export const app = new App({
     {
       path: "/send-private",
       method: ["POST"],
-      handler(req, res) {
+    async   handler(req, res) {
         const authHeader = req.headers["authorization"];
         if (authHeader !== process.env.AUTH) {
           res.writeHead(401).end();
@@ -31,15 +31,26 @@ export const app = new App({
             console.log(req.body, 1);
           }),
         );
+
         //@ts-ignore
         console.log(`req.body`, req.body);
-        app.client.chat.postMessage({
-          channel: "C07LT7XS28Z",
-          //@ts-ignore
-          ...req.body,
-        });
-        res.writeHead(200);
-        res.end();
+        //@ts-ignore
+        if (!req.body || Object.keys(req.body) == 0) {
+          res.writeHead(400).end();
+          return;
+        }
+        try {
+         await  app.client.chat.postMessage({
+            channel: "C07LT7XS28Z",
+            //@ts-ignore
+            ...req.body,
+          });
+          res.writeHead(200);
+          res.end();
+        } catch (e) {
+          res.writeHead(500)
+          res.end(e.stack)
+    }
       },
     },
   ],
