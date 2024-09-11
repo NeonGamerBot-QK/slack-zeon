@@ -10,7 +10,8 @@
   "dependencies": {
     "@slack/bolt": "^3.21.2",
     "dotenv": "^16.4.5",
-    "smee-client": "^2.0.3"
+    "smee-client": "^2.0.3",
+    "body-parser": "latest"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",

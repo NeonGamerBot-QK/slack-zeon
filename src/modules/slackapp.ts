@@ -13,6 +13,29 @@ export const app = new App({
         res.writeHead(302)
         res.end(`bye`)
     },
+  }, {
+    path: "/",
+    method: ["POST"], 
+    handler(req, res) {
+      const authHeader = req.headers['authorization']
+      if (authHeader !== process.env.AUTH) {
+        res.writeHead(401).end()
+        return;
+      }
+      // pray this works
+      require('body-parser').json(req, res, () => {
+        //@ts-ignore
+        console.log(req.body, 1)
+      })
+      //@ts-ignore
+      console.log(`req.body`, req.body)
+      app.client.chat.postMessage({
+        channel: "C07LT7XS28Z",
+      text: "todo"
+      })
+      res.writeHead(200)
+      res.end();
+    },
   }]
 });
 export default app;
