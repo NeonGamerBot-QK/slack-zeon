@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-export default function (app) {
+export default function (app: any) {
   const timer = setInterval(() => {
     exec(`git pull`, (error, stdout) => {
       let response = error?.stdout ? error?.stdout[0].toString() : stdout;
