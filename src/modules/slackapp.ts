@@ -26,14 +26,10 @@ export const app = new App({
         }
         // pray this works
         console.log(
-          require("body-parser").json()(req, res, () => {
+          require("body-parser").json()(req, res, async () => {
             //@ts-ignore
             console.log(req.body, 1);
-          }),
-        );
 
-        //@ts-ignore
-        console.log(`req.body`, req.body);
         //@ts-ignore
         if (!req.body || Object.keys(req.body) == 0) {
           res.writeHead(400).end();
@@ -51,6 +47,10 @@ export const app = new App({
           res.writeHead(500);
           res.end(e.stack);
         }
+          }),
+        );
+
+    
       },
     },
   ],
