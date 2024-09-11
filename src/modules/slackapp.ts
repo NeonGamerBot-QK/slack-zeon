@@ -35,8 +35,8 @@ export const app = new App({
         console.log(`req.body`, req.body);
         app.client.chat.postMessage({
           channel: "C07LT7XS28Z",
-        //@ts-ignore
-        ...req.body,
+          //@ts-ignore
+          ...req.body,
         });
         res.writeHead(200);
         res.end();
