@@ -1,5 +1,5 @@
 import "dotenv/config";
-import "./modules/watch-git";
+import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
 import { View } from "@slack/bolt";
@@ -16,6 +16,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
     channel: `D07LBMXD9FF`,
     text: `Starting Slack Bot :D`,
   });
+ init(app)
 });
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
