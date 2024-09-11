@@ -30,27 +30,25 @@ export const app = new App({
             //@ts-ignore
             console.log(req.body, 1);
 
-        //@ts-ignore
-        if (!req.body || Object.keys(req.body) == 0) {
-          res.writeHead(400).end();
-          return;
-        }
-        try {
-          await app.client.chat.postMessage({
-            channel: "C07LT7XS28Z",
             //@ts-ignore
-            ...req.body,
-          });
-          res.writeHead(200);
-          res.end();
-        } catch (e: any) {
-          res.writeHead(500);
-          res.end(e.stack);
-        }
+            if (!req.body || Object.keys(req.body) == 0) {
+              res.writeHead(400).end();
+              return;
+            }
+            try {
+              await app.client.chat.postMessage({
+                channel: "C07LT7XS28Z",
+                //@ts-ignore
+                ...req.body,
+              });
+              res.writeHead(200);
+              res.end();
+            } catch (e: any) {
+              res.writeHead(500);
+              res.end(e.stack);
+            }
           }),
         );
-
-    
       },
     },
   ],
