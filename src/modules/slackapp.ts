@@ -47,7 +47,7 @@ export const app = new App({
           });
           res.writeHead(200);
           res.end();
-        } catch (e) {
+        } catch (e: any) {
           res.writeHead(500);
           res.end(e.stack);
         }
