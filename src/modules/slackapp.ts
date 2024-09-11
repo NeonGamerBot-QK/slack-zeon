@@ -18,7 +18,7 @@ export const app = new App({
     {
       path: "/send-private",
       method: ["POST"],
-    async   handler(req, res) {
+      async handler(req, res) {
         const authHeader = req.headers["authorization"];
         if (authHeader !== process.env.AUTH) {
           res.writeHead(401).end();
@@ -40,7 +40,7 @@ export const app = new App({
           return;
         }
         try {
-         await  app.client.chat.postMessage({
+          await app.client.chat.postMessage({
             channel: "C07LT7XS28Z",
             //@ts-ignore
             ...req.body,
@@ -48,9 +48,9 @@ export const app = new App({
           res.writeHead(200);
           res.end();
         } catch (e) {
-          res.writeHead(500)
-          res.end(e.stack)
-    }
+          res.writeHead(500);
+          res.end(e.stack);
+        }
       },
     },
   ],
