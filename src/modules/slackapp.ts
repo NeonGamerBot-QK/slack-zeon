@@ -16,7 +16,7 @@ export const app = new App({
       },
     },
     {
-      path: "/",
+      path: "/send-private",
       method: ["POST"],
       handler(req, res) {
         const authHeader = req.headers["authorization"];
@@ -35,7 +35,8 @@ export const app = new App({
         console.log(`req.body`, req.body);
         app.client.chat.postMessage({
           channel: "C07LT7XS28Z",
-          text: "todo",
+        //@ts-ignore
+        ...req.body,
         });
         res.writeHead(200);
         res.end();
