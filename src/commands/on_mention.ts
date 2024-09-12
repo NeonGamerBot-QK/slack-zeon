@@ -6,7 +6,7 @@ export default class Ping implements Command {
   description: string;
   is_event?: boolean;
   constructor() {
-    this.name = `on_mention`;
+    this.name = `app_mention`;
     this.description = `Pings zeon`;
     this.is_event = true;
   }
