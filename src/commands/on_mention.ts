@@ -14,7 +14,7 @@ export default class Ping implements Command {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
       //@ts-ignore
-      await say(`Pingy ping ping`);
+      await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
     });
   }
 }
