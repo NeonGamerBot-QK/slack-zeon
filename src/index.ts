@@ -182,13 +182,13 @@ app.event("app_home_opened", async ({ event, client, logger }) => {
   }
 });
 function handleError(e: any) {
-  console.error(e)
+  console.error(e);
   try {
     app.client.chat.postMessage({
       channel: `D07LBMXD9FF`,
       text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
     });
-} catch (e) {}
+  } catch (e) {}
 }
-process.on('unhandledRejection', handleError)
-process.on('unhandledException', handleError)
+process.on("unhandledRejection", handleError);
+process.on("unhandledException", handleError);
