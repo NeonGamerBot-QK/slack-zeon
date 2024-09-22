@@ -11,6 +11,10 @@ export default function (app: any) {
             channel: `D07LBMXD9FF`,
             text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
           });
+          app.client.chat.postMessage({
+            channel: `C0P5NE354`,
+            text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
+          });
           setTimeout(() => {
             process.exit();
           }, 1000);
