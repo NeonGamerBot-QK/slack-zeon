@@ -40,7 +40,7 @@ export default class CommandLoader {
         cmd.run(this._app);
         console.log(`Loaded ${file}`);
       } catch (e) {
-        console.error(e)
+        console.error(e);
         console.error(`Failed to load ${file}`);
       }
     }
