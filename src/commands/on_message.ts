@@ -43,7 +43,7 @@ export default class Message implements Command {
     app.event(this.name, async (par) => {
       //  console.debug(par);
       //   if (!par.ack) return;
-      console.debug(0);
+   //   console.debug(0);
       if (!par.say) return;
       console.log(
         `uh one of them are here`,
@@ -80,7 +80,7 @@ export default class Message implements Command {
           // Put our eval result through the function
           // we defined above
           const cleaned = await clean(evaled);
-          await say(`\`\`\`js\n${cleaned}\`\`\``);
+          await say(`\`\`\`\n${cleaned}\`\`\``);
         } catch (e) {
           await say(`ERROR:\n\`\`\`${await clean(e.stack)}\`\`\``);
         }
