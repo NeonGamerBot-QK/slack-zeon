@@ -43,7 +43,7 @@ export default class Message implements Command {
     app.event(this.name, async (par) => {
       //  console.debug(par);
       //   if (!par.ack) return;
-   //   console.debug(0);
+      //   console.debug(0);
       if (!par.say) return;
       console.log(
         `uh one of them are here`,
