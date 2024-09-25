@@ -15,7 +15,10 @@ export default class Ping implements Command {
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#mention");
       //@ts-ignore
-      await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
+      if (!onlyForMe(command.user_id))
+        await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
+      else 
+        await say(`<@U07L45W79E1> get back to coding me my ping code works fine...`)
     });
   }
 }
