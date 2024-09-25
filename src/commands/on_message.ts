@@ -14,9 +14,9 @@ export default class Message implements Command {
     console.debug(`#message`);
     // app.command()
     app.event(this.name, async (par) => {
-     console.debug(par);
-        console.debug(`#message-`);
-        const { event, say } = par;
+      console.debug(par);
+      console.debug(`#message-`);
+      const { event, say } = par;
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
     });
