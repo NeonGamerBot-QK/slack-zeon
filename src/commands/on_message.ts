@@ -16,12 +16,15 @@ export default class Message implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
-      if (!par.ack) return;
-      if (!par.say) return;
+        //   if (!par.ack) return;
+        console.debug(0)
+        if (!par.say) return;
+        console.log(`uh one of them are here`,par.event.text, par.event.channel_type)
       //@ts-ignore
-      await par.ack();
+    //   await par.ack();
       if (par.event.channel_type !== "im") return;
-      if (!par.event.text.startsWith("!")) return;
+        if (!par.event.text.startsWith("!")) return;
+        console.debug(`cmd`)
       const { event, say } = par;
 
       const args = event.text.slice(1).trim().split(/ +/);
