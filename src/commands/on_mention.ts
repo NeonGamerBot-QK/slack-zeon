@@ -16,9 +16,13 @@ export default class Ping implements Command {
       console.debug(event, "#mention");
       //@ts-ignore
       if (!onlyForMe(command.user_id))
-        await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
-      else 
-        await say(`<@U07L45W79E1> get back to coding me my ping code works fine...`)
+        await say(
+          `Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`,
+        );
+      else
+        await say(
+          `<@U07L45W79E1> get back to coding me my ping code works fine...`,
+        );
     });
   }
 }
