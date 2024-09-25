@@ -14,11 +14,11 @@ export default class Message implements Command {
     console.debug(`#message`);
     // app.command()
     app.event(this.name, async (par) => {
-        //  console.debug(par);
-        if (!par.ack) return;
-        if (!par.say) return;
-        //@ts-ignore
-        await par.ack()
+      //  console.debug(par);
+      if (!par.ack) return;
+      if (!par.say) return;
+      //@ts-ignore
+      await par.ack();
       if (par.event.channel_type !== "im") return;
       if (!par.event.text.startsWith("!")) return;
       const { event, say } = par;
