@@ -14,6 +14,7 @@ export default class Ping implements Command {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#mention");
+      if (!say) return;
       //@ts-ignore
       if (!onlyForMe(command.user_id))
         await say(

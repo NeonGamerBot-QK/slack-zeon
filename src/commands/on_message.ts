@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 
