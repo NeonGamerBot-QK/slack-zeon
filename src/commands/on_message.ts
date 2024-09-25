@@ -14,20 +14,19 @@ export default class Message implements Command {
     console.debug(`#message`);
     // app.command()
     app.event(this.name, async (par) => {
-        //  console.debug(par);
-        if (par.body.event.channel_type !== 'im') return;
-        if (!par.event.text.startsWith('!')) return;
-        const { event, say } = par;
+      //  console.debug(par);
+      if (par.body.event.channel_type !== "im") return;
+      if (!par.event.text.startsWith("!")) return;
+      const { event, say } = par;
 
-        const args = par.body.event.text.slice(1).trim().split(/ +/)
-        const cmd = args.shift().toLowerCase()
-        console.log(cmd, args)
-        if (cmd == 'eval') {
-            
-        } else if (cmd == 'hello') {
-            say(`Whats up`)
-        }
-        console.debug(`#message-`);
+      const args = par.body.event.text.slice(1).trim().split(/ +/);
+      const cmd = args.shift().toLowerCase();
+      console.log(cmd, args);
+      if (cmd == "eval") {
+      } else if (cmd == "hello") {
+        say(`Whats up`);
+      }
+      console.debug(`#message-`);
 
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
