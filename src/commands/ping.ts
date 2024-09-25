@@ -18,7 +18,7 @@ export default class Ping implements Command {
         return respond(`:x: You cannot use this command.`);
 
       respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
-        console.debug(`after ping`, d)
+        console.debug(`after ping`, d);
       });
     });
   }
