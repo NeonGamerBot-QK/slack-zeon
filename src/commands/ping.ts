@@ -17,7 +17,9 @@ export default class Ping implements Command {
       if (!onlyForMe(command.user_id))
         return respond(`:x: You cannot use this command.`);
 
-      respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {});
+      respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
+        console.debug(`after ping`, d)
+      });
     });
   }
 }
