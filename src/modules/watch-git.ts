@@ -6,7 +6,7 @@ export default function (app: any) {
       if (!error) {
         if (!response?.includes("Already up to date.")) {
           const commitMessage = require("child_process")
-          .execSync("git log -1 --pretty=%B")
+            .execSync("git log -1 --pretty=%B")
             .toString();
           console.log(`New git stuff wowie`);
           console.log(response);
@@ -14,14 +14,14 @@ export default function (app: any) {
             channel: `D07LBMXD9FF`,
             text: `**${commitMessage}**\`\`\`\n${response.slice(0, 4000)}\`\`\``,
           });
-         
-        console.debug(commitMessage)
-          if (commitMessage.startsWith('feat')) {
+
+          console.debug(commitMessage);
+          if (commitMessage.startsWith("feat")) {
             app.client.chat.postMessage({
               channel: `C0P5NE354`,
               text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
             });
-     }
+          }
           setTimeout(() => {
             process.exit();
           }, 1000);
