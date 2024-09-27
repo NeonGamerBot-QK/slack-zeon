@@ -62,7 +62,7 @@ export default class Message implements Command {
       console.log(cmd, args);
       if (cmd == "eval") {
         try {
-          console.log(args)
+          console.log(args);
           // Evaluate (execute) our input
           const evaled = await new Promise(async (_res, rej) => {
             let resolved = false;
