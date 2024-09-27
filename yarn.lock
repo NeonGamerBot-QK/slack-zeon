@@ -194,6 +194,13 @@
   dependencies:
     undici-types "~6.19.2"
 
+"@types/node@^22.7.4":
+  version "22.7.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.4.tgz#e35d6f48dca3255ce44256ddc05dee1c23353fcc"
+  integrity sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg==
+  dependencies:
+    undici-types "~6.19.2"
+
 "@types/promise.allsettled@^1.0.3":
   version "1.0.6"
   resolved "https://registry.npmjs.org/@types/promise.allsettled/-/promise.allsettled-1.0.6.tgz"
@@ -342,6 +349,24 @@ body-parser@1.20.2:
     iconv-lite "0.4.24"
     on-finished "2.4.1"
     qs "6.11.0"
+    raw-body "2.5.2"
+    type-is "~1.6.18"
+    unpipe "1.0.0"
+
+body-parser@latest:
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.20.3.tgz#1953431221c6fb5cd63c4b36d53fab0928e548c6"
+  integrity sha512-7rAxByjUMqQ3/bHJy7D6OGXvx/MMc4IqBn/X0fcM1QUcAItpZrBEYhWGem+tzXH90c+G01ypMcYJBO9Y30203g==
+  dependencies:
+    bytes "3.1.2"
+    content-type "~1.0.5"
+    debug "2.6.9"
+    depd "2.0.0"
+    destroy "1.2.0"
+    http-errors "2.0.0"
+    iconv-lite "0.4.24"
+    on-finished "2.4.1"
+    qs "6.13.0"
     raw-body "2.5.2"
     type-is "~1.6.18"
     unpipe "1.0.0"
@@ -1232,6 +1257,13 @@ qs@6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
+qs@6.13.0:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.13.0.tgz#6ca3bd58439f7e245655798997787b0d88a51906"
+  integrity sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==
+  dependencies:
+    side-channel "^1.0.6"
+
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
@@ -1352,7 +1384,7 @@ setprototypeof@1.2.0:
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-side-channel@^1.0.4:
+side-channel@^1.0.4, side-channel@^1.0.6:
   version "1.0.6"
   resolved "https://registry.npmjs.org/side-channel/-/side-channel-1.0.6.tgz"
   integrity sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==

@@ -9,11 +9,12 @@
   },
   "dependencies": {
     "@slack/bolt": "^3.21.2",
+    "body-parser": "latest",
     "dotenv": "^16.4.5",
-    "smee-client": "^2.0.3",
-    "body-parser": "latest"
+    "smee-client": "^2.0.3"
   },
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
