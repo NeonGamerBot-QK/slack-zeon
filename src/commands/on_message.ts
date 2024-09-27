@@ -71,7 +71,9 @@ export default class Message implements Command {
               _res(...args);
             };
             try {
-              const exec = await eval(args.join(" ").replaceAll("&gt;", ">").replaceAll("&lt;", "<"));
+              const exec = await eval(
+                args.join(" ").replaceAll("&gt;", ">").replaceAll("&lt;", "<"),
+              );
               if (!resolved) res(exec);
             } catch (e) {
               rej(e);
