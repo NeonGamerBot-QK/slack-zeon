@@ -16,7 +16,7 @@ export default class Ping implements Command {
       console.debug(event, "#mention");
       if (!say) return;
       //@ts-ignore
-      if (!onlyForMe(command.user_id))
+      if (!onlyForMe(event.user))
         await say(
           `Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`,
         );
