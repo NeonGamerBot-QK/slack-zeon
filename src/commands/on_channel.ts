@@ -1,4 +1,4 @@
-// 
+//
 
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
@@ -16,9 +16,9 @@ export default class AutoJoinChannel implements Command {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#channel_create");
-        app.client.conversations.join({
-            channel: event.channel.id
-      })
+      app.client.conversations.join({
+        channel: event.channel.id,
+      });
     });
   }
 }
