@@ -16,10 +16,10 @@ export default class AutoJoinChannel implements Command {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#channel_create");
-        app.client.conversations.join({
-            //@ts-ignore TODO: fix error later
-            channel: event.channel.id
-      })
+      app.client.conversations.join({
+        //@ts-ignore TODO: fix error later
+        channel: event.channel.id,
+      });
     });
   }
 }
