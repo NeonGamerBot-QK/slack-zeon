@@ -40,9 +40,11 @@ export const app = new App({
                 channel: "C07LT7XS28Z",
                 //@ts-ignore
                 ...req.body,
-              });
+              }).then(d=> {
+                
               res.writeHead(200);
-              res.end();
+              res.end(JSON.stringify(d));
+              });
             } catch (e: any) {
               res.writeHead(500);
               res.end(e.stack);
