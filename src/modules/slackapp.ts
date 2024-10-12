@@ -36,15 +36,16 @@ export const app = new App({
               return;
             }
             try {
-              await app.client.chat.postMessage({
-                channel: "C07LT7XS28Z",
-                //@ts-ignore
-                ...req.body,
-              }).then(d=> {
-                
-              res.writeHead(200);
-              res.end(JSON.stringify(d));
-              });
+              await app.client.chat
+                .postMessage({
+                  channel: "C07LT7XS28Z",
+                  //@ts-ignore
+                  ...req.body,
+                })
+                .then((d) => {
+                  res.writeHead(200);
+                  res.end(JSON.stringify(d));
+                });
             } catch (e: any) {
               res.writeHead(500);
               res.end(e.stack);
