@@ -14,9 +14,9 @@ export default class AutoJoinChannel implements Command {
   }
   run(app: App) {
     // app.command()
-    //TODO remove this 
-// requested by hackclub member 
-app.event(this.name+1, async ({ event, say }) => {
+    //TODO remove this
+    // requested by hackclub member
+    app.event(this.name + 1, async ({ event, say }) => {
       console.debug(event, "#channel_create");
       app.client.conversations.join({
         //@ts-ignore TODO: fix error later
