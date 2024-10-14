@@ -5,7 +5,7 @@ import app from "./modules/slackapp";
 import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
-import cron from "node-cron"
+import cron from "node-cron";
 import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
@@ -192,29 +192,28 @@ function handleError(e: any) {
     });
   } catch (e) {}
 }
-function updateStatus(emoji?:string, str?:string, clearStats?:boolean) {
+function updateStatus(emoji?: string, str?: string, clearStats?: boolean) {
   app.client.users.profile.set({
     //@ts-ignore
     profile: {
       status_emoji: emoji,
       status_expiration: clearStats ? 1 : 0,
-      status_text: str.slice(0,100)
-    }
-  })
+      status_text: str.slice(0, 100),
+    },
+  });
 }
-cron.schedule('* * * * *',async () => {
-
+cron.schedule("* * * * *", async () => {
   //TODO: Add custom PFP's for music (cuz headphones would be nice)
-  const jellyfinStr = await getJellyfinStatus()
-  const spotifyStr = await getSpotifyStatus()
-  if(jellyfinStr) {
-updateStatus(":jellyfin:", jellyfinStr)
-  } else if(spotifyStr) {
-updateStatus(":spotify_new:", spotifyStr)
+  const jellyfinStr = await getJellyfinStatus();
+  const spotifyStr = await getSpotifyStatus();
+  if (jellyfinStr) {
+    updateStatus(":jellyfin:", jellyfinStr);
+  } else if (spotifyStr) {
+    updateStatus(":spotify_new:", spotifyStr);
   } else {
-    // clear status 
-    updateStatus(null,"Clearing..", true)
+    // clear status
+    updateStatus(null, "Clearing..", true);
   }
-})
+});
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
