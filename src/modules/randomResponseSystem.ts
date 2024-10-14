@@ -11,6 +11,22 @@ export const acRandom = [
   "Blahaj :blahaj2: ",
   "Blahaj (spinny) :blahaj-spin: ",
 ];
+// used to adverties channels
+export const beggingMessage = [
+"PLEASE JOIN IT RAA",
+"Its epik i swear",
+"warning: may contain extremly dead chat."
+]
+// if you want to become a neighboor of this channel just dm me on slack
+export const neighbors = [];
+export const channelsToAdvs = [
+...neighbors,
+"C07QWGLQUH2",
+"C07RE4N7S4B",
+"C07PGEGJ3B6",
+"C07LZ237WCF",
+"C07LEEB50KD"
+];
 export function actualRandomResponse() {
   return parseRandom(acRandom[Math.floor(Math.random() * acRandom.length)]);
 }
