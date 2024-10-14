@@ -31,6 +31,10 @@ export function actualRandomResponse() {
   return parseRandom(acRandom[Math.floor(Math.random() * acRandom.length)]);
 }
 export function parseRandom(str: string): string {
+  Object.entries(process.env).filter(([e, v]) => ["string", "number", "bigint"].includes(typeof v)).forEach(([key, value]) => {
+   //@ts-ignore
+    str = str.replaceAll(`{process.env.${key}}`, new String(value).toString())
+ })
   //@ts-ignore
   return str.replaceAll("{hour}", "-1");
 }
