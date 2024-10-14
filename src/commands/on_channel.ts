@@ -17,9 +17,9 @@ export default class AutoJoinChannel implements Command {
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#channel_create");
       //@ts-ignore
-      if(!event.channel) return;
+      if (!event.channel) return;
       //@ts-expect-error
-      if(!onlyForMe(event.channel.creator)) return; 
+      if (!onlyForMe(event.channel.creator)) return;
       await app.client.conversations.join({
         //@ts-ignore TODO: fix error later
         channel: event?.channel.id,
