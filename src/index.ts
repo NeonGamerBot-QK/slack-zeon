@@ -192,12 +192,15 @@ function handleError(e: any) {
     });
   } catch (e) {}
 }
-function updateStatus(emoji?: string, str?: string, clearStats?: boolean) {
+function updateStatus(emoji: string, str: string, clearStats?: boolean) {
   app.client.users.profile.set({
     //@ts-ignore
-    profile: {
+    profile: clearStats ? {
+      status_emoji: "",
+      status_text: ""
+    } : { 
       status_emoji: emoji,
-      status_expiration: clearStats ? 1 : 0,
+      status_expiration:  0,
       status_text: str.slice(0,100)
     },
     token: process.env.MY_SLACK_TOKEN
@@ -210,10 +213,10 @@ cron.schedule("* * * * *", async () => {
   if (jellyfinStr) {
     updateStatus(":jellyfin:", jellyfinStr);
   } else if (spotifyStr) {
-    updateStatus(":spotify_new:", spotifyStr);
+    updateStatus(":new_spotify:", spotifyStr);
   } else {
     // clear status
-    updateStatus(null, "Clearing..", true);
+    updateStatus(":trash:", "Zeons cleaning up neons status.. ignore this", true);
   }
 });
 process.on("unhandledRejection", handleError);
