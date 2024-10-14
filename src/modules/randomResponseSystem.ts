@@ -10,6 +10,7 @@ export const acRandom = [
   "Blahaj :blahaj1: ",
   "Blahaj :blahaj2: ",
   "Blahaj (spinny) :blahaj-spin: ",
+":notcool::notcool::notcool:\n> https://hackclub.slack.com/archives/C07FDHUL50F/p1728928832148439"
 ];
 // used to adverties channels
 export const beggingMessage = [
