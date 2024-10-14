@@ -203,8 +203,8 @@ function updateStatus(emoji: string, str: string, clearStats?: boolean) {
       status_expiration:  0,
       status_text: str.slice(0,100)
     },
-    token: process.env.MY_SLACK_TOKEN
-  })
+    token: process.env.MY_SLACK_TOKEN,
+  });
 }
 cron.schedule("* * * * *", async () => {
   //TODO: Add custom PFP's for music (cuz headphones would be nice)
