@@ -227,15 +227,14 @@ cron.schedule("* * * * *", async () => {
   }
 });
 function sendRandomStuff() {
-   app.client.chat
-  .postMessage({
+  app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
     //@ts-ignore
-    text: getResponse()
-  })
+    text: getResponse(),
+  });
 }
 //TODO: add more random times
-cron.schedule('5 */12 * * *', sendRandomStuff)
-cron.schedule('45 2 */2 * *', sendRandomStuff)
+cron.schedule("5 */12 * * *", sendRandomStuff);
+cron.schedule("45 2 */2 * *", sendRandomStuff);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
