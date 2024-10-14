@@ -195,14 +195,16 @@ function handleError(e: any) {
 function updateStatus(emoji: string, str: string, clearStats?: boolean) {
   app.client.users.profile.set({
     //@ts-ignore
-    profile: clearStats ? {
-      status_emoji: "",
-      status_text: ""
-    } : { 
-      status_emoji: emoji,
-      status_expiration:  0,
-      status_text: str.slice(0,100)
-    },
+    profile: clearStats
+      ? {
+          status_emoji: "",
+          status_text: "",
+        }
+      : {
+          status_emoji: emoji,
+          status_expiration: 0,
+          status_text: str.slice(0, 100),
+        },
     token: process.env.MY_SLACK_TOKEN,
   });
 }
@@ -216,7 +218,11 @@ cron.schedule("* * * * *", async () => {
     updateStatus(":new_spotify:", spotifyStr);
   } else {
     // clear status
-    updateStatus(":trash:", "Zeons cleaning up neons status.. ignore this", true);
+    updateStatus(
+      ":trash:",
+      "Zeons cleaning up neons status.. ignore this",
+      true,
+    );
   }
 });
 process.on("unhandledRejection", handleError);
