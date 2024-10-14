@@ -7,6 +7,7 @@ import Loader from "./modules/CommandLoader";
 import path from "path";
 import cron from "node-cron";
 import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
+import { getResponse } from "./modules/randomResponseSystem";
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   setInterval(() => {
@@ -225,5 +226,16 @@ cron.schedule("* * * * *", async () => {
     );
   }
 });
+function sendRandomStuff() {
+   app.client.chat
+  .postMessage({
+    channel: "C07R8DYAZMM",
+    //@ts-ignore
+    text: getResponse()
+  })
+}
+//TODO: add more random times
+cron.schedule('5 */12 * * *', sendRandomStuff)
+cron.schedule('45 2 */2 * *', sendRandomStuff)
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
