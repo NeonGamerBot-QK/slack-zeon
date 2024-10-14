@@ -2,6 +2,7 @@
 import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import * as utils from "../modules/index"
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
