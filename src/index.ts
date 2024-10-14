@@ -198,10 +198,10 @@ function updateStatus(emoji?: string, str?: string, clearStats?: boolean) {
     profile: {
       status_emoji: emoji,
       status_expiration: clearStats ? 1 : 0,
-      status_text: str.slice(0,100)
+      status_text: str.slice(0, 100),
     },
-    token: process.env.MY_SLACK_TOKEN
-  })
+    token: process.env.MY_SLACK_TOKEN,
+  });
 }
 cron.schedule("* * * * *", async () => {
   //TODO: Add custom PFP's for music (cuz headphones would be nice)
