@@ -44,7 +44,22 @@ export function parseRandom(str: string): string {
   //@ts-ignore
   return str.replaceAll("{hour}", "-1");
 }
+// all odds are out of 100
+function isItMyChance(odds = 10) {
+return Math.round(Math.random() * 100) < odds
+}
+export let last_type = null;
+enum ResponseTypes {
+  ChannelAdvs
+}
 export function getResponse(): string {
+  let chanceOfChannelAdvs = isItMyChance();
+  
+  if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
+    const chosenChannel = channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
+    last_type = ResponseTypes.ChannelAdvs;
+    return `You should join ${chosenChannel} as well (${beggingMessage[Math.floor(Math.random() * beggingMessage.length)]})`;
+  }
   // add stuff from MY messages (not others)
   // then decrypt what im saying
   // if unrelevent this should be last fyi, send random stuff
