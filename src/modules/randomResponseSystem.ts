@@ -46,17 +46,18 @@ export function parseRandom(str: string): string {
 }
 // all odds are out of 100
 function isItMyChance(odds = 10) {
-return Math.round(Math.random() * 100) < odds
+  return Math.round(Math.random() * 100) < odds;
 }
 export let last_type = null;
 enum ResponseTypes {
-  ChannelAdvs
+  ChannelAdvs,
 }
 export function getResponse(): string {
   let chanceOfChannelAdvs = isItMyChance();
-  
+
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
-    const chosenChannel = channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
+    const chosenChannel =
+      channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
     last_type = ResponseTypes.ChannelAdvs;
     return `You should join ${chosenChannel} as well (${beggingMessage[Math.floor(Math.random() * beggingMessage.length)]})`;
   }
