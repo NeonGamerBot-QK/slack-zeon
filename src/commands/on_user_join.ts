@@ -17,7 +17,7 @@ export default class UserJoinEvent implements Command {
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#userjoin");
       //@ts-ignore
-if(event.channel !== "C07R8DYAZMM") return;
+      if (event.channel !== "C07R8DYAZMM") return;
       await app.client.chat.postMessage({
         //@ts-ignore
         channel: event.channel,
