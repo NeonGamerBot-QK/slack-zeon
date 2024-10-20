@@ -22,12 +22,12 @@ export const beggingMessage = [
 ];
 // if you want to become a neighboor of this channel just dm me on slack
 export const neighbors = [
-  'C06R5NKVCG5',
-  'C04H0MG1BLN',
-  'C07SLT702UA',
-  'C027Y33B93L',
-  'C07DWKSCGKY',
-  'C07LEEB50KD'
+  "C06R5NKVCG5",
+  "C04H0MG1BLN",
+  "C07SLT702UA",
+  "C027Y33B93L",
+  "C07DWKSCGKY",
+  "C07LEEB50KD",
 ];
 export const channelsToAdvs = [
   ...neighbors,
@@ -37,7 +37,7 @@ export const channelsToAdvs = [
   "C07LZ237WCF",
   "C07LEEB50KD",
   "C07STMAUMTK",
-  "C07RW1666UV"
+  "C07RW1666UV",
 ];
 export function actualRandomResponse() {
   return parseRandom(acRandom[Math.floor(Math.random() * acRandom.length)]);
@@ -64,24 +64,29 @@ enum ResponseTypes {
   ChannelAdvs,
 }
 export async function checkOverSpending(db: JSONdb) {
-let currentTransactions = await fetch(process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions", {
-  headers: {
-  "Authorization": process.env.IRL_AUTH
-  }
-  }).then(r=>r.json()).then(json=>json.currentTransactions)
+  let currentTransactions = await fetch(
+    process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions",
+    {
+      headers: {
+        Authorization: process.env.IRL_AUTH,
+      },
+    },
+  )
+    .then((r) => r.json())
+    .then((json) => json.currentTransactions);
   let sliceIndex = db.get("overspending_index") || 0;
   currentTransactions = currentTransactions.slice(sliceIndex);
-  if(currentTransactions.length > 0) {
-  const firstTransaction = currentTransactions[0];
-  db.set("overspending_index", sliceIndex + 1);
-return `Wow, you have spent so much money today, (${firstTransaction.amount}) (fatass-)`;
+  if (currentTransactions.length > 0) {
+    const firstTransaction = currentTransactions[0];
+    db.set("overspending_index", sliceIndex + 1);
+    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (fatass-)`;
   }
   return false;
 }
-export async function getResponse(db: JSONdb):Promise<string> {
+export async function getResponse(db: JSONdb): Promise<string> {
   let chanceOfChannelAdvs = isItMyChance();
   const overSpending = await checkOverSpending(db);
-  if(overSpending) return overSpending;
+  if (overSpending) return overSpending;
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
     const chosenChannel =
       channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
