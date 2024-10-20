@@ -219,7 +219,6 @@ cron.schedule("* * * * *", async () => {
     updateStatus(":jellyfin:", jellyfinStr);
   } else if (spotifyStr) {
     updateStatus(":new_spotify:", spotifyStr);
-  
   } else {
     // clear status
     updateStatus(
@@ -229,14 +228,14 @@ cron.schedule("* * * * *", async () => {
     );
   }
   //TODO ADD MORE RPC
-  // at home? at school? 
+  // at home? at school?
   // set away if in any focus mode
 });
 async function sendRandomStuff() {
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
     //@ts-ignore
-    text:await getResponse(db),
+    text: await getResponse(db),
   });
 }
 //TODO: add more random times
@@ -250,14 +249,14 @@ cron.schedule("1 7 * * 1-5", async () => {
     //@ts-ignore
     text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> todo add hw due today here`,
   });
-})
+});
 cron.schedule("1 9 * * 6-7", () => {
   const isSaturday = new Date().getDay() === 6;
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
     //@ts-ignore
-    text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." :  ""}`,
+    text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
   });
-})
+});
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
