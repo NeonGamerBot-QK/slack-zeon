@@ -1401,6 +1401,11 @@ side-channel@^1.0.4, side-channel@^1.0.6:
     get-intrinsic "^1.2.4"
     object-inspect "^1.13.1"
 
+simple-json-db@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/simple-json-db/-/simple-json-db-2.0.0.tgz#5ed27b0ed16f909506a72953f17eda49e278601d"
+  integrity sha512-oTh7gFQzqAe0E8RN3EkisPo0CojkzcKCKibTcJncg0yt47hWTaNwwjX/FsxfXSTDxfMjBFXFVnZe/EskAlJr7w==
+
 smee-client@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/smee-client/-/smee-client-2.0.3.tgz"
