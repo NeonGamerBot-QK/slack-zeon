@@ -13,7 +13,8 @@
     "dotenv": "^16.4.5",
     "node-cron": "^3.0.3",
     "simple-json-db": "^2.0.0",
-    "smee-client": "^2.0.3"
+    "smee-client": "^2.0.3",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
