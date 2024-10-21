@@ -16,7 +16,7 @@ export function startWatchingDirectory(app: ModifiedApp) {
     }
     if (d.channel == "C07ST3FF4S0") return;
     tempCache.push(uniqueId);
-  //  console.log(d);
+    //  console.log(d);
     //console.log(d)
     const messageLink = await app.client.chat
       .getPermalink({
@@ -31,8 +31,8 @@ export function startWatchingDirectory(app: ModifiedApp) {
   });
   wss.on("close", () => {
     console.log(`Closing connection`);
-setTimeout(() => { 
-startWatchingDirectory(app)
-}, 10_000)
+    setTimeout(() => {
+      startWatchingDirectory(app);
+    }, 10_000);
   });
 }
