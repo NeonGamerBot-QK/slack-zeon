@@ -9,6 +9,9 @@ import JSONdb from "simple-json-db";
 import cron from "node-cron";
 import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
 import { getResponse } from "./modules/randomResponseSystem";
+import * as utils from "./modules/index";
+import howWasYourDay from "./modules/howWasYourDay";
+
 const db = new JSONdb("data.json");
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
@@ -35,6 +38,8 @@ function formatUptime(uptime: number = process.uptime()) {
 
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
+app.db = db;
+app.utils = utils;
 
 // Listen for users opening your App Home
 //@see https://api.slack.com/tools/block-kit-builder
@@ -243,6 +248,9 @@ cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
+cron.schedule("35  20 * * *", () => {
+  howWasYourDay(app)
+})
 cron.schedule("1 7 * * 1-5", async () => {
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",

@@ -1,6 +1,12 @@
 // const { App } = require('@slack/bolt');
 
 import { App } from "@slack/bolt";
+import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+import JSONdb from "simple-json-db";
+export interface ModifiedApp extends App<StringIndexed> {
+  db: JSONdb;
+  utils: typeof import("./index");
+}
 // Initializes your app with your bot token and signing secret
 export const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -56,4 +62,4 @@ export const app = new App({
     },
   ],
 });
-export default app;
+export default app as ModifiedApp;
