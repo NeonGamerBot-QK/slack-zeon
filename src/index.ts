@@ -93,8 +93,8 @@ cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
 cron.schedule("35  20 * * *", () => {
-  howWasYourDay(app)
-})
+  howWasYourDay(app);
+});
 cron.schedule("1 7 * * 1-5", async () => {
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
