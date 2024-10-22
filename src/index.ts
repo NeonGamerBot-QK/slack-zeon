@@ -104,7 +104,7 @@ cron.schedule("1 7 * * 1-5", async () => {
 });
 // special cron
 cron.schedule("1 9 * * 6-7", () => {
-  const d= new Date()
+  const d = new Date();
   if (![6, 7].includes(d.getDay())) return;
   const isSaturday = d.getDay() === 6;
   app.client.chat.postMessage({
