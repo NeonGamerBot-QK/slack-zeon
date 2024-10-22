@@ -102,8 +102,11 @@ cron.schedule("1 7 * * 1-5", async () => {
     text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> todo add hw due today here`,
   });
 });
+// special cron
 cron.schedule("1 9 * * 6-7", () => {
-  const isSaturday = new Date().getDay() === 6;
+  const d= new Date()
+  if (![6, 7].includes(d.getDay())) return;
+  const isSaturday = d.getDay() === 6;
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
     //@ts-ignore
