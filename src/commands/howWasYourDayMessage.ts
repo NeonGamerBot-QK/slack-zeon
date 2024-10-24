@@ -20,7 +20,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
-      if (!par.event.hidden) return;
+      if (par.event.hidden) return;
       if (!par.event.thread_ts) return;
 
       console.log(
