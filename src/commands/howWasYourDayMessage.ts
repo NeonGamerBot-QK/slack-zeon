@@ -18,10 +18,10 @@ export default class HowWasUrDayMessage implements Command {
       //  console.debug(par);
       //   if (!par.ack) return;
       //   console.debug(0);
-      if (!par.say) return;
+    //   if (!par.say) return;
       console.log(
-        `uh one of them are here`,
-        par.event.text,
+        `uh one of them are here ffs`,
+        par.event,
         par.event.channel_type,
       );
       //@ts-ignore
