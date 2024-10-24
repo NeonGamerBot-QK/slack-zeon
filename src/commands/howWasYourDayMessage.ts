@@ -17,6 +17,7 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       //  console.debug(par);
       if (par.event.channel == "C07ST3FF4S0") return;
+      const message = par;
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
