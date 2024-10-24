@@ -7,7 +7,7 @@ import { ModifiedApp } from "./slackapp";
 export function getDayResponse(db: JSONdb) {
   const lastMessageLink =
     db.get("howday_last_message_link") ||
-    "WOw this is the first one or i have not finished the code.";
+    "Wow this is the first one or i have not finished the code.";
   return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\nTodo.\n> your todo list you want to share here\n> also todo `;
 }
 // @see https://stackoverflow.com/a/43837711
@@ -15,6 +15,12 @@ export function getDayResponse(db: JSONdb) {
 //     const int=messageTs.toString().split('.')[0]
 //     return `https://hackclub.slack.com/archives/${channel}/p${int}`
 // }
+/**
+ * 
+ * @param app 
+ * @param filter
+ * @deprecated 
+ */
 export function listenForResponse(app: ModifiedApp, filter: any) {
   async function messageListener(message) {
     if (filter(message)) {
@@ -43,7 +49,5 @@ export default async function (app: ModifiedApp) {
       channel: `C07R8DYAZMM`,
       text: getStr,
     })
-    .then(async (e) => {
-      await listenForResponse(app, (m) => m.event.thread_ts === e.ts);
-    });
+
 }

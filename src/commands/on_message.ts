@@ -38,18 +38,17 @@ export default class Message implements Command {
     this.is_event = true;
   }
   run(app: App) {
-    console.debug(`#message`);
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
       //   if (!par.ack) return;
       //   console.debug(0);
       if (!par.say) return;
-      console.log(
-        `uh one of them are here`,
-        par.event.text,
-        par.event.channel_type,
-      );
+      // console.log(
+      //   `uh one of them are here`,
+      //   par.event.text,
+      //   par.event.channel_type,
+      // );
       //@ts-ignore
       //   await par.ack();
       if (par.event.channel_type !== "im") return;
