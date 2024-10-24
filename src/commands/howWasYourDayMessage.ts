@@ -16,10 +16,13 @@ export default class HowWasUrDayMessage implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
+      if(par,event.channel == "C07ST3FF4S0") return;
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
       if (!par.event.hidden) return;
+      if (!par.event.thread_ts) return;
+
       console.log(
         `uh one of them are here ffs`,
         par.event,
@@ -27,7 +30,6 @@ export default class HowWasUrDayMessage implements Command {
       );
       //@ts-ignore
       //   await par.ack();
-      if (!par.event.thread_ts) return;
       if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
