@@ -16,10 +16,10 @@ export function getDayResponse(db: JSONdb) {
 //     return `https://hackclub.slack.com/archives/${channel}/p${int}`
 // }
 /**
- * 
- * @param app 
+ *
+ * @param app
  * @param filter
- * @deprecated 
+ * @deprecated
  */
 export function listenForResponse(app: ModifiedApp, filter: any) {
   async function messageListener(message) {
@@ -44,10 +44,8 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
 export default async function (app: ModifiedApp) {
   const db = app.db;
   const getStr = await getDayResponse(db);
-  app.client.chat
-    .postMessage({
-      channel: `C07R8DYAZMM`,
-      text: getStr,
-    })
-
+  app.client.chat.postMessage({
+    channel: `C07R8DYAZMM`,
+    text: getStr,
+  });
 }

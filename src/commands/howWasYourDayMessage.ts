@@ -26,10 +26,10 @@ export default class HowWasUrDayMessage implements Command {
       );
       //@ts-ignore
       //   await par.ack();
-   if(!par.event.thread_ts) return;
-   if(!onlyForMe(par.event.user)) return;
+      if (!par.event.thread_ts) return;
+      if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
-    //   if (!par.event.text.startsWith("!")) return;
+      //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
 
@@ -37,20 +37,20 @@ export default class HowWasUrDayMessage implements Command {
       const cmd = args.shift().toLowerCase();
       console.log(cmd, args);
 
-if(par.event.text.toLowerCase().includes("today i")) {
-    const link = await app.client.chat
-    .getPermalink({
-      message_ts: message.event.ts,
-      channel: message.event.channel,
-    })
-    .then((d) => d.permalink);
-  app.db.set("howday_last_message_link", link);
-  app.client.reactions.add({
-    channel: message.event.channel,
-    timestamp: message.event.ts,
-    name: "yay",
-  });
-}
+      if (par.event.text.toLowerCase().includes("today i")) {
+        const link = await app.client.chat
+          .getPermalink({
+            message_ts: message.event.ts,
+            channel: message.event.channel,
+          })
+          .then((d) => d.permalink);
+        app.db.set("howday_last_message_link", link);
+        app.client.reactions.add({
+          channel: message.event.channel,
+          timestamp: message.event.ts,
+          name: "yay",
+        });
+      }
       console.debug(`#message-`);
 
       //@ts-ignore
