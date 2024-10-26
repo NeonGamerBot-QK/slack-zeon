@@ -97,14 +97,14 @@ export const app = new App({
                     .then(async () => {
                       // try to invite user
                       try {
-  await   app.client.conversations.invite({
-    channel: "C07RE4N7S4B",
-    //@ts-ignore
-    users: req.body.user
-  });
+                        await app.client.conversations.invite({
+                          channel: "C07RE4N7S4B",
+                          //@ts-ignore
+                          users: req.body.user,
+                        });
                       } catch (e) {
-                        console.error(`Failed to invite user.`)
-}
+                        console.error(`Failed to invite user.`);
+                      }
                       //@ts-ignore
                       if (!req.body.noping) {
                         app.client.chat.postMessage({
