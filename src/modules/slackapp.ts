@@ -85,24 +85,26 @@ export const app = new App({
                 .postMessage({
                   channel: "C07RE4N7S4B",
                   //@ts-expect-error
-                text: `:new_spotify: New Song: ${req.body.songurl} - added by <@${req.body.user}>`
+                  text: `:new_spotify: New Song: ${req.body.songurl} - added by <@${req.body.user}>`,
                 })
                 .then((d) => {
-                  app.client.chat.postMessage({
-                    channel: "C07RE4N7S4B",
-          thread_ts: d.ts,
-          text: `:thread: Responses about new song here please!`,
-                  }).then(() => {
-                    //@ts-ignore
-                    if (!req.body.noping) {
-                      app.client.chat.postMessage({
-                        channel: "C07RE4N7S4B",
-                        text: `<!subteam^S07RGTY93J8>`,
-                      })
-                    }
-                    res.writeHead(200);
-                    res.end(JSON.stringify(d));
-                  })
+                  app.client.chat
+                    .postMessage({
+                      channel: "C07RE4N7S4B",
+                      thread_ts: d.ts,
+                      text: `:thread: Responses about new song here please!`,
+                    })
+                    .then(() => {
+                      //@ts-ignore
+                      if (!req.body.noping) {
+                        app.client.chat.postMessage({
+                          channel: "C07RE4N7S4B",
+                          text: `<!subteam^S07RGTY93J8>`,
+                        });
+                      }
+                      res.writeHead(200);
+                      res.end(JSON.stringify(d));
+                    });
                 });
             } catch (e: any) {
               res.writeHead(500);
