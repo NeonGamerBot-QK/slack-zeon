@@ -86,7 +86,7 @@ async function sendRandomStuff() {
     text: await getResponse(db),
   });
 }
-utils.startWatchingDirectory(app);
+//utils.startWatchingDirectory(app);
 //TODO: add more random times
 cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
