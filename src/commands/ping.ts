@@ -21,16 +21,18 @@ export default class Ping implements Command {
       //   console.debug(`after ping`, d);
       // });
       const sentStamp = Date.now();
-      app.client.chat.postMessage({
-        text: `pinging...`,
-        channel: command.channel_id,
-      }).then(d=> {
-        app.client.chat.update({
-          ts: d.ts,
+      app.client.chat
+        .postMessage({
+          text: `pinging...`,
           channel: command.channel_id,
-          text: `Pong took: \`${Date.now() - sentStamp}ms\``,
         })
-      })
+        .then((d) => {
+          app.client.chat.update({
+            ts: d.ts,
+            channel: command.channel_id,
+            text: `Pong took: \`${Date.now() - sentStamp}ms\``,
+          });
+        });
     });
   }
 }
