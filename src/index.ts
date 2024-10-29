@@ -11,6 +11,7 @@ import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
 import { getResponse } from "./modules/randomResponseSystem";
 import * as utils from "./modules/index";
 import howWasYourDay from "./modules/howWasYourDay";
+import { myPrivateDNS } from "./modules/nextdns";
 
 const db = new JSONdb("data.json");
 app.start(process.env.PORT || 3000).then(async (d) => {
@@ -25,6 +26,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
     text: `Starting Slack Bot :D`,
   });
   init(app);
+  myPrivateDNS(app);
 });
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
