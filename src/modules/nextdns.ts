@@ -47,15 +47,19 @@ export function myPrivateDNS(app: ModifiedApp) {
       let id = splits[0].split(/ +/)[1];
       let data = splits[1].split(":").slice(1).join(":");
       if (!id || !data) return;
-      const realData: Root = JSON.parse(data);
-      console.log(realData);
-      //@ts-ignore
-      delete realData.clientIp;
-      //   console.log(`${realData.status == 'blocked' ? ':x:' : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `)
-      app.client.chat.postMessage({
-        channel: `C07LT7XS28Z`,
-        text: `${realData.status == "blocked" ? ":x:" : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `,
-      });
+      try {
+        const realData: Root = JSON.parse(data);
+        console.log(realData);
+        //@ts-ignore
+        delete realData.clientIp;
+        //   console.log(`${realData.status == 'blocked' ? ':x:' : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `)
+        app.client.chat.postMessage({
+          channel: `C07LT7XS28Z`,
+          text: `${realData.status == "blocked" ? ":x:" : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `,
+        });
+      } catch (e) {
+        
+      }
     });
     rs.on("end", () => {
       console.log("end");
