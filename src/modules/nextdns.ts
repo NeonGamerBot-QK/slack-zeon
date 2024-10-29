@@ -60,6 +60,8 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
     });
     rs.on("end", () => {
       console.log("end");
+      // restart
+      PrivateDNS(app, id, channel)
     });
   });
 }
