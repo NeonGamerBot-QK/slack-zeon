@@ -57,9 +57,7 @@ export function myPrivateDNS(app: ModifiedApp) {
           channel: `C07LT7XS28Z`,
           text: `${realData.status == "blocked" ? ":x:" : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `,
         });
-      } catch (e) {
-        
-      }
+      } catch (e) {}
     });
     rs.on("end", () => {
       console.log("end");
