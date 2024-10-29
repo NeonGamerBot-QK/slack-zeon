@@ -21,11 +21,10 @@ export interface Device {
   name: string;
 }
 
-export function PrivateDNS(app: ModifiedApp, id:string, channel:string) {
-  fetch(
-    `https://api.nextdns.io/profiles/${id}/logs/stream`,
-    { headers: { "X-Api-Key": process.env.NEXTDNS_API_KEY } },
-  ).then((r) => {
+export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
+  fetch(`https://api.nextdns.io/profiles/${id}/logs/stream`, {
+    headers: { "X-Api-Key": process.env.NEXTDNS_API_KEY },
+  }).then((r) => {
     const reader = r.body?.getReader();
     const rs = require("stream").Readable();
     rs._read = async () => {
@@ -44,10 +43,10 @@ export function PrivateDNS(app: ModifiedApp, id:string, channel:string) {
       if (str.includes(":keepalive")) return;
       console.debug(str);
       try {
-      let splits = str.split("\n");
-      let id = splits[0].split(/ +/)[1];
-      let data = splits[1].split(":").slice(1).join(":");
-      if (!id || !data) return;
+        let splits = str.split("\n");
+        let id = splits[0].split(/ +/)[1];
+        let data = splits[1].split(":").slice(1).join(":");
+        if (!id || !data) return;
         const realData: Root = JSON.parse(data);
         console.log(realData);
         //@ts-ignore
