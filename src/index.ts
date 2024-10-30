@@ -84,9 +84,11 @@ cron.schedule("* * * * *", async () => {
 });
 async function sendRandomStuff() {
   // dont send bot after bot ...
-  const lastMessage = await app.client.conversations.history({
-    channel: "C07R8DYAZMM"
-  }).then(e => e.messages[0]);
+  const lastMessage = await app.client.conversations
+    .history({
+      channel: "C07R8DYAZMM",
+    })
+    .then((e) => e.messages[0]);
   if (lastMessage.user === "U07LEF1PBTM") return; // ^^
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
