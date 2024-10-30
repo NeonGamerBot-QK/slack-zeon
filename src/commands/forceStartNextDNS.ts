@@ -16,7 +16,7 @@ export default class nextDnsBTN implements Command {
       if (par.ack) await par.ack();
       if (par.body.user.id !== process.env.MY_USER_ID) return;
       //@ts-ignore
-      console.log(par.body, par.event)
+      console.log(par.body, par.event);
     });
   }
 }
