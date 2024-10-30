@@ -83,6 +83,11 @@ cron.schedule("* * * * *", async () => {
   // set away if in any focus mode
 });
 async function sendRandomStuff() {
+  // dont send bot after bot ...
+  const lastMessage = await app.client.conversations.history({
+    channel: "C07R8DYAZMM"
+  }).then(e => e.messages[0]);
+  if (lastMessage.user === "U07LEF1PBTM") return; // ^^
   app.client.chat.postMessage({
     channel: "C07R8DYAZMM",
     //@ts-ignore
@@ -90,7 +95,6 @@ async function sendRandomStuff() {
   });
 }
 //utils.startWatchingDirectory(app);
-//TODO: add more random times
 cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
