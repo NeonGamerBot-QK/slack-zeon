@@ -158,6 +158,16 @@ export default class AppHome implements Command {
                     style: "danger",
                     value: "restart-instance",
                   },
+                  {
+                    type: "button",
+                    text: {
+                      type: "plain_text",
+                      text: "Force Start the nextdns instances again (will not kill previous ones)",
+                      emoji: true,
+                    },
+                    style: "danger",
+                    value: "start-nextdns-instance",
+                  },
                 ],
               },
             ],
