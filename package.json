@@ -14,7 +14,8 @@
     "node-cron": "^3.0.3",
     "simple-json-db": "^2.0.0",
     "smee-client": "^2.0.3",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "eventsource": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
