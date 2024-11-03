@@ -6,20 +6,20 @@ import { ModifiedApp } from "./slackapp";
 import { getTodaysEvents } from "./hw";
 
 export async function getDayResponse(db: JSONdb) {
-  const hw = await getTodaysEvents().then((e:any) => {
-    const start = []
-    const end = []
+  const hw = await getTodaysEvents().then((e: any) => {
+    const start = [];
+    const end = [];
     //@ts-ignore
-    e.forEach(e => {
-        if(e.assign_type == "start") start.push(e.summary)
-        if(e.assign_type == "end") end.push(e.summary)
-    })
-if(start.length > 0 || end.length > 0) {
-return `Assigned today:\n> ${start.join("\n> ")}\n*Due Today*\n> ${end.join("\n> ")}`
-} else {
-  return `No HW found :yay:`
-}
-});
+    e.forEach((e) => {
+      if (e.assign_type == "start") start.push(e.summary);
+      if (e.assign_type == "end") end.push(e.summary);
+    });
+    if (start.length > 0 || end.length > 0) {
+      return `Assigned today:\n> ${start.join("\n> ")}\n*Due Today*\n> ${end.join("\n> ")}`;
+    } else {
+      return `No HW found :yay:`;
+    }
+  });
   const lastMessageLink =
     db.get("howday_last_message_link") ||
     "Wow this is the first one or i have not finished the code.";
