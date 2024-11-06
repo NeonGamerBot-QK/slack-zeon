@@ -62,7 +62,7 @@ export const app = new App({
       },
     },
     {
-      path: "/github-cb-for-slack", 
+      path: "/github-cb-for-slack",
       method: ["POST"],
       async handler(req, res) {
         const authHeader = req.headers["authorization"];
@@ -84,9 +84,9 @@ export const app = new App({
             //@ts-ignore
             handleGitRequest(req.body, app);
             res.writeHead(200).end();
-          })
+          }),
         );
-      }
+      },
     },
     {
       path: "/send-spotify",
