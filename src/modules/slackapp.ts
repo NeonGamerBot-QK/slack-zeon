@@ -61,6 +61,30 @@ export const app = new App({
       },
     },
     {
+      path: "/github-cb-for-slack", 
+      method: ["POST"],
+      async handler(req, res) {
+        const authHeader = req.headers["authorization"];
+        if (authHeader !== process.env.AUTH) {
+          res.writeHead(401).end();
+          return;
+        }
+        // pray this works
+        console.log(
+          require("body-parser").json()(req, res, async () => {
+            //@ts-ignore
+            console.log(req.body, 1);
+
+            //@ts-ignore
+            if (!req.body || Object.keys(req.body) == 0) {
+              res.writeHead(400).end();
+              return;
+            }
+          })
+        );
+      }
+    },
+    {
       path: "/send-spotify",
       method: ["POST"],
       async handler(req, res) {

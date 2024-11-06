@@ -17,12 +17,20 @@ export default class Ping implements Command {
       if (!say) return;
       //@ts-ignore
       if (!onlyForMe(event.user))
-        await say(
-          `Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`,
+await say(
+  {
+    text:             `Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`,
+    //@ts-ignore
+thread_ts: event.ts,
+  }
         );
       else
         await say(
-          `<@U07L45W79E1> get back to coding me my ping code works fine...`,
+        {
+          text:   `<@U07L45W79E1> get back to coding me my ping code works fine...`,
+          //@ts-ignore
+      thread_ts: event.ts,
+        }
         );
     });
   }
