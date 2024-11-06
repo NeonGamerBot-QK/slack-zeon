@@ -12,8 +12,10 @@ import { getResponse } from "./modules/randomResponseSystem";
 import * as utils from "./modules/index";
 import howWasYourDay from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
+import { attachDB } from "./modules/projectWaterydo";
 
 const db = new JSONdb("data.json");
+attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   setInterval(() => {

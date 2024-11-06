@@ -3,6 +3,7 @@
 import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import JSONdb from "simple-json-db";
+import { handleGitRequest } from "./projectWaterydo";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   utils: typeof import("./index");
@@ -80,6 +81,9 @@ export const app = new App({
               res.writeHead(400).end();
               return;
             }
+            //@ts-ignore
+            handleGitRequest(req.body, app);
+            res.writeHead(200).end();
           })
         );
       }
