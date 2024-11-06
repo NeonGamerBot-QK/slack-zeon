@@ -26,10 +26,10 @@ export default class codewatcher implements Command {
           });
           break;
         case "stop":
-            let d = app.db.get('git_session') || [];
-            // d = d.filter(e=>e.active);
-            d[d.indexOf(d.find(e=>e.active))].active = false;
-            app.db.set('git_session', d);
+          let d = app.db.get("git_session") || [];
+          // d = d.filter(e=>e.active);
+          d[d.indexOf(d.find((e) => e.active))].active = false;
+          app.db.set("git_session", d);
           app.client.chat.postEphemeral({
             channel: command.channel_id,
             user: command.user_id,
