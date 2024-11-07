@@ -19,11 +19,11 @@ export default class CTF implements Command {
       await ack();
 
       if (!onlyForMe(command.user_id))
-        return respond(`hint: check my source code :D\n ${process.env.SECOND_FLAG}`);
+        return respond(
+          `hint: check my source code :D\n ${process.env.SECOND_FLAG}`,
+        );
 
-      respond(`Super def secret part: 92bf-a969b0eb15c0`).then((d) => {
-      });
-
+      respond(`Super def secret part: 92bf-a969b0eb15c0`).then((d) => {});
     });
   }
 }
