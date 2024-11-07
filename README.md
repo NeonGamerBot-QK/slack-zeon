@@ -80,11 +80,13 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
+
 A slack version of zeon for the hackclub slack.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
+
 - javascript
 - bolt (slacks framework)
 
