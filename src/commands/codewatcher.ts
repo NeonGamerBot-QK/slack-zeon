@@ -22,10 +22,10 @@ export default class codewatcher implements Command {
       switch (subcmd) {
         case "start":
           const reponame = args[0];
-          app.client.chat.postMessage({
-            channel: command.channel_id,
-            text: `Starting Code Watcher for ${reponame}`,
-          });
+          // app.client.chat.postMessage({
+          //   channel: command.channel_id,
+          //   text: `Starting Code Watcher for ${reponame}`,
+          // });
           // create a new session
           const session = {
             active: true,

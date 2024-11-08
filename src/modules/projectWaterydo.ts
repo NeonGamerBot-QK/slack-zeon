@@ -9,7 +9,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   if (!db) return;
   if (!db.get("git_session")) return;
   const session = (db.get("git_session") || []).find((e) => e.active);
-  if (session.repo_name !== body.repo_name) return;
+  if (session.repo !== body.repo_name) return;
   app.client.chat.postMessage({
     channel: session.channel,
     thread_ts: session.message_ts,
