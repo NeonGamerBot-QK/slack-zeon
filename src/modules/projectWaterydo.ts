@@ -12,7 +12,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   if (session.repo_name !== body.repo_name) return;
   app.client.chat.postMessage({
     channel: session.channel,
-    thread_ts: session.thread_ts,
+    thread_ts: session.message_ts,
     text: body.commit_url,
   });
 }
