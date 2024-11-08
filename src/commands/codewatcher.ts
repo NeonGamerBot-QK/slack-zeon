@@ -1,7 +1,7 @@
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
-import ms from "ms"
+import ms from "ms";
 export default class codewatcher implements Command {
   name: string;
   description: string;
@@ -26,7 +26,7 @@ export default class codewatcher implements Command {
             channel: command.channel_id,
             text: `Starting Code Watcher for ${reponame}`,
           });
-// create a new session
+          // create a new session
           const session = {
             active: true,
             repo: reponame,
@@ -36,22 +36,24 @@ export default class codewatcher implements Command {
             message_ts: null,
             mlink: null,
           };
-        
-          app.client.chat.postMessage({
-            channel: command.channel_id,
-            user: command.user_id,
-            text: `Starting Code Watcher for ${reponame}`,
-          }).then(async (dr) => {
-session.message_ts = dr.ts;
-session.mlink = await app.client.chat
-.getPermalink({
-  channel: dr.channel,
-  message_ts: dr.ts,
-})
-.then((d) => d.permalink);
-d.push(session);
-app.db.set("git_session", d);
-          });
+
+          app.client.chat
+            .postMessage({
+              channel: command.channel_id,
+              user: command.user_id,
+              text: `Starting Code Watcher for ${reponame}`,
+            })
+            .then(async (dr) => {
+              session.message_ts = dr.ts;
+              session.mlink = await app.client.chat
+                .getPermalink({
+                  channel: dr.channel,
+                  message_ts: dr.ts,
+                })
+                .then((d) => d.permalink);
+              d.push(session);
+              app.db.set("git_session", d);
+            });
           break;
         case "stop":
           // let d = app.db.get("git_session") || [];
@@ -67,9 +69,9 @@ app.db.set("git_session", d);
           d[d.indexOf(d.find((e) => e.active))].ended_at = Date.now();
           await app.client.chat.postMessage({
             channel: command.channel_id,
-      thread_ts: d[d.indexOf(d.find((e) => e.active))].message_ts,
+            thread_ts: d[d.indexOf(d.find((e) => e.active))].message_ts,
             text: `Stopping Code Watcher, Took ${ms(d[d.indexOf(d.find((e) => e.active))].ended_at - d[d.indexOf(d.find((e) => e.active))].started_at)}`,
-          })
+          });
           d[d.indexOf(d.find((e) => e.active))].active = false;
           app.db.set("git_session", d);
           app.client.chat.postEphemeral({
