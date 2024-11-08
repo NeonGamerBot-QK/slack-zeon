@@ -30,7 +30,7 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
   );
   client.onmessage = (message) => {
     const realData: Root = JSON.parse(message.data);
-    console.log(realData);
+    // console.log(realData);
     //@ts-ignore
     delete realData.clientIp;
     //   console.log(`${realData.status == 'blocked' ? ':x:' : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `)

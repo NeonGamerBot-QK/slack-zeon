@@ -58,10 +58,10 @@ export default class Message implements Command {
 
       const args = event.text.slice(1).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
-      console.log(cmd, args);
+      // console.log(cmd, args);
       if (cmd == "eval") {
         try {
-          console.log(args);
+          // console.log(args);
           // Evaluate (execute) our input
           const evaled = await new Promise(async (_res, rej) => {
             let resolved = false;

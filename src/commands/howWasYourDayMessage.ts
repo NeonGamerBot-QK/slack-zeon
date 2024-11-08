@@ -24,11 +24,11 @@ export default class HowWasUrDayMessage implements Command {
       if (par.event.hidden) return;
       if (!par.event.thread_ts) return;
 
-      console.log(
-        `uh one of them are here ffs`,
-        par.event,
-        par.event.channel_type,
-      );
+      // console.log(
+      //   `uh one of them are here ffs`,
+      //   par.event,
+      //   par.event.channel_type,
+      // );
       //@ts-ignore
       //   await par.ack();
       if (!onlyForMe(par.event.user)) return;
@@ -39,7 +39,7 @@ export default class HowWasUrDayMessage implements Command {
 
       const args = event.text.trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
-      console.log(cmd, args);
+      // console.log(cmd, args);
 
       if (par.event.text.toLowerCase().includes("today i")) {
         const link = await app.client.chat
