@@ -4,7 +4,8 @@
 import JSONdb from "simple-json-db";
 import { ModifiedApp } from "./slackapp";
 import { getTodaysEvents } from "./hw";
-
+import { GitBody, GitSession } from "./projectWaterydo";
+import ms from "ms"
 export async function getDayResponse(db: JSONdb) {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
@@ -59,8 +60,20 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
 export default async function (app: ModifiedApp) {
   const db = app.db;
   const getStr = await getDayResponse(db);
-  app.client.chat.postMessage({
+ const mobj = await app.client.chat.postMessage({
     channel: `C07R8DYAZMM`,
     text: getStr,
   });
+const today = new Date();
+  const codewatcherForToday = ((app.db.get("git_session") || []) as GitSession[]).filter(d => {
+const f = new Date(d.started_at);
+return f.getDate() == today.getDate() && f.getMonth() == today.getMonth() && f.getFullYear() == today.getFullYear();
+  })
+  if(codewatcherForToday.length > 0) {
+    app.client.chat.postMessage({
+      channel: `C07R8DYAZMM`,
+      thread_ts: mobj.ts,
+      text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some(d=>d.repo.includes('zeon') ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : "")}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map(d => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join('\n> ')}`
+    });
+  }
 }
