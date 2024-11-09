@@ -5,19 +5,21 @@ export interface GitBody {
   commit_url: string;
   repo_name: string;
 }
-export interface GitSession { 
-  active: boolean,
-  repo: string,
-  channel: string,
-  started_at: number
-  ended_at: null | number,
-  message_ts: null | string,
-  mlink: null | string,
+export interface GitSession {
+  active: boolean;
+  repo: string;
+  channel: string;
+  started_at: number;
+  ended_at: null | number;
+  message_ts: null | string;
+  mlink: null | string;
 }
 export function handleGitRequest(body: GitBody, app: App) {
   if (!db) return;
   if (!db.get("git_session")) return;
-  const session = (db.get("git_session") || []).find((e) => e.active) as GitSession;
+  const session = (db.get("git_session") || []).find(
+    (e) => e.active,
+  ) as GitSession;
   if (!session) return;
   if (session.repo !== body.repo_name) return;
   app.client.chat.postMessage({
