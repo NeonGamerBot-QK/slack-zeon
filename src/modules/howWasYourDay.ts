@@ -79,7 +79,7 @@ export default async function (app: ModifiedApp) {
     app.client.chat.postMessage({
       channel: `C07R8DYAZMM`,
       thread_ts: mobj.ts,
-      text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => (d.repo.includes("zeon") ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""))}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
+      text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => (d.repo.includes("zeon"))) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
     });
   }
 }
