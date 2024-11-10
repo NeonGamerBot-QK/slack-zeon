@@ -22,14 +22,16 @@ export const beggingMessage = [
 ];
 // if you want to become a neighboor of this channel just dm me on slack
 export const neighbors = [
-  "C06R5NKVCG5",
-  "C04H0MG1BLN",
-  "C07SLT702UA",
-  "C027Y33B93L",
-  "C07DWKSCGKY",
-  "C07LEEB50KD",
+  'C06R5NKVCG5',
+  'C04H0MG1BLN',
+  'C07SLT702UA',
+  'C027Y33B93L',
+  'C0793T42XV4',
+  'C07S1QSSKTQ',
+  'C07MEM8S0LE',  
 ];
-export const channelsToAdvs = [
+// dont dupe channels :P
+export const channelsToAdvs = [...new Set([
   ...neighbors,
   "C07QWGLQUH2",
   "C07RE4N7S4B",
@@ -38,7 +40,7 @@ export const channelsToAdvs = [
   "C07LEEB50KD",
   "C07STMAUMTK",
   "C07RW1666UV",
-];
+])];
 export function actualRandomResponse() {
   return parseRandom(acRandom[Math.floor(Math.random() * acRandom.length)]);
 }
@@ -79,7 +81,7 @@ export async function checkOverSpending(db: JSONdb) {
   if (currentTransactions.length > 0) {
     const firstTransaction = currentTransactions[0];
     db.set("overspending_index", sliceIndex + 1);
-    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (${Math.round(Math.random()) ? 'fatass': "bigback"}-)`;
+    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (${Math.round(Math.random()) ? 'fatass': "bigback"}-`;
   }
   return false;
 }
