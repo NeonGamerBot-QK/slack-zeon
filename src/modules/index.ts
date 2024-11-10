@@ -4,3 +4,6 @@ export * from "./status";
 export * from "./randomResponseSystem";
 export * from "./howWasYourDay";
 export * from "./wsDirectory";
+export * from "./smee";
+export * from "./projectWaterydo";
+export * from "./Songs";
