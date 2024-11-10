@@ -69,11 +69,13 @@ export default async function (app: ModifiedApp) {
     (app.db.get("git_session") || []) as GitSession[]
   ).filter((d) => {
     const f = new Date(d.started_at);
-    return (
-      f.getDate() == today.getDate() &&
-      f.getMonth() == today.getMonth() &&
-      f.getFullYear() == today.getFullYear()
-    );
+    // check if less then 24h
+    return Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24
+    // return (
+    //   f.getDate() == today.getDate() &&
+    //   f.getMonth() == today.getMonth() &&
+    //   f.getFullYear() == today.getFullYear()
+    // );
   });
   if (codewatcherForToday.length > 0) {
     app.client.chat.postMessage({
