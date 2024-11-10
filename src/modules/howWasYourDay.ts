@@ -70,7 +70,10 @@ export default async function (app: ModifiedApp) {
   ).filter((d) => {
     const f = new Date(d.started_at);
     // check if less then 24h
-    return Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 && Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0;
+    return (
+      Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
+      Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
+    );
     // return (
     //   f.getDate() == today.getDate() &&
     //   f.getMonth() == today.getMonth() &&
