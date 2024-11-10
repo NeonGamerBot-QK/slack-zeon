@@ -25,7 +25,7 @@ export default class Shop implements Command {
             return;
           }
           respond(
-            `Search results for \`${query}\`:\n${results.map((e) => `> ${e.name}\`${e.id}\` - ${e.subtitle}`).join("\n")}`,
+            `Search results for \`${query}\`:\n${results.map((e) => `> ${e.name} \`${e.id}\` - ${e.subtitle}`).join("\n")}`,
           );
           break;
         case "item":

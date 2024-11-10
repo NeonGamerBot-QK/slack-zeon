@@ -79,7 +79,7 @@ export async function checkOverSpending(db: JSONdb) {
   if (currentTransactions.length > 0) {
     const firstTransaction = currentTransactions[0];
     db.set("overspending_index", sliceIndex + 1);
-    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (fatass-)`;
+    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (${Math.round(Math.random()) ? 'fatass': "bigback"}-)`;
   }
   return false;
 }
