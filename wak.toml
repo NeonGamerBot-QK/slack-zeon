@@ -1,0 +1,13 @@
+# https://github.com/iamawatermelo/wakapi-anyide v0.4.1
+
+[meta]
+version = 1
+
+[files]
+include = ["*"]  # files to include in tracking
+exclude = ["/node_modules"]  # files to exclude in tracking
+exclude_files = [".gitignore"]  # files whose contents will be used to exclude other files from tracking
+exclude_binary_files = true  # whether to ignore binary files
+
+[project]
+name = "slack-zeon"  # your project name
