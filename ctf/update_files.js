@@ -8,9 +8,7 @@ function getCloakChunk(s = 2, e = 4) {
     .toString("base64");
 }
 async function getCloak() {
-  return [getCloak(), getCloak(3, 5), getCloak(1, 2), getCloak()].join(
-    " ",
-  );
+  return [getCloak(), getCloak(3, 5), getCloak(1, 2), getCloak()].join(" ");
 }
 const stegcloak = new StegCloak(true, false);
 function encrypt(str) {
