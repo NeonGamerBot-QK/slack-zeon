@@ -113,7 +113,6 @@ export default class Ping implements Command {
             await new Promise((res) => setTimeout(res, 1000));
           }
           await new Promise((res) => setTimeout(res, 100));
-
         }
         app.db.set("ctf", compiledJSON);
         await app.client.chat.update({
