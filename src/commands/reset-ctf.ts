@@ -118,7 +118,10 @@ export default class Ping implements Command {
         await app.client.chat.update({
           ts: msg.ts,
           channel: command.channel_id,
-          text: `CTF was created successfully! \n> ${compiledJSON.filter(e => e.ch_id).map((e) => `<#${e.ch_id}>`).join("\n> ")}`,
+          text: `CTF was created successfully! \n> ${compiledJSON
+            .filter((e) => e.ch_id)
+            .map((e) => `<#${e.ch_id}>`)
+            .join("\n> ")}`,
         });
       } else {
         // it exists; archive old channels and please UPDATE THE FUCKING KEY
