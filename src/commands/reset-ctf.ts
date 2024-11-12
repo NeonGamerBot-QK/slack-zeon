@@ -110,7 +110,10 @@ export default class Ping implements Command {
                 text: j["2nd_message"]!,
               });
             }
+            await new Promise((res) => setTimeout(res, 1000));
           }
+          await new Promise((res) => setTimeout(res, 100));
+
         }
         app.db.set("ctf", compiledJSON);
         await app.client.chat.update({
