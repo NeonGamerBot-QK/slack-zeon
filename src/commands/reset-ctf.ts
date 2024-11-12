@@ -113,6 +113,37 @@ export default class Ping implements Command {
           }
         }
         app.db.set("ctf", compiledJSON);
+        await app.client.chat.update({
+            ts: msg.ts,
+            channel: command.channel_id,
+            text: `CTF was created successfully! \n> ${compiledJSON.map(e => `<#${e.ch_id}>`).join("\n> ")}`
+        })
+      } else {
+        // it exists; archive old channels and please UPDATE THE FUCKING KEY
+        for(let j of currentDbInstance) {
+            if(j.ch_id) {
+             await app.client.chat.postMessage({
+                channel: j.ch_id,
+                text: `:x: CTF was reset! if this is not the final channel may or may not be transferred to the new channel!`
+            }).then(() => {
+                setTimeout(() => {
+                    app.client.conversations.archive({
+                        channel: j.ch_id
+                    })
+                }, 1500)
+            })
+            }
+            // keep old bin links idgaf
+
+
+        }
+        // now delete the DB entry
+app.db.delete("ctf")
+app.client.chat.update({
+    ts: msg.ts,
+    channel: command.channel_id,
+    text: `CTF was reset successfully!\n After *You update the key* please run this again :D`
+})
       }
     });
   }
