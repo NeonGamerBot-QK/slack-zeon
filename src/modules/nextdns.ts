@@ -43,7 +43,7 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
         channel,
         text: chunks.join("\n"),
       });
-      chunks = []
+      chunks = [];
     }
   };
   // fetch(`https://api.nextdns.io/profiles/${id}/logs/stream`, {
