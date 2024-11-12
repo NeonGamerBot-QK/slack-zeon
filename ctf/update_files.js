@@ -2,17 +2,19 @@ require("dotenv").config();
 const StegCloak = require("stegcloak");
 const fs = require("fs");
 const path = require("path");
-function getCloak(s = 2, e = 4) {
+function getCloakChunk(s = 2, e = 4) {
   return Buffer.alloc(256)
     .fill(eval(`0x${Math.random().toString().split(".")[1].slice(s, e)}`))
     .toString("base64");
 }
-const cloak = [getCloak(), getCloak(3, 5), getCloak(1, 2), getCloak()].join(
-  " ",
-);
+async function getCloak() {
+  return [getCloak(), getCloak(3, 5), getCloak(1, 2), getCloak()].join(
+    " ",
+  );
+}
 const stegcloak = new StegCloak(true, false);
 function encrypt(str) {
-  return stegcloak.hide(str, process.env.CTF_PASSWORD, cloak);
+  return stegcloak.hide(str, process.env.CTF_PASSWORD, getCloak());
 }
 function decrypt(str) {
   return stegcloak.reveal(str, process.env.CTF_PASSWORD);
