@@ -20,7 +20,7 @@ export interface Device {
   id: string;
   name: string;
 }
-export const chunks: string[] = [];
+export let chunks: string[] = [];
 export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
   const client = new EventSource(
     `https://api.nextdns.io/profiles/${id}/logs/stream`,
@@ -43,6 +43,7 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
         channel,
         text: chunks.join("\n"),
       });
+      chunks = []
     }
   };
   // fetch(`https://api.nextdns.io/profiles/${id}/logs/stream`, {
