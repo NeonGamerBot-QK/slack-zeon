@@ -32,7 +32,7 @@ function parseTheSecrets() {
 export function createChannel(
   app: ModifiedApp,
   name: string,
-  userIds?: string[],
+  userIds = [],
 ) {
   return app.client.conversations
     .create({
