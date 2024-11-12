@@ -18,7 +18,7 @@ function parseTheSecrets() {
     let total = [];
     for (const file of files) {
       const data = fs
-        .readFileSync(path.join(__dirname, "../../ctf", file))
+        .readFileSync(path.join(__dirname, "../../ctf/notes", file))
         .toString();
       total.push(JSON.parse(decrypt(data)));
       if (i == files.length - 1) {
