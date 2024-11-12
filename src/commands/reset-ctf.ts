@@ -29,11 +29,7 @@ function parseTheSecrets() {
     }
   });
 }
-export function createChannel(
-  app: ModifiedApp,
-  name: string,
-  userIds = [],
-) {
+export function createChannel(app: ModifiedApp, name: string, userIds = []) {
   return app.client.conversations
     .create({
       name: name,
