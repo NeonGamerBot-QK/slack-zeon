@@ -5,9 +5,9 @@ const path = require("path");
 const stegcloak = new StegCloak(true, false);
 
 function decrypt(str) {
-    return stegcloak.reveal(str, process.env.CTF_PASSWORD);
-  }
-  const files = fs.readdirSync(path.join(__dirname, "notes"));
+  return stegcloak.reveal(str, process.env.CTF_PASSWORD);
+}
+const files = fs.readdirSync(path.join(__dirname, "notes"));
 files.forEach((file, i) => {
   console.log(`Decrypting ${file}`);
   const data = fs.readFileSync(path.join(__dirname, "notes", file)).toString();
