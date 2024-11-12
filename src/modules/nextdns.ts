@@ -20,7 +20,7 @@ export interface Device {
   id: string;
   name: string;
 }
-
+export const chunks:string[] = []
 export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
   const client = new EventSource(
     `https://api.nextdns.io/profiles/${id}/logs/stream`,
@@ -34,10 +34,15 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
     //@ts-ignore
     delete realData.clientIp;
     //   console.log(`${realData.status == 'blocked' ? ':x:' : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `)
+  if(chunks.length < 10) {
+    chunks.push(`${realData.status == "blocked" ? ":x:" : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `)
+  } else {
     app.client.chat.postMessage({
       channel,
-      text: `${realData.status == "blocked" ? ":x:" : ":white_check_mark:"} ${realData.encrypted ? ":lock: " : ""} - ${realData.domain} `,
+      text: chunks.join("\n"),
     });
+  }
+    
   };
   // fetch(`https://api.nextdns.io/profiles/${id}/logs/stream`, {
   //   headers: { "X-Api-Key": process.env.NEXTDNS_API_KEY },

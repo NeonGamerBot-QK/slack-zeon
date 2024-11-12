@@ -132,3 +132,5 @@ dist
 data.json
 t.ts
 ctf/unenc
+*.bin
+*.txt
