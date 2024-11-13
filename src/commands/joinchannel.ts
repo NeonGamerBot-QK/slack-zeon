@@ -4,8 +4,8 @@ import { Command, onlyForMe } from "../modules/BaseCommand";
 export const banned_users = [
   // if i get leave my own channel i WILL be banning myself to remember that im an idiot
   process.env.MY_USER_ID,
-  "U07NKS9S8GZ"
-]
+  "U07NKS9S8GZ",
+];
 export default class Ping implements Command {
   name: string;
   description: string;
@@ -21,21 +21,21 @@ export default class Ping implements Command {
 
       // if (onlyForMe(command.user_id))
       //   return respond(`:x: you are the channel owner.`);
-     try {
-      if(banned_users.includes(command.user_id)) {
-      await  app.client.conversations.invite({
-          channel: "C070HPBQ65P",
-          users: command.user_id,
-        });
-       } else {
-     await   app.client.conversations.invite({
-          channel: "C07R8DYAZMM",
-          users: command.user_id,
-        });
-       } 
-     } catch (e) {
-      respond(`:x: Failed, maybe you are already in the channel?!`)
-     }
+      try {
+        if (banned_users.includes(command.user_id)) {
+          await app.client.conversations.invite({
+            channel: "C070HPBQ65P",
+            users: command.user_id,
+          });
+        } else {
+          await app.client.conversations.invite({
+            channel: "C07R8DYAZMM",
+            users: command.user_id,
+          });
+        }
+      } catch (e) {
+        respond(`:x: Failed, maybe you are already in the channel?!`);
+      }
     });
   }
 }
