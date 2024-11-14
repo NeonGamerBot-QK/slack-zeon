@@ -31,10 +31,11 @@ export default class Message implements Command {
       if (par.event.channel !== "C07R8DYAZMM") return;
 
       const { event, say } = par;
-      console.log(event.text);
       if (event.text.includes("https://www.tiktok.com/t/")) {
         // slack cursed urls
-        let url = encodeURIComponent(event.text.split("<")[1].split(">")[0]);
+        let url = (event.text.split("<")[1].split(">")[0]);
+      console.log(event.text, url);
+
         fetch(
           Buffer.from(
             "aHR0cHM6Ly9jb2JhbHQuc2FhaGlsZC5jb20vYXBpL2pzb24=",
