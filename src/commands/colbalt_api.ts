@@ -35,8 +35,7 @@ export default class Message implements Command {
       if (event.text.includes("https://www.tiktok.com/t/")) {
         // slack cursed urls
         let url = encodeURIComponent(
-          "https://www.tiktok.com/t/" +
-            event.text.split("/t/")[1].split("]")[0],
+event.text.split("<")[1].split(">")[0],
         );
         fetch(
           Buffer.from(
