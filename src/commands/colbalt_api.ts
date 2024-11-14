@@ -32,30 +32,42 @@ export default class Message implements Command {
 
       const { event, say } = par;
 
-if(event.text.includes("https://www.tiktok.com/t/")) {
-    let url = encodeURIComponent("https://www.tiktok.com/t/"+event.text.split('/t/')[1])
-    fetch( Buffer.from("aHR0cHM6Ly9jb2JhbHQuc2FhaGlsZC5jb20vYXBpL2pzb24=", "base64").toString().replace('/api/json', '/'), {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-        },
-        body: JSON.stringify({
-        url:url,
-        })
-        }).then(d => d.json()).then(data => {
-            console.debug(data)
-app.client.chat.postMessage({
-    channel: event.channel,
-    text: data.url,
-    thread_ts: event.ts,
-    reply_broadcast: true, 
-    unfurl_media: true,
-    unfurl_links: true,
-  text: `For people who dont have tiktok:\n> ${data.url} (temp url for now fyi)`
-})
-        })
-}
+      if (event.text.includes("https://www.tiktok.com/t/")) {
+        let url = encodeURIComponent(
+          "https://www.tiktok.com/t/" + event.text.split("/t/")[1],
+        );
+        fetch(
+          Buffer.from(
+            "aHR0cHM6Ly9jb2JhbHQuc2FhaGlsZC5jb20vYXBpL2pzb24=",
+            "base64",
+          )
+            .toString()
+            .replace("/api/json", "/"),
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              url: url,
+            }),
+          },
+        )
+          .then((d) => d.json())
+          .then((data) => {
+            console.debug(data);
+            app.client.chat.postMessage({
+              channel: event.channel,
+              text: data.url,
+              thread_ts: event.ts,
+              reply_broadcast: true,
+              unfurl_media: true,
+              unfurl_links: true,
+              text: `For people who dont have tiktok:\n> ${data.url} (temp url for now fyi)`,
+            });
+          });
+      }
       console.debug(`#message-`);
 
       //@ts-ignore
