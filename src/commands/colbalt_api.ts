@@ -33,8 +33,8 @@ export default class Message implements Command {
       const { event, say } = par;
       if (event.text.includes("https://www.tiktok.com/t/")) {
         // slack cursed urls
-        let url = (event.text.split("<")[1].split(">")[0]);
-      console.log(event.text, url);
+        let url = event.text.split("<")[1].split(">")[0];
+        console.log(event.text, url);
 
         fetch(
           Buffer.from(
