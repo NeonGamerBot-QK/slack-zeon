@@ -33,7 +33,7 @@ if(par.event.channel !== "C07R8DYAZMM")  return;
       const { event, say } = par;
 
 if(event.text.includes("https://www.tiktok.com/t/")) {
-    let url = encodeURIComponent(args.join(' '))
+    let url = encodeURIComponent("https://www.tiktok.com/t/"+event.text.split('/t/')[1])
     fetch( Buffer.from("aHR0cHM6Ly9jb2JhbHQuc2FhaGlsZC5jb20vYXBpL2pzb24=", "base64").toString().replace('/api/json', '/'), {
         method: "POST",
         headers: {
