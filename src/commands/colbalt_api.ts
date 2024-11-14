@@ -33,8 +33,9 @@ export default class Message implements Command {
       const { event, say } = par;
 
       if (event.text.includes("https://www.tiktok.com/t/")) {
+        // slack cursed urls
         let url = encodeURIComponent(
-          "https://www.tiktok.com/t/" + event.text.split("/t/")[1],
+event.text.split('[')[1].split(']')[0],
         );
         fetch(
           Buffer.from(
@@ -50,7 +51,7 @@ export default class Message implements Command {
               Accept: "application/json",
             },
             body: JSON.stringify({
-              url: url,
+              url:event.text,
             }),
           },
         )
