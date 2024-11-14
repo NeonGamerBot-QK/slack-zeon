@@ -28,7 +28,7 @@ export default class Message implements Command {
       // );
       //@ts-ignore
       //   await par.ack();
-if(par.event.channel !== "C07R8DYAZMM")  return;
+      if (par.event.channel !== "C07R8DYAZMM") return;
 
       const { event, say } = par;
 

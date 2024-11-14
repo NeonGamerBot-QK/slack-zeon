@@ -36,7 +36,7 @@ const clean = async (text) => {
  The users'sprompt is: zeon can you tell me what 1+1 is <ac prompt>
  */
 function zeonMessageCommands(d, r) {
-// TODO: im eepy buddy
+  // TODO: im eepy buddy
 }
 export default class Message implements Command {
   name: string;
