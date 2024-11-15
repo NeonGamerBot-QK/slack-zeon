@@ -20,16 +20,16 @@ attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   setInterval(() => {
-  try {
-    function r() {
-      fetch(
-        "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK&ping=",
-      ).catch(r);
+    try {
+      function r() {
+        fetch(
+          "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK&ping=",
+        ).catch(r);
+      }
+      r();
+    } catch (e) {
+      console.error(e);
     }
-    r()
-  } catch (e) {
-    console.error(e);
-  }
   }, 60_000);
   app.client.chat.postMessage({
     channel: `D07LBMXD9FF`,
