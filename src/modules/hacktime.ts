@@ -1,4 +1,4 @@
-export default function getStatusBar() {
+export  function getStatusBar() {
   return fetch(
     "https://waka.hackclub.com/api/users/U07L45W79E1/statusbar/today",
     {
