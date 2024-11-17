@@ -7,3 +7,5 @@ export * from "./wsDirectory";
 export * from "./smee";
 export * from "./projectWaterydo";
 export * from "./Songs";
+export * from "./nextdns";
+export * from "./hacktime";
