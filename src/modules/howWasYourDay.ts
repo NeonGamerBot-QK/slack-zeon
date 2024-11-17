@@ -65,14 +65,14 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
-  const formattedHacktimeResults = await hacktime.getStatusBar().then(d => {
-    return d.map(e => `- *${e.name}*: \`${e.text}\``).join('\n')
-  })
+  const formattedHacktimeResults = await hacktime.getStatusBar().then((d) => {
+    return d.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
+  });
   app.client.chat.postMessage({
     channel,
     thread_ts: mobj.ts,
-    text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`
-  })
+    text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`,
+  });
   const today = new Date();
   const codewatcherForToday = (
     (app.db.get("git_session") || []) as GitSession[]
@@ -97,5 +97,4 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => d.repo.includes("zeon")) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
     });
   }
-
 }
