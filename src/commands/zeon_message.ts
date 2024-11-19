@@ -60,21 +60,33 @@ export default class Message implements Command {
               }).then(r => JSON.parse(r.choices[0].message.content));
               const m = await app.client.chat.postMessage({
                   channel: event.channel,
-                  text: "reminder time",
-                  thread_ts: m.ts,
-                });
-              }, aiReq.duration);
-              break;
-            default:
-              console.log(aiReq, `unk`);
-              break;
+                  text:
+                      aiReq.message || (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
+                      ":notcool: i didnt get a message/error im very scared... >> " +
+                      JSON.stringify(aiReq),
+              });
+              switch (aiReq.type) {
+                  case "reminder":
+                  case "timer":
+                      // uhhh todo??
+                      setTimeout(() => {
+                          app.client.chat.postMessage({
+                              channel: event.channel,
+                              text: "reminder time",
+                              thread_ts: m.ts,
+                          });
+                      }, aiReq.duration);
+                      break;
+                  default:
+                      console.log(aiReq, `unk`);
+                      break;
+              }
+          } catch (e) {
+              app.client.chat.postMessage({
+                  channel: event.channel, 
+                  text: `:notcool: ${e.toString()}`
+              })
           }
-        } catch (e) {
-          app.client.chat.postMessage({
-            channel: event.channel,
-            text: `:notcool: ${e.toString()}`,
-          });
-        }
       } else {
         // console.log(cmd, args);
         const actionVerbs = ["can", "please", "plz"];
