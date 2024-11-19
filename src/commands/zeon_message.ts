@@ -56,7 +56,7 @@ export default class Message implements Command {
           ],
           model: "gpt-3.5-turbo",
         });
-        const m = await app.client.postMessage({
+        const m = await app.client.chat.postMessage({
           channel: event.channel,
           text:
             aiReq.message ||
