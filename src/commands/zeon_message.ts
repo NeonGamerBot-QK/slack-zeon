@@ -47,7 +47,7 @@ export default class Message implements Command {
 
       const args = event.text.slice("zeon ".length).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
-      if (onlyForMe(command.user_id)) {
+      if (onlyForMe(event.user)) {
         let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.in your json please give a property of type based on what the user is asking. All timestamps must be in unix. All  durations must be in miliseconds. `;
         const aiReq = await ai.chat.completions.create({
           messages: [
