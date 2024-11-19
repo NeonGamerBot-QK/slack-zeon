@@ -48,31 +48,17 @@ export default class Message implements Command {
       const args = event.text.slice("zeon ".length).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       if (onlyForMe(event.user)) {
-        let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.in your json please give a property of type based on what the user is asking. All timestamps must be in unix. All  durations must be in miliseconds. `;
-        try {
-          const aiReq = await ai.chat.completions
-            .create({
-              messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: event.text },
-              ],
-              model: "gpt-3.5-turbo",
-            })
-            .then((r) => JSON.parse(r.choices[0].message.content));
-          const m = await app.client.chat.postMessage({
-            channel: event.channel,
-            text:
-              aiReq.message ||
-              (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
-              ":notcool: i didnt get a message/error im very scared... >> " +
-                JSON.stringify(aiReq),
-          });
-          switch (aiReq.type) {
-            case "reminder":
-            case "timer":
-              // uhhh todo??
-              setTimeout(() => {
-                app.client.chat.postMessage({
+        let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.in your json please give a property of type based on what the user is asking. Your json response must always have the property 'message'.if a user asks for a reminder please respond with the following schema: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. All  durations must be in miliseconds.`;
+          try {
+            
+              const aiReq = await ai.chat.completions.create({
+                  messages: [
+                      { role: "system", content: prompt },
+                      { role: "user", content: event.text },
+                  ],
+                  model: "gpt-3.5-turbo",
+              }).then(r => JSON.parse(r.choices[0].message.content));
+              const m = await app.client.chat.postMessage({
                   channel: event.channel,
                   text: "reminder time",
                   thread_ts: m.ts,
