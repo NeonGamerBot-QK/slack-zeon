@@ -27,17 +27,7 @@ const clean = async (text) => {
   // Send off the cleaned up result
   return text;
 };
-//eg: zeon can you set a timer for 10 minutes
-// plan: use ai to parse it for ME ONLY
-// everyone else act like a nice soul and use if statements
-/**
- *  Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.in your json please give a property of type based on what the user is asking. All timestamps must be in unix. All  durations must be in miliseconds. 
 
- The users'sprompt is: zeon can you tell me what 1+1 is <ac prompt>
- */
-function zeonMessageCommands(d, r) {
-  // TODO: im eepy buddy
-}
 export default class Message implements Command {
   name: string;
   description: string;
