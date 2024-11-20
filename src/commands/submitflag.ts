@@ -59,10 +59,11 @@ export default class Ping implements Command {
       //   console.debug(`after ping`, d);
       // });
       const secrets = app.db.get("ctf");
-      const validKey = secrets.some((e) => e.matches == command.text) as any;
+      const validKey = secrets.find((e) => e.matches == command.text) as any;
       if (validKey) {
         userD.last_flag = command.text;
         userD.last_submit = Date.now();
+        console.log(validKey);
         userD.current_flag = validKey.to_next;
         app.db.set("ctf_" + command.user_id, userD);
         // add user to next channel
