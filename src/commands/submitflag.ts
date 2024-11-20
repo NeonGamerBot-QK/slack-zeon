@@ -68,16 +68,16 @@ export default class Ping implements Command {
         app.db.set("ctf_" + command.user_id, userD);
         // add user to next channel
         if (validKey.ch_id) {
-         try {
+          try {
             //@ts-ignore
-          await app.client.conversations.invite({
-            //@ts-ignore
-            channel: validKey.ch_id,
-            users: command.user_id,
-          });
-         } catch (e) {
+            await app.client.conversations.invite({
+              //@ts-ignore
+              channel: validKey.ch_id,
+              users: command.user_id,
+            });
+          } catch (e) {
             // already in the channel??
-         }
+          }
         }
         await app.client.chat.postEphemeral({
           user: command.user_id,
@@ -87,18 +87,17 @@ export default class Ping implements Command {
             `:white_check_mark: Flag submitted successfully. You can find your flag in the next channel <#${secrets.find((e) => e.matches == validKey.to_next)?.ch_id}>`,
         });
       } else {
-        if(command.text.trim() == process.env.FINAL_KEY) {
-            // um
-            respond(`You won.`)
+        if (command.text.trim() == process.env.FINAL_KEY) {
+          // um
+          respond(`You won.`);
         } else if (command.text.trim() == process.env.FAKE_KEY) {
-            
-            respond(Buffer.from(process.env.FM_CTF!, "hex").toString())
-// update userd 
-const userD = app.db.get("ctf_" + command.user_id) || {};
-userD.not_allowed_to_use_second = true;
-app.db.set("ctf_" + command.user_id, userD);
+          respond(Buffer.from(process.env.FM_CTF!, "hex").toString());
+          // update userd
+          const userD = app.db.get("ctf_" + command.user_id) || {};
+          userD.not_allowed_to_use_second = true;
+          app.db.set("ctf_" + command.user_id, userD);
         } else {
-            respond(`:x: Invalid flag.`);
+          respond(`:x: Invalid flag.`);
         }
       }
     });
