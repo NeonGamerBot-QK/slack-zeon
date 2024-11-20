@@ -67,12 +67,12 @@ export default class Ping implements Command {
         userD.current_flag = validKey.to_next;
         app.db.set("ctf_" + command.user_id, userD);
         // add user to next channel
-        if (secrets.find((e) => e.matches == validKey.to_next).ch_id) {
+        if (validKey.ch_id) {
          try {
             //@ts-ignore
           await app.client.conversations.invite({
             //@ts-ignore
-            channel: secrets.find((e) => e.matches == validKey.to_next).ch_id,
+            channel: validKey.ch_id,
             users: command.user_id,
           });
          } catch (e) {
