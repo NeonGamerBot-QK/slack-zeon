@@ -11,7 +11,7 @@ function decrypt(str) {
   return stegcloak.reveal(str, process.env.CTF_PASSWORD);
 }
 const files = fs.readdirSync(path.join(__dirname, "../../ctf", "notes"));
-
+export let already_reset_this_instance = false;
 function parseTheSecrets() {
   return new Promise((res) => {
     let i = 0;
@@ -144,10 +144,11 @@ export default class Ping implements Command {
         }
         // now delete the DB entry
         app.db.delete("ctf");
+        already_reset_this_instance = true;
         app.client.chat.update({
           ts: msg.ts,
           channel: command.channel_id,
-          text: `CTF was reset successfully!\n After *You update the key* please run this again :D`,
+          text: `CTF was reset successfully!\n After *You update the key* please run this again :D\n Note: you cannot reset again until the bot is restarted...`,
         });
       }
     });
