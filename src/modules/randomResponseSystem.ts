@@ -1,6 +1,6 @@
 import JSONdb from "simple-json-db";
 
-export const  acRandom = () =>  ([
+export const acRandom = () => [
   "It might be {hour} but i COULD be tweaking",
   "hello today, my name is ~markiplier~ zeon.",
   "Wana break from the ads, tap now because YOU can get spotify premium",
@@ -13,7 +13,7 @@ export const  acRandom = () =>  ([
   "Blahaj :blahaj2: ",
   "Blahaj (spinny) :blahaj-spin: ",
   ":notcool::notcool::notcool:\n> https://hackclub.slack.com/archives/C07FDHUL50F/p1728928832148439",
-])
+];
 // used to adverties channels
 export const beggingMessage = [
   "PLEASE JOIN IT RAA",
@@ -21,13 +21,23 @@ export const beggingMessage = [
   "warning: may contain extremly dead chat.",
 ];
 // if you want to become a neighboor of this channel just dm me on slack or add your self to the canvas
-export const neighbors = ["C06R5NKVCG5","C04H0MG1BLN","C07SLT702UA","C074L3A4C3E","C0793T42XV4","C07S1QSSKTQ","C07RQ6682N8","C080NCDAVNH","C064DNF64LU"]
+export const neighbors = [
+  "C06R5NKVCG5",
+  "C04H0MG1BLN",
+  "C07SLT702UA",
+  "C074L3A4C3E",
+  "C0793T42XV4",
+  "C07S1QSSKTQ",
+  "C07RQ6682N8",
+  "C080NCDAVNH",
+  "C064DNF64LU",
+];
 // dont dupe channels :P
 export const channelsToAdvs = [
   ...new Set([
     ...neighbors,
     "C07QWGLQUH2", // kcd-lunch
-    "C07RE4N7S4B",// hackclub-spotify-bot
+    "C07RE4N7S4B", // hackclub-spotify-bot
     "C07PGEGJ3B6", // hackclub-verification
     "C07LZ237WCF", // nest-pgp-chat
     "C07LEEB50KD", // zeon-public
@@ -37,7 +47,7 @@ export const channelsToAdvs = [
     "C080T3WUTK4", // discord-dataming
     "C07UNAHD9C3", // stickers-watcher
     "C07TKPC0ZNZ", // surakku
-    "C07V6F1A5FH",  // web bridge slack
+    "C07V6F1A5FH", // web bridge slack
     "C07MLF9A8H5", // riceathon
   ]),
 ];
