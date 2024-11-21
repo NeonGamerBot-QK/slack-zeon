@@ -10,7 +10,7 @@ import cron from "node-cron";
 import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
 import { getResponse } from "./modules/randomResponseSystem";
 import * as utils from "./modules/index";
-import howWasYourDay from "./modules/howWasYourDay";
+import howWasYourDay, { cached_spotify_songs } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
@@ -79,6 +79,7 @@ cron.schedule("* * * * *", async () => {
   if (jellyfinStr) {
     updateStatus(":jellyfin:", jellyfinStr);
   } else if (spotifyStr) {
+    cached_spotify_songs.push(spotifyStr)
     updateStatus(":new_spotify:", spotifyStr);
   } else {
     // clear status
