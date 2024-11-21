@@ -7,7 +7,7 @@ import { getTodaysEvents } from "./hw";
 import { GitBody, GitSession } from "./projectWaterydo";
 import ms from "ms";
 import { hacktime } from ".";
-export let cached_spotify_songs = []
+export let cached_spotify_songs = [];
 export async function getDayResponse(db: JSONdb) {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
@@ -94,10 +94,10 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
-      text: `Here is what you listned to today :spotify_new: : \n- ${[...new Set(cached_spotify_songs)].join("\n- ")}\n\n`
-    })
-    cached_spotify_songs  = []
-}
+      text: `Here is what you listned to today :spotify_new: : \n- ${[...new Set(cached_spotify_songs)].join("\n- ")}\n\n`,
+    });
+    cached_spotify_songs = [];
+  }
   if (codewatcherForToday.length > 0) {
     app.client.chat.postMessage({
       channel,
