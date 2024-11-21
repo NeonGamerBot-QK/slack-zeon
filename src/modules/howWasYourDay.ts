@@ -94,6 +94,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
+      //@ts-ignore
       text: `Here is what you listned to today :spotify_new: : \n- ${[...new Set(cached_spotify_songs)].join("\n- ")}\n\n`.replaceAll(
         ":spotify_new:",
         ":new_spotify:",
