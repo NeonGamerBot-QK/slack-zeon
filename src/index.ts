@@ -79,7 +79,7 @@ cron.schedule("* * * * *", async () => {
   if (jellyfinStr) {
     updateStatus(":jellyfin:", jellyfinStr);
   } else if (spotifyStr) {
-    cached_spotify_songs.push(spotifyStr)
+    cached_spotify_songs.push(spotifyStr);
     updateStatus(":new_spotify:", spotifyStr);
   } else {
     // clear status
