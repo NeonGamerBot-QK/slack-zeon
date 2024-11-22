@@ -112,7 +112,7 @@ export default class UserJoinEvent implements Command {
         })
         .then(async (e) => {
           // send follow-up messages with sleep of 450ms
-          let t = 1150;
+          let t = 2000;
           for (const m of follow_up) {
             await app.client.chat.postMessage({
               //@ts-ignore
@@ -122,7 +122,7 @@ export default class UserJoinEvent implements Command {
               thread_ts: e.ts,
             });
             await new Promise((r) => setTimeout(r, t));
-            t -= 100;
+            t -= 250;
           }
         });
     });
