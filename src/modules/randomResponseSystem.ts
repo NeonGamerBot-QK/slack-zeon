@@ -19,7 +19,7 @@ export const beggingMessage = [
   "PLEASE JOIN IT RAA",
   "Its epik i swear",
   "warning: may contain extremly dead chat.",
-  "PLEASE PLEASE PLZ PLZPLZ"
+  "PLEASE PLEASE PLZ PLZPLZ",
 ];
 // if you want to become a neighboor of this channel just dm me on slack or add your self to the canvas
 export const neighbors = [
