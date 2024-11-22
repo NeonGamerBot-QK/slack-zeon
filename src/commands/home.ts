@@ -2,6 +2,8 @@
 
 import { App, View } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import { ModifiedApp } from "../modules/slackapp";
+import { getSpotifyStatus } from "../modules/status";
 function formatUptime(uptime: number = process.uptime()) {
   const seconds = Math.floor(uptime % 60);
   const minutes = Math.floor((uptime / 60) % 60);
@@ -19,10 +21,12 @@ export default class AppHome implements Command {
     this.description = `app home`;
     this.is_event = true;
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
     // app.command()
     app.event(this.name, async ({ event, client, logger }) => {
       try {
+  const spotifyStr = await getSpotifyStatus();
+        const ctfData = app.db.get("ctf") || []
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
@@ -47,6 +51,14 @@ export default class AppHome implements Command {
                     text: "Nothing on the home page for you :P.",
                   },
                 },
+                // ctf channels (the user can see it)
+               ctfData.length > 0 && {
+type: "section",
+text: {
+  type: "mrkdwn",
+  text: `*Ctf channels:*\n${ctfData.map(e => `<#${e.channel}>`).join("\n")}`,
+}
+                }
               ],
             };
           return {
@@ -88,6 +100,14 @@ export default class AppHome implements Command {
                   ),
                 },
               },
+                      // ctf channels (the user can see it)
+                      ctfData.length > 0 && {
+                        type: "section",
+                        text: {
+                          type: "mrkdwn",
+                          text: `*Ctf channels:*\n${ctfData.map(e => `<#${e.channel}>`).join("\n")}`,
+                        }
+                                        },
               {
                 type: "divider",
               },
@@ -133,6 +153,13 @@ export default class AppHome implements Command {
                     url: "https://gp.saahild.com/server/cd4830c1",
                   },
                 ],
+              },
+              spotifyStr && {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `*Spotify:*\n${spotifyStr}`,
+                },
               },
               {
                 type: "divider",

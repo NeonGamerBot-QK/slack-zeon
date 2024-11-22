@@ -4,7 +4,7 @@ export const acRandom = () => [
   "It might be {hour} but i COULD be tweaking",
   "hello today, my name is ~markiplier~ zeon.",
   "Wana break from the ads, tap now because YOU can get spotify premium",
-  "Counterspell about to be lit (yes)",
+  //"Counterspell about to be lit (yes)",
   "Um uh im a robot.",
   "do NOT star this message",
   "Start this message",
@@ -19,6 +19,7 @@ export const beggingMessage = [
   "PLEASE JOIN IT RAA",
   "Its epik i swear",
   "warning: may contain extremly dead chat.",
+  "PLEASE PLEASE PLZ PLZPLZ"
 ];
 // if you want to become a neighboor of this channel just dm me on slack or add your self to the canvas
 export const neighbors = [
