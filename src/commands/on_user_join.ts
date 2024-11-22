@@ -51,10 +51,7 @@ export default class UserJoinEvent implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "The one who governed this sacred space was the enigmatic *{user}*, a being of boundless creativity and determination. {user} was known to all by many pronouns—*they, she, he, xe, ze*—a person of infinite facets and talents, who wielded their gifts to bring harmony and inspiration to all who visited the channel.".replace(
-                  "{user}",
-                  event.user,
-                ),
+                text: "The one who governed this sacred space was the enigmatic *{user}*, a being of boundless creativity and determination. {user} was known to all by many pronouns—*they, she, he, xe, ze*—a person of infinite facets and talents, who wielded their gifts to bring harmony and inspiration to all who visited the channel.",
               },
             },
             {
