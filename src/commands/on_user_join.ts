@@ -122,7 +122,7 @@ export default class UserJoinEvent implements Command {
               thread_ts: e.ts,
             });
             await new Promise((r) => setTimeout(r, t));
-            t +=  950;
+            t += 950;
           }
         });
     });
