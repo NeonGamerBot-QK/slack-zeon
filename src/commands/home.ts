@@ -25,8 +25,8 @@ export default class AppHome implements Command {
     // app.command()
     app.event(this.name, async ({ event, client, logger }) => {
       try {
-  const spotifyStr = await getSpotifyStatus();
-        const ctfData = app.db.get("ctf") || []
+        const spotifyStr = await getSpotifyStatus();
+        const ctfData = app.db.get("ctf") || [];
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
@@ -52,13 +52,13 @@ export default class AppHome implements Command {
                   },
                 },
                 // ctf channels (the user can see it)
-               ctfData.length > 0 && {
-type: "section",
-text: {
-  type: "mrkdwn",
-  text: `*Ctf channels:*\n${ctfData.map(e => `<#${e.channel}>`).join("\n")}`,
-}
-                }
+                ctfData.length > 0 && {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `*Ctf channels:*\n${ctfData.map((e) => `<#${e.channel}>`).join("\n")}`,
+                  },
+                },
               ],
             };
           return {
@@ -100,14 +100,14 @@ text: {
                   ),
                 },
               },
-                      // ctf channels (the user can see it)
-                      ctfData.length > 0 && {
-                        type: "section",
-                        text: {
-                          type: "mrkdwn",
-                          text: `*Ctf channels:*\n${ctfData.map(e => `<#${e.channel}>`).join("\n")}`,
-                        }
-                                        },
+              // ctf channels (the user can see it)
+              ctfData.length > 0 && {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `*Ctf channels:*\n${ctfData.map((e) => `<#${e.channel}>`).join("\n")}`,
+                },
+              },
               {
                 type: "divider",
               },
