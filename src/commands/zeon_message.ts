@@ -99,6 +99,15 @@ export default class Message implements Command {
             args.shift(); // get rid of it
             // timer func
           }
+          if(args[0] == "ping") {
+            args.shift();
+            // ping func
+            await app.client.chat.postMessage({
+              channel: event.channel,
+              text: `:ping_pong: pong`,
+              thread_ts: event.thread_ts
+            })
+          }
         }
       }
       console.debug(`#message3-`);
