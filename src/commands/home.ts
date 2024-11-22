@@ -59,7 +59,7 @@ export default class AppHome implements Command {
                     text: `*Ctf channels:*\n${ctfData.map((e) => `<#${e.channel}>`).join("\n")}`,
                   },
                 },
-              ],
+              ].filter(Boolean),
             };
           return {
             type: "home",
@@ -197,7 +197,7 @@ export default class AppHome implements Command {
                   },
                 ],
               },
-            ],
+            ].filter(Boolean),
           };
         }
         // Call views.publish with the built-in client
