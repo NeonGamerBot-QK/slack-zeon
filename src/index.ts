@@ -14,11 +14,13 @@ import howWasYourDay, { cached_spotify_songs } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
+import { watchForWhenIUseHacktime } from "./modules/hacktime";
 
 const db = new JSONdb("data.json");
 attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
+  watchForWhenIUseHacktime(app);
   setInterval(() => {
     try {
       function r() {
