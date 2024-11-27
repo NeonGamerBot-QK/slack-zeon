@@ -10,7 +10,6 @@ import { hacktime } from ".";
 export let cached_spotify_songs = [];
 export function resetSpotifyCache(app: ModifiedApp) {
   cached_spotify_songs = app.db.get("spotify_songs") || [];
-
 }
 export async function getDayResponse(db: JSONdb) {
   const hw = await getTodaysEvents().then((e: any) => {
