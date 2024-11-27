@@ -32,9 +32,9 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   }).then(r=>r.json()).then(r=>r.data)
   const currentSession = app.db.get(`hackedhearts`)
   if(userHacktimeDat.length > 0) {
-    const d  = userHacktimeDat.find(e => isWithinLastTwoMinutes(new Date(e.created_at).getTime()))
+    const d  = userHacktimeDat.filter(e=>e.category === "coding" && e.project !== "Terminal").find(e => isWithinLastTwoMinutes(new Date(e.created_at).getTime()))
  console.log(d)
-    if(d) {
+ if(d) {
        console.log(0)
 // console.log(`um heartbat???`, d)
 if(!currentSession) { 
@@ -64,8 +64,9 @@ app.db.set(`hackedhearts`, {
 // pretty much this is a warning: if there is no new heartbeat im nuking it.
 console.log("hmmm")
            app.db.set("hackedhearts", {
-     active: false,
     ...currentSession,
+             active: false
+   // ...currentSession,
 })
          } else{
            console.log("over")
