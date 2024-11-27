@@ -36,11 +36,11 @@ return `Well Well Well <@${process.env.MY_USER_ID}>, your coding *${ops.d.projec
       break;
       case "active":
         if(app.is_at_school) {
-          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? LOCK IN NEON smh. those grades aint going up themselves.`
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding? LOCK IN NEON smh. those grades aint going up themselves.`
           } else if (its_late_at_night) {
-          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? are you finally eepy neon?`
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding? are you finally eepy neon?`
           } else {
-          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? if not its about to be cancled.`
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding? if not its about to be cancled.`
           }
       break;
    case "over":
