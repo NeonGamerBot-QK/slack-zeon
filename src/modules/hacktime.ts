@@ -34,6 +34,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   if(userHacktimeDat.length > 0) {
     const d  = userHacktimeDat.find(e => isWithinLastTwoMinutes(new Date(e.created_at)))
      if(d) {
+       console.log(0)
 // console.log(`um heartbat???`, d)
 if(!currentSession) { 
 app.client.chat.postMessage({
@@ -54,16 +55,19 @@ app.db.set(`hackedhearts`, {
 } 
 }
   else {
+    console.debug(1)
      if(currentSession) {
          // check if still "active"
          if(currentSession.active) {
 // set to not be active
 // pretty much this is a warning: if there is no new heartbeat im nuking it.
-app.db.set("hackedhearts", {
+console.log("hmmm")
+           app.db.set("hackedhearts", {
      active: false,
     ...currentSession,
 })
          } else{
+           console.log("over")
              // send time up message
              app.client.chat.postMessage({
                  channel: `C07R8DYAZMM`,
