@@ -10,7 +10,7 @@ import cron from "node-cron";
 import { getJellyfinStatus, getSpotifyStatus } from "./modules/status";
 import { getResponse } from "./modules/randomResponseSystem";
 import * as utils from "./modules/index";
-import howWasYourDay, { cached_spotify_songs } from "./modules/howWasYourDay";
+import howWasYourDay, { cached_spotify_songs, resetSpotifyCache } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
@@ -40,6 +40,8 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   init(app);
   PrivateDNS(app, process.env.MY_NEXTDNS, `C07LT7XS28Z`);
   PrivateDNS(app, process.env.HACKCLUB_NEXTDNS, `C07TWGJKK98`);
+  // grab spotify cache from db
+  resetSpotifyCache(app)
 });
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));

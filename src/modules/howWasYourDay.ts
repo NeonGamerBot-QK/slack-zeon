@@ -8,6 +8,10 @@ import { GitBody, GitSession } from "./projectWaterydo";
 import ms from "ms";
 import { hacktime } from ".";
 export let cached_spotify_songs = [];
+export function resetSpotifyCache(app: ModifiedApp) {
+  cached_spotify_songs = app.db.get("spotify_songs") || [];
+
+}
 export async function getDayResponse(db: JSONdb) {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
@@ -101,6 +105,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       ),
     });
     cached_spotify_songs = [];
+    app.db.delete("spotify_songs");
   }
   if (codewatcherForToday.length > 0) {
     app.client.chat.postMessage({
