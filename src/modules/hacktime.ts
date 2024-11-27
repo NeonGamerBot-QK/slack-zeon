@@ -32,8 +32,9 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   }).then(r=>r.json()).then(r=>r.data)
   const currentSession = app.db.get(`hackedhearts`)
   if(userHacktimeDat.length > 0) {
-    const d  = userHacktimeDat.find(e => isWithinLastTwoMinutes(new Date(e.created_at)))
-     if(d) {
+    const d  = userHacktimeDat.find(e => isWithinLastTwoMinutes(new Date(e.created_at).getTime()))
+ console.log(d)
+    if(d) {
        console.log(0)
 // console.log(`um heartbat???`, d)
 if(!currentSession) { 
