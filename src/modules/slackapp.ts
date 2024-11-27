@@ -6,6 +6,7 @@ import JSONdb from "simple-json-db";
 import { handleGitRequest } from "./projectWaterydo";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
+  is_at_school: boolean;
   utils: typeof import("./index");
 }
 // Initializes your app with your bot token and signing secret

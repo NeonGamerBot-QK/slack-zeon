@@ -21,6 +21,38 @@ function isWithinLastTwoMinutes(timestamp) {
 }
 
 export function watchForWhenIUseHacktime(app: ModifiedApp) {
+  // inline function lol
+  const its_late_at_night = new Date().getHours() >= 20 && new Date().getHours() <= 6
+  function getMessage(type:string, ops?: any) {
+    switch(type) {
+      case "new": 
+if(app.is_at_school) {
+return `Well Well Well <@${process.env.MY_USER_ID}>, your coding *${ops.d.project}* looks like (you better not get caught istg getting expelled is not IT!)...`
+} else if (its_late_at_night) {
+return `Well Well Well <@${process.env.MY_USER_ID}>, your coding *${ops.d.project}* looks like (its late at night gts dumbass)...`
+} else {
+return `Well Well Well <@${process.env.MY_USER_ID}>, your coding *${ops.d.project}* looks like...`
+}
+      break;
+      case "active":
+        if(app.is_at_school) {
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? LOCK IN NEON smh. those grades aint going up themselves.`
+          } else if (its_late_at_night) {
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? are you finally eepy neon?`
+          } else {
+          return `Hey <@${process.env.MY_USER_ID}>, are you still coding \`${ops.d.project}\`? if not its about to be cancled.`
+          }
+      break;
+   case "over":
+    if(app.is_at_school) {
+      return `Looks like your done coding rn <@${process.env.MY_USER_ID}>, you coded for a total of ${ms(Date.now() - ops.currentSession.created_at)}\n> now focus on ur school work`
+      } else if (its_late_at_night) {
+      return `Looks like your done coding rn <@${process.env.MY_USER_ID}>, you coded for a total of ${ms(Date.now() - ops.currentSession.created_at)}\n> now good night neon`
+      } else {
+      return `Looks like your done coding rn <@${process.env.MY_USER_ID}>, you coded for a total of ${ms(Date.now() - ops.currentSession.created_at)}`
+      }
+    }
+  }
   // ok since i use terminal im gonna make it ignore that, otherwise its a copy of my other code
   setInterval(async() => {
     const userHacktimeDat = await fetch(`https://waka.hackclub.com/api/compat/wakatime/v1/users/${process.env.MY_USER_ID}/heartbeats?date=${new Date().toISOString().split('T')[0]}`, {
@@ -40,7 +72,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
 if(!currentSession) { 
 app.client.chat.postMessage({
  channel: `C07R8DYAZMM`,
- text: `Well Well Well <@${process.env.MY_USER_ID}>, your coding it looks like...`
+ text: getMessage("new", {d, currentSession})
 }).then(d=> {
 //  heartStore.set(user.user, {
 //      active: true,
@@ -52,6 +84,12 @@ app.db.set(`hackedhearts`, {
      m_ts: d.ts,
      created_at: Date.now()
 })
+})
+} else {
+  app.db.set("hackedhearts", {
+    ...currentSession,
+             active: true
+   // ...currentSession,
 })
 } 
 }
@@ -68,12 +106,18 @@ console.log("hmmm")
              active: false
    // ...currentSession,
 })
+app.client.chat.postMessage({
+  channel: `C07R8DYAZMM`,
+  text: getMessage("active", {d, currentSession}),
+  thread_ts: currentSession.m_ts,
+  // reply_broadcast: true
+})
          } else{
            console.log("over")
              // send time up message
              app.client.chat.postMessage({
                  channel: `C07R8DYAZMM`,
-                 text: `Looks like your done coding rn <@${process.env.MY_USER_ID}>, you coded for a total of ${ms(Date.now() - currentSession.created_at)}`,
+                 text: getMessage("over", {d, currentSession}),
                  thread_ts: currentSession.m_ts,
                  reply_broadcast: true
              })
