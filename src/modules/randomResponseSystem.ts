@@ -4,15 +4,25 @@ export const acRandom = () => [
   "It might be {hour} but i COULD be tweaking",
   "hello today, my name is ~markiplier~ zeon.",
   "Wana break from the ads, tap now because YOU can get spotify premium",
-  //"Counterspell about to be lit (yes)",
+  "Counterspell boston was amazing!!",
   "Um uh im a robot.",
-  "do NOT star this message",
-  "Start this message",
+  "Start this message, like a car i go vroom vroom",
   "Blahaj :blahaj: ",
   "Blahaj :blahaj1: ",
   "Blahaj :blahaj2: ",
   "Blahaj (spinny) :blahaj-spin: ",
   ":notcool::notcool::notcool:\n> https://hackclub.slack.com/archives/C07FDHUL50F/p1728928832148439",
+  // static AI 
+  "Hello today, my name is ~zeon~ the absolute meme lord.",
+  "Want to skip the ads? Tap here, because YOU could be living your best life with unlimited cat memes!",
+  "Um uh, I’m a robot… but my Wi-Fi signal is still stronger than yours.",
+  "Do NOT star this message. Unless you secretly love me. In that case, go ahead.",
+  "Blahaj :blahaj: because who doesn’t want a 10-foot plush shark in their life?",
+  "Blahaj :blahaj1: the prototype. Slightly less fluffy, but still a legend.",
+  "Blahaj :blahaj2: the sequel. Bigger. Better. Sharkier.",
+  "Blahaj (spinny) :blahaj-spin: because sometimes life just needs to be chaotic and spinny.",
+  "It might be {4:32 AM} but I COULD be assembling a blanket fort to defend against rogue potatoes.",
+  "Um uh, I’m a robot who only understands 80s synthwave and the language of potatoes.",
 ];
 // used to adverties channels
 export const beggingMessage = [

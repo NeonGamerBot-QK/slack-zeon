@@ -12,7 +12,11 @@ export default function (app: any) {
           console.log(response);
           app.client.chat.postMessage({
             channel: `D07LBMXD9FF`,
-            text: `**${commitMessage}**\`\`\`\n${response.slice(0, 4000)}\`\`\``,
+            text: `*${commitMessage.trim()}*\`\`\`\n${response.slice(0, 4000)}\`\`\``,
+          });
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `*${commitMessage.trim()}*\`\`\`\n${response.slice(0, 4000)}\`\`\``,
           });
 
           console.debug(commitMessage);
