@@ -1,4 +1,6 @@
 import "dotenv/config";
+import "./modules/sentry";
+import * as Sentry from "@sentry/node"
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
@@ -56,6 +58,7 @@ app.utils = utils;
 
 function handleError(e: any) {
   console.error(e);
+  Sentry.captureException(e);
   try {
     app.client.chat.postMessage({
       channel: `D07LBMXD9FF`,
@@ -64,6 +67,11 @@ function handleError(e: any) {
   } catch (e) {}
 }
 function updateStatus(emoji: string, str: string, clearStats?: boolean) {
+  Sentry.startSpan({
+    op: "prod",
+    name: "Update Status",
+  }, () => {
+  // Sentry.profiler.startProfiler();
   app.client.users.profile.set({
     //@ts-ignore
     profile: clearStats
@@ -78,8 +86,11 @@ function updateStatus(emoji: string, str: string, clearStats?: boolean) {
         },
     token: process.env.MY_SLACK_TOKEN,
   });
+  });
+  // Sentry.profiler.stopProfiler();
 }
 cron.schedule("* * * * *", async () => {
+  Sentry.profiler.startProfiler();
   //TODO: Add custom PFP's for music (cuz headphones would be nice)
   const jellyfinStr = await getJellyfinStatus();
   const spotifyStr = await getSpotifyStatus();
@@ -96,11 +107,16 @@ cron.schedule("* * * * *", async () => {
       true,
     );
   }
+  Sentry.profiler.stopProfiler();
   //TODO ADD MORE RPC
   // at home? at school?
   // set away if in any focus mode
 });
 async function sendRandomStuff() {
+  Sentry.startSpan({
+    op: "prod",
+    name: "Send Random Stuff",
+  }, async () => {
   // dont send bot after bot ...
   const lastMessage = await app.client.conversations
     .history({
@@ -113,16 +129,23 @@ async function sendRandomStuff() {
     //@ts-ignore
     text: await getResponse(db),
   });
+  });
 }
 //utils.startWatchingDirectory(app);
 cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
-cron.schedule("35  20 * * *", () => {
-  howWasYourDay(app);
+cron.schedule("35  20 * * *", async () => {
+  Sentry.profiler.startProfiler()
+await  howWasYourDay(app);
+Sentry.profiler.stopProfiler()
 });
 cron.schedule("1 7 * * 1-5", async () => {
+  Sentry.startSpan({
+    op: "prod",
+    name: "Morning Cron - school",
+  }, async () => {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
     const end = [];
@@ -142,9 +165,14 @@ cron.schedule("1 7 * * 1-5", async () => {
     //@ts-ignore
     text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> ${hw}`,
   });
+})
 });
 // special cron
 cron.schedule("1 9 * * 6-7", () => {
+  Sentry.startSpan({
+    op: "prod",
+    name: "Morning Cron - weekend",
+  }, async () => {
   const d = new Date();
   if (![6, 7].includes(d.getDay())) return;
   const isSaturday = d.getDay() === 6;
@@ -152,6 +180,7 @@ cron.schedule("1 9 * * 6-7", () => {
     channel: "C07R8DYAZMM",
     //@ts-ignore
     text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
+  });
   });
 });
 process.on("unhandledRejection", handleError);

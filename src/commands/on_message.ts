@@ -2,6 +2,8 @@
 import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import * as Sentry from "@sentry/node"
+
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -39,7 +41,13 @@ export default class Message implements Command {
   }
   run(app: App) {
     // app.command()
+    
     app.event(this.name, async (par) => {
+    Sentry.startSpan({
+      op: "prod",
+      name: "Message event - main one"
+    }, async () => {
+
       //  console.debug(par);
       //   if (!par.ack) return;
       //   console.debug(0);
@@ -93,6 +101,8 @@ export default class Message implements Command {
 
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
+    })
+
     });
   }
 }
