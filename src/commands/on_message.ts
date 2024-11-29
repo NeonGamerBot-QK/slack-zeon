@@ -3,6 +3,7 @@ import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import * as Sentry from "@sentry/node"
+import { ModifiedApp } from "../modules/slackapp";
 
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
@@ -39,7 +40,7 @@ export default class Message implements Command {
     this.description = `Handles message based commands.`;
     this.is_event = true;
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
     // app.command()
     
     app.event(this.name, async (par) => {
@@ -96,6 +97,48 @@ export default class Message implements Command {
         }
       } else if (cmd == "hello") {
         say(`Whats up`);
+      } else if(cmd == "stream") {
+        // check if WS is open
+        // if not; fail
+        if(!app.ws) {
+          await app.client.chat.postEphemeral({
+            channel: event.channel,
+            text: `Websocket is not open!`,
+            user: event.user
+          })
+          return;
+        }
+        const id = Date.now()
+        const m = await app.client.chat.postMessage({
+          channel: event.channel,
+          text: `:spin-loading: Executing command: \`${args.join(" ")}\`...`,
+          thread_ts: event.ts
+        })
+        app.ws.emit("exec command", args.join(" "), id)
+        app.ws.once('cmdout-'+id, (response) => {
+          await app.client.chat.update({
+            channel: event.channel,
+            ts: m.ts,
+            text: `:white_check_mark: Command: \`${args.join(" ")}\` executed successfully!\n\`\`\`\n${response}\n\`\`\``,
+            thread_ts: event.ts
+          })
+        })
+      } else if(cmd == "setupstream") {
+        if(app.ws) {
+          await app.client.chat.postEphemeral({
+            channel: event.channel,
+            text: `Websocket is  open!`,
+            user: event.user
+          })
+          return;
+        }
+    app.ws = io(process.env.WS_STREAM_URL)
+    app.ws.on("route_query", d => {
+      app.ws.emit(JSON.parse(d).respond, "slackzeon")
+    })
+    app.ws.on("connect", () => {
+      console.log("Connected to WS server")
+    })
       }
       console.debug(`#message-`);
 
