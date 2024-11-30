@@ -5,8 +5,11 @@ export const banned_users = [
   // if i get leave my own channel i WILL be banning myself to remember that im an idiot
   process.env.MY_USER_ID,
   "U07NKS9S8GZ",
+  // no workspace owners lmao :3 (zrl, max)
+  "U0266FRGP",
+  "U0C7B14Q3",
 ];
-export default class Ping implements Command {
+export default class JoinNeonschannel implements Command {
   name: string;
   description: string;
   constructor() {
