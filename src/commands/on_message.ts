@@ -61,6 +61,7 @@ export default class Message implements Command {
       //@ts-ignore
       //   await par.ack();
       if (par.event.channel_type !== "im") return;
+      if (!par.event.text) return;
       if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
