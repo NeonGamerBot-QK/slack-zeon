@@ -20,6 +20,7 @@ import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
+const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data.json");
 attachDB(db);
@@ -143,18 +144,11 @@ cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
-cron.schedule("35  20 * * *", async () => {
-  Sentry.profiler.startProfiler();
+cronWithCheckIn.schedule("35  20 * * *", async () => {
   await howWasYourDay(app);
-  Sentry.profiler.stopProfiler();
-});
-cron.schedule("1 7 * * 1-5", async () => {
-  Sentry.startSpan(
-    {
-      op: "prod",
-      name: "Morning Cron - school",
-    },
-    async () => {
+},  { name: "howwasmyday" });
+cronWithCheckIn.schedule("1 7 * * 1-5", async () => {
+
       const hw = await getTodaysEvents().then((e: any) => {
         const start = [];
         const end = [];
@@ -174,17 +168,10 @@ cron.schedule("1 7 * * 1-5", async () => {
         //@ts-ignore
         text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> ${hw}`,
       });
-    },
-  );
-});
+},  { name: "morning-weekday" });
 // special cron
-cron.schedule("1 9 * * 6-7", () => {
-  Sentry.startSpan(
-    {
-      op: "prod",
-      name: "Morning Cron - weekend",
-    },
-    async () => {
+cronWithCheckIn.schedule("1 9 * * 6-7", () => {
+
       const d = new Date();
       if (![6, 7].includes(d.getDay())) return;
       const isSaturday = d.getDay() === 6;
@@ -193,8 +180,6 @@ cron.schedule("1 9 * * 6-7", () => {
         //@ts-ignore
         text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
       });
-    },
-  );
-});
+},  { name: "morning-weekend" });
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
