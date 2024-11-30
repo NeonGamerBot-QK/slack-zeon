@@ -116,17 +116,17 @@ export default class UserJoinEvent implements Command {
           if ([...banned_users, "U07G08TC7CK"].includes(event.user)) {
             await Promise.all([
               app.client.chat.postMessage({
-          //@ts-ignore
+                //@ts-ignore
                 channel: event.channel,
                 thread_ts: e.ts,
-          //@ts-ignore
+                //@ts-ignore
                 text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`,
               }),
               async () => {
                 // Open the DM channel with the user
 
                 const openResponse = await app.client.conversations.open({
-          //@ts-ignore
+                  //@ts-ignore
                   users: event.user,
                 });
 
@@ -136,15 +136,15 @@ export default class UserJoinEvent implements Command {
                 // Send a message to the DM channel
                 const sendResponse = await app.client.chat.postMessage({
                   channel: channelId,
-          //@ts-ignore
+                  //@ts-ignore
                   text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`,
                 });
               },
             ]);
             await app.client.conversations.kick({
-          //@ts-ignore
+              //@ts-ignore
               user: event.user,
-          //@ts-ignore
+              //@ts-ignore
               channel: event.channel,
             });
           } else {
