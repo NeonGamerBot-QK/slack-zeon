@@ -144,42 +144,52 @@ cron.schedule("5 */12 * * *", sendRandomStuff);
 cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
-cronWithCheckIn.schedule("35  20 * * *", async () => {
-  await howWasYourDay(app);
-},  { name: "howwasmyday" });
-cronWithCheckIn.schedule("1 7 * * 1-5", async () => {
-
-      const hw = await getTodaysEvents().then((e: any) => {
-        const start = [];
-        const end = [];
-        //@ts-ignore
-        e.forEach((e) => {
-          if (e.assign_type == "start") start.push(e.summary);
-          if (e.assign_type == "end") end.push(e.summary);
-        });
-        if (start.length > 0 || end.length > 0) {
-          return `Assigned today:\n> ${start.join("\n> ")}\n*Due Today*\n> ${end.join("\n> ")}`;
-        } else {
-          return `No HW found :yay:`;
-        }
+cronWithCheckIn.schedule(
+  "35  20 * * *",
+  async () => {
+    await howWasYourDay(app);
+  },
+  { name: "howwasmyday" },
+);
+cronWithCheckIn.schedule(
+  "1 7 * * 1-5",
+  async () => {
+    const hw = await getTodaysEvents().then((e: any) => {
+      const start = [];
+      const end = [];
+      //@ts-ignore
+      e.forEach((e) => {
+        if (e.assign_type == "start") start.push(e.summary);
+        if (e.assign_type == "end") end.push(e.summary);
       });
-      app.client.chat.postMessage({
-        channel: "C07R8DYAZMM",
-        //@ts-ignore
-        text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> ${hw}`,
-      });
-},  { name: "morning-weekday" });
+      if (start.length > 0 || end.length > 0) {
+        return `Assigned today:\n> ${start.join("\n> ")}\n*Due Today*\n> ${end.join("\n> ")}`;
+      } else {
+        return `No HW found :yay:`;
+      }
+    });
+    app.client.chat.postMessage({
+      channel: "C07R8DYAZMM",
+      //@ts-ignore
+      text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> ${hw}`,
+    });
+  },
+  { name: "morning-weekday" },
+);
 // special cron
-cronWithCheckIn.schedule("1 9 * * 6-7", () => {
-
-      const d = new Date();
-      if (![6, 7].includes(d.getDay())) return;
-      const isSaturday = d.getDay() === 6;
-      app.client.chat.postMessage({
-        channel: "C07R8DYAZMM",
-        //@ts-ignore
-        text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
-      });
-},  { name: "morning-weekend" });
+cronWithCheckIn.schedule(
+  "1 9 * * 6-7",
+  () => {
+    const d = new Date();
+    if (![6, 7].includes(d.getDay())) return;
+    const isSaturday = d.getDay() === 6;
+    app.client.chat.postMessage({
+      channel: "C07R8DYAZMM",
+      //@ts-ignore
+      text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
+    });
+  },
+  { name: "morning-weekend" },
+);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
