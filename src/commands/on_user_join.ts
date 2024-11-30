@@ -113,33 +113,35 @@ export default class UserJoinEvent implements Command {
         })
         .then(async (e) => {
           if ([...banned_users, "U07G08TC7CK"].includes(event.user)) {
-            await Promise.all([ app.client.chat.postMessage({
-              channel: event.channel,
-              thread_ts: e.ts,
-              text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`
-            })
-              , async () => {
-               // Open the DM channel with the user
-              
-              const openResponse = await app.client.conversations.open({
-                users: event.user,
-              });
-          
-              // Extract the channel ID from the response
-              const channelId = openResponse.channel.id;
-          
-              // Send a message to the DM channel
-              const sendResponse = await app.client.chat.postMessage({
-                channel: channelId,
-              text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`
-              });
-            }])
-            await  app.client.conversations.kick({
+            await Promise.all([
+              app.client.chat.postMessage({
+                channel: event.channel,
+                thread_ts: e.ts,
+                text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`,
+              }),
+              async () => {
+                // Open the DM channel with the user
+
+                const openResponse = await app.client.conversations.open({
+                  users: event.user,
+                });
+
+                // Extract the channel ID from the response
+                const channelId = openResponse.channel.id;
+
+                // Send a message to the DM channel
+                const sendResponse = await app.client.chat.postMessage({
+                  channel: channelId,
+                  text: `This channel is neons one and only— wait your not supposed to be here!\n <@${event.user}> you are *banned* from this channel! if you want to find out why dm <@${process.env.MY_USER_ID!}>!`,
+                });
+              },
+            ]);
+            await app.client.conversations.kick({
               user: event.user,
-              channel: event.channel
-   })
+              channel: event.channel,
+            });
           } else {
-          // send follow-up messages with sleep of 450ms
+            // send follow-up messages with sleep of 450ms
             let t = 2000;
             for (const m of follow_up) {
               await app.client.chat.postMessage({
@@ -152,7 +154,7 @@ export default class UserJoinEvent implements Command {
               await new Promise((r) => setTimeout(r, t));
               t += 950;
             }
-       }
+          }
         });
     });
   }
