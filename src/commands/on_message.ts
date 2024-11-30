@@ -42,7 +42,6 @@ export default class Message implements Command {
   }
   run(app: ModifiedApp) {
     // app.command()
-
     app.event(this.name, async (par) => {
       Sentry.startSpan(
         {
@@ -121,12 +120,12 @@ export default class Message implements Command {
             });
             app.ws.emit("exec command", args.join(" "), id);
             app.ws.once("cmdout-" + id, (response) => {
-              await app.client.chat.update({
-                channel: event.channel,
-                ts: m.ts,
-                text: `:white_check_mark: Command: \`${args.join(" ")}\` executed successfully!\n\`\`\`\n${response}\n\`\`\``,
-                thread_ts: event.ts,
-              });
+              // await app.client.chat.update({
+              //   channel: event.channel,
+              //   ts: m.ts,
+              //   text: `:white_check_mark: Command: \`${args.join(" ")}\` executed successfully!\n\`\`\`\n${response}\n\`\`\``,
+              //   thread_ts: event.ts,
+              // });
             });
           } else if (cmd == "setupstream") {
             if (app.ws) {
