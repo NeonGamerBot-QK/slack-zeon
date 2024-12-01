@@ -65,7 +65,7 @@ export default class HighSeasShipExtractor implements Command {
       await app.client.chat.postMessage({
         channel: `C07LGLUTNH2`,
         text: `${JSON.stringify(info)}\n\n I GOT THE SHIP MAYBE`,
-        blocks,
+        // blocks,
       });
       // userid most importent because it is what the thingy ac uses.
       if (!info.userId) return;
