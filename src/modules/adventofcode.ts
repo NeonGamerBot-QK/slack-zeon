@@ -32,7 +32,7 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
     return;
   }
   const txt = await libD.text();
-  if(!txt) return
+  if (!txt) return;
   console.log(cheerio, txt);
   const $ = cheerio.load(txt.toString() || "<html></html>");
   const data = $(".day-desc").text();
@@ -45,6 +45,6 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
     channel: om.channel,
     thread_ts: om.ts,
   });
-  
+
   // selector document.getElementsByClassName('day-desc')[0].innerText
 }
