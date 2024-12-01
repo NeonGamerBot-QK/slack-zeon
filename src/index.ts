@@ -197,7 +197,7 @@ cron.schedule("0 23 * 12 *", async () => {
   app.utils.adventOfCode.default(app, `C01GF9987SL`);
 });
 cron.schedule("0 0 * 12 *", () => {
-  app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`)
-})
+  app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
+});
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
