@@ -26,13 +26,15 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
   const libD = await fetch(
     `https://adventofcode.com/2024/day/${new Date().getDate()}`,
   );
+  console.log(libD);
   if (libD.status == 404) {
     //retry
     return;
   }
   const txt = await libD.text();
-  console.dir(cheerio, txt);
-  const $ = cheerio.load(txt.toString());
+  if(!txt) return
+  console.log(cheerio, txt);
+  const $ = cheerio.load(txt.toString() || "<html></html>");
   const data = $(".day-desc").text();
   const om = await app.client.chat.postMessage({
     text: `Todays Challange!\n in the thread is the prompt and the answers!`,
@@ -43,5 +45,6 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
     channel: om.channel,
     thread_ts: om.ts,
   });
+  
   // selector document.getElementsByClassName('day-desc')[0].innerText
 }
