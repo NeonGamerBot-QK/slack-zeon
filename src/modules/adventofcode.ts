@@ -1,5 +1,5 @@
 import { ModifiedApp } from "./slackapp";
-import cheerio from "cheerio";
+// import cheerio from "cheerio";
 export default async function adventOfCode(app: ModifiedApp, channel: string) {
   const lbD = await fetch(
     "https://adventofcode.com/2024/leaderboard/private/view/3282503.json",
@@ -23,6 +23,9 @@ export default async function adventOfCode(app: ModifiedApp, channel: string) {
 }
 
 export async function newDayNewChallange(app: ModifiedApp, channel: string) {
+  // if it works dont ask
+  const cheerio = await import("cheerio");
+
   const libD = await fetch(
     `https://adventofcode.com/2024/day/${new Date().getDate()}`,
   );
