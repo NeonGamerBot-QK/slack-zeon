@@ -191,5 +191,10 @@ cronWithCheckIn.schedule(
   },
   { name: "morning-weekend" },
 );
+// only for the month of december every day at 11pm
+cron.schedule("11 11 * * *", async () => {
+  //@ts-ignore
+  app.utils.adventOfCode.default(app, `C01GF9987SL`);
+});
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);

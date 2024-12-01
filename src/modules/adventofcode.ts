@@ -12,7 +12,7 @@ export default async function adventOfCode(app: ModifiedApp, channel: string) {
   const members: any[] = Object.values(lbD.members);
   let t = [];
   let i = 1;
-  for (const mem of members.sort((a, b) => a.stars - b.stars)) {
+  for (const mem of members.sort((a, b) => b.local_score - a.local_score)) {
     t.push(`${i}. *${mem.name}* has *${mem.stars}* :star:  stars`);
     i++;
   }
