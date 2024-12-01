@@ -31,7 +31,8 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
     return;
   }
   const txt = await libD.text();
-  const $ = cheerio.load(txt);
+  console.dir(cheerio,txt)
+  const $ = cheerio.load(txt.toString());
   const data = $(".day-desc").text();
   const om = await app.client.chat.postMessage({
     text: `Todays Challange!\n in the thread is the prompt and the answers!`,
