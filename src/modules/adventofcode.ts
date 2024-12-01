@@ -31,7 +31,7 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
     return;
   }
   const txt = await libD.text();
-  console.dir(cheerio,txt)
+  console.dir(cheerio, txt);
   const $ = cheerio.load(txt.toString());
   const data = $(".day-desc").text();
   const om = await app.client.chat.postMessage({
