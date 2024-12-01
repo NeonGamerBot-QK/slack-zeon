@@ -12,6 +12,7 @@
     "@sentry/profiling-node": "^8.41.0",
     "@slack/bolt": "^3.21.2",
     "body-parser": "latest",
+    "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
     "eventsource": "latest",
     "ms": "^2.1.3",
