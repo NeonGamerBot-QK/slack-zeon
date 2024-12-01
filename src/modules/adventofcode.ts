@@ -22,23 +22,25 @@ export default async function adventOfCode(app: ModifiedApp, channel: string) {
   });
 }
 
-export async function newDayNewChallange(app: ModifiedApp, channel:string ) {
-const libD = await fetch(`https://adventofcode.com/2024/day/${(new Date()).getDate()}`)
-if(libD.status == 404) {
-  //retry
-  return;
-}
-const txt = await libD.text()
-const $ = cheerio.load(txt)
-const data = $('.day-desc').text()
-const om = await app.client.chat.postMessage({
-  text: `Todays Challange!\n in the thread is the prompt and the answers!`,
-  channel,
-})
-await app.client.chat.postMessage({
-  text: data,
-  channel: om.channel,
-  thread_ts: om.ts,
-})
-// selector document.getElementsByClassName('day-desc')[0].innerText
+export async function newDayNewChallange(app: ModifiedApp, channel: string) {
+  const libD = await fetch(
+    `https://adventofcode.com/2024/day/${new Date().getDate()}`,
+  );
+  if (libD.status == 404) {
+    //retry
+    return;
+  }
+  const txt = await libD.text();
+  const $ = cheerio.load(txt);
+  const data = $(".day-desc").text();
+  const om = await app.client.chat.postMessage({
+    text: `Todays Challange!\n in the thread is the prompt and the answers!`,
+    channel,
+  });
+  await app.client.chat.postMessage({
+    text: data,
+    channel: om.channel,
+    thread_ts: om.ts,
+  });
+  // selector document.getElementsByClassName('day-desc')[0].innerText
 }
