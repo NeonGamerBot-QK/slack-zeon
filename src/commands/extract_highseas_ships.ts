@@ -69,7 +69,7 @@ export default class HighSeasShipExtractor implements Command {
       });
       // userid most importent because it is what the thingy ac uses.
       if (!info.userId) return;
-      fetch(`https://api.saahild.com/api/highseasships/add_ships`, {
+      fetch(`https://api.saahild.com/api/highseasships/add_ship`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
