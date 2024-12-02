@@ -76,19 +76,20 @@ export default class Message implements Command {
               },
               body: formData,
               // send the file as a multipart/form-data
-            }).then((r) => r.text()).then(url => {
-              console.log(url);
-            app.client.chat.postMessage({
-              channel: event.channel,
-              // text: data.url,
-              thread_ts: event.ts,
-              reply_broadcast: true,
-              unfurl_media: true,
-              unfurl_links: true,
-              text: `For does who know :skull::skull::skull: :\n> ${url} `,
             })
-            });
-            ;
+              .then((r) => r.text())
+              .then((url) => {
+                console.log(url);
+                app.client.chat.postMessage({
+                  channel: event.channel,
+                  // text: data.url,
+                  thread_ts: event.ts,
+                  reply_broadcast: true,
+                  unfurl_media: true,
+                  unfurl_links: true,
+                  text: `For does who know :skull::skull::skull: :\n> ${url} `,
+                });
+              });
           });
       }
       console.debug(`#message-`);
