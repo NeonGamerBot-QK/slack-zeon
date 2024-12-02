@@ -67,7 +67,7 @@ export default class Message implements Command {
               return;
             }
             fetch(data.url)
-              .then((r) => r.buffer())
+              .then((r) => r.arrayBuffer())
               .then((fd) => {
                 const formData = new FormData();
                 formData.append("file", fd);
