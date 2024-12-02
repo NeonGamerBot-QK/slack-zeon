@@ -70,7 +70,7 @@ export default class Message implements Command {
               .then((r) => r.arrayBuffer())
               .then((fd) => {
                 const formData = new FormData();
-                formData.append("file", fd);
+                formData.append("file", Buffer.from(fd));
                 fetch("https://cdn.saahild.com/api/upload", {
                   method: "POST",
                   headers: {
