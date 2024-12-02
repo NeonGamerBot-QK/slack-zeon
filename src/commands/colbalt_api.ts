@@ -67,6 +67,7 @@ export default class Message implements Command {
               return;
             }
             const formData = new FormData();
+            formData.append("file", await fetch(data.url).then((r) => r.buffer()));
             fetch("https://cdn.saahild.com/api/upload", {
               method: "POST",
               headers: {
