@@ -66,7 +66,7 @@ export default class Message implements Command {
               return;
             }
             const formData = new FormData();
-            const url = await fetch("https://cdn.saahild.com/api/upload", {
+            const url =  fetch("https://cdn.saahild.com/api/upload", {
               method: "POST",
               headers: {
                 Authorization: process.env.CDN_AUTH,
@@ -80,12 +80,12 @@ export default class Message implements Command {
             console.log(url);
             app.client.chat.postMessage({
               channel: event.channel,
-              text: data.url,
+              // text: data.url,
               thread_ts: event.ts,
               reply_broadcast: true,
               unfurl_media: true,
               unfurl_links: true,
-              text: `For does who know :skull::skull::skull: :\n> ${url} `,
+              text: `For does who know :skull::skull::skull: :\n> ${await url} `,
             });
           });
       }
