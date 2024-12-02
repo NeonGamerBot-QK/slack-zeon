@@ -66,7 +66,7 @@ export default class Message implements Command {
               return;
             }
             const formData = new FormData();
-            const url =  fetch("https://cdn.saahild.com/api/upload", {
+            const url = fetch("https://cdn.saahild.com/api/upload", {
               method: "POST",
               headers: {
                 Authorization: process.env.CDN_AUTH,
