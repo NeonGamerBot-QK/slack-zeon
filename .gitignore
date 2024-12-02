@@ -131,6 +131,7 @@ dist
 .direnv
 data.json
 t.ts
+t2.ts
 ctf/unenc
 *.bin
 *.txt

@@ -57,6 +57,27 @@ export default class Message implements Command {
           .then((d) => d.json())
           .then((data) => {
             console.debug(data);
+            if(!data.url ) {
+app.client.chat.postMessage({
+              channel: event.channel,
+              text: `No url found for ${JSON.stringify(data)}`,
+              thread_ts: event.ts,
+            })
+              return;
+            }
+            const formData = new FormData();
+            const url = await fetch("https://cdn.saahild.com/api/upload", {
+              method: "POST",
+              headers: {
+                Authorization: process.env.CDN_AUTH,
+                Embed: "true",
+                "No-JSON": "true",
+                "Expires-At": "7d"
+              },
+              body: formData,
+              // send the file as a multipart/form-data
+            }).then(r=>r.text())
+            console.log(url)
             app.client.chat.postMessage({
               channel: event.channel,
               text: data.url,
@@ -64,7 +85,7 @@ export default class Message implements Command {
               reply_broadcast: true,
               unfurl_media: true,
               unfurl_links: true,
-              text: `For people who dont have tiktok:\n> ${data.url} (temp url for now fyi)`,
+              text: `For does who know :skull::skull::skull: :\n> ${url} `,
             });
           });
       }
