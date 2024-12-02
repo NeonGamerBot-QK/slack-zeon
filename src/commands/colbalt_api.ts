@@ -73,7 +73,7 @@ export default class Message implements Command {
                 Embed: "true",
                 "No-JSON": "true",
                 "Expires-At": "7d",
-                ...form.getHeaders(), // This will include the correct 'Content-Type' header with boundary
+                ...formData.getHeaders(), // This will include the correct 'Content-Type' header with boundary
               },
               body: formData,
               // send the file as a multipart/form-data
