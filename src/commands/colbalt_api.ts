@@ -5,6 +5,7 @@
 import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import FormData from "form-data";
 export default class Message implements Command {
   name: string;
   description: string;
