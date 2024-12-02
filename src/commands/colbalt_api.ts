@@ -57,12 +57,12 @@ export default class Message implements Command {
           .then((d) => d.json())
           .then((data) => {
             console.debug(data);
-            if(!data.url ) {
-app.client.chat.postMessage({
-              channel: event.channel,
-              text: `No url found for ${JSON.stringify(data)}`,
-              thread_ts: event.ts,
-            })
+            if (!data.url) {
+              app.client.chat.postMessage({
+                channel: event.channel,
+                text: `No url found for ${JSON.stringify(data)}`,
+                thread_ts: event.ts,
+              });
               return;
             }
             const formData = new FormData();
@@ -72,12 +72,12 @@ app.client.chat.postMessage({
                 Authorization: process.env.CDN_AUTH,
                 Embed: "true",
                 "No-JSON": "true",
-                "Expires-At": "7d"
+                "Expires-At": "7d",
               },
               body: formData,
               // send the file as a multipart/form-data
-            }).then(r=>r.text())
-            console.log(url)
+            }).then((r) => r.text());
+            console.log(url);
             app.client.chat.postMessage({
               channel: event.channel,
               text: data.url,
