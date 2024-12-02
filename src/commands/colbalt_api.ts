@@ -66,10 +66,11 @@ export default class Message implements Command {
               });
               return;
             }
+          fetch(data.url).then((r) => r.buffer()).then(fd =>  {
             const formData = new FormData();
             formData.append(
               "file",
-              await fetch(data.url).then((r) => r.buffer()),
+               fd,
             );
             fetch("https://cdn.saahild.com/api/upload", {
               method: "POST",
@@ -96,6 +97,8 @@ export default class Message implements Command {
                   text: `For does who know :skull::skull::skull: :\n> ${url} `,
                 });
               });
+          })
+
           });
       }
       console.debug(`#message-`);
