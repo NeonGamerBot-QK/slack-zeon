@@ -15,6 +15,7 @@ export default class UserJoinEvent implements Command {
   run(app: ModifiedApp) {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
+      return;
       console.debug(event, "#userleave");
       //@ts-ignore
       const { user, channel } = event;
