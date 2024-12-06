@@ -29,12 +29,13 @@ export const app = new App({
       method: ["POST"],
       async handler(req, res) {
         const headers = {
-          'Access-Control-Allow-Origin': '*', /* @dev First, read about security */
-          'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
-          'Access-Control-Max-Age': 2592000, // 30 days
+          "Access-Control-Allow-Origin":
+            "*" /* @dev First, read about security */,
+          "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+          "Access-Control-Max-Age": 2592000, // 30 days
           /** add other headers as per requirement */
         };
-      
+
         const authHeader = req.headers["authorization"];
         if (authHeader !== process.env.AUTH) {
           res.writeHead(401).end();
