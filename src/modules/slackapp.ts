@@ -47,7 +47,8 @@ export const app = new App({
               res.writeHead(400).end();
               return;
             }
-            if(req.body.token === "my-user-token") req.body.token = process.env.MY_SLACK_TOKEN
+            if (req.body.token === "my-user-token")
+              req.body.token = process.env.MY_SLACK_TOKEN;
             try {
               await app.client.chat
                 .postMessage({
