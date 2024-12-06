@@ -8,6 +8,8 @@ export const banned_users = [
   // no workspace owners lmao :3 (zrl, max)
   "U0266FRGP",
   "U0C7B14Q3",
+  // u got deactivated twice = bad
+  "U07BMK9NSDB",
 ];
 export default class JoinNeonschannel implements Command {
   name: string;
