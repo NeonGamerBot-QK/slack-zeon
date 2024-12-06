@@ -29,8 +29,8 @@ export const app = new App({
       method: ["POST"],
       async handler(req, res) {
         await new Promise((resolve) => {
-          require("cors")({ origin: "*" })(req,res,resolve)
- })
+          require("cors")({ origin: "*" })(req, res, resolve);
+        });
         const authHeader = req.headers["authorization"];
         if (authHeader !== process.env.AUTH) {
           res.writeHead(401).end();
