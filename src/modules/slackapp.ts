@@ -28,6 +28,13 @@ export const app = new App({
       path: "/send-private",
       method: ["POST"],
       async handler(req, res) {
+        const headers = {
+          'Access-Control-Allow-Origin': '*', /* @dev First, read about security */
+          'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+          'Access-Control-Max-Age': 2592000, // 30 days
+          /** add other headers as per requirement */
+        };
+      
         const authHeader = req.headers["authorization"];
         if (authHeader !== process.env.AUTH) {
           res.writeHead(401).end();
@@ -41,7 +48,7 @@ export const app = new App({
 
             //@ts-ignore
             if (!req.body || Object.keys(req.body) == 0) {
-              res.writeHead(400).end();
+              res.writeHead(400, headers).end();
               return;
             }
             try {
@@ -52,11 +59,11 @@ export const app = new App({
                   ...req.body,
                 })
                 .then((d) => {
-                  res.writeHead(200);
+                  res.writeHead(200, headers);
                   res.end(JSON.stringify(d));
                 });
             } catch (e: any) {
-              res.writeHead(500);
+              res.writeHead(500, headers);
               res.end(e.stack);
             }
           }),
