@@ -49,7 +49,7 @@ export const app = new App({
             }
             //@ts-ignore
             if (req.body.token === "my-user-token")
-             //@ts-ignore
+              //@ts-ignore
               req.body.token = process.env.MY_SLACK_TOKEN;
             try {
               await app.client.chat
