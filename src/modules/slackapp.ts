@@ -47,7 +47,9 @@ export const app = new App({
               res.writeHead(400).end();
               return;
             }
+            //@ts-ignore
             if (req.body.token === "my-user-token")
+             //@ts-ignore
               req.body.token = process.env.MY_SLACK_TOKEN;
             try {
               await app.client.chat
