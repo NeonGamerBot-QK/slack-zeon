@@ -106,7 +106,10 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
         console.debug(1);
         if (currentSession) {
           // check if still "active"
-          if (currentSession.active_index < 0 && currentSession.active_index > -5) {
+          if (
+            currentSession.active_index < 0 &&
+            currentSession.active_index > -5
+          ) {
             // set to not be active
             // pretty much this is a warning: if there is no new heartbeat im nuking it.
             console.log("hmmm");
@@ -122,7 +125,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
                 thread_ts: currentSession.m_ts,
                 // reply_broadcast: true
               });
-           }
+            }
           } else {
             console.log("over");
             // send time up message
