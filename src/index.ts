@@ -26,7 +26,7 @@ const db = new JSONdb("data.json");
 attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
-  // watchForWhenIUseHacktime(app);
+  watchForWhenIUseHacktime(app);
   setInterval(() => {
     try {
       function r() {
@@ -145,7 +145,7 @@ cron.schedule("25 */22 * * *", sendRandomStuff);
 cron.schedule("15 */3 * * *", sendRandomStuff);
 cron.schedule("45 2 */2 * *", sendRandomStuff);
 cronWithCheckIn.schedule(
-  "35  20 * * *",
+  "35 21 * * *",
   async () => {
     await howWasYourDay(app);
   },

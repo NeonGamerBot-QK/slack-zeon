@@ -90,7 +90,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
               //      created_at: Date.now()
               //  })
               app.db.set(`hackedhearts`, {
-                active: true,
+                active_index: 0,
                 m_ts: d.ts,
                 created_at: Date.now(),
               });
@@ -98,7 +98,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
         } else {
           app.db.set("hackedhearts", {
             ...currentSession,
-            active: true,
+            active_index: -1,
             // ...currentSession,
           });
         }
@@ -106,21 +106,23 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
         console.debug(1);
         if (currentSession) {
           // check if still "active"
-          if (currentSession.active) {
+          if (currentSession.active_index < 0 && currentSession.active_index > -5) {
             // set to not be active
             // pretty much this is a warning: if there is no new heartbeat im nuking it.
             console.log("hmmm");
             app.db.set("hackedhearts", {
               ...currentSession,
-              active: false,
+              active_index: currentSession.active_index - 1,
               // ...currentSession,
             });
-            app.client.chat.postMessage({
-              channel: `C07R8DYAZMM`,
-              text: getMessage("active", { d, currentSession }),
-              thread_ts: currentSession.m_ts,
-              // reply_broadcast: true
-            });
+            if (currentSession.active_index == -1) {
+              app.client.chat.postMessage({
+                channel: `C07R8DYAZMM`,
+                text: getMessage("active", { d, currentSession }),
+                thread_ts: currentSession.m_ts,
+                // reply_broadcast: true
+              });
+           }
           } else {
             console.log("over");
             // send time up message
