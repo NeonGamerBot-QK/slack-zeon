@@ -3,7 +3,7 @@ import { Command, onlyForMe } from "../modules/BaseCommand";
 import { createShipmentURL } from "../modules/parseShipments";
 import { ModifiedApp } from "../modules/slackapp";
 
-export default class Ping implements Command {
+export default class ZeonShipPkgs implements Command {
   name: string;
   description: string;
   constructor() {
