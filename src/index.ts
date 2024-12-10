@@ -205,7 +205,7 @@ cron.schedule("* * * * *", async () => {
   );
   if (allUsersWithAShipmentURL.length > 0) {
     for (const userURLID of allUsersWithAShipmentURL) {
-      console.log(userURLID)
+      console.log(userURLID);
       const shipments = await app.utils.hcshipments.parseShipments(
         app.db.get(userURLID),
       );
