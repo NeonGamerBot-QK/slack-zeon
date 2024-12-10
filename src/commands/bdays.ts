@@ -16,13 +16,11 @@ export default class Ping implements Command {
 
       // first make it store them
       // TODO
-    const args = command.text.split(/ +/)
-    const cmd = args.shift().toLowerCase()
-    if(cmd == "config") {
-
-    } else if(cmd == "remove-my-data") {
-
-    }
+      const args = command.text.split(/ +/);
+      const cmd = args.shift().toLowerCase();
+      if (cmd == "config") {
+      } else if (cmd == "remove-my-data") {
+      }
     });
   }
 }
