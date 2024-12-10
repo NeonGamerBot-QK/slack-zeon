@@ -199,5 +199,14 @@ cron.schedule("0 23 * 12 *", async () => {
 cron.schedule("0 0 * 12 *", () => {
   app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
 });
+cron.schedule("* * * * *", async () => {
+  const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter(e=>e.startsWith(`shipment_url_`))
+  if(allUsersWithAShipmentURL.length > 0) {
+for(const userURLID of allUsersWithAShipmentURL) {
+  const shipments = await app.utils.hcshipments.parseShipments(app.db.get(`userURLID`))
+  await app.db.set(`shipments_${userURLID}`, shipments)
+}
+  }
+})
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
