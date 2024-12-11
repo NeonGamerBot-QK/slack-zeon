@@ -209,7 +209,10 @@ cron.schedule("* * * * *", async () => {
       const shipments = await app.utils.hcshipments.parseShipments(
         app.db.get(userURLID),
       );
-      await app.db.set(`shipments_${userURLID.replace(`shipment_url_`, ``)}`, shipments);
+      await app.db.set(
+        `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
+        shipments,
+      );
     }
   }
 });
