@@ -22,8 +22,9 @@ import { getTodaysEvents } from "./modules/hw";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
-const db = new JSONdb("data.json");
+const db = new JSONdb("data/data.json");
 attachDB(db);
+app.dbs.bday = new JSONdb("data/bday.json");
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
@@ -32,7 +33,9 @@ app.start(process.env.PORT || 3000).then(async (d) => {
       function r() {
         fetch(
           "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK&ping=",
-        ).catch(r);
+        ).catch(() => {
+          setTimeout(r, 5000);
+        });
       }
       r();
     } catch (e) {

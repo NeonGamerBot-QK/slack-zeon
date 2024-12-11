@@ -6,6 +6,9 @@ import JSONdb from "simple-json-db";
 import { handleGitRequest } from "./projectWaterydo";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
+  dbs: {
+    [k: string]: JSONdb;
+  }
   is_at_school: boolean;
   ws: null | any;
   utils: typeof import("./index");

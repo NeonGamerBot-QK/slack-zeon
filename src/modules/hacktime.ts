@@ -56,6 +56,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   }
   // ok since i use terminal im gonna make it ignore that, otherwise its a copy of my other code
   setInterval(async () => {
+    try {
     const userHacktimeDat = await fetch(
       `https://waka.hackclub.com/api/compat/wakatime/v1/users/${process.env.MY_USER_ID}/heartbeats?date=${new Date().toISOString().split("T")[0]}`,
       {
@@ -142,6 +143,9 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
         }
       }
     }
+  } catch (e) {
+    console.error(e);
+  }
     // console.log(userHacktimeDat)
   }, 1000 * 60);
 }
