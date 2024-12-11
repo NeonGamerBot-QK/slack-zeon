@@ -3,7 +3,8 @@ import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
-export const prompts = [...new Set([
+export const prompts = [
+  ...new Set([
     "Will I get the job I applied for?",
     "Is now a good time to make a big decision?",
     "Will I find love this year?",
@@ -215,8 +216,9 @@ export const prompts = [...new Set([
     "Will I be able to handle new challenges?",
     "Should I take a chance on something new?",
     "Will my career progress as I hope?",
-    "Should I take more time to enjoy life?"
-  ])]
+    "Should I take more time to enjoy life?",
+  ]),
+];
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -236,7 +238,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
-    //   if (par.event.hidden) return;
+      //   if (par.event.hidden) return;
       if (par.event.thread_ts) return;
 
       // console.log(
@@ -246,20 +248,20 @@ export default class HowWasUrDayMessage implements Command {
       // );
       //@ts-ignore
       //   await par.ack();
-    //   if (!onlyForMe(par.event.user)) return;
+      //   if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
-        //   if (!par.event.text.startsWith("!")) return;
-        if (par.event.user !== "U04M46MS56D") return;
+      //   if (!par.event.text.startsWith("!")) return;
+      if (par.event.user !== "U04M46MS56D") return;
       console.debug(`cmd`);
       const { event, say } = par;
 
       const args = event.text.trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       // console.log(cmd, args);
-        const text = par.event.text
-        const choice = prompts[Math.floor(Math.random() * prompts.length)]
-        await new Promise((r) => setTimeout(r, 1500))        
-        await par.say(`<@U04M46MS56D> ${choice}`)
+      const text = par.event.text;
+      const choice = prompts[Math.floor(Math.random() * prompts.length)];
+      await new Promise((r) => setTimeout(r, 1500));
+      await par.say(`<@U04M46MS56D> ${choice}`);
       console.debug(`#message-`);
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
