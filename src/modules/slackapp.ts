@@ -34,9 +34,9 @@ export const app = new App({
         const query = new URLSearchParams(req.url.split("?")[1]);
         const user = query.get("u");
         console.log(user);
-        if (!user) return res.writeHead(400).end();
+        if (!user) return res.writeHead(400).end(`I cant find that user`);
         //@ts-ignore
-        res.writeHead(200).end(app.dbs.bday.get(user) || "");
+        res.writeHead(200).end(`Happy bday!! (this is a WIP)`);
       },
     },
     {

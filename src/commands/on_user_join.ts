@@ -1,8 +1,8 @@
-//
-
+//@ts-nocheck
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { banned_users } from "./joinchannel";
+import { ModifiedApp } from "../modules/slackapp";
 
 export default class UserJoinEvent implements Command {
   name: string;
@@ -13,10 +13,19 @@ export default class UserJoinEvent implements Command {
     this.description = `User joins Channel `;
     this.is_event = true;
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
     // app.command()
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#userjoin");
+      //@ts-ignore
+      if(event.channel == "C07RW1666UV") {
+        // dm the user if i cant find there bday
+        await app.client.chat.postMessage({
+          channel: event.user,
+          text: `Hey <@${event.user}>, you may add your bday via the \`/bday config YYYY-MM-DD\` command`,
+        })
+      return;
+      }
       //@ts-ignore
       if (event.channel !== "C07R8DYAZMM") return;
       //@ts-ignore
