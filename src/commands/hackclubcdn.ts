@@ -14,20 +14,18 @@ export default class Ping implements Command {
     app.command(this.name, async ({ command, ack, respond }) => {
       await ack();
 
-
       // respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
       //   console.debug(`after ping`, d);
       // });
-        const cdnUrl = command.text
-        if (!cdnUrl)
-          return respond(`:x: You need to provide a cdn url.`);
+      const cdnUrl = command.text;
+      if (!cdnUrl) return respond(`:x: You need to provide a cdn url.`);
 
-        const result = await app.utils.hackclubcdn.uploadURL(cdnUrl);
-        app.client.chat.postEphemeral({
-            channel: command.channel_id,
-            user: command.user_id,
-            text: `:white_check_mark: Uploaded to cdn! ${result.url}`,
-        })
-})
+      const result = await app.utils.hackclubcdn.uploadURL(cdnUrl);
+      app.client.chat.postEphemeral({
+        channel: command.channel_id,
+        user: command.user_id,
+        text: `:white_check_mark: Uploaded to cdn! ${result.url}`,
+      });
+    });
   }
 }
