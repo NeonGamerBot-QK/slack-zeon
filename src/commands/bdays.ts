@@ -22,8 +22,8 @@ export default class Ping implements Command {
       if (cmd == "config") {
         await app.client.chat.postMessage({
           channel: command.channel_id,
-          text: `:x: not done yet ...`
-        })
+          text: `:x: not done yet ...`,
+        });
       } else if (cmd == "remove-my-data") {
         app.dbs.bday.delete(command.user_id);
       }
