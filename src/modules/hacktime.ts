@@ -57,95 +57,97 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   // ok since i use terminal im gonna make it ignore that, otherwise its a copy of my other code
   setInterval(async () => {
     try {
-    const userHacktimeDat = await fetch(
-      `https://waka.hackclub.com/api/compat/wakatime/v1/users/${process.env.MY_USER_ID}/heartbeats?date=${new Date().toISOString().split("T")[0]}`,
-      {
-        headers: {
-          Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      const userHacktimeDat = await fetch(
+        `https://waka.hackclub.com/api/compat/wakatime/v1/users/${process.env.MY_USER_ID}/heartbeats?date=${new Date().toISOString().split("T")[0]}`,
+        {
+          headers: {
+            Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         },
-      },
-    )
-      .then((r) => r.json())
-      .then((r) => r.data);
-    const currentSession = app.db.get(`hackedhearts`);
-    if (userHacktimeDat.length > 0) {
-      const d = userHacktimeDat
-        .filter((e) => e.category === "coding" && e.project !== "Terminal")
-        .find((e) => isWithinLastTwoMinutes(new Date(e.created_at).getTime()));
-      console.log(d);
-      if (d) {
-        console.log(0);
-        // console.log(`um heartbat???`, d)
-        if (!currentSession) {
-          app.client.chat
-            .postMessage({
-              channel: `C07R8DYAZMM`,
-              text: getMessage("new", { d, currentSession }),
-            })
-            .then((d) => {
-              //  heartStore.set(user.user, {
-              //      active: true,
-              //      m_ts: d.ts,
-              //      created_at: Date.now()
-              //  })
-              app.db.set(`hackedhearts`, {
-                active_index: 0,
-                m_ts: d.ts,
-                created_at: Date.now(),
+      )
+        .then((r) => r.json())
+        .then((r) => r.data);
+      const currentSession = app.db.get(`hackedhearts`);
+      if (userHacktimeDat.length > 0) {
+        const d = userHacktimeDat
+          .filter((e) => e.category === "coding" && e.project !== "Terminal")
+          .find((e) =>
+            isWithinLastTwoMinutes(new Date(e.created_at).getTime()),
+          );
+        console.log(d);
+        if (d) {
+          console.log(0);
+          // console.log(`um heartbat???`, d)
+          if (!currentSession) {
+            app.client.chat
+              .postMessage({
+                channel: `C07R8DYAZMM`,
+                text: getMessage("new", { d, currentSession }),
+              })
+              .then((d) => {
+                //  heartStore.set(user.user, {
+                //      active: true,
+                //      m_ts: d.ts,
+                //      created_at: Date.now()
+                //  })
+                app.db.set(`hackedhearts`, {
+                  active_index: 0,
+                  m_ts: d.ts,
+                  created_at: Date.now(),
+                });
               });
-            });
-        } else {
-          app.db.set("hackedhearts", {
-            ...currentSession,
-            active_index: -1,
-            // ...currentSession,
-          });
-        }
-      } else {
-        console.debug(1);
-        if (currentSession) {
-          // check if still "active"
-          if (
-            currentSession.active_index < 0 &&
-            currentSession.active_index > -5
-          ) {
-            // set to not be active
-            // pretty much this is a warning: if there is no new heartbeat im nuking it.
-            console.log("hmmm");
+          } else {
             app.db.set("hackedhearts", {
               ...currentSession,
-              active_index: currentSession.active_index - 1,
+              active_index: -1,
               // ...currentSession,
             });
-            if (currentSession.active_index == -1) {
+          }
+        } else {
+          console.debug(1);
+          if (currentSession) {
+            // check if still "active"
+            if (
+              currentSession.active_index < 0 &&
+              currentSession.active_index > -5
+            ) {
+              // set to not be active
+              // pretty much this is a warning: if there is no new heartbeat im nuking it.
+              console.log("hmmm");
+              app.db.set("hackedhearts", {
+                ...currentSession,
+                active_index: currentSession.active_index - 1,
+                // ...currentSession,
+              });
+              if (currentSession.active_index == -1) {
+                app.client.chat.postMessage({
+                  channel: `C07R8DYAZMM`,
+                  text: getMessage("active", { d, currentSession }),
+                  thread_ts: currentSession.m_ts,
+                  // reply_broadcast: true
+                });
+              }
+            } else {
+              console.log("over");
+              // send time up message
               app.client.chat.postMessage({
                 channel: `C07R8DYAZMM`,
-                text: getMessage("active", { d, currentSession }),
+                text: getMessage("over", { d, currentSession }),
                 thread_ts: currentSession.m_ts,
-                // reply_broadcast: true
+                reply_broadcast: true,
               });
+              // delete it
+              //  heartStore.delete(user.user)
+              app.db.delete(`hackedhearts`);
             }
-          } else {
-            console.log("over");
-            // send time up message
-            app.client.chat.postMessage({
-              channel: `C07R8DYAZMM`,
-              text: getMessage("over", { d, currentSession }),
-              thread_ts: currentSession.m_ts,
-              reply_broadcast: true,
-            });
-            // delete it
-            //  heartStore.delete(user.user)
-            app.db.delete(`hackedhearts`);
           }
         }
       }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
-  }
     // console.log(userHacktimeDat)
   }, 1000 * 60);
 }
