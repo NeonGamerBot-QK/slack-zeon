@@ -81,7 +81,7 @@ export function parseShipments(shipmentsURL: string) {
           }
           final.push({
             shipmentTitle,
-            shipmentsURL,
+            // shipmentsURL,
             shiprovider,
             tracking,
             isDone,
