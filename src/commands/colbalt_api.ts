@@ -66,16 +66,18 @@ export default class Message implements Command {
               });
               return;
             }
-            const uploadedURL = await app.utils.hackclubcdn.uploadURL(data.url);
-            app.client.chat.postMessage({
-              channel: event.channel,
-              // text: data.url,
-              thread_ts: event.ts,
-              reply_broadcast: true,
-              unfurl_media: true,
-              unfurl_links: true,
-              text: `For does who know :skull::skull::skull: :\n> ${uploadedURL[0]} `,
-            });
+            app.utils.hackclubcdn.uploadURL(data.url).then((uploadedURL)=> {
+              app.client.chat.postMessage({
+                channel: event.channel,
+                // text: data.url,
+                thread_ts: event.ts,
+                reply_broadcast: true,
+                unfurl_media: true,
+                unfurl_links: true,
+                text: `For does who know :skull::skull::skull: :\n> ${uploadedURL[0]} `,
+              });
+            })
+
             // fetch(data.url)
             //   .then((r) => r.arrayBuffer())
             //   .then((fd) => {
