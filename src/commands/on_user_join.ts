@@ -18,13 +18,13 @@ export default class UserJoinEvent implements Command {
     app.event(this.name, async ({ event, say }) => {
       console.debug(event, "#userjoin");
       //@ts-ignore
-      if(event.channel == "C07RW1666UV") {
+      if (event.channel == "C07RW1666UV") {
         // dm the user if i cant find there bday
         await app.client.chat.postMessage({
           channel: event.user,
           text: `Hey <@${event.user}>, you may add your bday via the \`/bday config YYYY-MM-DD\` command`,
-        })
-      return;
+        });
+        return;
       }
       //@ts-ignore
       if (event.channel !== "C07R8DYAZMM") return;
