@@ -28,16 +28,16 @@ export const app = new App({
       },
     },
     {
-path: "/bday",
-method: ["GET"],
-async handler(req, res) {
-  const query = new URLSearchParams(req.url.split("?")[1]);
-  const user = query.get("u");
-  console.log(user);
-  if (!user) return res.writeHead(400).end();
-  //@ts-ignore
-  res.writeHead(200).end(app.dbs.bday.get(user) || "");
-},
+      path: "/bday",
+      method: ["GET"],
+      async handler(req, res) {
+        const query = new URLSearchParams(req.url.split("?")[1]);
+        const user = query.get("u");
+        console.log(user);
+        if (!user) return res.writeHead(400).end();
+        //@ts-ignore
+        res.writeHead(200).end(app.dbs.bday.get(user) || "");
+      },
     },
     {
       path: "/send-private",
