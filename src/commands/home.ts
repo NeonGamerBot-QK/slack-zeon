@@ -27,7 +27,7 @@ export default class AppHome implements Command {
       try {
         const spotifyStr = await getSpotifyStatus();
         //@ts-ignore
-        const shipmentData = app.db.get(`shipments_${event.user}`)
+        const shipmentData = app.db.get(`shipments_${event.user}`);
         const ctfData = app.db.get("ctf") || [];
         //@ts-ignore
         console.log(`USER: ${event.user}`);
@@ -65,10 +65,9 @@ export default class AppHome implements Command {
                   type: "section",
                   text: {
                     type: "mrkdwn",
-                    text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(', ')}`).join("\n")}`,
+                    text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
                   },
-                }
-            
+                },
               ].filter(Boolean),
             };
           return {
@@ -122,7 +121,7 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(', ')}`).join("\n")}`,
+                  text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
                 },
               },
               {
