@@ -262,28 +262,28 @@ export default class HowWasUrDayMessage implements Command {
       const choice = prompts[Math.floor(Math.random() * prompts.length)];
       await new Promise((r) => setTimeout(r, 1500));
       await app.client.chat.postMessage({
-        channel: event.channel, 
+        channel: event.channel,
         blocks: [
           {
-            "type": "rich_text",
-            "elements": [
+            type: "rich_text",
+            elements: [
               {
-                "type": "rich_text_section",
-                "elements": [
+                type: "rich_text_section",
+                elements: [
                   {
-                    "type": "user",
-                    "user_id": "U04M46MS56D"
+                    type: "user",
+                    user_id: "U04M46MS56D",
                   },
                   {
-                    "type": "text",
-                    "text": choice
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      })
+                    type: "text",
+                    text: choice,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
       console.debug(`#message-`);
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
