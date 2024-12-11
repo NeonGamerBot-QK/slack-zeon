@@ -15,7 +15,13 @@ export async function cronFunc(app: ModifiedApp) {
       // testing channel id atm
       await app.client.chat.postMessage({
         channel: "C07LGLUTNH2",
-        text: `Happy Bday <@${user}> you are ${age} years old!! ${isOver18 ? `Congrats on becoming allumani UNC` : ``}\n you can view this here: https://slack.mybot.saahild.com`,
+        text: `:birthday: Happy Bday <@${user}> :birthday_dino: you are ${age} years old!! ${isOver18 ? `Congrats on becoming allumani UNC` : ``}\n you can view this here: https://slack.mybot.saahild.com/bday?u=${user}\n Everyone wish them happy birthday in the :thread:`,
+      }).then((e) => {
+        // forward message to user
+        app.client.chat.postMessage({
+          channel: user,
+          text: `Happy Bday!\n You are now ${age} years old!! ${isOver18 ? `Congrats on becoming allumani UNC` : ``}\n you can view this here: https://slack.mybot.saahild.com/bday?u=${user}`,
+        });
       });
     }
   }
