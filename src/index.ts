@@ -23,8 +23,9 @@ import { watchForWhenIUseHacktime } from "./modules/hacktime";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
-attachDB(db);
+app.dbs = {}
 app.dbs.bday = new JSONdb("data/bday.json");
+attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
