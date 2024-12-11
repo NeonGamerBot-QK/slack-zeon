@@ -20,6 +20,7 @@ import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
+import { startBdayCron } from "./modules/bday";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
@@ -220,5 +221,6 @@ cron.schedule("* * * * *", async () => {
     }
   }
 });
+startBdayCron(app);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);

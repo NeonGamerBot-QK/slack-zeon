@@ -15,7 +15,7 @@ export async function cronFunc(app: ModifiedApp) {
       // testing channel id atm
       await app.client.chat
         .postMessage({
-          channel: "C07LGLUTNH2",
+          channel: "C07RW1666UV",
           text: `:birthday: Happy Bday <@${user}> :birthday_dino: you are ${age} years old!! ${isOver18 ? `Congrats on becoming allumani UNC` : ``}\n you can view this here: https://slack.mybot.saahild.com/bday?u=${user}\n Everyone wish them happy birthday in the :thread:`,
         })
         .then((e) => {
