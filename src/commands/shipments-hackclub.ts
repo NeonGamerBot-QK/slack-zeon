@@ -22,7 +22,9 @@ export default class ZeonShipPkgs implements Command {
       const shipmentURL = command.text;
       if (!shipmentURL)
         return respond(`:x: You need to provide a shipment url.`);
-      const parse = new URLSearchParams(shipmentURL);
+      if(!shipmentURL.startsWith(`https://shipment-viewer.hackclub.com/shipments`)) 
+        return respond(`:x: You need to provide a shipment url from hackclub.`);
+      const parse = new URLSearchParams(new URL(shipmentURL).search);
       const properURL = createShipmentURL(
         parse.get(`signature`),
         parse.get(`email`),
