@@ -26,6 +26,8 @@ export default class AppHome implements Command {
     app.event(this.name, async ({ event, client, logger }) => {
       try {
         const spotifyStr = await getSpotifyStatus();
+        //@ts-ignore
+        const shipmentData = app.db.get(`shipments_${event.user}`)
         const ctfData = app.db.get("ctf") || [];
         //@ts-ignore
         console.log(`USER: ${event.user}`);
@@ -59,6 +61,14 @@ export default class AppHome implements Command {
                     text: `*Ctf channels:*\n${ctfData.map((e) => `<#${e.channel}>`).join("\n")}`,
                   },
                 },
+                shipmentData && {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(', ')}`).join("\n")}`,
+                  },
+                }
+            
               ].filter(Boolean),
             };
           return {
@@ -106,6 +116,13 @@ export default class AppHome implements Command {
                 text: {
                   type: "mrkdwn",
                   text: `*Ctf channels:*\n${ctfData.map((e) => `<#${e.channel}>`).join("\n")}`,
+                },
+              },
+              shipmentData && {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(', ')}`).join("\n")}`,
                 },
               },
               {
