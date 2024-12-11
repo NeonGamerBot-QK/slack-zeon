@@ -11,3 +11,4 @@ export * as nextdns from "./nextdns";
 export * as hacktime from "./hacktime";
 export * as adventOfCode from "./adventofcode";
 export * as hcshipments from "./parseShipments";
+export * as hackclubcdn from "./hackclubcdn";

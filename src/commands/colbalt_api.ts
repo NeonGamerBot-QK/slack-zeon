@@ -66,37 +66,47 @@ export default class Message implements Command {
               });
               return;
             }
-            fetch(data.url)
-              .then((r) => r.arrayBuffer())
-              .then((fd) => {
-                const formData = new FormData();
-                formData.append("file", Buffer.from(fd));
-                fetch("https://cdn.saahild.com/api/upload", {
-                  method: "POST",
-                  headers: {
-                    Authorization: process.env.CDN_AUTH,
-                    Embed: "true",
-                    "No-JSON": "true",
-                    "Expires-At": "7d",
-                    ...formData.getHeaders(), // This will include the correct 'Content-Type' header with boundary
-                  },
-                  body: formData,
-                  // send the file as a multipart/form-data
-                })
-                  .then((r) => r.text())
-                  .then((url) => {
-                    console.log(url);
-                    app.client.chat.postMessage({
-                      channel: event.channel,
-                      // text: data.url,
-                      thread_ts: event.ts,
-                      reply_broadcast: true,
-                      unfurl_media: true,
-                      unfurl_links: true,
-                      text: `For does who know :skull::skull::skull: :\n> ${url} `,
-                    });
-                  });
-              });
+            const uploadedURL = await app.utils.hackclubcdn.uploadURL(data.url);
+            app.client.chat.postMessage({
+                        channel: event.channel,
+                        // text: data.url,
+                        thread_ts: event.ts,
+                        reply_broadcast: true,
+                        unfurl_media: true,
+                        unfurl_links: true,
+                        text: `For does who know :skull::skull::skull: :\n> ${uploadedURL[0]} `,
+                      });
+            // fetch(data.url)
+            //   .then((r) => r.arrayBuffer())
+            //   .then((fd) => {
+            //     const formData = new FormData();
+            //     formData.append("file", Buffer.from(fd));
+            //     fetch("https://cdn.saahild.com/api/upload", {
+            //       method: "POST",
+            //       headers: {
+            //         Authorization: process.env.CDN_AUTH,
+            //         Embed: "true",
+            //         "No-JSON": "true",
+            //         "Expires-At": "7d",
+            //         ...formData.getHeaders(), // This will include the correct 'Content-Type' header with boundary
+            //       },
+            //       body: formData,
+            //       // send the file as a multipart/form-data
+            //     })
+            //       .then((r) => r.text())
+            //       .then((url) => {
+            //         console.log(url);
+            //         app.client.chat.postMessage({
+            //           channel: event.channel,
+            //           // text: data.url,
+            //           thread_ts: event.ts,
+            //           reply_broadcast: true,
+            //           unfurl_media: true,
+            //           unfurl_links: true,
+            //           text: `For does who know :skull::skull::skull: :\n> ${url} `,
+            //         });
+            //       });
+              // });
           });
       }
       console.debug(`#message-`);
