@@ -8,7 +8,7 @@ export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
     [k: string]: JSONdb;
-  }
+  };
   is_at_school: boolean;
   ws: null | any;
   utils: typeof import("./index");
