@@ -66,7 +66,7 @@ export default class Message implements Command {
               });
               return;
             }
-            app.utils.hackclubcdn.uploadURL(data.url).then((uploadedURL)=> {
+            app.utils.hackclubcdn.uploadURL(data.url).then((uploadedURL) => {
               app.client.chat.postMessage({
                 channel: event.channel,
                 // text: data.url,
@@ -76,7 +76,7 @@ export default class Message implements Command {
                 unfurl_links: true,
                 text: `For does who know :skull::skull::skull: :\n> ${uploadedURL[0]} `,
               });
-            })
+            });
 
             // fetch(data.url)
             //   .then((r) => r.arrayBuffer())
