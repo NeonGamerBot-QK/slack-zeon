@@ -25,14 +25,14 @@ export default class Bday implements Command {
             channel: command.channel_id,
             user: command.user_id,
             text: `:white_check_mark: Set your bday to ${formatedDate.toDateString()}`,
-          })
+          });
         } catch (e) {
-        await app.client.chat.postEphemeral({
-          channel: command.channel_id,
-          user: command.user_id,
-          text: `:x: Please use a valid date (eg: \`YYYY-MM-DD\` or \`1733888655020\`) (or i just broke)\n> ${e.message}`,
-        });
-      }
+          await app.client.chat.postEphemeral({
+            channel: command.channel_id,
+            user: command.user_id,
+            text: `:x: Please use a valid date (eg: \`YYYY-MM-DD\` or \`1733888655020\`) (or i just broke)\n> ${e.message}`,
+          });
+        }
       } else if (cmd == "remove-my-data") {
         app.dbs.bday.delete(command.user_id);
         await app.client.chat.postEphemeral({
