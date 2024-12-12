@@ -21,6 +21,7 @@ import { attachDB } from "./modules/projectWaterydo";
 import { getTodaysEvents } from "./modules/hw";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { startBdayCron } from "./modules/bday";
+import { getAdventOfCodeLb, setupCronAdventOfCode } from "./modules/adventofcode";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
@@ -196,14 +197,7 @@ cronWithCheckIn.schedule(
   },
   { name: "morning-weekend" },
 );
-// only for the month of december every day at 11pm
-cron.schedule("0 23 * 12 *", async () => {
-  //@ts-ignore
-  app.utils.adventOfCode.default(app, `C01GF9987SL`);
-});
-cron.schedule("0 0 * 12 *", () => {
-  app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
-});
+
 cron.schedule("* * * * *", async () => {
   const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
     e.startsWith(`shipment_url_`),
@@ -221,10 +215,10 @@ cron.schedule("* * * * *", async () => {
     }
   }
 });
+
 cron.schedule(`* * * * *`, async () => {
-  
 try {
-  await fetch('https://highseas.hackclub.com/signpost', {
+  await fetch('https://highseas.hackclub.com/shipyard', {
     method: 'POST',
     headers: {
       'Cookie': process.env.HIGH_SEAS_COOKIES,
@@ -252,5 +246,6 @@ try {
 }
 })
 startBdayCron(app);
+setupCronAdventOfCode(app)
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);

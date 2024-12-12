@@ -29,6 +29,7 @@ export default class AppHome implements Command {
         //@ts-ignore
         const shipmentData = app.db.get(`shipments_${event.user}`);
         const ctfData = app.db.get("ctf") || [];
+        const adventOfCodeData = app.db.get("adventofcode_lb");
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
@@ -68,6 +69,13 @@ export default class AppHome implements Command {
                     text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
                   },
                 },
+                adventOfCodeData && {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `*Advent of Code:*\n${adventOfCodeData.members.sort((a, b) => b.local_score - a.local_score).map((e) => `${e.name} has ${e.stars} stars`).join("\n")}`,
+                  },
+                }
               ].filter(Boolean),
             };
           return {
@@ -122,6 +130,20 @@ export default class AppHome implements Command {
                 text: {
                   type: "mrkdwn",
                   text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
+                },
+              },
+              adventOfCodeData && {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `*Advent of Code:*\n${adventOfCodeData.members.sort((a, b) => b.local_score - a.local_score).map((e) => `${e.name} has ${e.stars} stars`).join("\n")}`,
+                },
+              },
+              adventOfCodeData && {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `You are in #${adventOfCodeData.findIndex(e => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
                 },
               },
               {
