@@ -1,0 +1,110 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0" version="25.0.3">
+  <diagram name="Page-1" id="ZvBC9SFOWrGQZAgj1jrL">
+    <mxGraphModel dx="1204" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-1" value="&lt;div&gt;&lt;font style=&quot;font-size: 36px;&quot;&gt;Anon Mail System&lt;/font&gt;&lt;/div&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="10" width="350" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-2" value="&lt;div&gt;JSON db is encrypted&lt;/div&gt;&lt;div&gt;bcrypt is used&lt;br&gt;&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;pointerEvents=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-5" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="240" y="130" as="sourcePoint" />
+            <mxPoint x="240" y="160" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-6" value="Zeon sends alice a message saying &quot;new mail&quot;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-7" target="PcF1R7-11WAt0tCBLCqI-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-7" value="Checks if there is already a letter" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="164" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-8" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Alice sends an anon mail request to john&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="172.5" y="50" width="135" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-11" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#EA6B66;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-7">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="270" y="180" as="sourcePoint" />
+            <mxPoint x="140" y="250" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-12" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;send error saying they have not opened your previous mail which means no new mail&lt;br&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="230" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-16" target="PcF1R7-11WAt0tCBLCqI-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-16" value="on&amp;nbsp; mail accept" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="50" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-19" value="&lt;div&gt;show mail content&lt;br&gt;prompt: &quot;Do you want to reply&quot;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="190" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-22" target="PcF1R7-11WAt0tCBLCqI-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-22" value="&lt;div&gt;decrypt data process&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-23" target="PcF1R7-11WAt0tCBLCqI-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-23" value="extract data from db" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="630" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-25">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-25" value="try key on each enc data in array" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="770" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-27" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#EA6B66;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-25">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="280" y="820" as="sourcePoint" />
+            <mxPoint x="240" y="870" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-28" value="return void" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="172.5" y="860" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-31" value="return data decrypted" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="870" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-32" target="PcF1R7-11WAt0tCBLCqI-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-32" value="&lt;div&gt;encrypt data process&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-33" target="PcF1R7-11WAt0tCBLCqI-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-33" value="&lt;div&gt;create key made up of &lt;br&gt;&lt;/div&gt;&lt;div&gt;`{target_id}_{server_key}`&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="630" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="PcF1R7-11WAt0tCBLCqI-35" target="PcF1R7-11WAt0tCBLCqI-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-35" value="encrypt data w/ key" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="770" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="PcF1R7-11WAt0tCBLCqI-37" value="return data" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="900" width="80" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
