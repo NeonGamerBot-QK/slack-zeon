@@ -39,24 +39,25 @@ export default class AppHome implements Command {
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
-          const anon_mail_section = [{
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*Anon DM:* \n> :mailbox: Your mailbox\nYour mail here (todo)\n Use the button to send mail to someone :D",
-            },
-            accessory: {
-              type: "button",
+          const anon_mail_section = [
+            {
+              type: "section",
               text: {
-                type: "plain_text",
-                text: "Send mail",
-                emoji: true,
+                type: "mrkdwn",
+                text: "*Anon DM:* \n> :mailbox: Your mailbox\nYour mail here (todo)\n Use the button to send mail to someone :D",
               },
-              value: "send_mail",
-              action_id: "send_mail",
+              accessory: {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Send mail",
+                  emoji: true,
+                },
+                value: "send_mail",
+                action_id: "send_mail",
+              },
             },
-          }
-        ];
+          ];
           //@ts-ignore
           if (process.env.MY_USER_ID !== event.user)
             return {
@@ -181,7 +182,7 @@ export default class AppHome implements Command {
                   text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
                 },
               },
-           ...anon_mail_section,
+              ...anon_mail_section,
               {
                 type: "divider",
               },
