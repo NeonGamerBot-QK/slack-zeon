@@ -26,9 +26,17 @@ export default function (app: any) {
               text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
             });
           }
-          setTimeout(() => {
-            process.exit();
-          }, 1000);
+          if(!commitMessage.includes("enhance")) {
+            setTimeout(() => {
+              process.exit();
+            }, 1000);
+          } else {
+            app.client.chat.postMessage({
+              channel: `D07LBMXD9FF`,
+              text: `i dont restart fyi`,
+            });
+          }
+
         }
       }
     });
