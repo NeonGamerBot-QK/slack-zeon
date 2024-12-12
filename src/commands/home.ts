@@ -73,9 +73,12 @@ export default class AppHome implements Command {
                   type: "section",
                   text: {
                     type: "mrkdwn",
-                    text: `*Advent of Code:*\n${adventOfCodeData.members.sort((a, b) => b.local_score - a.local_score).map((e) => `${e.name} has ${e.stars} stars`).join("\n")}`,
+                    text: `*Advent of Code:*\n${adventOfCodeData.members
+                      .sort((a, b) => b.local_score - a.local_score)
+                      .map((e) => `${e.name} has ${e.stars} stars`)
+                      .join("\n")}`,
                   },
-                }
+                },
               ].filter(Boolean),
             };
           return {
@@ -136,14 +139,17 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `*Advent of Code:*\n${adventOfCodeData.members.sort((a, b) => b.local_score - a.local_score).map((e) => `${e.name} has ${e.stars} stars`).join("\n")}`,
+                  text: `*Advent of Code:*\n${adventOfCodeData.members
+                    .sort((a, b) => b.local_score - a.local_score)
+                    .map((e) => `${e.name} has ${e.stars} stars`)
+                    .join("\n")}`,
                 },
               },
               adventOfCodeData && {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `You are in #${adventOfCodeData.findIndex(e => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
+                  text: `You are in #${adventOfCodeData.findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
                 },
               },
               {
