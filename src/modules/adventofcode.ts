@@ -21,7 +21,7 @@ export function setupCronAdventOfCode(app: ModifiedApp) {
   cron.schedule("0 0 * 12 *", () => {
     app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
   });
-  cron.schedule(`0 0 * * *`, async () => {
+  cron.schedule(`0 * * * *`, async () => {
     const lb = await getAdventOfCodeLb();
     app.db.set(`adventofcode_lb`, lb);
   });

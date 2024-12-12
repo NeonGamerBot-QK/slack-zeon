@@ -61,7 +61,7 @@ export default class Message implements Command {
             if (!data.url) {
               app.client.chat.postMessage({
                 channel: event.channel,
-                text: `No url found for ${JSON.stringify(data)}`,
+                text: `No url found. Please use https://cobalt.tools/ to watch this :D`,
                 thread_ts: event.ts,
               });
               return;
