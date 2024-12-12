@@ -141,7 +141,7 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `*Advent of Code:*\n${adventOfCodeData.members
+                  text: `*Advent of Code:*\n${(Object.values(adventOfCodeData.members) as any[])
                     .sort((a, b) => b.local_score - a.local_score)
                     .map((e) => `${e.name} has ${e.stars} stars`)
                     .join("\n")}`,
@@ -151,7 +151,7 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `You are in #${adventOfCodeData.findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
+                  text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
                 },
               },
               {
