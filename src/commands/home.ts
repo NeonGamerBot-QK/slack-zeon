@@ -32,16 +32,6 @@ export default class AppHome implements Command {
         const ctfData = app.db.get("ctf") || [];
         const adventOfCodeData = app.db.get("adventofcode_lb");
         console.log(Boolean(shipmentData), Boolean(adventOfCodeData), Boolean(ctfData))
-        console.log(adventOfCodeData && {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `*Advent of Code:*\n${(Object.values(adventOfCodeData.members) as any[])
-              .sort((a, b) => b.local_score - a.local_score)
-              .map((e) => `${e.name} has ${e.stars} stars`)
-              .join("\n")}`,
-          },
-        );
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
@@ -85,7 +75,7 @@ export default class AppHome implements Command {
                   type: "section",
                   text: {
                     type: "mrkdwn",
-                    text: `*Advent of Code:*\n${adventOfCodeData.members
+                    text: `*Advent of Code:*\n${(Object.values(adventOfCodeData.members) as any[])
                       .sort((a, b) => b.local_score - a.local_score)
                       .map((e) => `${e.name} has ${e.stars} stars`)
                       .join("\n")}`,
