@@ -41,7 +41,7 @@ export default class AppHome implements Command {
               .map((e) => `${e.name} has ${e.stars} stars`)
               .join("\n")}`,
           },
-        })
+        );
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
