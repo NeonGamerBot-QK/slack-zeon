@@ -24,7 +24,7 @@ export default class Ping implements Command {
       app.client.chat.postEphemeral({
         channel: command.channel_id,
         user: command.user_id,
-        text: `:white_check_mark: Uploaded to cdn! ${result.url}`,
+        text: `:white_check_mark: Uploaded to cdn! ${result[0]}`,
       });
     });
   }
