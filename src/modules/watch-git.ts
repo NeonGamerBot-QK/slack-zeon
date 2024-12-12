@@ -26,7 +26,7 @@ export default function (app: any) {
               text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
             });
           }
-          if(!commitMessage.includes("enhance")) {
+          if (!commitMessage.includes("enhance")) {
             setTimeout(() => {
               process.exit();
             }, 1000);
@@ -36,7 +36,6 @@ export default function (app: any) {
               text: `i dont restart fyi`,
             });
           }
-
         }
       }
     });
