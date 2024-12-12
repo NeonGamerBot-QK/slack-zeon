@@ -221,6 +221,36 @@ cron.schedule("* * * * *", async () => {
     }
   }
 });
+cron.schedule(`* * * * *`, async () => {
+  
+try {
+  await fetch('https://highseas.hackclub.com/signpost', {
+    method: 'POST',
+    headers: {
+      'Cookie': process.env.HIGH_SEAS_COOKIES,
+    },
+    body: '[]'
+  }).then(r=>{ 
+    const oldAmount = app.db.get(`highseas_tickets`)
+    const cookieHeader = r.headers.getSetCookie().find(e=>e.startsWith('tickets='))
+    const amount = parseFloat(cookieHeader.split(`tickets=`)[1].split(';')[0]).toFixed(2)
+    // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
+    app.db.set(`highseas_tickets`, amount)
+    if(oldAmount !== amount) {
+      const diff = parseFloat(amount) - parseFloat(oldAmount)
+      app.client.chat.postMessage({
+      text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff >0 ? `+${diff}` : diff} :doubloon: )`,
+      channel: `C07R8DYAZMM`
+      })
+    }
+  });
+} catch (e) {
+  await app.client.chat.postMessage({
+    text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token bfor high seas`,
+    channel: `C07LGLUTNH2`
+  })
+}
+})
 startBdayCron(app);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
