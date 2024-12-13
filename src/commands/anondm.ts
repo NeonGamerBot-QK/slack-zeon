@@ -87,8 +87,11 @@ export default class AnonDM implements Command {
       await ack();
       console.debug(`#view`, par.body.view.blocks, par.payload);
       // get modal data from inputs
-      const users = par.body.view.state;
-      console.log(users);
+      // WHY IS THE SLACK API LIKE THIS
+      const theViewState = Object.values(par.body.view.state.values);
+const users =  theViewState.find(e=>e["multi_users_select-action"])["multi_users_select-action"]
+const textBox = theViewState.find(e=>e["plain_text_input-action"])["plain_text_input-action"]
+console.log(users, textBox)
       const user = par.body.user;
       // display user model
       await app.client.chat.postMessage({
