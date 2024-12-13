@@ -137,3 +137,4 @@ ctf/unenc
 *.txt
 t3.ts
 highseas.har
+test_db.json

@@ -25,11 +25,15 @@ import {
   getAdventOfCodeLb,
   setupCronAdventOfCode,
 } from "./modules/adventofcode";
+import { EncryptedJsonDb } from "../t2";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
 app.dbs = {};
 app.dbs.bday = new JSONdb("data/bday.json");
+app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
+  password: process.env.ANONDM_PASSWORD,
+});
 attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
