@@ -1,4 +1,4 @@
-//
+//@ts-nocheck
 
 import { App, View } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
@@ -45,6 +45,7 @@ export default class AppHome implements Command {
         let user_id = null;
         // @ts-ignore
         const userInDb = usersInDb.find((e) =>
+          //@ts-ignore
           bcrypt.compareSync(event.user, e),
         );
         if (userInDb) {
