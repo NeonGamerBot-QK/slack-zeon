@@ -88,7 +88,8 @@ export default class TagSystem implements Command {
                   elements: [
                     {
                       type: "mrkdwn",
-                      text: `Tag: ${tagName}`,
+                      text: `Tag: ${tagName} - sent by <@${command.user_id}>`,
+
                     },
                   ],
                 },
@@ -134,7 +135,7 @@ export default class TagSystem implements Command {
                   elements: [
                     {
                       type: "mrkdwn",
-                      text: `Tag: ${tagName}`,
+                      text: `Tag: ${tagName} - sent by <@${command.user_id}>`,
                     },
                   ],
                 },
@@ -180,11 +181,70 @@ export default class TagSystem implements Command {
             text: `Tag \`${tagName}\` does not exist`,
           });
         }
+      } else if(cmd === "add") {
+// open a modal
+await app.client.views.open({
+  trigger_id: command.trigger_id,
+  view: {
+    type: "modal",
+    callback_id: "view_modal_tag",
+    title: {
+      type: "plain_text",
+      text: "Add a tag",
+      emoji: true,
+    },
+    submit: {
+      type: "plain_text",
+      text: "Submit",
+    },
+    close: {
+      type: "plain_text",
+      text: "Cancel",
+    },
+    blocks: [
+      {
+        type: "input",
+        block_id: "tag_input",
+        label: {
+          type: "plain_text",
+          text: "Tag name",
+        },
+        element: {
+          type: "plain_text_input",
+          action_id: "tag_input",
+        },
+      },
+      {
+        type: "input",
+        block_id: "tag_input",
+        label: {
+          type: "plain_text",
+          text: "Tag output",
+        },
+        element: {
+          type: "plain_text_input",
+          action_id: "tag_input",
+        },
+      },
+    ],
+  },
+});
       }
     });
     app.view("view_modal_tag", async ({ ack, body, view, context }) => {
       // TODO: make it grab the input/new input
       // submit and save for the user's tag
+      console.log(body.view.state.values)
+      // extract text for tag and name
+      const tag = body.view.state.values.tag_input.tag_input.value;
+      // @ts-ignore
+      const name = body.view.state.values.tag_input.tag_input.action_id;
+      console.log(tag, name);
+      // save it
+      // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
+      await ack({
+        response_action: "clear",
+      });
     });
   }
 }
