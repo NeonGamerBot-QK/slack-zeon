@@ -71,6 +71,14 @@ export default class AnonDM implements Command {
             type: "plain_text",
             text: "Send Mail",
           },
+          submit: {
+            type: 'plain_text',
+            text: 'Mail!',
+          },
+          close: {
+            type: 'plain_text',
+            text: 'Cancel',
+          },
         },
       });
     });
