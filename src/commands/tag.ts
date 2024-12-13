@@ -215,7 +215,7 @@ export default class TagSystem implements Command {
               },
               {
                 type: "input",
-                block_id: "tag_input",
+                block_id: "tag_output",
                 label: {
                   type: "plain_text",
                   text: "Tag output",
