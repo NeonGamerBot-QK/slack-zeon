@@ -117,7 +117,7 @@ export default class AnonDM implements Command {
               .messages.find((e) => {
                 try {
                   EncryptedJsonDb.decrypt(
-                    e.message,
+                    e,
                     `${user}_` + process.env.ANONDM_PASSWORD,
                   );
                   return true;
@@ -180,7 +180,7 @@ export default class AnonDM implements Command {
         // send noti to the target
         await app.client.chat.postMessage({
           channel: u,
-          text: `You have new mail! :mail:`,
+          text: `You have new mail! :email_unread:`,
         });
         app.dbs.anondm.set(user_id, userProfile);
       }

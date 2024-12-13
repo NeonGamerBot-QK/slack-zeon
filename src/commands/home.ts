@@ -3,7 +3,9 @@
 import { App, View } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
+import bcrypt from "bcrypt";
 import { getSpotifyStatus } from "../modules/status";
+import { EncryptedJsonDb } from "../modules/encrypted-db";
 function formatUptime(uptime: number = process.uptime()) {
   const seconds = Math.floor(uptime % 60);
   const minutes = Math.floor((uptime / 60) % 60);
@@ -36,6 +38,26 @@ export default class AppHome implements Command {
           Boolean(adventOfCodeData),
           Boolean(ctfData),
         );
+//@ts-ignore
+        const usersInDb = Object.keys(app.dbs.anondm.storage);
+
+        let userProfile = null;
+        let user_id = null;
+        // @ts-ignore
+        const userInDb = usersInDb.find((e) => bcrypt.compareSync(u, e));
+        if (userInDb) {
+          userProfile = app.dbs.anondm.get(userInDb);
+          user_id = usersInDb;
+        } else {
+          // create user profile
+          //@ts-ignore
+          user_id = bcrypt.hashSync(event.user, 10);
+          app.dbs.anondm.set(user_id, {
+            messages: [],
+          });
+          userProfile = app.dbs.anondm.get(user_id);
+        }
+
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
@@ -44,7 +66,21 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "*Anon DM:* \n> :mailbox: Your mailbox\nYour mail here (todo)\n Use the button to send mail to someone :D",
+                text: `*Anon DM:* \n> :mailbox: Your mailbox\n${   app.dbs.anondm
+                  //@ts-ignore
+                  .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+                  .messages.filter((e) => {
+                    try {
+                      EncryptedJsonDb.decrypt(
+                        e,
+                        //@ts-ignore
+                        `${event.user}_` + process.env.ANONDM_PASSWORD,
+                      );
+                      return true;
+                    } catch (e) {
+                      return false;
+                    }
+                  }).map(`> :email_unread: New Message`).join('\n')}\n Use the button to send mail to someone :D`,
               },
               accessory: {
                 type: "button",
