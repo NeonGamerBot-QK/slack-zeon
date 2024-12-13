@@ -23,6 +23,7 @@ export const acRandom = () => [
   "Blahaj (spinny) :blahaj-spin: because sometimes life just needs to be chaotic and spinny.",
   "It might be {4:32 AM} but I COULD be assembling a blanket fort to defend against rogue potatoes.",
   "Um uh, I’m a robot who only understands 80s synthwave and the language of potatoes.",
+  "Neon time to flex the blahaj"
 ];
 // used to adverties channels
 export const beggingMessage = [

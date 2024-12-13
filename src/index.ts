@@ -34,6 +34,7 @@ app.dbs.bday = new JSONdb("data/bday.json");
 app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
   password: process.env.ANONDM_PASSWORD,
 });
+app.dbs.tags = new JSONdb("data/tags.json");
 attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
@@ -78,7 +79,7 @@ function handleError(e: any) {
       channel: `D07LBMXD9FF`,
       text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
     });
-  } catch (e) {}
+  } catch (e) { }
 }
 function updateStatus(emoji: string, str: string, clearStats?: boolean) {
   Sentry.startSpan(
@@ -92,14 +93,14 @@ function updateStatus(emoji: string, str: string, clearStats?: boolean) {
         //@ts-ignore
         profile: clearStats
           ? {
-              status_emoji: "",
-              status_text: "",
-            }
+            status_emoji: "",
+            status_text: "",
+          }
           : {
-              status_emoji: emoji,
-              status_expiration: 0,
-              status_text: str.slice(0, 100),
-            },
+            status_emoji: emoji,
+            status_expiration: 0,
+            status_text: str.slice(0, 100),
+          },
         token: process.env.MY_SLACK_TOKEN,
       });
     },
@@ -242,7 +243,7 @@ cron.schedule(`* * * * *`, async () => {
       // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
       app.db.set(`highseas_tickets`, amount);
       if (oldAmount !== amount) {
-        const diff = parseFloat(amount) - parseFloat(oldAmount);
+        const diff = parseFloat((parseFloat(amount) - parseFloat(oldAmount)).toFixed(2));
         app.client.chat.postMessage({
           text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff > 0 ? `+${diff}` : diff} :doubloon: )`,
           channel: `C07R8DYAZMM`,
