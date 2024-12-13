@@ -87,8 +87,8 @@ export default class AnonDM implements Command {
       await ack();
       console.debug(`#view`, par.body.view.blocks, par.payload);
       // get modal data from inputs
-      const users = par.body.view.state
-      console.log(users)
+      const users = par.body.view.state;
+      console.log(users);
       const user = par.body.user;
       // display user model
       await app.client.chat.postMessage({
