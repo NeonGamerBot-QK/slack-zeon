@@ -85,7 +85,7 @@ export default class AnonDM implements Command {
     app.view("send_mail_form", async (par) => {
       const { ack, respond } = par;
       await ack();
-      console.debug(`#view`, par);
+      console.debug(`#view`, par.body.view);
       const user = par.body.user;
       // display user model
       await app.client.chat.postMessage({
