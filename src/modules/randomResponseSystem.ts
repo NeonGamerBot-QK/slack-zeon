@@ -12,7 +12,7 @@ export const acRandom = () => [
   "Blahaj :blahaj2: ",
   "Blahaj (spinny) :blahaj-spin: ",
   ":notcool::notcool::notcool:\n> https://hackclub.slack.com/archives/C07FDHUL50F/p1728928832148439",
-  // static AI 
+  // static AI
   "Hello today, my name is ~zeon~ the absolute meme lord.",
   "Want to skip the ads? Tap here, because YOU could be living your best life with unlimited cat memes!",
   "Um uh, I’m a robot… but my Wi-Fi signal is still stronger than yours.",
@@ -23,7 +23,7 @@ export const acRandom = () => [
   "Blahaj (spinny) :blahaj-spin: because sometimes life just needs to be chaotic and spinny.",
   "It might be {4:32 AM} but I COULD be assembling a blanket fort to defend against rogue potatoes.",
   "Um uh, I’m a robot who only understands 80s synthwave and the language of potatoes.",
-  "Neon time to flex the blahaj"
+  "Neon time to flex the blahaj",
 ];
 // used to adverties channels
 export const beggingMessage = [
