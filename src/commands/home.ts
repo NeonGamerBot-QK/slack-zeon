@@ -38,7 +38,7 @@ export default class AppHome implements Command {
           Boolean(adventOfCodeData),
           Boolean(ctfData),
         );
-//@ts-ignore
+        //@ts-ignore
         const usersInDb = Object.keys(app.dbs.anondm.storage);
 
         let userProfile = null;
@@ -66,7 +66,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*Anon DM:* \n> :mailbox: Your mailbox\n${   app.dbs.anondm
+                text: `*Anon DM:* \n> :mailbox: Your mailbox\n${app.dbs.anondm
                   //@ts-ignore
                   .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
                   .messages.filter((e) => {
@@ -80,7 +80,9 @@ export default class AppHome implements Command {
                     } catch (e) {
                       return false;
                     }
-                  }).map(`> :email_unread: New Message`).join('\n')}\n Use the button to send mail to someone :D`,
+                  })
+                  .map(`> :email_unread: New Message`)
+                  .join("\n")}\n Use the button to send mail to someone :D`,
               },
               accessory: {
                 type: "button",
