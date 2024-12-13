@@ -9,9 +9,10 @@ export default class AnonDM implements Command {
     this.description = `Pings zeon`;
   }
   run(app: ModifiedApp) {
-    app.action("send_mail", async ({ action, ack, respond }) => {
+    app.action("send_mail", async (par) => {
+      const { action, ack, respond } = par
       await ack();
-      console.debug(`#action`, action);
+      console.debug(`#action`, par);
     });
   }
 }
