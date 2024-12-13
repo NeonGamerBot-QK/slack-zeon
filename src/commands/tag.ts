@@ -13,6 +13,15 @@ export const tagstore = {
       },
     },
   ],
+  no_adventofcode_highseas: [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*No adventofcode for high seas*\n\n<https://hackclub.slack.com/archives/C08354Z3Z0A/p1733072766049389|See here for more info>",
+      },
+    }
+  ]
 };
 export default class TagSystem implements Command {
   name: string;
@@ -230,20 +239,21 @@ export default class TagSystem implements Command {
         });
       }
     });
-    app.view("view_modal_tag", async ({ ack, body, view, context }) => {
-      // TODO: make it grab the input/new input
-      // submit and save for the user's tag
-      console.log(body.view.state.values);
-      // extract text for tag and name
-      const tag = body.view.state.values.tag_input.tag_input.value;
-      // @ts-ignore
-      const name = body.view.state.values.tag_input.tag_input.action_id;
-      console.log(tag, name);
-      // save it
-      // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
+    app.view("view_modal_tag", async ({ ack, body, view, context, respond }) => {
       await ack({
         response_action: "clear",
       });
+      const tag = body.view.state.values.tag_input.tag_input.value;
+      // @ts-ignore
+      const name = body.view.state.values.tag_output.tag_output.action_id;
+      console.log(tag, name);
+      app.dbs.tags.set(`${body.user.id}_${name}`, tag);
+      // save it
+      // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
+      respond({
+        response_type: "ephemeral",
+        text: `Tag \`${name}\` saved`,
+      })
     });
   }
 }

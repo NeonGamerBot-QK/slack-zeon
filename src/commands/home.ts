@@ -133,7 +133,7 @@ export default class AppHome implements Command {
                   text: {
                     type: "mrkdwn",
                     text: `*Shipments:*\n${shipmentData
-                      .slice(0, 4)
+                      .slice(0, 8)
                       .map(
                         (e) =>
                           `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`,
@@ -207,7 +207,7 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `*Shipments:*\n${shipmentData.map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
+                  text: `*Shipments:*\n${shipmentData.slice(0,4).map((e) => `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`).join("\n")}`,
                 },
               },
               adventOfCodeData && {
