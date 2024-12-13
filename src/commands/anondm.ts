@@ -2,7 +2,7 @@ import { App, SlackAction } from "@slack/bolt";
 import { Command } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
 import bcrypt from "bcrypt";
-import { EncryptedJsonDb } from "../../t2";
+import { EncryptedJsonDb } from "../modules/encrypted-db";
 export default class AnonDM implements Command {
   name: string;
   description: string;
