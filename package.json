@@ -11,8 +11,10 @@
     "@sentry/node": "^8.41.0",
     "@sentry/profiling-node": "^8.41.0",
     "@slack/bolt": "^3.21.2",
+    "bcrypt": "^5.1.1",
     "body-parser": "latest",
     "cheerio": "latest",
+    "cors": "latest",
     "dotenv": "^16.4.5",
     "eventsource": "latest",
     "form-data": "^4.0.1",
@@ -24,8 +26,7 @@
     "smee-client": "^2.0.3",
     "socket.io": "^4.8.1",
     "stegcloak": "^1.1.1",
-    "ws": "^8.18.0",
-    "cors": "latest"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
