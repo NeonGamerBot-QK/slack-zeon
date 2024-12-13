@@ -10,7 +10,7 @@ export default class AnonDM implements Command {
   }
   run(app: ModifiedApp) {
     app.action("send_mail", async (par) => {
-      const { action, ack, respond } = par
+      const { action, ack, respond } = par;
       await ack();
       console.debug(`#action`, par);
     });
