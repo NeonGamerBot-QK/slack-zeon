@@ -44,7 +44,9 @@ export default class AppHome implements Command {
         let userProfile = null;
         let user_id = null;
         // @ts-ignore
-        const userInDb = usersInDb.find((e) => bcrypt.compareSync(event.user, e));
+        const userInDb = usersInDb.find((e) =>
+          bcrypt.compareSync(event.user, e),
+        );
         if (userInDb) {
           userProfile = app.dbs.anondm.get(userInDb);
           user_id = usersInDb;
