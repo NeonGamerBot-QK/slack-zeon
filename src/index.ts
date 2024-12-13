@@ -25,7 +25,7 @@ import {
   getAdventOfCodeLb,
   setupCronAdventOfCode,
 } from "./modules/adventofcode";
-import { EncryptedJsonDb } from "../t2";
+import { EncryptedJsonDb } from "./modules/encrypted-db";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
