@@ -47,30 +47,30 @@ export default class TagSystem implements Command {
         // check if the tag exists
         const tag = app.dbs.tags.get(`${command.user_id}_${tagName}`);
         if (tag) {
-          if( command.user_id == process.env.MY_USER_ID) {
-app.client.chat.postMessage({
-  channel: command.channel_id,
-  blocks: [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: tag,
-      },
-    },
-    {
-      // context block
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: `Tag: ${tagName}`,
-        },
-      ],
-    },
-  ],
-  token: process.env.MY_SLACK_TOKEN,
-})
+          if (command.user_id == process.env.MY_USER_ID) {
+            app.client.chat.postMessage({
+              channel: command.channel_id,
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: tag,
+                  },
+                },
+                {
+                  // context block
+                  type: "context",
+                  elements: [
+                    {
+                      type: "mrkdwn",
+                      text: `Tag: ${tagName}`,
+                    },
+                  ],
+                },
+              ],
+              token: process.env.MY_SLACK_TOKEN,
+            });
           } else {
             await respond({
               response_type: "in_channel",
@@ -93,9 +93,8 @@ app.client.chat.postMessage({
                   ],
                 },
               ],
-            });            
+            });
           }
-
         } else {
           await respond({
             text: `Tag \`${tagName}\` does not exist`,
@@ -106,7 +105,7 @@ app.client.chat.postMessage({
         // check if the tag exists
         const tag = tagstore[tagName];
         if (tag) {
-          if( command.user_id == process.env.MY_USER_ID) {
+          if (command.user_id == process.env.MY_USER_ID) {
             app.client.chat.postMessage({
               channel: command.channel_id,
               blocks: [
@@ -123,25 +122,25 @@ app.client.chat.postMessage({
                 },
               ],
               token: process.env.MY_SLACK_TOKEN,
-            })
-                      } else {
-          await respond({
-            response_type: "in_channel",
-            blocks: [
-              ...tag,
-              {
-                // context block
-                type: "context",
-                elements: [
-                  {
-                    type: "mrkdwn",
-                    text: `Tag: ${tagName}`,
-                  },
-                ],
-              },
-            ],
-          });
-        }
+            });
+          } else {
+            await respond({
+              response_type: "in_channel",
+              blocks: [
+                ...tag,
+                {
+                  // context block
+                  type: "context",
+                  elements: [
+                    {
+                      type: "mrkdwn",
+                      text: `Tag: ${tagName}`,
+                    },
+                  ],
+                },
+              ],
+            });
+          }
         } else {
           await respond({
             text: `Static Tag \`${tagName}\` does not exist`,
