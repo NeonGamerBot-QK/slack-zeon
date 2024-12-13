@@ -157,7 +157,7 @@ export default class AnonDM implements Command {
           app.dbs.anondm.set(user_id, {
             messages: [],
           });
-          userProfile = app.dbs.anondm.get(userInDb);
+          userProfile = app.dbs.anondm.get(user_id);
         }
         // userProfile =
         userProfile.messages.push(
