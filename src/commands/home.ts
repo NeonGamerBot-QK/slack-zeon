@@ -84,7 +84,7 @@ export default class AppHome implements Command {
                       return false;
                     }
                   })
-                  .map(`> :email_unread: New Message`)
+                  .map((e) => `> :email_unread: New Message`)
                   .join("\n")}\n Use the button to send mail to someone :D`,
               },
               accessory: {
