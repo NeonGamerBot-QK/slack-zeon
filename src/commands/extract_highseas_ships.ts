@@ -61,12 +61,12 @@ export default class HighSeasShipExtractor implements Command {
       const textEl = blocks[0].text.text;
       const info = extractInfo(textEl);
       console.log(info);
-      // debug it
-      await app.client.chat.postMessage({
-        channel: `C07LGLUTNH2`,
-        text: `${JSON.stringify(info)}\n\n I GOT THE SHIP MAYBE`,
-        // blocks,
-      });
+      // debug it -- it works dw
+      // await app.client.chat.postMessage({
+      //   channel: `C07LGLUTNH2`,
+      //   text: `${JSON.stringify(info)}\n\n I GOT THE SHIP MAYBE`,
+      //   // blocks,
+      // });
       // userid most importent because it is what the thingy ac uses.
       if (!info.userId) return;
       fetch(`https://api.saahild.com/api/highseasships/add_ship`, {
