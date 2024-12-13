@@ -1,6 +1,6 @@
 import { App, SlackAction } from "@slack/bolt";
-import { Command} from "../modules/BaseCommand";
-import { ModifiedApp} from "../modules/slackapp"
+import { Command } from "../modules/BaseCommand";
+import { ModifiedApp } from "../modules/slackapp";
 export default class AnonDM implements Command {
   name: string;
   description: string;
@@ -9,9 +9,9 @@ export default class AnonDM implements Command {
     this.description = `Pings zeon`;
   }
   run(app: ModifiedApp) {
- app.action("send_mail", async ({ action, ack, respond }) => {
-    await ack();
-console.debug(`#action`, action)
- })
+    app.action("send_mail", async ({ action, ack, respond }) => {
+      await ack();
+      console.debug(`#action`, action);
+    });
   }
 }
