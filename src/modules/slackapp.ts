@@ -40,11 +40,11 @@ export const app = new App({
       },
     },
     {
-      path: "/health", 
+      path: "/health",
       method: ["GET"],
       async handler(req, res) {
         res.writeHead(200).end(`OK`);
-      }
+      },
     },
     {
       path: "/send-private",
