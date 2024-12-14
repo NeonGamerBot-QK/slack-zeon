@@ -142,10 +142,13 @@ export default class Ping implements Command {
       }
     });
     // part 2 message
-    app.event("message", async ({ event, client }) => {
+    app.event("message", async ({ event, client, body }) => {
       const dbEntry = app.dbs.stickymessages.get(event.channel);
       if (!dbEntry) return;
+      //@ts-ignore
+      if(event.text === dbEntry.message) return;
       if (dbEntry.ts === event.ts) return;
+      
       try {
         await app.client.chat.delete({
           channel: event.channel,
