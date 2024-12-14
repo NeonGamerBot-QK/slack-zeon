@@ -146,10 +146,10 @@ export default class Ping implements Command {
       const dbEntry = app.dbs.stickymessages.get(event.channel);
       if (!dbEntry) return;
       //@ts-ignore
-    //   if (event.text === dbEntry.message) return;
+      //   if (event.text === dbEntry.message) return;
       if (dbEntry.ts === event.ts) return;
-    if(event.type !== "message") return;
-    console.log(event, dbEntry)
+      if (event.type !== "message") return;
+      console.log(event, dbEntry);
       try {
         await app.client.chat.delete({
           channel: event.channel,
