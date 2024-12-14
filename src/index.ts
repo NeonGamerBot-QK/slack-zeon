@@ -254,7 +254,7 @@ cron.schedule(`* * * * *`, async () => {
     });
   } catch (e) {
     await app.client.chat.postMessage({
-      text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token bfor high seas\n\n${e.stack}`,
+      text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token for high seas\n\n${e.stack}`,
       channel: `C07LGLUTNH2`,
     });
   }
