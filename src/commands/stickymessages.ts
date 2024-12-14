@@ -174,8 +174,7 @@ export default class Ping implements Command {
           message: dbEntry.message,
           lastTriggered: Date.now(),
         });
-        await new Promise((r) => setTimeout(r, 50));
-
+        await new Promise((r) => setTimeout(r, 1000));
         const newDbInstanceThingy = app.dbs.stickymessages.get(event.channel);
         if (newDbInstanceThingy.ts !== m.ts) {
           try {
