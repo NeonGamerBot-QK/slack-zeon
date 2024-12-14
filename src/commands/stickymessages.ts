@@ -49,7 +49,7 @@ export default class Ping implements Command {
           try {
             const msg = await app.client.chat.postMessage({
               channel: command.channel_id,
-              text: textToStickyCreate,
+              text: `:sticky-note: ${textToStickyCreate}`,
             });
             app.dbs.stickymessages.set(command.channel_id, {
               message: textToStickyCreate,
@@ -144,19 +144,20 @@ export default class Ping implements Command {
     // part 2 message
     app.event("message", async ({ event, client, body }) => {
       const dbEntry = app.dbs.stickymessages.get(event.channel);
+      if (event.subtype) return;
       if (!dbEntry) return;
       //@ts-ignore
       //   if (event.text === dbEntry.message) return;
       if (dbEntry.ts === event.ts) return;
-      if (event.subtype) return;
       console.log(event, dbEntry);
+      await new Promise((r) => setTimeout(r, 250));
       try {
         await app.client.chat.delete({
           channel: event.channel,
           ts: dbEntry.ts,
         });
       } catch (e) {}
-      await new Promise((r) => setTimeout(r, 500));
+      await new Promise((r) => setTimeout(r, 50));
       try {
         const m = await client.chat.postMessage({
           channel: event.channel,
