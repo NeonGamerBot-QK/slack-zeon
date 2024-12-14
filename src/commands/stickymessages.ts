@@ -148,11 +148,15 @@ export default class Ping implements Command {
       const dbEntry = app.dbs.stickymessages.get(event.channel);
       if (event.subtype) return;
       if (!dbEntry) return;
-      if(dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000 * 60 * 5) return;
+      if (
+        dbEntry.lastTriggered &&
+        Date.now() - dbEntry.lastTriggered < 1000 * 60 * 5
+      )
+        return;
       //@ts-ignore
       //   if (event.text === dbEntry.message) return;
       if (dbEntry.ts === event.ts) return;
-    //   console.log(event, dbEntry);
+      //   console.log(event, dbEntry);
       await new Promise((r) => setTimeout(r, 250));
       try {
         await app.client.chat.delete({
@@ -161,7 +165,11 @@ export default class Ping implements Command {
         });
       } catch (e) {}
       await new Promise((r) => setTimeout(r, 50));
-      if(dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000 * 60 * 5) return;
+      if (
+        dbEntry.lastTriggered &&
+        Date.now() - dbEntry.lastTriggered < 1000 * 60 * 5
+      )
+        return;
       try {
         const m = await client.chat.postMessage({
           channel: event.channel,
