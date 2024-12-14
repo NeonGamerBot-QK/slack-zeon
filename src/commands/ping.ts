@@ -1,5 +1,5 @@
-import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import { ModifiedApp } from "../modules/slackapp";
 
 export default class Ping implements Command {
   name: string;
@@ -8,8 +8,7 @@ export default class Ping implements Command {
     this.name = `/ping`;
     this.description = `Pings zeon`;
   }
-  run(app: App) {
-    // app.command()
+  run(app: ModifiedApp) {
     app.command(this.name, async ({ command, ack, respond }) => {
       const stamp = Date.now();
       await ack();
@@ -17,9 +16,6 @@ export default class Ping implements Command {
       if (!onlyForMe(command.user_id))
         return respond(`:x: You cannot use this command.`);
 
-      // respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
-      //   console.debug(`after ping`, d);
-      // });
       const sentStamp = Date.now();
       app.client.chat
         .postMessage({

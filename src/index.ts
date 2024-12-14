@@ -35,6 +35,7 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
   password: process.env.ANONDM_PASSWORD,
 });
 app.dbs.tags = new JSONdb("data/tags.json");
+app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
 attachDB(db);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);

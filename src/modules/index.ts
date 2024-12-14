@@ -13,3 +13,30 @@ export * as adventOfCode from "./adventofcode";
 export * as hcshipments from "./parseShipments";
 export * as hackclubcdn from "./hackclubcdn";
 export * as bdayutils from "./bday";
+// @see https://github.com/hackclub/librarian/blob/main/utils/channelManagers.js
+export async function getChannelManagers(channel) {
+    const myHeaders = new Headers();
+    myHeaders.append("Cookie", `d=${process.env.SLACK_USER_COOKIE}`);
+  
+    const formdata = new FormData();
+    formdata.append("token", process.env.SLACK_BROWSER_TOKEN);
+    formdata.append("entity_id", channel);
+  
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+  
+    const request = await fetch(
+      "https://slack.com/api/admin.roles.entity.listAssignments",
+      //@ts-ignore
+      requestOptions,
+    );
+  
+    const json = await request.json();
+    // console.log(json.role_assignments)
+    if (!json.ok) return [];
+    return json.role_assignments[0]?.users || [];
+  };
