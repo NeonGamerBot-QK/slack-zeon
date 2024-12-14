@@ -152,7 +152,7 @@ export default class Ping implements Command {
       //@ts-ignore
       //   if (event.text === dbEntry.message) return;
       if (dbEntry.ts === event.ts) return;
-    //   console.log(event, dbEntry);
+      //   console.log(event, dbEntry);
       await new Promise((r) => setTimeout(r, 250));
       try {
         await app.client.chat.delete({
