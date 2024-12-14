@@ -28,109 +28,108 @@ export default class ZeonPoll implements Command {
       // feat: timed polls
       // @see https://github.com/polypixeldev/denopoll
       try {
-        const [question, ...options] = command.text.split(',');
+        const [question, ...options] = command.text.split(",");
         if (!question || options.length < 2) {
           await client.chat.postEphemeral({
             channel: command.channel_id,
             user: command.user_id,
-            text: 'Provide a question and at least two options, separated by commas.'
+            text: "Provide a question and at least two options, separated by commas.",
           });
           return;
         }
-    
+
         const pollId = `poll_${Date.now()}`;
         polls[pollId] = {
           question: question.trim(),
           options: options.map((opt) => opt.trim()),
           votes: {}, // Map of user IDs to selected options
           allowMultiple: true, // Allow multiple votes per user
-          anonymous: true // Anonymize votes
+          anonymous: true, // Anonymize votes
         };
-    
+
         const blocks = [
           {
-            type: 'section',
-            text: { type: 'mrkdwn', text: `*${polls[pollId].question}*` }
+            type: "section",
+            text: { type: "mrkdwn", text: `*${polls[pollId].question}*` },
           },
           ...polls[pollId].options.map((option, index) => ({
-            type: 'actions',
+            type: "actions",
             elements: [
               {
-                type: 'button',
-                text: { type: 'plain_text', text: option },
+                type: "button",
+                text: { type: "plain_text", text: option },
                 value: `${pollId}_${index}`,
-                action_id: `vote_${pollId}_${index}`
-              }
-            ]
+                action_id: `vote_${pollId}_${index}`,
+              },
+            ],
           })),
           {
-            type: 'actions',
+            type: "actions",
             elements: [
               {
-                type: 'button',
-                text: { type: 'plain_text', text: 'Add Option' },
-                action_id: `add_option_${pollId}`
-              }
-            ]
-          }
+                type: "button",
+                text: { type: "plain_text", text: "Add Option" },
+                action_id: `add_option_${pollId}`,
+              },
+            ],
+          },
         ];
-    
+
         await app.client.chat.postMessage({
           channel: command.channel_id,
           blocks,
-          text: polls[pollId].question
+          text: polls[pollId].question,
         });
       } catch (error) {
         console.error(error);
       }
     });
 
-// Handle votes
-app.action(/vote_poll_\d+_\d+/, async ({ action, ack, client, body }) => {
-  await ack();
+    // Handle votes
+    app.action(/vote_poll_\d+_\d+/, async ({ action, ack, client, body }) => {
+      await ack();
 
-  const [pollId, optionIndex] = action.value.split('_').slice(1);
-  const userId = body.user.id;
+      const [pollId, optionIndex] = action.value.split("_").slice(1);
+      const userId = body.user.id;
 
-  if (!polls[pollId]) return;
+      if (!polls[pollId]) return;
 
-  if (!polls[pollId].allowMultiple && polls[pollId].votes[userId]) {
-    await client.chat.postEphemeral({
-      channel: body.channel.id,
-      user: userId,
-      text: 'You can only vote once in this poll.'
+      if (!polls[pollId].allowMultiple && polls[pollId].votes[userId]) {
+        await client.chat.postEphemeral({
+          channel: body.channel.id,
+          user: userId,
+          text: "You can only vote once in this poll.",
+        });
+        return;
+      }
+
+      if (!polls[pollId].votes[userId]) polls[pollId].votes[userId] = [];
+      polls[pollId].votes[userId].push(parseInt(optionIndex));
+
+      await client.chat.postEphemeral({
+        channel: body.channel.id,
+        user: userId,
+        text: polls[pollId].anonymous
+          ? "Your anonymous vote has been recorded."
+          : `You voted for: ${polls[pollId].options[optionIndex]}.`,
+      });
     });
-    return;
-  }
 
-  if (!polls[pollId].votes[userId]) polls[pollId].votes[userId] = [];
-  polls[pollId].votes[userId].push(parseInt(optionIndex));
+    // Add a new option
+    app.action(/add_option_poll_\d+/, async ({ ack, client, body, action }) => {
+      await ack();
 
-  await client.chat.postEphemeral({
-    channel: body.channel.id,
-    user: userId,
-    text: polls[pollId].anonymous
-      ? 'Your anonymous vote has been recorded.'
-      : `You voted for: ${polls[pollId].options[optionIndex]}.`
-  });
-});
+      const pollId = action.action_id.split("_").slice(2).join("_");
+      if (!polls[pollId]) return;
 
-// Add a new option
-app.action(/add_option_poll_\d+/, async ({ ack, client, body, action }) => {
-  await ack();
+      await client.chat.postEphemeral({
+        channel: body.channel.id,
+        user: body.user.id,
+        text: "Send a new option for the poll by replying to this message.",
+        thread_ts: body.message.ts,
+      });
 
-  const pollId = action.action_id.split('_').slice(2).join('_');
-  if (!polls[pollId]) return;
-
-  await client.chat.postEphemeral({
-    channel: body.channel.id,
-    user: body.user.id,
-    text: 'Send a new option for the poll by replying to this message.',
-    thread_ts: body.message.ts
-  });
-
-  polls[pollId].pendingUser = body.user.id;
-});
-
+      polls[pollId].pendingUser = body.user.id;
+    });
   }
 }
