@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/node";
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
+
 import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
@@ -171,7 +172,7 @@ cronWithCheckIn.schedule(
   "1 7 * * 1-5",
   async () => {
     const hw = await getTodaysEvents().then((e: any) => {
-      const start = [];
+      const start = [];fff
       const end = [];
       //@ts-ignore
       e.forEach((e) => {
