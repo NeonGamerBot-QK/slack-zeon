@@ -1,25 +1,25 @@
 // https://github.com/fahadimaduddin/cli-hangman/blob/main/index.ts
 
 export function buildBoard(stage: number) {
- // build the board
-return `_________
+  // build the board
+  return `_________
         |       |
-        |       ${stage>=1?"O":""}
-        |      ${stage>=3?"/":""}${stage >= 2?"|":""}${stage>=4?"\\":""}
-        |      ${stage >= 5?"/":""} ${stage>=6?"\\":""}
+        |       ${stage >= 1 ? "O" : ""}
+        |      ${stage >= 3 ? "/" : ""}${stage >= 2 ? "|" : ""}${stage >= 4 ? "\\" : ""}
+        |      ${stage >= 5 ? "/" : ""} ${stage >= 6 ? "\\" : ""}
         |
-        |_________`
+        |_________`;
 }
 
-function hideWord(word:string, guessedLetters: string[]) {
-return word.split("")
-.map(w=> guessedLetters.includes(w)? "_":w)
-.join("")
+function hideWord(word: string, guessedLetters: string[]) {
+  return word
+    .split("")
+    .map((w) => (guessedLetters.includes(w) ? "_" : w))
+    .join("");
 }
 
 export function getWords() {
-        return [
-    
+  return [
     "ability",
     "able",
     "about",
@@ -991,49 +991,59 @@ export function getWords() {
     "you",
     "young",
     "your",
-    "yourself"
-        ]
-    }
+    "yourself",
+  ];
+}
 export function getRandomWord() {
-    return getWords()[Math.round(Math.random() * (getWords().length - 1))]
+  return getWords()[Math.round(Math.random() * (getWords().length - 1))];
 }
-export function onGuess(guessedLetter: string, word: string, guessedLetters: string[], stage: number) {
-   if(guessedLetters.includes(guessedLetter)) return {
-    message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already guessed \`${guessedLetter}\`\n${hideWord(word,guessedLetters)}`,
-    guessedLetters,
-    guessedLetter,
-    word,
-    stage
-   }
-   if(stage >= 5) return {
-    message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already lost.. \`${guessedLetter}\`\n${hideWord(word,guessedLetters)}`,
-    guessedLetters,
-    guessedLetter,
-    word,
-    stage
-   }
-   if(guessedLetters.join("") === word) return {
-    message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou have won! \`${guessedLetter}\`\n${hideWord(word,guessedLetters)}`,
-    guessedLetters,
-    guessedLetter,
-    word,
-    stage
-   }
-   
-    if(word.includes(guessedLetter)) {
-        guessedLetters.push(guessedLetter);
-        return {message:`\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word,guessedLetters)}`,
-            guessedLetters,
-        guessedLetter,
-        word,
-        stage
-       }
-    } else {
-        return {message:`\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word,guessedLetters)}`,    guessedLetters,
-        guessedLetter,
-        word,
-        stage
-       }
-    }
-}
+export function onGuess(
+  guessedLetter: string,
+  word: string,
+  guessedLetters: string[],
+  stage: number,
+) {
+  if (guessedLetters.includes(guessedLetter))
+    return {
+      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      guessedLetters,
+      guessedLetter,
+      word,
+      stage,
+    };
+  if (stage >= 5)
+    return {
+      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already lost.. \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      guessedLetters,
+      guessedLetter,
+      word,
+      stage,
+    };
+  if (guessedLetters.join("") === word)
+    return {
+      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou have won! \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      guessedLetters,
+      guessedLetter,
+      word,
+      stage,
+    };
 
+  if (word.includes(guessedLetter)) {
+    guessedLetters.push(guessedLetter);
+    return {
+      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      guessedLetters,
+      guessedLetter,
+      word,
+      stage,
+    };
+  } else {
+    return {
+      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      guessedLetters,
+      guessedLetter,
+      word,
+      stage,
+    };
+  }
+}
