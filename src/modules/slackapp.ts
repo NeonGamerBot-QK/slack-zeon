@@ -77,7 +77,7 @@ export function buildHtml() {
 </main></center>
 </div>
 </html>
-`
+`;
 }
 // Initializes your app with your bot token and signing secret
 export const app = new App({
@@ -91,8 +91,8 @@ export const app = new App({
         // res.setHeader(`Location`, `https://saahild.com`);
         // res.writeHead(302);
         // res.end(`bye`);
-        const site = buildHtml()
-        res.writeHead(200).end(site)
+        const site = buildHtml();
+        res.writeHead(200).end(site);
       },
     },
     {
