@@ -1,3 +1,6 @@
+import { AnyBlock, Block } from "@slack/bolt";
+import { ModifiedApp } from "./slackapp";
+import cron from "node-cron"
 const cheerio = require("cheerio");
 export function createShipmentURL(token: string, email: string) {
   return `https://shipment-viewer.hackclub.com/shipments?email=${encodeURIComponent(email)}&signature=${token}&show_ids=yep`;
@@ -5,7 +8,7 @@ export function createShipmentURL(token: string, email: string) {
 export function requestEmailForUser() {
   // TODO
 }
-export function parseShipments(shipmentsURL: string) {
+export function parseShipments(shipmentsURL: string):Promise<ShipmentData> {
   return new Promise((res, rej) => {
     const final = [];
     fetch(shipmentsURL)
@@ -94,4 +97,104 @@ export function parseShipments(shipmentsURL: string) {
         res(final);
       });
   });
+}
+export interface Shipment  {
+  shipmentTitle: string;
+  shiprovider: string;
+  tracking: {
+    text: string;
+    url: string;
+  };
+  isDone: boolean;
+  contents: string[];
+  airtable: {
+    text: string;
+    url: string;
+  };
+  addedDate: string;
+}
+export type ShipmentData = Shipment[]
+export function getShipmentDiff(oldShipments: ShipmentData, newShipments: ShipmentData):AnyBlock[] {
+  const blocks:AnyBlock[] = []
+  for(const newShipment of newShipments) {
+    const oldShipment = oldShipments.find(e => e.shipmentTitle === newShipment.shipmentTitle)
+    if (!oldShipment) {
+      blocks.push({
+        type: "section",      
+        text: {
+          type: "mrkdwn",
+          text: `*New Shipment:*\n> ${newShipment.shipmentTitle}\n> ${newShipment.shiprovider}\n> ${newShipment.contents.join(", ")}`,
+        },
+      })
+    } else {
+      let str = `*Shipment Updated:*\n`
+      let updateCount = 0
+      if(oldShipment.isDone !== newShipment.isDone) {
+        str += `> ${newShipment.shipmentTitle} is now ${newShipment.isDone ? "done" : "not done"}\n`
+        updateCount++
+      }
+      if(oldShipment.shiprovider !== newShipment.shiprovider) {
+        str += `> ${newShipment.shipmentTitle} is now from ${newShipment.shiprovider}\n`
+        updateCount++
+      }
+      if(oldShipment.contents.join(", ") !== newShipment.contents.join(", ")) {
+        str += `> ${newShipment.shipmentTitle} has new contents\n`
+        updateCount++
+      }
+      if(oldShipment.tracking.text !== newShipment.tracking.text) {
+        str += `> ${newShipment.shipmentTitle} has a new tracking number\n`
+        updateCount++
+      }
+      if(oldShipment.airtable.text !== newShipment.airtable.text) {
+        str += `> ${newShipment.shipmentTitle} has a new airtable link\n`
+        updateCount++
+      }
+      if(updateCount > 0) {
+        blocks.push({
+          type: "section",      
+          text: {
+            type: "mrkdwn",
+            text: str,
+          },
+        })
+      }
+    }
+  }
+return blocks
+}
+export function setupCronForShipments(app: ModifiedApp) {
+cron.schedule("*/2 * * * *", async () => {
+  const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
+    e.startsWith(`shipment_url_`),
+  );
+  if (allUsersWithAShipmentURL.length > 0) {
+    for (const userURLID of allUsersWithAShipmentURL) {
+try {
+  const shipments = await app.utils.hcshipments.parseShipments(
+    app.db.get(userURLID),
+  );
+  const oldShipments = app.db.get(`shipments_${userURLID.replace(`shipment_url_`, ``)}`);
+  // 
+  if (oldShipments !== shipments) {
+    // run diff and uhh send stuff
+    const blocks = getShipmentDiff(oldShipments, shipments);
+    for(const b of blocks) {
+      await app.client.chat.postMessage({
+        channel: userURLID.replace(`shipment_url_`, ``),
+        blocks: [b]
+      })
+    }
+  }
+  await app.db.set(
+    `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
+    shipments,
+  );
+} catch (e) {
+  // coulda failed parsing or diff..
+  console.error(e)
+}
+    }
+  }
+});
+
 }

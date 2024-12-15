@@ -207,24 +207,6 @@ cronWithCheckIn.schedule(
   { name: "morning-weekend" },
 );
 
-cron.schedule("* * * * *", async () => {
-  const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
-    e.startsWith(`shipment_url_`),
-  );
-  if (allUsersWithAShipmentURL.length > 0) {
-    for (const userURLID of allUsersWithAShipmentURL) {
-      console.log(userURLID);
-      const shipments = await app.utils.hcshipments.parseShipments(
-        app.db.get(userURLID),
-      );
-      await app.db.set(
-        `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
-        shipments,
-      );
-    }
-  }
-});
-
 cron.schedule(`* * * * *`, async () => {
   try {
     await fetch("https://highseas.hackclub.com/shipyard", {
