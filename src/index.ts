@@ -260,6 +260,22 @@ cron.schedule(`* * * * *`, async () => {
     });
   }
 });
+cron.schedule("0 * * * *", async () => {
+fetch("https://min-api.cryptocompare.com/data/price?fsym=XMR&tsyms=USD").then(r=>r.json()).then(d => {
+  console.log(d.USD)
+  const newMoneroPrice = d.USD
+  const oldMoneroPrice = app.db.get(`monero_price`) || 0
+  if (newMoneroPrice !== oldMoneroPrice) {
+    app.db.set(`monero_price`, newMoneroPrice)
+    //@ts-ignore
+    const myNewBalance = process.env.MONERO_BALANCE * newMoneroPrice
+    app.client.chat.postMessage({
+      text: `*Monero* :3\n:monero: \`${oldMoneroPrice}$\` -> \`${newMoneroPrice}$\` :monero: (diff \`${newMoneroPrice - oldMoneroPrice}\` :monero:)\n> You now have \`${myNewBalance}$\` in monero`,
+      channel: `C07LGLUTNH2`,
+    })
+  }
+})
+})
 startBdayCron(app);
 setupCronAdventOfCode(app);
 process.on("unhandledRejection", handleError);
