@@ -173,7 +173,6 @@ cronWithCheckIn.schedule(
   async () => {
     const hw = await getTodaysEvents().then((e: any) => {
       const start = [];
-      fff;
       const end = [];
       //@ts-ignore
       e.forEach((e) => {
