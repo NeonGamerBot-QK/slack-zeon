@@ -10,6 +10,7 @@ export interface ModifiedApp extends App<StringIndexed> {
     [k: string]: JSONdb;
   };
   is_at_school: boolean;
+  disable_wmi: boolean;
   ws: null | any;
   utils: typeof import("./index");
 }
