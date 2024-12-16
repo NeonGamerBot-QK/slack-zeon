@@ -43,7 +43,7 @@ export default class HowWasUrDayMessage implements Command {
       const ids = [...new Set([...matchedText, `<@${event.user}>`])];
       await app.client.chat.postMessage({
         channel: event.channel,
-        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "")}`)}\n (this will be disabled once radar is back up)`,
+        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "")}`).join("\n")}\n (this will be disabled once radar is back up)`,
         thread_ts: event.ts,
       });
       //@ts-ignore
