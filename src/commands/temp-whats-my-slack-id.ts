@@ -44,6 +44,7 @@ export default class HowWasUrDayMessage implements Command {
       await app.client.chat.postMessage({
         channel: event.channel,
         text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "")}`)}\n (this will be disabled once radar is back up)`,
+        thread_ts: event.ts,
       });
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
