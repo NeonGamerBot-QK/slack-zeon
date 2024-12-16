@@ -38,12 +38,12 @@ export default class HowWasUrDayMessage implements Command {
       console.debug(`cmd`);
       const { event, say } = par;
 
-      const matchedText = event.text.match(id_regex);
+      const matchedText = event.text.match(id_regex) || [];
       // console.log(cmd, args);
       const ids = [...new Set([...matchedText, `<@${event.user}>`])];
       await app.client.chat.postMessage({
         channel: event.channel,
-        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "")}`).join("\n")}\n (this will be disabled once radar is back up)`,
+        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "").replace("|", "")}`).join("\n")}\n (this will be disabled once radar is back up)`,
         thread_ts: event.ts,
       });
       //@ts-ignore
