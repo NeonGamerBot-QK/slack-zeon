@@ -147,13 +147,13 @@ export function getShipmentDiff(
         str += `> ${newShipment.shipmentTitle} has new contents\n`;
         updateCount++;
       }
-      if(oldShipment.tracking) {
+      if (oldShipment.tracking) {
         if (oldShipment.tracking.text !== newShipment.tracking.text) {
           str += `> ${newShipment.shipmentTitle} has a new tracking number\n`;
           updateCount++;
         }
       }
-      if(oldShipment.airtable) {
+      if (oldShipment.airtable) {
         if (oldShipment.airtable.text !== newShipment.airtable.text) {
           str += `> ${newShipment.shipmentTitle} has a new airtable link\n`;
           updateCount++;
