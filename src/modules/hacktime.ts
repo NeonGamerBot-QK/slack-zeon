@@ -76,9 +76,9 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
           .find((e) =>
             isWithinLastTwoMinutes(new Date(e.created_at).getTime()),
           );
-        console.log(d);
+        // console.log(d);
         if (d) {
-          console.log(0);
+          // console.log(0);
           // console.log(`um heartbat???`, d)
           if (!currentSession) {
             app.client.chat
