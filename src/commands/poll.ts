@@ -63,7 +63,11 @@ export default class ZeonPoll implements Command {
                 text: { type: "plain_text", text: option },
                 value: `${pollId}_${index}`,
                 action_id: `vote_poll_${pollId}_${index}`,
-              },
+              }, 
+              {
+                type: "mrkdwn",
+                text: `\`${"█".repeat(polls[pollId].options.length)}${" ".repeat(polls[pollId].options.length)}\` 0%`,
+              }
             ],
           })),
           {
