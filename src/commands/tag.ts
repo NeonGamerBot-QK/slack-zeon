@@ -246,17 +246,18 @@ export default class TagSystem implements Command {
         response_action: "clear",
       });
       console.log(0);
-      const tag = body.view.state.values.tag_input.tag_input.value;
+      const name = body.view.state.values.tag_input.tag_input.value;
       console.log(1, body.view.state.values);
       // @ts-ignore
-      const name = body.view.state.values.tag_output.tag_input.value;
+      const tag = body.view.state.values.tag_output.tag_input.value;
       console.log(2);
       console.log(tag, name);
       app.dbs.tags.set(`${body.user.id}_${name}`, tag);
       // save it
       // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
-      respond({
-        response_type: "ephemeral",
+      await app.client.chat.postEphemeral({
+        channel: body.user.id,
+        user: body.user.id,
         text: `Tag \`${name}\` saved`,
       });
     });
