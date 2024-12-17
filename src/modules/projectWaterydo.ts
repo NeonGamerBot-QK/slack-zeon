@@ -25,7 +25,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   app.client.chat.postMessage({
     channel: session.channel,
     thread_ts: session.message_ts!,
-    text: `<https://github.com/NeonGamerBot-QK/${body.repo_name}/commit/${body.commit_id}|${body.commit_id.slice(0, 7)}>`,
+    text: `\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commit/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
   });
 }
 
