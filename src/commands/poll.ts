@@ -90,7 +90,7 @@ export default class ZeonPoll implements Command {
 
     // Handle votes
     app.action(/vote_poll_\d+_\d+/, async ({ action, ack, client, body }) => {
-      console.debug(0)
+      console.debug(0);
       await ack();
 
       const [pollId, optionIndex] = action.value.split("_").slice(1);
