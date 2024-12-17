@@ -25,7 +25,7 @@ export default class ZeonPoll implements Command {
       // });
       //todo: open poll
       // do denopoll stuff :3
-      
+
       // feat: timed polls
       // @see https://github.com/polypixeldev/denopoll
       try {
