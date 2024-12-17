@@ -12,7 +12,6 @@ export async function cronFunc(app: ModifiedApp) {
       const age = today.getFullYear() - date.getFullYear();
       const isOver18 = age >= 18;
       // happy bday ofc
-      // testing channel id atm
       await app.client.chat
         .postMessage({
           channel: "C07RW1666UV",
