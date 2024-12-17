@@ -194,14 +194,14 @@ export default class AnonDM implements Command {
       const { action, ack, respond } = par;
       await ack();
       console.debug(`#action`, par);
-      console.log(action)
+      console.log(action);
       const user = par.body.user;
       // display user model
       // await app.client.chat.postMessage({
       //   channel: user.id,
       //   text: `You have sent a mail to ${user.name} (test)`,
       // });
-    })
+    });
 
     // creation of mail :')
     // // display user model
