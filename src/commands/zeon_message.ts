@@ -62,7 +62,7 @@ export default class Message implements Command {
           const m = await app.client.chat.postMessage({
             channel: event.channel,
             text:
-             `${aiReq.message} - \`${aiReq.type}\`` ||
+              `${aiReq.message} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
               ":notcool: i didnt get a message/error im very scared... >> " +
                 JSON.stringify(aiReq),
@@ -85,7 +85,7 @@ export default class Message implements Command {
                 channel: event.channel,
                 text: `idk what to do with this: ${JSON.stringify(aiReq)}`,
                 thread_ts: m.ts,
-              })
+              });
               break;
           }
         } catch (e) {
