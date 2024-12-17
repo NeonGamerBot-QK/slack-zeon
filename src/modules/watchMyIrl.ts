@@ -1,6 +1,6 @@
 import { ModifiedApp } from "./slackapp";
 import cron from "node-cron";
-import {find as findTz} from "geo-tz"
+import { find as findTz } from "geo-tz";
 export default function watchLocation() {
   const location = null;
   // todo
@@ -8,47 +8,48 @@ export default function watchLocation() {
 export interface ShortcutUpdate {
   battery: number;
   clipboard: string;
-  focus: string
-  'weather ': string;
+  focus: string;
+  "weather ": string;
   location: {
     lat: number;
     long: number;
     city: string;
     addr: string;
     name: string;
-  }
-
+  };
 }
 export interface IrlData {
-  latest_entry: ShortcutUpdate
+  latest_entry: ShortcutUpdate;
 }
 const mainTimezone = "America/New_York";
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
-  const tz = findTz(data.latest_entry.location.lat, data.latest_entry.location.long)[0]
-  if(tz !== mainTimezone) {
-   const m = await app.client.chat.postMessage({
+  const tz = findTz(
+    data.latest_entry.location.lat,
+    data.latest_entry.location.long,
+  )[0];
+  if (tz !== mainTimezone) {
+    const m = await app.client.chat.postMessage({
       text: `Hello yall! Neon's tz has changed to *${tz}*\n_replies from neon may now differ..._`,
-      channel: `C07R8DYAZMM`
-    })
+      channel: `C07R8DYAZMM`,
+    });
     app.db.set(`tz`, {
       tz: tz,
-      m: m.ts
-    })
+      m: m.ts,
+    });
   } else {
-    if(app.db.get(`tz`)) {
+    if (app.db.get(`tz`)) {
       await app.client.chat.postMessage({
         thread_ts: app.db.get(`tz`).m,
         text: `Neon is back to his normal tz`,
         channel: `C07R8DYAZMM`,
-        reply_broadcast: true
-      })
-      app.db.delete(`tz`)
+        reply_broadcast: true,
+      });
+      app.db.delete(`tz`);
     }
   }
 }
 export async function watchBattery(app: ModifiedApp, data: IrlData) {
-  
   const newBattery = data.latest_entry.battery;
   const lastEntry = app.db.get(`phone_battery`);
   if (newBattery != lastEntry && Math.abs(newBattery - lastEntry) > 50) {
@@ -72,14 +73,14 @@ export async function watchBattery(app: ModifiedApp, data: IrlData) {
 
 export function setupCronForIrl(app: ModifiedApp) {
   cron.schedule("*/5 * * * *", async () => {
-    const data = await fetch(
+    const data = (await fetch(
       process.env.ZEON_DISCORD_INSTANCE + "/irl/shortcut_updates",
       {
         headers: {
           Authorization: process.env.IRL_AUTH,
         },
       },
-    ).then((r) => r.json()) as IrlData;
+    ).then((r) => r.json())) as IrlData;
     watchBattery(app, data);
     watchTimezone(app, data);
   });
