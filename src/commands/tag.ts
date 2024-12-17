@@ -245,13 +245,10 @@ export default class TagSystem implements Command {
       await ack({
         response_action: "clear",
       });
-      console.log(0);
       const name = body.view.state.values.tag_input.tag_input.value;
-      console.log(1, body.view.state.values);
       // @ts-ignore
       const tag = body.view.state.values.tag_output.tag_input.value;
-      console.log(2);
-      console.log(tag, name);
+      
       app.dbs.tags.set(`${body.user.id}_${name}`, tag);
       // save it
       // app.dbs.tags.set(`${command.user_id}_${name}`, tag);

@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import { ModifiedApp } from "../modules/slackapp";
 // In-memory storage for polls and votes cuzzz im lazy
 const polls = {};
 
@@ -11,7 +12,8 @@ export default class ZeonPoll implements Command {
     this.name = `/zeonpoll`;
     this.description = `Pings zeon`;
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
+    const client = app.client
     // app.command()
     app.command(this.name, async ({ command, ack, respond }) => {
       const stamp = Date.now();
