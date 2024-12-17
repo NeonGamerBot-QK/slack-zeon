@@ -119,11 +119,11 @@ export function getShipmentDiff(
   newShipments: ShipmentData,
 ): AnyBlock[] {
   const blocks: AnyBlock[] = [];
-  oldShipments = oldShipments || [] as ShipmentData;
+  oldShipments = oldShipments || ([] as ShipmentData);
   for (const newShipment of newShipments) {
     const oldShipment = oldShipments.find(
       (e) => e.shipmentTitle === newShipment.shipmentTitle,
-    ) 
+    );
     if (!oldShipment) {
       blocks.push({
         type: "section",
