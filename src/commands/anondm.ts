@@ -190,7 +190,7 @@ export default class AnonDM implements Command {
         text: `Your mail has been sent to ${ac_user_list.length} users`,
       });
     });
-    app.action(/open_mail_\d+/, async (par) => {
+    app.action(/open_mail_[A-Za-z]+/, async (par) => {
       const { action, ack, respond } = par;
       await ack();
       console.debug(`#action`, par);
