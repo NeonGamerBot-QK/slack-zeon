@@ -122,9 +122,9 @@ export function getShipmentDiff(
   oldShipments = oldShipments || ([] as ShipmentData);
   let i = 0;
   for (const newShipment of newShipments) {
-    const oldShipment = oldShipments[i]
+    const oldShipment = oldShipments[i];
     //.find(
-      //(e) => e.shipmentTitle === newShipment.shipmentTitle,
+    //(e) => e.shipmentTitle === newShipment.shipmentTitle,
     //);
     if (!oldShipment) {
       blocks.push({
