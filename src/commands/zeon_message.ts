@@ -86,7 +86,7 @@ export default class Message implements Command {
                 channel: event.channel,
                 timestamp: m.ts,
                 name: "angry-dino",
-              })
+              });
               break;
             case "warning":
             case "error":
@@ -94,7 +94,7 @@ export default class Message implements Command {
                 channel: event.channel,
                 timestamp: m.ts,
                 name: "warning",
-              })
+              });
               break;
             case "info":
             case "math":
