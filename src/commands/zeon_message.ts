@@ -112,7 +112,7 @@ export default class Message implements Command {
               text: `:ping_pong: pong`,
               thread_ts: event.thread_ts,
             });
-          } else if(args[0] == "tag") {
+          } else if (args[0] == "tag") {
             args.shift();
             // get them tags /hiutngdfkj
             const tagName = args[0];
