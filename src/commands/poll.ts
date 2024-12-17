@@ -62,7 +62,7 @@ export default class ZeonPoll implements Command {
                 type: "button",
                 text: { type: "plain_text", text: option },
                 value: `${pollId}_${index}`,
-                action_id: `vote_${pollId}_${index}`,
+                action_id: `vote_poll_${pollId}_${index}`,
               },
             ],
           })),
