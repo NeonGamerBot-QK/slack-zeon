@@ -84,9 +84,7 @@ export default class AppHome implements Command {
                 value: "send_mail",
                 action_id: "send_mail",
               },
-            },
-            {
-              type: "section",
+
               elements: app.dbs.anondm
                 //@ts-ignore
                 .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
