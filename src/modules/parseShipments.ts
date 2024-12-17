@@ -147,13 +147,17 @@ export function getShipmentDiff(
         str += `> ${newShipment.shipmentTitle} has new contents\n`;
         updateCount++;
       }
-      if (oldShipment.tracking.text !== newShipment.tracking.text) {
-        str += `> ${newShipment.shipmentTitle} has a new tracking number\n`;
-        updateCount++;
+      if(oldShipment.tracking) {
+        if (oldShipment.tracking.text !== newShipment.tracking.text) {
+          str += `> ${newShipment.shipmentTitle} has a new tracking number\n`;
+          updateCount++;
+        }
       }
-      if (oldShipment.airtable.text !== newShipment.airtable.text) {
-        str += `> ${newShipment.shipmentTitle} has a new airtable link\n`;
-        updateCount++;
+      if(oldShipment.airtable) {
+        if (oldShipment.airtable.text !== newShipment.airtable.text) {
+          str += `> ${newShipment.shipmentTitle} has a new airtable link\n`;
+          updateCount++;
+        }
       }
       if (updateCount > 0) {
         blocks.push({
@@ -198,7 +202,7 @@ export function setupCronForShipments(app: ModifiedApp) {
             } catch (e) {
               app.client.chat.postMessage({
                 channel: `C07LGLUTNH2`,
-                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\`\n\n${e.stack}`,
+                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\`\n\n\`\`\`${e.stack}\`\`\``,
               });
             }
           }
