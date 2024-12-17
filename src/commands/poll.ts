@@ -41,7 +41,7 @@ export default class ZeonPoll implements Command {
           return;
         }
 
-        const pollId = `poll_${Date.now()}`;
+        const pollId = `${Date.now()}`;
         polls[pollId] = {
           question: question.trim(),
           options: options.map((opt) => opt.trim()),
