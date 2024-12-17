@@ -84,8 +84,9 @@ export default class AppHome implements Command {
                 value: "send_mail",
                 action_id: "send_mail",
               },
-
-              elements: app.dbs.anondm
+ 
+            },
+            ...app.dbs.anondm
                 //@ts-ignore
                 .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
                 .messages.filter((e) => {
@@ -108,9 +109,18 @@ export default class AppHome implements Command {
                       type: "mrkdwn",
                       text: `> :email_unread: New Message`,
                     },
+                    accessory: {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        text: "Open",
+                        emoji: true,
+                      },
+                      value: "open_mail_v",
+                      action_id: "open_mail_actionid",
+                    }
                   };
                 }),
-            },
           ];
           //@ts-ignore
           if (process.env.MY_USER_ID !== event.user)
