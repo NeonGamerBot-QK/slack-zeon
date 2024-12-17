@@ -21,6 +21,8 @@ export default class HowWasUrDayMessage implements Command {
       //  console.debug(par);
       if (par.event.channel !== "C0159TSJVH8") return;
       const message = par;
+      const { event, say } = par;
+
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
@@ -37,7 +39,6 @@ export default class HowWasUrDayMessage implements Command {
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
-      const { event, say } = par;
 
       const matchedText = event.text.match(id_regex) || [];
       // console.log(cmd, args);
