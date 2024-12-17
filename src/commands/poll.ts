@@ -90,12 +90,12 @@ export default class ZeonPoll implements Command {
 
     // Handle votes
     app.action(/vote_poll_\d+_\d+/, async ({ action, ack, client, body }) => {
-      console.debug(0, action.value);
+      console.debug(0);
       await ack();
 
       const [pollId, optionIndex] = action.value.split("_").slice(1);
       const userId = body.user.id;
-
+      console.log(pollId, action.value, userId, polls)
       if (!polls[pollId]) return;
 
       if (!polls[pollId].allowMultiple && polls[pollId].votes[userId]) {
