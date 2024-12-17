@@ -26,7 +26,10 @@ export default function (app: any) {
               text: `\`\`\`\n${response.slice(0, 4000)}\`\`\``,
             });
           }
-          if (!commitMessage.includes("enhance") && process.uptime() > 1000 * 60) {
+          if (
+            !commitMessage.includes("enhance") &&
+            process.uptime() > 1000 * 60
+          ) {
             setTimeout(() => {
               process.exit();
             }, 1000);
