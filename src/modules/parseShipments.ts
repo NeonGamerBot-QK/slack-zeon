@@ -140,11 +140,12 @@ export function getShipmentDiff(
         updateCount++;
       }
       if (oldShipment.shiprovider !== newShipment.shiprovider) {
+        console.log(oldShipment.shiprovider, newShipment.shiprovider);
         str += `> ${newShipment.shipmentTitle} is now from ${newShipment.shiprovider}\n`;
         updateCount++;
       }
       if (oldShipment.contents.join(", ") !== newShipment.contents.join(", ")) {
-        str += `> ${newShipment.shipmentTitle} has new contents\n`;
+        str += `> ${newShipment.shipmentTitle} has new contents (${newShipment.contents.join(", ")})\n`;
         updateCount++;
       }
       if (oldShipment.tracking && newShipment.tracking) {
@@ -155,6 +156,7 @@ export function getShipmentDiff(
       }
       if (oldShipment.airtable && newShipment.airtable) {
         if (oldShipment.airtable.text !== newShipment.airtable.text) {
+          console.log(oldShipment.airtable, newShipment.airtable)
           str += `> ${newShipment.shipmentTitle} has a new airtable link\n`;
           updateCount++;
         }
