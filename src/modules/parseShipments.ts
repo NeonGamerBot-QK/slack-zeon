@@ -156,7 +156,7 @@ export function getShipmentDiff(
       }
       if (oldShipment.airtable && newShipment.airtable) {
         if (oldShipment.airtable.text !== newShipment.airtable.text) {
-          console.log(oldShipment.airtable, newShipment.airtable)
+          console.log(oldShipment.airtable, newShipment.airtable);
           str += `> ${newShipment.shipmentTitle} has a new airtable link\n`;
           updateCount++;
         }
