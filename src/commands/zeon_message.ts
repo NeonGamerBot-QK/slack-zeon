@@ -66,7 +66,7 @@ export default class Message implements Command {
               `${aiReq.message} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
               ":notcool: i didnt get a message/error im very scared... >> " +
-              JSON.stringify(aiReq),
+                JSON.stringify(aiReq),
           });
           switch (aiReq.type) {
             case "reminder":
@@ -85,7 +85,6 @@ export default class Message implements Command {
               break;
             case "warning":
             case "error":
-
               break;
             case "info":
             case "math":
