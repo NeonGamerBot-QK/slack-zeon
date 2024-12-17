@@ -28,6 +28,7 @@ import {
 } from "./modules/adventofcode";
 import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupCronForShipments } from "./modules/parseShipments";
+import { setupCronForIrl } from "./modules/watchMyIrl";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 const db = new JSONdb("data/data.json");
@@ -265,5 +266,6 @@ cron.schedule("0 * * * *", async () => {
 setupCronForShipments(app);
 startBdayCron(app);
 setupCronAdventOfCode(app);
+setupCronForIrl(app);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);

@@ -1,5 +1,5 @@
 import { ModifiedApp } from "./slackapp";
-
+import cron from "node-cron";
 export default function watchLocation() {
   const location = null;
   // todo
@@ -18,7 +18,7 @@ export async function watchBattery(app: ModifiedApp) {
   const lastEntry = app.db.get(`phone_battery`);
   if (newBattery != lastEntry && Math.abs(newBattery - lastEntry) > 50) {
     app.client.chat.postMessage({
-      channel: `C07LGLUTNH2`,
+      channel: `C07UNAHD9C3`,
       text: `Battery: *${newBattery}%* (changed more then 50%)`,
     });
   }
@@ -27,10 +27,16 @@ export async function watchBattery(app: ModifiedApp) {
     (app.db.get(`phone_bat_noti`) || 0) - Date.now() > 1000 * 60 * 10
   ) {
     app.client.chat.postMessage({
-      channel: `C07LGLUTNH2`,
+      channel: `C07UNAHD9C3`,
       text: `Hey your at %${newBattery}% battery, please charge your phone you idiot.`,
     });
     app.db.set(`phone_bat_noti`, Date.now());
   }
   app.db.set(`phone_battery`, newBattery);
+}
+
+export function setupCronForIrl(app: ModifiedApp) {
+  cron.schedule("*/5 * * * *", async () => {
+    watchBattery(app);
+  })
 }
