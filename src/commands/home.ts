@@ -234,7 +234,7 @@ export default class AppHome implements Command {
                     .slice(0, 4)
                     .map(
                       (e) =>
-                        `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.join(", ")}`,
+                        `:tw_package:${e.isDone ? `:white_check_mark: ` : ":loading:"} -- ${e.contents.length > 0 ? e.contents.join(", ") : e.shipmentTitle}`,
                     )
                     .join("\n")}`,
                 },
