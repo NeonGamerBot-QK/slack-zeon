@@ -72,7 +72,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*Anon DM:* \n> :mailbox: Your mailbox\n${app.dbs.anondm
+                text: `*Blind Mail:* \n> :mailbox: Your mailbox\n${app.dbs.anondm
                   //@ts-ignore
                   .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
                   .messages.filter((e) => {

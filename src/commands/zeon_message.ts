@@ -112,6 +112,67 @@ export default class Message implements Command {
               text: `:ping_pong: pong`,
               thread_ts: event.thread_ts,
             });
+          } else if(args[0] == "tag") {
+            args.shift();
+            // get them tags /hiutngdfkj
+            const tagName = args[0];
+            // check if the tag exists
+            const tag = app.dbs.tags.get(`${event.user}_${tagName}`);
+            if (tag) {
+              if (event.user == process.env.MY_USER_ID) {
+                app.client.chat.postMessage({
+                  channel: event.channel,
+                  blocks: [
+                    {
+                      type: "section",
+                      text: {
+                        type: "mrkdwn",
+                        text: tag,
+                      },
+                    },
+                    {
+                      // context block
+                      type: "context",
+                      elements: [
+                        {
+                          type: "mrkdwn",
+                          text: `Tag: ${tagName}`,
+                        },
+                      ],
+                    },
+                  ],
+                  token: process.env.MY_SLACK_TOKEN,
+                });
+              } else {
+                await app.client.chat.postMessage({
+                  channel: event.channel,
+                  blocks: [
+                    {
+                      type: "section",
+                      text: {
+                        type: "mrkdwn",
+                        text: tag,
+                      },
+                    },
+                    {
+                      // context block
+                      type: "context",
+                      elements: [
+                        {
+                          type: "mrkdwn",
+                          text: `Tag: ${tagName} - sent by <@${command.user_id}>`,
+                        },
+                      ],
+                    },
+                  ],
+                });
+              }
+            } else {
+              await app.client.chat.postMessage({
+                channel: event.channel,
+                text: `Tag \`${tagName}\` does not exist`,
+              });
+            }
           }
         }
       }
