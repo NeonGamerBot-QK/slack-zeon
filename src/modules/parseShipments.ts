@@ -115,14 +115,15 @@ export interface Shipment {
 }
 export type ShipmentData = Shipment[];
 export function getShipmentDiff(
-  oldShipments: ShipmentData,
+  oldShipments: ShipmentData | undefined,
   newShipments: ShipmentData,
 ): AnyBlock[] {
   const blocks: AnyBlock[] = [];
+  oldShipments = oldShipments || [] as ShipmentData;
   for (const newShipment of newShipments) {
     const oldShipment = oldShipments.find(
       (e) => e.shipmentTitle === newShipment.shipmentTitle,
-    );
+    ) 
     if (!oldShipment) {
       blocks.push({
         type: "section",
@@ -196,8 +197,8 @@ export function setupCronForShipments(app: ModifiedApp) {
               }
             } catch (e) {
               app.client.chat.postMessage({
-                channel: userURLID.replace(`shipment_url_`, ``),
-                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\``,
+                channel: `C07LGLUTNH2`,
+                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\`\n\n${e.stack}`,
               });
             }
           }
