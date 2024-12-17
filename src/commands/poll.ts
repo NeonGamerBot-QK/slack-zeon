@@ -13,7 +13,7 @@ export default class ZeonPoll implements Command {
     this.description = `Pings zeon`;
   }
   run(app: ModifiedApp) {
-    const client = app.client
+    const client = app.client;
     // app.command()
     app.command(this.name, async ({ command, ack, respond }) => {
       const stamp = Date.now();
