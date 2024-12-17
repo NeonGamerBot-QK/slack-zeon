@@ -28,7 +28,7 @@ export default function (app: any) {
           }
           if (
             !commitMessage.includes("enhance") &&
-            process.uptime() > 1000 * 60
+            process.uptime() < 1000 * 60
           ) {
             setTimeout(() => {
               process.exit();
