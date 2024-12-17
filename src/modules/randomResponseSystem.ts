@@ -21,10 +21,11 @@ export const acRandom = () => [
   "Blahaj :blahaj1: the prototype. Slightly less fluffy, but still a legend.",
   "Blahaj :blahaj2: the sequel. Bigger. Better. Sharkier.",
   "Blahaj (spinny) :blahaj-spin: because sometimes life just needs to be chaotic and spinny.",
-  "It might be {4:32 AM} but I COULD be assembling a blanket fort to defend against rogue potatoes.",
+  "It might be {?:?? AM} but I COULD be assembling a blanket fort to defend against rogue potatoes.",
   "Um uh, I’m a robot who only understands 80s synthwave and the language of potatoes.",
-  "Neon time to flex the blahaj",
+  "Neon time to flex the blahaj (if its not night & ur at home)",
 ];
+
 // used to adverties channels
 export const beggingMessage = [
   "PLEASE JOIN IT RAA",

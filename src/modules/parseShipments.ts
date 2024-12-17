@@ -167,6 +167,7 @@ export function getShipmentDiff(
   }
   return blocks;
 }
+
 export function setupCronForShipments(app: ModifiedApp) {
   cron.schedule("*/2 * * * *", async () => {
     const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
@@ -178,11 +179,13 @@ export function setupCronForShipments(app: ModifiedApp) {
           const shipments = await app.utils.hcshipments.parseShipments(
             app.db.get(userURLID),
           );
+
           const oldShipments = app.db.get(
             `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
           );
           //
-          if (oldShipments !== shipments) {
+          if (oldShipments !== shipments && oldShipments) {
+      try {
             // run diff and uhh send stuff
             const blocks = getShipmentDiff(oldShipments, shipments);
             for (const b of blocks) {
@@ -191,6 +194,12 @@ export function setupCronForShipments(app: ModifiedApp) {
                 blocks: [b],
               });
             }
+          } catch (e) {
+            app.client.chat.postMessage({
+              channel: userURLID.replace(`shipment_url_`, ``),
+            text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\``
+            })
+          }
           }
           await app.db.set(
             `shipments_${userURLID.replace(`shipment_url_`, ``)}`,

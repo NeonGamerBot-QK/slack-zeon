@@ -15,7 +15,7 @@ export default class UserJoinEvent implements Command {
   }
   run(app: ModifiedApp) {
     // app.command()
-    app.event(this.name, async ({ event, say }) => {
+    app.event(this.name, async ({ event, say, body }) => {
       console.debug(event, "#userjoin");
       //@ts-ignore
       if (event.channel == "C07RW1666UV") {
