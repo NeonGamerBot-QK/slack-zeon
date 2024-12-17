@@ -9,7 +9,6 @@ export function requestEmailForUser() {
   // TODO
 }
 export function parseShipments(shipmentsURL: string): Promise<ShipmentData> {
-
   return new Promise((res, rej) => {
     const final = [];
     fetch(shipmentsURL)
