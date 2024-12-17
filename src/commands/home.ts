@@ -88,31 +88,31 @@ export default class AppHome implements Command {
             {
               type: "section",
               elements: app.dbs.anondm
-              //@ts-ignore
-              .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
-              .messages.filter((e) => {
-                try {
-                  EncryptedJsonDb.decrypt(
-                    e,
-                    //@ts-ignore
-                    `${event.user}_` + process.env.ANONDM_PASSWORD,
-                  );
-                  return true;
-                } catch (e) {
-                  return false;
-                }
-              })
-              .map((e) => {
-                // map to a slack element block
-                return {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: `> :email_unread: New Message`,
-                  },
-                };
-              })
-            }
+                //@ts-ignore
+                .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+                .messages.filter((e) => {
+                  try {
+                    EncryptedJsonDb.decrypt(
+                      e,
+                      //@ts-ignore
+                      `${event.user}_` + process.env.ANONDM_PASSWORD,
+                    );
+                    return true;
+                  } catch (e) {
+                    return false;
+                  }
+                })
+                .map((e) => {
+                  // map to a slack element block
+                  return {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `> :email_unread: New Message`,
+                    },
+                  };
+                }),
+            },
           ];
           //@ts-ignore
           if (process.env.MY_USER_ID !== event.user)
