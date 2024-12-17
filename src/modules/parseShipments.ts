@@ -120,10 +120,12 @@ export function getShipmentDiff(
 ): AnyBlock[] {
   const blocks: AnyBlock[] = [];
   oldShipments = oldShipments || ([] as ShipmentData);
+  let i = 0;
   for (const newShipment of newShipments) {
-    const oldShipment = oldShipments.find(
-      (e) => e.shipmentTitle === newShipment.shipmentTitle,
-    );
+    const oldShipment = oldShipments[i]
+    //.find(
+      //(e) => e.shipmentTitle === newShipment.shipmentTitle,
+    //);
     if (!oldShipment) {
       blocks.push({
         type: "section",
@@ -171,6 +173,7 @@ export function getShipmentDiff(
         });
       }
     }
+    i++;
   }
   return blocks;
 }
