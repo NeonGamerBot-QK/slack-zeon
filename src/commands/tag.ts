@@ -248,7 +248,7 @@ export default class TagSystem implements Command {
       const name = body.view.state.values.tag_input.tag_input.value;
       // @ts-ignore
       const tag = body.view.state.values.tag_output.tag_input.value;
-      
+
       app.dbs.tags.set(`${body.user.id}_${name}`, tag);
       // save it
       // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
