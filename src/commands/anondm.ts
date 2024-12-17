@@ -190,6 +190,18 @@ export default class AnonDM implements Command {
         text: `Your mail has been sent to ${ac_user_list.length} users`,
       });
     });
+    app.action(/open_mail_\d/, async (par) => {
+      const { action, ack, respond } = par;
+      await ack();
+      console.debug(`#action`, par);
+      console.log(action)
+      const user = par.body.user;
+      // display user model
+      // await app.client.chat.postMessage({
+      //   channel: user.id,
+      //   text: `You have sent a mail to ${user.name} (test)`,
+      // });
+    })
 
     // creation of mail :')
     // // display user model
