@@ -185,21 +185,21 @@ export function setupCronForShipments(app: ModifiedApp) {
           );
           //
           if (oldShipments !== shipments && oldShipments) {
-      try {
-            // run diff and uhh send stuff
-            const blocks = getShipmentDiff(oldShipments, shipments);
-            for (const b of blocks) {
-              await app.client.chat.postMessage({
+            try {
+              // run diff and uhh send stuff
+              const blocks = getShipmentDiff(oldShipments, shipments);
+              for (const b of blocks) {
+                await app.client.chat.postMessage({
+                  channel: userURLID.replace(`shipment_url_`, ``),
+                  blocks: [b],
+                });
+              }
+            } catch (e) {
+              app.client.chat.postMessage({
                 channel: userURLID.replace(`shipment_url_`, ``),
-                blocks: [b],
+                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\``,
               });
             }
-          } catch (e) {
-            app.client.chat.postMessage({
-              channel: userURLID.replace(`shipment_url_`, ``),
-            text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\``
-            })
-          }
           }
           await app.db.set(
             `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
