@@ -82,9 +82,19 @@ export default class Message implements Command {
               break;
             case "mean":
               // app.client. :angry-dino:
+              app.client.reactions.add({
+                channel: event.channel,
+                timestamp: m.ts,
+                name: "angry-dino",
+              })
               break;
             case "warning":
             case "error":
+              app.client.reactions.add({
+                channel: event.channel,
+                timestamp: m.ts,
+                name: "warning",
+              })
               break;
             case "info":
             case "math":
