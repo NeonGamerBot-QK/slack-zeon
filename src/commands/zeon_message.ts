@@ -66,7 +66,7 @@ export default class Message implements Command {
               `${aiReq.message} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
               ":notcool: i didnt get a message/error im very scared... >> " +
-                JSON.stringify(aiReq),
+              JSON.stringify(aiReq),
           });
           switch (aiReq.type) {
             case "reminder":
@@ -75,13 +75,17 @@ export default class Message implements Command {
               setTimeout(() => {
                 app.client.chat.postMessage({
                   channel: event.channel,
-                  text: "reminder time",
+                  text: `<@${event.user}> reminder time`,
                   thread_ts: m.ts,
                 });
               }, aiReq.duration);
               break;
             case "mean":
               // app.client. :angry-dino:
+              break;
+            case "warning":
+            case "error":
+
               break;
             case "info":
             case "math":
