@@ -38,5 +38,5 @@ export async function watchBattery(app: ModifiedApp) {
 export function setupCronForIrl(app: ModifiedApp) {
   cron.schedule("*/5 * * * *", async () => {
     watchBattery(app);
-  })
+  });
 }
