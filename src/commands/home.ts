@@ -72,23 +72,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*Blind Mail:* \n> :mailbox: Your mailbox\n${app.dbs.anondm
-                  //@ts-ignore
-                  .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
-                  .messages.filter((e) => {
-                    try {
-                      EncryptedJsonDb.decrypt(
-                        e,
-                        //@ts-ignore
-                        `${event.user}_` + process.env.ANONDM_PASSWORD,
-                      );
-                      return true;
-                    } catch (e) {
-                      return false;
-                    }
-                  })
-                  .map((e) => `> :email_unread: New Message`)
-                  .join("\n")}\n Use the button to send mail to someone :D`,
+                text: `*Blind Mail:* \n> :mailbox: Your mailbox is below; Use the button to send mail to someone :D`,
               },
               accessory: {
                 type: "button",
@@ -101,6 +85,34 @@ export default class AppHome implements Command {
                 action_id: "send_mail",
               },
             },
+            {
+              type: "section",
+              elements: app.dbs.anondm
+              //@ts-ignore
+              .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+              .messages.filter((e) => {
+                try {
+                  EncryptedJsonDb.decrypt(
+                    e,
+                    //@ts-ignore
+                    `${event.user}_` + process.env.ANONDM_PASSWORD,
+                  );
+                  return true;
+                } catch (e) {
+                  return false;
+                }
+              })
+              .map((e) => {
+                // map to a slack element block
+                return {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `> :email_unread: New Message`,
+                  },
+                };
+              })
+            }
           ];
           //@ts-ignore
           if (process.env.MY_USER_ID !== event.user)
