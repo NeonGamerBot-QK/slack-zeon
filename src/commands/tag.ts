@@ -247,7 +247,7 @@ export default class TagSystem implements Command {
         });
         console.log(0);
         const tag = body.view.state.values.tag_input.tag_input.value;
-        console.log(1);
+        console.log(1, body.view.state.values);
         // @ts-ignore
         const name = body.view.state.values.tag_output.tag_output.value;
         console.log(2);
