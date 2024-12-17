@@ -95,7 +95,7 @@ export default class ZeonPoll implements Command {
 
       const [pollId, optionIndex] = action.value.split("_").slice(1);
       const userId = body.user.id;
-      console.log(pollId, action.value, userId, polls)
+      console.log(pollId, action.value, userId, polls);
       if (!polls[pollId]) return;
 
       if (!polls[pollId].allowMultiple && polls[pollId].votes[userId]) {
