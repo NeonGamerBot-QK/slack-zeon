@@ -241,7 +241,9 @@ export default class TagSystem implements Command {
     });
     app.view(
       "view_modal_tag",
-      async ({ ack, body, view, context, respond }) => {
+      async (par) => {
+        console.log([par])
+        const { ack, body, view, context, respond } = par;
         await ack({
           response_action: "clear",
         });
