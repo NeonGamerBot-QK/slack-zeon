@@ -33,7 +33,7 @@ export default class HowWasUrDayMessage implements Command {
         });
         return;
       }
-      if(event.thread_ts) return;
+      if (event.thread_ts) return;
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
