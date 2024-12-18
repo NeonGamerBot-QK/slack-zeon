@@ -63,7 +63,7 @@ export function setupOverallCron(app: ModifiedApp) {
         app.client.chat.postMessage({
           channel: "C07R8DYAZMM",
           //@ts-ignore
-          text: await getResponse(db),
+          text: await getResponse(app.db),
         });
       },
     );
