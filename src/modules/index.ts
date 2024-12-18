@@ -15,6 +15,7 @@ export * as hackclubcdn from "./hackclubcdn";
 export * as bdayutils from "./bday";
 export * as tempmail from "./TempHackclubEmail";
 export * as irl from "./watchMyIrl";
+export * as hangman from "./hangman";
 // @see https://github.com/hackclub/librarian/blob/main/utils/channelManagers.js
 export async function getChannelManagers(channel) {
   const myHeaders = new Headers();
