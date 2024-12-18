@@ -22,7 +22,6 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
-      
 
       // console.log(
       //   `uh one of them are here ffs`,
@@ -31,23 +30,30 @@ export default class HowWasUrDayMessage implements Command {
       // );
       //@ts-ignore
       //   await par.ack();
-    
+
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
-     if(par.event.text&&par.event.text.length > 2000) {
+      if (par.event.text && par.event.text.length > 2000) {
         await app.client.chat.postMessage({
-            channel: par.event.channel,
-            text: `:notcool: holy yapperonie`,
-            thread_ts: par.event.ts,
-        })
-     }
-     if(par.event.text&par.event.text.split("").map(e=>e.toUpperCase()).join("") == par.event.text) {
+          channel: par.event.channel,
+          text: `:notcool: holy yapperonie`,
+          thread_ts: par.event.ts,
+        });
+      }
+      if (
+        par.event.text &
+        (par.event.text
+          .split("")
+          .map((e) => e.toUpperCase())
+          .join("") ==
+          par.event.text)
+      ) {
         await app.client.chat.postMessage({
-            channel: par.event.channel,
-            text: `Hey! why you yelling >:(`
-        })
-     }
+          channel: par.event.channel,
+          text: `Hey! why you yelling >:(`,
+        });
+      }
       console.debug(`#message-`);
 
       //@ts-ignore
