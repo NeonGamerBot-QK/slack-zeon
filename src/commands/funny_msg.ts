@@ -43,11 +43,11 @@ export default class HowWasUrDayMessage implements Command {
       }
       if (
         par.event.text &
-        (par.event.text
+    par.event.text
           .split("")
           .map((e) => e.toUpperCase())
           .join("") ==
-          par.event.text)
+          par.event.text
       ) {
         await app.client.chat.postMessage({
           channel: par.event.channel,

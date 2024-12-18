@@ -26,7 +26,7 @@ export default class Ping implements Command {
           app.client.chat.update({
             ts: d.ts,
             channel: command.channel_id,
-            text: `Pong took: \`${Date.now() - sentStamp}ms\``,
+            text: `Pong took: \`${Date.now() - sentStamp}ms\`\nUptime: \`${process.uptime()}\`s`,
           });
         });
     });
