@@ -21,7 +21,7 @@ export interface ShortcutUpdate {
 export interface IrlData {
   latest_entry: ShortcutUpdate;
 }
-const mainTimezone = "America/New_York";
+const mainTimezone = "America/Kentucky/Louisville";
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
   const tz = findTz(
