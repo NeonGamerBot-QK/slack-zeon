@@ -105,7 +105,7 @@ export default class UserJoinEvent implements Command {
                 text: "Thus, the legend of *#neons-personal* grew, a beacon to all who dared to *dream in neon*. And though Zeon would eventually leave to share the story of this sacred place with the world, he knew he would always return, for the channel—and its creator, *{user}*—was a home to all who sought to light up the darkness.",
               },
             },
-            ...[inviter ? {
+            ...[event.inviter ? {
               type: "section",
               text: {
                 type: "mrkdwn",
