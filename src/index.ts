@@ -79,6 +79,6 @@ function handleError(e: any) {
     });
   } catch (e) {}
 }
-setupOverallCron(app)
+setupOverallCron(app);
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
