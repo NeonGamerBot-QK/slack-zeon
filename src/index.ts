@@ -60,6 +60,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   // grab spotify cache from db
   resetSpotifyCache(app);
 });
+
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
