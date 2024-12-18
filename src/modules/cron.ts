@@ -3,10 +3,7 @@ import { getJellyfinStatus, getSpotifyStatus } from "./status";
 import { getResponse } from "./randomResponseSystem";
 import { getTodaysEvents } from "./hw";
 import { startBdayCron } from "./bday";
-import {
-  getAdventOfCodeLb,
-  setupCronAdventOfCode,
-} from "./adventofcode";
+import { getAdventOfCodeLb, setupCronAdventOfCode } from "./adventofcode";
 
 import { setupCronForShipments } from "./parseShipments";
 import { setupCronForIrl } from "./watchMyIrl";
@@ -16,35 +13,39 @@ import howWasYourDay, { cached_spotify_songs } from "./howWasYourDay";
 
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
-function updateStatus(emoji: string, str: string, app:ModifiedApp,clearStats?: boolean) {
-    Sentry.startSpan(
-      {
-        op: "prod",
-        name: "Update Status",
-      },
-      () => {
-        // Sentry.profiler.startProfiler();
-        app.client.users.profile.set({
-          //@ts-ignore
-          profile: clearStats
-            ? {
-                status_emoji: "",
-                status_text: "",
-              }
-            : {
-                status_emoji: emoji,
-                status_expiration: 0,
-                status_text: str.slice(0, 100),
-              },
-          token: process.env.MY_SLACK_TOKEN,
-        });
-      },
-    );
-    // Sentry.profiler.stopProfiler();
-  }
- 
-  export function setupOverallCron(app: ModifiedApp) {
-    
+function updateStatus(
+  emoji: string,
+  str: string,
+  app: ModifiedApp,
+  clearStats?: boolean,
+) {
+  Sentry.startSpan(
+    {
+      op: "prod",
+      name: "Update Status",
+    },
+    () => {
+      // Sentry.profiler.startProfiler();
+      app.client.users.profile.set({
+        //@ts-ignore
+        profile: clearStats
+          ? {
+              status_emoji: "",
+              status_text: "",
+            }
+          : {
+              status_emoji: emoji,
+              status_expiration: 0,
+              status_text: str.slice(0, 100),
+            },
+        token: process.env.MY_SLACK_TOKEN,
+      });
+    },
+  );
+  // Sentry.profiler.stopProfiler();
+}
+
+export function setupOverallCron(app: ModifiedApp) {
   async function sendRandomStuff() {
     Sentry.startSpan(
       {
@@ -80,7 +81,7 @@ function updateStatus(emoji: string, str: string, app:ModifiedApp,clearStats?: b
     if (jellyfinStr) {
       updateStatus(":jellyfin:", jellyfinStr, app);
     } else if (spotifyStr) {
-      cached_spotify_songs .push(spotifyStr);
+      cached_spotify_songs.push(spotifyStr);
       app.db.set("spotify_songs", cached_spotify_songs);
       updateStatus(":new_spotify:", spotifyStr, app);
     } else {
@@ -144,7 +145,7 @@ function updateStatus(emoji: string, str: string, app:ModifiedApp,clearStats?: b
     },
     { name: "morning-weekend" },
   );
-  
+
   cron.schedule(`* * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
@@ -202,4 +203,4 @@ function updateStatus(emoji: string, str: string, app:ModifiedApp,clearStats?: b
   startBdayCron(app);
   setupCronAdventOfCode(app);
   setupCronForIrl(app);
-}  
+}
