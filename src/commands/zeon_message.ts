@@ -94,8 +94,8 @@ export default class Message implements Command {
                 timestamp: event.ts,
                 name: "no",
               });
-            break;
-              case "warning":
+              break;
+            case "warning":
             case "error":
               app.client.reactions.add({
                 channel: event.channel,
