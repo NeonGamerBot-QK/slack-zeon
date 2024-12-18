@@ -92,7 +92,7 @@ export default class Message implements Command {
             case "error":
               app.client.reactions.add({
                 channel: event.channel,
-                timestamp: m.ts,
+                timestamp: event.ts,
                 name: "warning",
               });
               break;
@@ -104,7 +104,7 @@ export default class Message implements Command {
               await app.client.chat.postMessage({
                 channel: event.channel,
                 text: `idk what to do with this: ${JSON.stringify(aiReq)}`,
-                thread_ts: m.ts,
+                thread_ts: event.ts,
               });
               break;
           }
