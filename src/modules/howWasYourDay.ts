@@ -98,7 +98,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       channel,
       thread_ts: mobj.ts,
       //@ts-ignore
-      text: `Here is what you listned to today :spotify_new: : \n- ${[...new Set(cached_spotify_songs)].map(s => `${s} x ${cached_spotify_songs.filter(e => e == s).length}`).join("\n- ")}\n\n`.replaceAll(
+      text: `Here is what you listned to today :spotify_new: : \n- ${[...new Set(cached_spotify_songs)].map((s) => `${s} x ${cached_spotify_songs.filter((e) => e == s).length}`).join("\n- ")}\n\n`.replaceAll(
         ":spotify_new:",
         ":new_spotify:",
       ),
