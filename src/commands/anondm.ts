@@ -205,6 +205,13 @@ export default class AnonDM implements Command {
       const mail_index = action.value as string;
       const user = par.body.user;
       console.log(userHash, mail_index);
+      const message = app.dbs.anondm.get(userHash).messages[mail_index];
+      console.log(message);
+      const decrypted = EncryptedJsonDb.decrypt(
+        message,
+        `${userID}_` + process.env.ANONDM_PASSWORD,
+      );
+      console.log(decrypted, message);
       // display user model
       // await app.client.chat
       // .postMessage({
