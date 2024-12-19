@@ -1020,7 +1020,7 @@ export function onGuess(
       word,
       stage,
     };
-    
+
   if (guessedLetters.join("") === word)
     return {
       message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou have won! \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
@@ -1040,7 +1040,7 @@ export function onGuess(
       stage,
     };
   } else {
-    stage++
+    stage++;
     return {
       message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
       guessedLetters,
