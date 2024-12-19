@@ -140,3 +140,5 @@ highseas.har
 test_db.json
 t4.ts
 tiktok.json
+*.fdb_latexmk
+*.aux
