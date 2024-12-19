@@ -211,7 +211,22 @@ export default class AnonDM implements Command {
         message,
         `${userID}_` + process.env.ANONDM_PASSWORD,
       );
-      console.log(decrypted, message);
+      const parsed = JSON.parse(decrypted);
+      await app.client.chat.postEphemeral({
+        channel: user.id,
+        user: user.id,
+        text: `:fire: :email: :fire: Your blind mail (its been deleted now)\n> ${parsed.message}`
+      })
+    
+    let instance =   app.dbs.anondm.get(userHash)
+    
+  instance.messages =   instance.messages.splice(mail_index, 1);
+      app.dbs.anondm.set(userHash, instance);
+// send mail open noti
+await app.client.chat.postMessage({
+  channel: `C085S8533LJ`,
+  text: `:email_unread: someone has read a piece of mail`
+})
       // display user model
       // await app.client.chat
       // .postMessage({
