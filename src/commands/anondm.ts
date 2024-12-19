@@ -196,9 +196,11 @@ export default class AnonDM implements Command {
       console.debug(`#action`, par);
       console.log(action);
       //@ts-ignore
-      const userID= action.action_id.split("_")[2] as string
+      const userID = action.action_id.split("_")[2] as string;
       //@ts-ignore
-      const userHash = Object.keys(app.dbs.anondm.storage).find((e) => bcrypt.compareSync(userID, e))
+      const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
+        bcrypt.compareSync(userID, e),
+      );
       //@ts-ignore
       const mail_index = action.value as string;
       const user = par.body.user;
@@ -210,8 +212,6 @@ export default class AnonDM implements Command {
       //   text: `You have sent a mail to ${user.name} (test)`,
       // });
     });
-
-
 
     // creation of mail :')
     // // display user model
