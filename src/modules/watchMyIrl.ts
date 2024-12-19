@@ -21,14 +21,14 @@ export interface ShortcutUpdate {
 export interface IrlData {
   latest_entry: ShortcutUpdate;
 }
-const mainTimezone = "America/Kentucky/Louisville";
+const mainTimezone = ["America/Kentucky/Louisville", `America/New_York`];
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
   const tz = findTz(
     data.latest_entry.location.lat,
     data.latest_entry.location.long,
   )[0];
-  if (tz !== mainTimezone) {
+  if (!mainTimezone.includes(tz) && !app.db.get(`tz`)) {
     const m = await app.client.chat.postMessage({
       text: `Hello yall! Neon's tz has changed to *${tz}*\n_replies from neon may now differ..._`,
       channel: `C07R8DYAZMM`,
