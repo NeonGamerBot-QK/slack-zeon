@@ -61,20 +61,20 @@ export default class AppHome implements Command {
           userProfile = app.dbs.anondm.get(user_id);
         }
         const mymail = app.dbs.anondm
-        //@ts-ignore
-        .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
-        .messages.filter((e) => {
-          try {
-            EncryptedJsonDb.decrypt(
-              e,
-              //@ts-ignore
-              `${event.user}_` + process.env.ANONDM_PASSWORD,
-            );
-            return true;
-          } catch (e) {
-            return false;
-          }
-        })
+          //@ts-ignore
+          .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+          .messages.filter((e) => {
+            try {
+              EncryptedJsonDb.decrypt(
+                e,
+                //@ts-ignore
+                `${event.user}_` + process.env.ANONDM_PASSWORD,
+              );
+              return true;
+            } catch (e) {
+              return false;
+            }
+          });
 
         //@ts-ignore
         console.log(`USER: ${event.user}`);
@@ -87,7 +87,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*Blind Mail:* \n> ${mymail.length > 0 ? `:mailbox_with_mail:`: `:mailbox_with_no_mail:`} Your mailbox is below; Use the button to send mail to someone :D`,
+                text: `*Blind Mail:* \n> ${mymail.length > 0 ? `:mailbox_with_mail:` : `:mailbox_with_no_mail:`} Your mailbox is below; Use the button to send mail to someone :D`,
               },
               accessory: {
                 type: "button",
@@ -100,27 +100,26 @@ export default class AppHome implements Command {
                 action_id: "send_mail",
               },
             },
-            ...mymail
-              .map((e, i) => {
-                // map to a slack element block
-                return {
-                  type: "section",
+            ...mymail.map((e, i) => {
+              // map to a slack element block
+              return {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `> :email_unread: New Message`,
+                },
+                accessory: {
+                  type: "button",
                   text: {
-                    type: "mrkdwn",
-                    text: `> :email_unread: New Message`,
+                    type: "plain_text",
+                    text: "Open",
+                    emoji: true,
                   },
-                  accessory: {
-                    type: "button",
-                    text: {
-                      type: "plain_text",
-                      text: "Open",
-                      emoji: true,
-                    },
-                    value: i.toString(),
-                    action_id: "open_mail_" + event.user,
-                  },
-                };
-              }),
+                  value: i.toString(),
+                  action_id: "open_mail_" + event.user,
+                },
+              };
+            }),
           ];
           //@ts-ignore
           if (process.env.MY_USER_ID !== event.user)
