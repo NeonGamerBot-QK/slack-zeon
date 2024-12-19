@@ -195,6 +195,8 @@ export default class AnonDM implements Command {
       await ack();
       console.debug(`#action`, par);
       console.log(action);
+      //@ts-ignore
+      const mail_hash_id = action.value as string;
       const user = par.body.user;
       // display user model
       // await app.client.chat.postMessage({
