@@ -132,7 +132,7 @@ export default class AnonDM implements Command {
         ac_user_list.push(user);
       }
       // im not letting u send it to more than 10 people
-      ac_user_list = ac_user_list.slice(0,10)
+      ac_user_list = ac_user_list.slice(0, 10);
       const user = par.body.user;
 
       if (ac_user_list.length == 0) {
@@ -222,7 +222,7 @@ export default class AnonDM implements Command {
 
       let instance = app.dbs.anondm.get(userHash);
 
-      instance.messages = instance.messages.filter((e,i) => i != mail_index);
+      instance.messages = instance.messages.filter((e, i) => i != mail_index);
       app.dbs.anondm.set(userHash, instance);
       // send mail open noti
       await app.client.chat.postMessage({
