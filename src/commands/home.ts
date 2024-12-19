@@ -100,7 +100,7 @@ export default class AppHome implements Command {
                   return false;
                 }
               })
-              .map((e,i) => {
+              .map((e, i) => {
                 // map to a slack element block
                 return {
                   type: "section",
@@ -116,7 +116,7 @@ export default class AppHome implements Command {
                       emoji: true,
                     },
                     value: i.toString(),
-                    action_id: "open_mail_"+event.user,
+                    action_id: "open_mail_" + event.user,
                   },
                 };
               }),
