@@ -34,10 +34,10 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-app.client.chat.postMessage({
-    channel: event.channel,
-    text: `:hangman: hangman is def starting and this isnt a placeholder message :p`
-})
+      app.client.chat.postMessage({
+        channel: event.channel,
+        text: `:hangman: hangman is def starting and this isnt a placeholder message :p`,
+      });
       console.debug(`#message-`);
 
       //@ts-ignore
