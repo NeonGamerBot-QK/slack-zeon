@@ -63,7 +63,7 @@ export default class AnonDM implements Command {
               elements: [
                 {
                   type: "plain_text",
-                  text: "You may only send a letter if they have opened your other letter already",
+                  text: "You may only send a letter if they have opened your other letter already & make sure it follows CoC",
                   emoji: true,
                 },
               ],
@@ -131,6 +131,8 @@ export default class AnonDM implements Command {
         // check if user already has a message from this user
         ac_user_list.push(user);
       }
+      // im not letting u send it to more than 10 people
+      ac_user_list = ac_user_list.slice(0,10)
       const user = par.body.user;
 
       if (ac_user_list.length == 0) {
@@ -168,7 +170,7 @@ export default class AnonDM implements Command {
             `${u}_` + process.env.ANONDM_PASSWORD,
           ),
         );
-        // add the sender for obfuscation
+        // add the sender for obfuscation/j identification now ig
         userProfile.messages.push(
           EncryptedJsonDb.encrypt(
             JSON.stringify({
@@ -184,6 +186,10 @@ export default class AnonDM implements Command {
         });
         app.dbs.anondm.set(user_id, userProfile);
       }
+      await app.client.chat.postMessage({
+        channel: `C085S8533LJ`,
+        text: `:incoming_envelope: mail has been sent out to ${ac_user_list.length} people!`,
+      });
       await app.client.chat.postEphemeral({
         channel: user.id,
         user: user.id,
@@ -193,8 +199,6 @@ export default class AnonDM implements Command {
     app.action(/open_mail_[A-Za-z]+/, async (par) => {
       const { action, ack, respond } = par;
       await ack();
-      console.debug(`#action`, par);
-      console.log(action);
       //@ts-ignore
       const userID = action.action_id.split("_")[2] as string;
       //@ts-ignore
@@ -204,9 +208,7 @@ export default class AnonDM implements Command {
       //@ts-ignore
       const mail_index = action.value as string;
       const user = par.body.user;
-      console.log(userHash, mail_index);
       const message = app.dbs.anondm.get(userHash).messages[mail_index];
-      console.log(message);
       const decrypted = EncryptedJsonDb.decrypt(
         message,
         `${userID}_` + process.env.ANONDM_PASSWORD,
@@ -215,12 +217,12 @@ export default class AnonDM implements Command {
       await app.client.chat.postEphemeral({
         channel: user.id,
         user: user.id,
-        text: `:fire: :email: :fire: Your blind mail (its been deleted now)\n> ${parsed.message}`,
+        text: `:fire::email::fire: Your blind mail (its been deleted now)\n> ${parsed.message}`,
       });
 
       let instance = app.dbs.anondm.get(userHash);
 
-      instance.messages = instance.messages.splice(mail_index, 1);
+      instance.messages = instance.messages.filter((e,i) => i != mail_index);
       app.dbs.anondm.set(userHash, instance);
       // send mail open noti
       await app.client.chat.postMessage({
