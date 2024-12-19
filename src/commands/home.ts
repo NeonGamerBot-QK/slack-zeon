@@ -60,6 +60,21 @@ export default class AppHome implements Command {
           });
           userProfile = app.dbs.anondm.get(user_id);
         }
+        const mymail = app.dbs.anondm
+        //@ts-ignore
+        .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+        .messages.filter((e) => {
+          try {
+            EncryptedJsonDb.decrypt(
+              e,
+              //@ts-ignore
+              `${event.user}_` + process.env.ANONDM_PASSWORD,
+            );
+            return true;
+          } catch (e) {
+            return false;
+          }
+        })
 
         //@ts-ignore
         console.log(`USER: ${event.user}`);
@@ -72,7 +87,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*Blind Mail:* \n> :mailbox: Your mailbox is below; Use the button to send mail to someone :D`,
+                text: `*Blind Mail:* \n> ${mymail.length > 0 ? `:mailbox_with_mail:`: `:mailbox_with_no_mail:`} Your mailbox is below; Use the button to send mail to someone :D`,
               },
               accessory: {
                 type: "button",
@@ -85,21 +100,7 @@ export default class AppHome implements Command {
                 action_id: "send_mail",
               },
             },
-            ...app.dbs.anondm
-              //@ts-ignore
-              .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
-              .messages.filter((e) => {
-                try {
-                  EncryptedJsonDb.decrypt(
-                    e,
-                    //@ts-ignore
-                    `${event.user}_` + process.env.ANONDM_PASSWORD,
-                  );
-                  return true;
-                } catch (e) {
-                  return false;
-                }
-              })
+            ...mymail
               .map((e, i) => {
                 // map to a slack element block
                 return {
