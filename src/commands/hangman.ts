@@ -53,7 +53,7 @@ export default class HowWasUrDayMessage implements Command {
         const response = onGuess(
           guess,
           gameData.word,
-          gameData.guessed,
+          gameData.guesses,
           gameData.stage,
         );
         app.db.set("hangman", {

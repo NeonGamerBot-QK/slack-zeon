@@ -3,13 +3,15 @@
 export function buildBoard(stage: number) {
   // build the board
   return `
+\`\`\`
  _________
 |       |
 |       ${stage >= 1 ? "O" : ""}
 |      ${stage >= 3 ? "/" : ""}${stage >= 2 ? "|" : ""}${stage >= 4 ? "\\" : ""}
 |      ${stage >= 5 ? "/" : ""} ${stage >= 6 ? "\\" : ""}
 |
-|_________`;
+|_________
+\`\`\``;
 }
 
 export function hideWord(word: string, guessedLetters: string[]) {
