@@ -62,6 +62,7 @@ export async function newDayNewChallange(app: ModifiedApp, channel: string) {
   }
   const txt = await libD.text();
   if (!txt) return;
+
   console.log(cheerio, txt);
   const $ = cheerio.load(txt.toString() || "<html></html>");
   const data = $(".day-desc").text();

@@ -209,26 +209,34 @@ export default class AnonDM implements Command {
       const mail_index = action.value as string;
       const user = par.body.user;
       const message = app.dbs.anondm.get(userHash).messages[mail_index];
-      const decrypted = EncryptedJsonDb.decrypt(
-        message,
-        `${userID}_` + process.env.ANONDM_PASSWORD,
-      );
-      const parsed = JSON.parse(decrypted);
-      await app.client.chat.postEphemeral({
-        channel: user.id,
-        user: user.id,
-        text: `:fire::email::fire: Your blind mail (its been deleted now)\n> ${parsed.message}`,
-      });
+      try {
+        const decrypted = EncryptedJsonDb.decrypt(
+          message,
+          `${userID}_` + process.env.ANONDM_PASSWORD,
+        );
+        const parsed = JSON.parse(decrypted);
+        await app.client.chat.postEphemeral({
+          channel: user.id,
+          user: user.id,
+          text: `:fire::email::fire: Your blind mail (its been deleted now)\n> ${parsed.message}`,
+        });
 
-      let instance = app.dbs.anondm.get(userHash);
+        let instance = app.dbs.anondm.get(userHash);
 
-      instance.messages = instance.messages.filter((e, i) => i != mail_index);
-      app.dbs.anondm.set(userHash, instance);
-      // send mail open noti
-      await app.client.chat.postMessage({
-        channel: `C085S8533LJ`,
-        text: `:email_unread: someone has read a piece of mail`,
-      });
+        instance.messages = instance.messages.filter((e, i) => i != mail_index);
+        app.dbs.anondm.set(userHash, instance);
+        // send mail open noti
+        await app.client.chat.postMessage({
+          channel: `C085S8533LJ`,
+          text: `:email_unread: someone has read a piece of mail`,
+        });
+      } catch (e) {
+        await app.client.chat.postEphemeral({
+          channel: user.id,
+          user: user.id,
+          text: `:x: Your mail is corrupted! I have no idea what happened to it tbh..\nSend this to neon: \`${e.message}\``,
+        });
+      }
       // display user model
       // await app.client.chat
       // .postMessage({
