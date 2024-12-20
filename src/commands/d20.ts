@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { App } from "@slack/bolt";
 import util from "util";
 import path from "path";
@@ -18,11 +17,13 @@ export default class D20Roller implements Command {
     app.event(this.name, async (par) => {
       //  console.debug(par);
       // TODO BEFORE PUSH
+      //@ts-ignore
       if (par.event.channel !== "C07LGLUTNH2") return;
       const message = par;
       //   if (!par.ack) return;
       //   console.debug(0);
       //   await par.ack();
+      //@ts-ignore
       if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
@@ -39,8 +40,12 @@ export default class D20Roller implements Command {
       // })
       await app.client.files.uploadV2({
         file: video,
-        channels: event.channel,
-        initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
+        filename: `dice.mp4`,
+        //@ts-ignore
+        thread_ts: event.ts,
+        //@ts-ignore
+        channel_id: event.channel,
+        comment: `:d20: You rolled a *${roll}* and the video is here:`,
       });
       console.debug(`#message-`);
 
