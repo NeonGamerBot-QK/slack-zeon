@@ -48,7 +48,7 @@ export default class D20Roller implements Command {
         //@ts-ignore
         channel_id: event.channel,
         alt_text: `a d20 dice rolling to ${roll}`,
-        
+
         // title: `:d20: You rolled a *${roll}* and the video is here:`,
         initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
       });
