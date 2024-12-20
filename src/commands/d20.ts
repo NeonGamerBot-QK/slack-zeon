@@ -14,7 +14,6 @@ export default class D20Roller implements Command {
     console.debug(`#message-dice`);
     // app.command()
     app.event(this.name, async (par) => {
-
       //@ts-ignore
       if (par.event.channel !== "C085VCW4AKX") return;
       const message = par;
@@ -27,8 +26,6 @@ export default class D20Roller implements Command {
       const roll = Math.floor(Math.random() * 19) + 1;
       let video = path.join(process.cwd(), `assets/dice/splits/${roll}.mp4`);
 
-
- 
       await app.client.files.uploadV2({
         file: video,
         filename: `dice.mp4`,
@@ -42,8 +39,6 @@ export default class D20Roller implements Command {
         initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
       });
       console.debug(`#message-`);
-
-
     });
   }
 }
