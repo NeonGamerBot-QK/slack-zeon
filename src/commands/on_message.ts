@@ -128,24 +128,19 @@ export default class Message implements Command {
               say(`User not found!`);
               return;
             }
-            const mailObj = app.dbs.anondm.get(userHash).messages.find((e) => {
-              try {
-                return mail == EncryptedJsonDb.decrypt(
-                  e,
-                  `${userID}_` + process.env.ANONDM_PASSWORD,
-                );
-              } catch (e) {
-                return false;
-              }
-            });
+            const mailObj = app.dbs.anondm.get(userHash).messages[mail]
             if (!mailObj) {
               say(`Mail not found!`);
               return;
             }
-            say(`\`\`\`\n${EncryptedJsonDb.decrypt(
-              mailObj,
-              `${userID}_` + process.env.ANONDM_PASSWORD,
-            )}\`\`\``);
+            try {
+              say(`\`\`\`\n${EncryptedJsonDb.decrypt(
+                mailObj,
+                `${userID}_` + process.env.ANONDM_PASSWORD,
+              )}\`\`\``);
+            } catch (e) {
+              say(`Error: \`\`\`\n${e}\`\`\``);
+            }
           } else if (cmd == "stream") {
             // check if WS is open
             // if not; fail
