@@ -103,7 +103,7 @@ export default class Message implements Command {
             say(`Whats up`);
           } else if (cmd == "getuserhash") {
             const userID = args[0] || event.user;
-            const userHash = Object.keys(app.db.anondm.storage).find((e) =>
+            const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
               compareSync(e, userID),
             );
             if (userHash) {
@@ -112,8 +112,8 @@ export default class Message implements Command {
               say(`User not found!`);
             }
           } else if (cmd == "anondmstats") {
-            const users = Object.keys(app.db.anondm.storage).length;
-            const mail = Object.values(app.db.anondm.storage)
+            const users = Object.keys(app.dbs.anondm.storage).length;
+            const mail = Object.values(app.dbs.anondm.storage)
               .map((e) => e.messages.length)
               .reduce((a, b) => a + b, 0);
             say(`\`\`\`\nUsers: ${users}\nMessages: ${mail}\`\`\``);
