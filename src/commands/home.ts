@@ -117,7 +117,9 @@ export default class AppHome implements Command {
                   },
                   value: app.dbs.anondm
                     //@ts-ignore
-                    .get(usersInDb.find((e) => bcrypt.compareSync(event.user, e)))
+                    .get(
+                      usersInDb.find((e) => bcrypt.compareSync(event.user, e)),
+                    )
                     .messages.indexOf(e),
                   action_id: "open_mail_" + event.user,
                 },
