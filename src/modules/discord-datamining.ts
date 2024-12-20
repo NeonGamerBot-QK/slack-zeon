@@ -6,7 +6,7 @@ const OwnerPlusRepo = {
 import { ModifiedApp } from "./slackapp";
 
 export async function theDataFromDiscordIsMine(app: ModifiedApp) {
-const { Octokit } = await import("octokit");
+  const { Octokit } = await import("octokit");
   const db = app.dbs.ddm;
   // create octokit client
   const octokit = new Octokit({
