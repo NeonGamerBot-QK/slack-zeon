@@ -25,4 +25,3 @@ Then to send mail you click the `Send Mail` button!
 
 Then you will be prompted to open a modal to fill out the mail.
 Once you have filled it out it will send your mail!!
-
