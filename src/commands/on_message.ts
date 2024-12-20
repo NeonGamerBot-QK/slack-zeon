@@ -4,7 +4,7 @@ import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import * as Sentry from "@sentry/node";
 import { ModifiedApp } from "../modules/slackapp";
-
+import { compareSync } from "bcrypt";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -101,7 +101,22 @@ export default class Message implements Command {
             }
           } else if (cmd == "hello") {
             say(`Whats up`);
-          } else if (cmd == "stream") {
+          } else if(cmd == "getuserhash") {
+            const userID = args[0] || event.user;
+            const userHash = Object.keys(app.db.anondm.storage).find(e=>compareSync(e, userID));
+            if (userHash) {
+              say(`\`\`\`\n${userHash}\`\`\``);
+            } else {
+              say(`User not found!`);
+            }
+          } else if(cmd == "anondmstats") {
+            const users = Object.keys(app.db.anondm.storage).length;
+            const mail = Object.values(app.db.anondm.storage).map(e=>e.messages.length).reduce((a,b)=>a+b, 0);
+            say(`\`\`\`\nUsers: ${users}\nMessages: ${mail}\`\`\``);
+          } else if(cmd == "crackthemail") { 
+            say(`Soon`)
+          }
+          else if (cmd == "stream") {
             // check if WS is open
             // if not; fail
             if (!app.ws) {
