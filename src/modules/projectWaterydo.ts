@@ -4,7 +4,7 @@ export interface GitBody {
   commit_id: string;
   commit_url: string;
   repo_name: string;
-  is_zeon: boolean
+  is_zeon: boolean;
 }
 export interface GitSession {
   active: boolean;
@@ -26,7 +26,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   app.client.chat.postMessage({
     channel: session.channel,
     thread_ts: session.message_ts!,
-    text: `${body.is_zeon?":zeon: ":""}\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commit/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
+    text: `${body.is_zeon ? ":zeon: " : ""}\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commit/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
   });
 }
 
