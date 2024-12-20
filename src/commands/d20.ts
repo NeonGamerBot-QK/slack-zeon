@@ -27,9 +27,9 @@ export default class D20Roller implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-// roll the dice!
-const roll = Math.floor(Math.random() * 19) + 1
-let video = `assets/dice/splits/${roll}.mp4`
+      // roll the dice!
+      const roll = Math.floor(Math.random() * 19) + 1;
+      let video = `assets/dice/splits/${roll}.mp4`;
       // app.client.chat.postMessage({
       //   attachments: [{
       //     text: `:d20: You rolled a *${roll}* and the video is here:`,
@@ -40,7 +40,7 @@ let video = `assets/dice/splits/${roll}.mp4`
         file: video,
         channels: event.channel,
         initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
-      })
+      });
       console.debug(`#message-`);
 
       //@ts-ignore
