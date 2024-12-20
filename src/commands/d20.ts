@@ -20,6 +20,8 @@ export default class D20Roller implements Command {
       //@ts-ignore
       if (par.event.channel !== "C07LGLUTNH2") return;
       const message = par;
+      //@ts-ignore
+      if(par.event.thread_ts) return;
       //   if (!par.ack) return;
       //   console.debug(0);
       //   await par.ack();
@@ -45,6 +47,7 @@ export default class D20Roller implements Command {
         thread_ts: event.ts,
         //@ts-ignore
         channel_id: event.channel,
+        title: `:d20: You rolled a *${roll}* and the video is here:`,
         comment: `:d20: You rolled a *${roll}* and the video is here:`,
       });
       console.debug(`#message-`);
