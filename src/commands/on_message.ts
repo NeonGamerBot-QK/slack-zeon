@@ -5,6 +5,7 @@ import { Command, onlyForMe } from "../modules/BaseCommand";
 import * as Sentry from "@sentry/node";
 import { ModifiedApp } from "../modules/slackapp";
 import { compareSync } from "bcrypt";
+import { EncryptedJsonDb } from "../modules/encrypted-db";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
