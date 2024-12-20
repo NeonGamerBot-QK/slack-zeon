@@ -143,3 +143,4 @@ tiktok.json
 *.fdb_latexmk
 *.aux
 assets/list_of_slack_users.json
+assets/dice/frames
