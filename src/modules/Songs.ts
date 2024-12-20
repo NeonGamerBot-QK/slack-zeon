@@ -1071,5 +1071,4 @@ export function getShopItem(id: string): ShopItem {
 
 export function searchShop(query: string): ShopItem[] {
   return Shop.filter((e) => e.name.toLowerCase().includes(query.toLowerCase()));
-  // return Shop.filter(e => e.name.toLowerCase().includes(query.toLowerCase()));
 }

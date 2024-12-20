@@ -34,6 +34,3 @@ export let db: null | JSONdb = null;
 export function attachDB(d: JSONdb) {
   db = d;
 }
-// export function handleStartup() {
-
-// }
