@@ -1008,7 +1008,7 @@ export function onGuess(
 ) {
   if (guessedLetters.includes(guessedLetter))
     return {
-      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      message: `${buildBoard(stage)}\n\nYou already guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
       guessedLetters,
       guessedLetter,
       word,
@@ -1016,7 +1016,7 @@ export function onGuess(
     };
   if (stage >= 5)
     return {
-      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou already lost.. \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      message: `${buildBoard(stage)}\n\nYou already lost.. \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
       guessedLetters,
       guessedLetter,
       word,
@@ -1025,7 +1025,7 @@ export function onGuess(
 
   if (guessedLetters.join("") === word)
     return {
-      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou have won! \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      message: `${buildBoard(stage)}\n\nYou have won! \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
       guessedLetters,
       guessedLetter,
       word,
@@ -1035,7 +1035,7 @@ export function onGuess(
   if (word.includes(guessedLetter)) {
     guessedLetters.push(guessedLetter);
     return {
-      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      message: `${buildBoard(stage)}\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)} which is a valid word!`,
       guessedLetters,
       guessedLetter,
       word,
@@ -1044,7 +1044,7 @@ export function onGuess(
   } else {
     stage++;
     return {
-      message: `\`\`\`${buildBoard(stage)}\`\`\`\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
+      message: `${buildBoard(stage)}\n\nYou guessed \`${guessedLetter}\`\n${hideWord(word, guessedLetters)}`,
       guessedLetters,
       guessedLetter,
       word,
