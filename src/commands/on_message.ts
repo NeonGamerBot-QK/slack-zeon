@@ -119,7 +119,7 @@ export default class Message implements Command {
             say(`\`\`\`\nUsers: ${users}\nMessages: ${mail}\`\`\``);
           } else if (cmd == "crackthemail") {
             const userID = args[1] || event.user;
-            const mail = args[0]
+            const mail = args[0];
 
             const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
               compareSync(userID, e),
@@ -130,9 +130,12 @@ export default class Message implements Command {
             }
             const mailObj = app.dbs.anondm.get(userHash).messages.find((e) => {
               try {
-                return mail == EncryptedJsonDb.decrypt(
-                  e,
-                  `${userID}_` + process.env.ANONDM_PASSWORD,
+                return (
+                  mail ==
+                  EncryptedJsonDb.decrypt(
+                    e,
+                    `${userID}_` + process.env.ANONDM_PASSWORD,
+                  )
                 );
               } catch (e) {
                 return false;
@@ -142,10 +145,12 @@ export default class Message implements Command {
               say(`Mail not found!`);
               return;
             }
-            say(`\`\`\`\n${EncryptedJsonDb.decrypt(
-              mailObj,
-              `${userID}_` + process.env.ANONDM_PASSWORD,
-            )}\`\`\``);
+            say(
+              `\`\`\`\n${EncryptedJsonDb.decrypt(
+                mailObj,
+                `${userID}_` + process.env.ANONDM_PASSWORD,
+              )}\`\`\``,
+            );
           } else if (cmd == "stream") {
             // check if WS is open
             // if not; fail
