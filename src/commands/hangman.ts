@@ -35,14 +35,14 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-      if(!app.db.get("hangman")){
+      if (!app.db.get("hangman")) {
         // lets create a hangman game!
         app.db.set("hangman", {
           word: getRandomWord(),
           guesses: [],
           guessed: false,
-          stage: 0
-        })
+          stage: 0,
+        });
         await app.client.chat.postMessage({
           channel: event.channel,
           text: `:hangman: hangman starting...........\n all messages below are guesses fyi!\n${buildBoard(0)}`,
@@ -50,23 +50,27 @@ export default class HowWasUrDayMessage implements Command {
       } else {
         const gameData = app.db.get("hangman");
         const guess = event.text.trim().toLowerCase();
-const response =  onGuess(guess, gameData.word, gameData.guessed, gameData.stage)
-      app.db.set("hangman", {
-        ...gameData,
-        guesses:  response.guessedLetters,
-        stage: response.stage,
-      });
-      await app.client.chat.postMessage({
-        channel: event.channel,
-        text: `:hangman: ${response.message}`,
-      });
+        const response = onGuess(
+          guess,
+          gameData.word,
+          gameData.guessed,
+          gameData.stage,
+        );
+        app.db.set("hangman", {
+          ...gameData,
+          guesses: response.guessedLetters,
+          stage: response.stage,
+        });
+        await app.client.chat.postMessage({
+          channel: event.channel,
+          text: `:hangman: ${response.message}`,
+        });
       }
       // app.client.chat.postMessage({
       //   channel: event.channel,
       //   text: `:hangman: hangman is def starting and this isnt a placeholder message :p`,
       // });
       console.debug(`#message-`);
-
 
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
