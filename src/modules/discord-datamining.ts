@@ -42,9 +42,7 @@ export async function theDataFromDiscordIsMine(app: ModifiedApp) {
       const transformedComments = commentsWithImages.map((comment) => ({
         _id: comment.id,
 
-
-
-        // what 
+        // what
         id: comment.id,
         title: commit.commit.message,
         buildNumber,
