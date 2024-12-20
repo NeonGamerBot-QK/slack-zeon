@@ -104,7 +104,7 @@ export default class Message implements Command {
           } else if (cmd == "getuserhash") {
             const userID = args[0] || event.user;
             const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
-              compareSync(e, userID),
+              compareSync(userID, e),
             );
             if (userHash) {
               say(`\`\`\`\n${userHash}\`\`\``);
