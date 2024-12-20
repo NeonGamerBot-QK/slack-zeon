@@ -118,7 +118,34 @@ export default class Message implements Command {
               .reduce((a, b) => a + b, 0);
             say(`\`\`\`\nUsers: ${users}\nMessages: ${mail}\`\`\``);
           } else if (cmd == "crackthemail") {
-            say(`Soon`);
+            const userID = args[1] || event.user;
+            const mail = args[0]
+
+            const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
+              compareSync(userID, e),
+            );
+            if (!userHash) {
+              say(`User not found!`);
+              return;
+            }
+            const mailObj = app.dbs.anondm.get(userHash).messages.find((e) => {
+              try {
+                return mail == EncryptedJsonDb.decrypt(
+                  e,
+                  `${userID}_` + process.env.ANONDM_PASSWORD,
+                );
+              } catch (e) {
+                return false;
+              }
+            });
+            if (!mailObj) {
+              say(`Mail not found!`);
+              return;
+            }
+            say(`\`\`\`\n${EncryptedJsonDb.decrypt(
+              mailObj,
+              `${userID}_` + process.env.ANONDM_PASSWORD,
+            )}\`\`\``);
           } else if (cmd == "stream") {
             // check if WS is open
             // if not; fail
