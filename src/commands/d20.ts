@@ -18,7 +18,7 @@ export default class D20Roller implements Command {
       //  console.debug(par);
       // TODO BEFORE PUSH
       //@ts-ignore
-      if (par.event.channel !== "C07LGLUTNH2") return;
+      if (par.event.channel !== "C085VCW4AKX") return;
       const message = par;
       //@ts-ignore
       if (par.event.thread_ts) return;
@@ -26,7 +26,6 @@ export default class D20Roller implements Command {
       //   console.debug(0);
       //   await par.ack();
       //@ts-ignore
-      if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
@@ -39,6 +38,7 @@ export default class D20Roller implements Command {
       //     text: `:d20: You rolled a *${roll}* and the video is here:`,
       //     f
       //   }]
+
       // })
       await app.client.files.uploadV2({
         file: video,
