@@ -22,6 +22,10 @@ export default class codewatcher implements Command {
       switch (subcmd) {
         case "start":
           const reponame = args[0];
+          if(!reponame) {
+            respond(`:x: You need to provide a repo name.`);
+            return;
+          }
           // app.client.chat.postMessage({
           //   channel: command.channel_id,
           //   text: `Starting Code Watcher for ${reponame}`,
