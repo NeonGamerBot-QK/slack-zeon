@@ -58,7 +58,7 @@ export function highSeasCron(app: ModifiedApp) {
               `\`<@${d.id}>\` - ${parseInt(d.current_doubloons)} :doubloon:`,
           )
           .join("\n")}`,
-          parse: "none"
+        parse: "none",
       })
       .then((e) => {
         app.db.set(`highseas_lb_ts`, e.ts);
