@@ -109,7 +109,7 @@ export const app = new App({
       },
     },
     {
-      path: '/api/keys',
+      path: "/api/keys",
       method: ["GET"],
       async handler(req, res) {
         const authHeader = req.headers["authorization"];
@@ -117,8 +117,8 @@ export const app = new App({
           res.writeHead(401).end();
           return;
         }
-        res.writeHead(200).end(JSON.stringify(app.db.get(`ai_keys`)))
-      }
+        res.writeHead(200).end(JSON.stringify(app.db.get(`ai_keys`)));
+      },
     },
     {
       path: "/health",
