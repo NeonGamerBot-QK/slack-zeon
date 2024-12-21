@@ -109,6 +109,18 @@ export const app = new App({
       },
     },
     {
+      path: '/api/keys',
+      method: ["GET"],
+      async handler(req, res) {
+        const authHeader = req.headers["authorization"];
+        if (authHeader !== process.env.AUTH_FOR_AITHINGY) {
+          res.writeHead(401).end();
+          return;
+        }
+        res.writeHead(200).end(JSON.stringify(app.db.get(`ai_keys`)))
+      }
+    },
+    {
       path: "/health",
       method: ["GET"],
       async handler(req, res) {
