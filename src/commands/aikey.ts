@@ -13,14 +13,15 @@ export default class Ping implements Command {
       ack();
       console.log(body);
       // create random key
-      const key = Math.random().toString() + body.user;
+      //@ts-ignore
+      const key = Math.random().toString() + body.user.id;
       //@ts-ignore
       const _keys = app.db.get(`ai_keys`) || [];
       _keys.push(key);
       app.db.set(`ai_keys`, _keys);
       await app.client.chat.postMessage({
         //@ts-ignore
-        channel: body.user,
+        channel: body.user.id,
         text: `Here is your key!\n \`${key}\``,
       });
     });
