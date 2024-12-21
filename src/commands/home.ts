@@ -33,6 +33,7 @@ export default class AppHome implements Command {
         const shipmentData = app.db.get(`shipments_${event.user}`);
         const ctfData = app.db.get("ctf") || [];
         const adventOfCodeData = app.db.get("adventofcode_lb");
+        const highSeasLb = app.db.get("highseas_lb") || [];
         console.log(
           Boolean(shipmentData),
           Boolean(adventOfCodeData),
@@ -79,6 +80,15 @@ export default class AppHome implements Command {
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
+          const high_seas_section = [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `*High seas lb:*\n${highSeasLb.map(e=>`<@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall)`).join("\n")}`,
+              },
+            }
+          ]
           const anon_mail_section = [
             {
               type: "divider",
@@ -194,6 +204,7 @@ export default class AppHome implements Command {
                   },
                 },
                 ...anon_mail_section,
+                ...high_seas_section
               ].filter(Boolean),
             };
           return {
@@ -277,6 +288,7 @@ export default class AppHome implements Command {
                 },
               },
               ...anon_mail_section,
+              ...high_seas_section,
               {
                 type: "divider",
               },
