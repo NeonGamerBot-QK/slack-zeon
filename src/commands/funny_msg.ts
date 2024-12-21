@@ -32,9 +32,9 @@ const channels = {
   CDJMS683D: "1234", // #counttoamillion
   CGVCSNLAJ: "first", // #frc
   C064PGB86JE: "quests", // #quests
-  C06CHS2D05Q: "leaders-summit" //#the-summit
+  C06CHS2D05Q: "leaders-summit", //#the-summit
 };
-const emojis =  {
+const emojis = {
   yay: "yay",
   OSF: "osf",
   hooray: "tada",
@@ -183,23 +183,23 @@ const emojis =  {
   firefox: "firefoxlogo",
   vivaldi: "vivaldi",
   "ABCO-1": "abcout",
-  "nix": "nix",
-  "nixos": "nix",
-  "nixpkgs": "nix",
-  "typescript": "typescript",
-  "ts": "typescript",
-  "zephyr": "train",
-  "summer": "sunny",
-  "plane": "airplane",
-  "train": "train",
-  "bus": "bus",
-  "bug": "bug",
-  "debug": "dino-debugging",
-  "debugging": "dino-debugging",
-  "awesome": "awesome",
-  "graph": "chart_with_upwards_trend",
-  "chart": "chart_with_upwards_trend",
-  "boba": "boba-parrot",
+  nix: "nix",
+  nixos: "nix",
+  nixpkgs: "nix",
+  typescript: "typescript",
+  ts: "typescript",
+  zephyr: "train",
+  summer: "sunny",
+  plane: "airplane",
+  train: "train",
+  bus: "bus",
+  bug: "bug",
+  debug: "dino-debugging",
+  debugging: "dino-debugging",
+  awesome: "awesome",
+  graph: "chart_with_upwards_trend",
+  chart: "chart_with_upwards_trend",
+  boba: "boba-parrot",
   "bubble tea": "boba-parrot",
   spotify: "spotify",
   repair: "hammer_and_wrench",
@@ -280,17 +280,17 @@ const emojis =  {
   summit: "leaders-summit",
   "summit vision": "summit-vision",
   "apple vision": "summit-vision",
-  nest: "nest"
+  nest: "nest",
 };
 const emoji_react_list = Object.entries({
   ...emojis,
   ...channels,
-}).map(e=> {
+}).map((e) => {
   return {
     keyword: e[0],
-    emoji: e[1]
-  }
-})
+    emoji: e[1],
+  };
+});
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -323,8 +323,8 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       if (!par.event.text) return;
-      for(const e of emoji_react_list) {
-        if(par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
+      for (const e of emoji_react_list) {
+        if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
           await app.client.reactions.add({
             channel: par.event.channel,
             timestamp: par.event.ts,
