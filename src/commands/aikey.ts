@@ -11,7 +11,7 @@ export default class Ping implements Command {
   run(app: ModifiedApp) {
     app.action(`i_want_key`, async ({ ack, action, body }) => {
       ack();
-      console.log(body)
+      console.log(body);
       // create random key
       const key = Math.random().toString() + body.user;
       //@ts-ignore
