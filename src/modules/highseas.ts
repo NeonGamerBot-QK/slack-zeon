@@ -38,11 +38,20 @@ export function highSeasCron(app: ModifiedApp) {
   });
   cron.schedule("*/5 * * * *", async () => {
     // update da cache
-    // const oldInstance = app.db.get(`highseas_lb`) || [];
-    // const newInstance = await getLb();
-    // app.db.set(`highseas_lb`, newInstance);
+    const oldInstance = app.db.get(`highseas_lb`) || [];
+    const newInstance = await getLb();
+    app.db.set(`highseas_lb`, newInstance);
+    // run diff for all users who have opted in
+    for(const user of (app.db.get(`i_want_to_track_my_doubloons`)) || []) {
+        const oldUserData = oldInstance.find(e=>e.id == user.id)
+        const newUserData = newInstance.find(e=>e.id == user.id)
+        if(!oldUserData && !newUserData) continue;
+        if(oldUserData && newUserData) {}
+        
+    }
   });
 }
+
 export async function getLb() {
   const all_users = [];
   const page0 = await fetch(

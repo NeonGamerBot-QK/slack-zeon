@@ -129,11 +129,9 @@ export default class AppHome implements Command {
                         );
                         if(e == ee) return true
                         else return false
-                        // return true;
                       } catch (e) {
                         return false;
                       }
-
                     }),
                   action_id: "open_mail_" + event.user,
                 },
