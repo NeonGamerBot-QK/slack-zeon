@@ -147,7 +147,6 @@ export function setupOverallCron(app: ModifiedApp) {
     { name: "morning-weekend" },
   );
 
-  
   cron.schedule("0 * * * *", async () => {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=XMR&tsyms=USD")
       .then((r) => r.json())
@@ -170,5 +169,5 @@ export function setupOverallCron(app: ModifiedApp) {
   startBdayCron(app);
   setupCronAdventOfCode(app);
   setupCronForIrl(app);
-  highSeasCron(app)
+  highSeasCron(app);
 }
