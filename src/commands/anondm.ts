@@ -234,7 +234,7 @@ export default class AnonDM implements Command {
         await app.client.chat.postEphemeral({
           channel: user.id,
           user: user.id,
-          text: `:x: Your mail is corrupted! I have no idea what happened to it tbh..\nSend this to neon: \`${e.message}\``,
+          text: `:x: Your mail is corrupted! I have no idea what happened to it tbh..\nSend this to neon: \`${e.message}\` mail index: ${mail_index}`,
         });
       }
       // display user model
