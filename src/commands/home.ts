@@ -148,7 +148,7 @@ export default class AppHome implements Command {
                       } catch (e) {
                         return false;
                       }
-                    }),
+                    }).toString(),
                   action_id: "open_mail_" + event.user,
                 },
               };
