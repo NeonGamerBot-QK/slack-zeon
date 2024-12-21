@@ -260,7 +260,7 @@ export default class HowWasUrDayMessage implements Command {
       // console.log(cmd, args);
       const text = par.event.text;
       const choice = prompts[Math.floor(Math.random() * prompts.length)];
-      await new Promise((r) => setTimeout(r, 45 * 1000));
+      await new Promise((r) => setTimeout(r, 60*60 * 1000));
       await app.client.chat.postMessage({
         channel: event.channel,
         blocks: [

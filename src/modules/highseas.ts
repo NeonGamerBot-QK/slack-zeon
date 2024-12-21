@@ -51,7 +51,7 @@ export function highSeasCron(app: ModifiedApp) {
     await app.client.chat
       .postMessage({
         channel: `C086HHP5J7K`,
-        text: `*High Seas Lb* (top 10)\n${newInstance.map((d) => `\`<@${d.id}>\` - ${d.current_doubloons}`).join("\n")}`,
+        text: `*High Seas Lb* (top 10)\n${newInstance.map((d) => `\`<@${d.id}>\` - ${parseInt(d.current_doubloons)} :doubloon:`).join("\n")}`,
       })
       .then((e) => {
         app.db.set(`highseas_lb_ts`, e.ts);
