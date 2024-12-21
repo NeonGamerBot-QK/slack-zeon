@@ -19,7 +19,7 @@ export default class Ping implements Command {
       app.db.set(`ai_keys`, _keys);
       await app.client.chat.postMessage({
         //@ts-ignore
-        channel: event.user,
+        channel: body.user,
         text: `Here is your key!\n \`${key}\``,
       });
     });
