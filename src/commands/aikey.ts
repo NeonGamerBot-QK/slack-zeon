@@ -9,10 +9,10 @@ export default class Ping implements Command {
     this.description = `idek`;
   }
   run(app: ModifiedApp) {
-    app.action(`i_want_key`, async ({ ack, event }) => {
+    app.action(`i_want_key`, async ({ ack, action, body }) => {
       ack();
       // create random key
-      const key = Math.random().toString() + event.user;
+      const key = Math.random().toString() + body.user;
       //@ts-ignore
       const _keys = app.db.get(`ai_keys`) || [];
       _keys.push(key);
