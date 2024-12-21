@@ -305,7 +305,7 @@ export default class HowWasUrDayMessage implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
-      if (par.event.channel !== "C07R8DYAZMM") return;
+      if (par.event.channel !== "C07R8DYAZMM" && par.event.channel !== "C07LGLUTNH2") return;
       const message = par;
       //   if (!par.ack) return;
       //   console.debug(0);
@@ -325,11 +325,13 @@ export default class HowWasUrDayMessage implements Command {
       if (!par.event.text) return;
       for (const e of emoji_react_list) {
         if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
-          await app.client.reactions.add({
+     try {
+          await     app.client.reactions.add({
             channel: par.event.channel,
             timestamp: par.event.ts,
             name: e.emoji,
           });
+        } catch (e) {}
         }
       }
       if (par.event.text && par.event.text.length > 2000) {
