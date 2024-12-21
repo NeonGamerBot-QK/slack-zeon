@@ -83,6 +83,7 @@ export default class HowWasUrDayMessage implements Command {
         await app.client.chat.postMessage({
           channel: par.event.channel,
           text: `Hey! why you yelling >:(`,
+          thread_ts: par.event.ts,
         });
       }
       console.debug(`#message-`);
