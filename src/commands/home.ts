@@ -85,7 +85,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*High seas lb:*\n${highSeasLb.map((e) => `<@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall)`).join("\n")}`,
+                text: `*High seas lb:*\n${highSeasLb.slice(0,10).map((e) => `<@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall)`).join("\n")}`,
               },
             },
           ];
