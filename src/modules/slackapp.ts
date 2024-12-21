@@ -117,6 +117,7 @@ export const app = new App({
           res.writeHead(401).end();
           return;
         }
+        //@ts-ignore
         res.writeHead(200).end(JSON.stringify(app.db.get(`ai_keys`)));
       },
     },
