@@ -42,12 +42,12 @@ export function highSeasCron(app: ModifiedApp) {
     const newInstance = await getLb();
     app.db.set(`highseas_lb`, newInstance);
     // run diff for all users who have opted in
-    for(const user of (app.db.get(`i_want_to_track_my_doubloons`)) || []) {
-        const oldUserData = oldInstance.find(e=>e.id == user.id)
-        const newUserData = newInstance.find(e=>e.id == user.id)
-        if(!oldUserData && !newUserData) continue;
-        if(oldUserData && newUserData) {}
-        
+    for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
+      const oldUserData = oldInstance.find((e) => e.id == user.id);
+      const newUserData = newInstance.find((e) => e.id == user.id);
+      if (!oldUserData && !newUserData) continue;
+      if (oldUserData && newUserData) {
+      }
     }
   });
 }
