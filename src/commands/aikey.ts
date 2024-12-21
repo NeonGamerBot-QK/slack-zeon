@@ -13,6 +13,7 @@ export default class Ping implements Command {
       ack();
       // create random key
       const key = Math.random().toString() + event.user;
+      //@ts-ignore
       const _keys = app.db.get(`ai_keys`) || [];
       _keys.push(key);
       app.db.set(`ai_keys`, _keys);
