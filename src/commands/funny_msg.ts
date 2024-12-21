@@ -187,7 +187,7 @@ const emojis = {
   nixos: "nix",
   nixpkgs: "nix",
   typescript: "typescript",
-  ts: "typescript",
+  // ts: "typescript",
   zephyr: "train",
   summer: "sunny",
   plane: "airplane",
@@ -226,7 +226,7 @@ const emojis = {
   cold: "snowflake",
   tailwind: "tailwind",
   tailwindcss: "tailwind",
-  c: "c",
+  // c: "c",
   squaresupply: "squaresupply",
   gamelab: "gamelab",
   "annoying site": "annoyingsite",
@@ -290,7 +290,7 @@ const emoji_react_list = Object.entries({
     keyword: e[0],
     emoji: e[1],
   };
-});
+}).filter(e=>e.keyword.length>=3);
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
