@@ -88,8 +88,8 @@ export default class AppHome implements Command {
                 text: `*High seas lb:*\n${highSeasLb
                   .slice(0, 10)
                   .map(
-                    (e,i) =>
-                      `${i+1} <@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall) :doubloon:`,
+                    (e, i) =>
+                      `${i + 1} <@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall) :doubloon:`,
                   )
                   .join("\n")}`,
               },
