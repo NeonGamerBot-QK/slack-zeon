@@ -85,10 +85,10 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*High seas lb:*\n${highSeasLb.map(e=>`<@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall)`).join("\n")}`,
+                text: `*High seas lb:*\n${highSeasLb.map((e) => `<@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall)`).join("\n")}`,
               },
-            }
-          ]
+            },
+          ];
           const anon_mail_section = [
             {
               type: "divider",
@@ -137,8 +137,8 @@ export default class AppHome implements Command {
                           //@ts-ignore
                           `${event.user}_` + process.env.ANONDM_PASSWORD,
                         );
-                        if(e == ee) return true
-                        else return false
+                        if (e == ee) return true;
+                        else return false;
                       } catch (e) {
                         return false;
                       }
@@ -204,7 +204,7 @@ export default class AppHome implements Command {
                   },
                 },
                 ...anon_mail_section,
-                ...high_seas_section
+                ...high_seas_section,
               ].filter(Boolean),
             };
           return {
