@@ -22,7 +22,7 @@ export default class codewatcher implements Command {
       switch (subcmd) {
         case "start":
           const reponame = args[0];
-          if(!reponame) {
+          if (!reponame) {
             respond(`:x: You need to provide a repo name.`);
             return;
           }
