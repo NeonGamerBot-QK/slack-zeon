@@ -34,6 +34,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
+      if(!par.event.text) return;
       if (par.event.text && par.event.text.length > 2000) {
         await app.client.chat.postMessage({
           channel: par.event.channel,
@@ -41,8 +42,36 @@ export default class HowWasUrDayMessage implements Command {
           thread_ts: par.event.ts,
         });
       }
+      if(par.event.text.includes("airtable")) {
+        await app.client.reactions.add({
+          channel: par.event.channel,
+          timestamp: par.event.ts,
+          name: "airtable_ban"
+        })
+      }
+      if(par.event.text.includes("doubloons") || par.event.text.includes("dabloons")) {
+        await app.client.reactions.add({
+          channel: par.event.channel,
+          timestamp: par.event.ts,
+          name: "doubloon"
+        })
+      }
+      if(par.event.text.includes("highseas")) {
+        await app.client.reactions.add({
+          channel: par.event.channel,
+          timestamp: par.event.ts,
+          name: "highseas"
+        })
+      }
+      if(par.event.text.includes("zeon")) {
+        await app.client.reactions.add({
+          channel: par.event.channel,
+          timestamp: par.event.ts,
+          name: "zeon"
+        })
+      }
       if (
-        par.event.text &
+        par.event.text &&
         (par.event.text
           .split("")
           .map((e) => e.toUpperCase())
