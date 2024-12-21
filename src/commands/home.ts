@@ -120,7 +120,21 @@ export default class AppHome implements Command {
                     .get(
                       usersInDb.find((e) => bcrypt.compareSync(event.user, e)),
                     )
-                    .messages.indexOf(e),
+                    .messages.findIndex((ee) => {
+                      try {
+                        EncryptedJsonDb.decrypt(
+                          ee,
+                          //@ts-ignore
+                          `${event.user}_` + process.env.ANONDM_PASSWORD,
+                        );
+                        if(e == ee) return true
+                        else return false
+                        // return true;
+                      } catch (e) {
+                        return false;
+                      }
+
+                    }),
                   action_id: "open_mail_" + event.user,
                 },
               };
