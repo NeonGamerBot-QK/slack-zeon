@@ -42,11 +42,24 @@ export function highSeasCron(app: ModifiedApp) {
     const newInstance = await getLb();
     app.db.set(`highseas_lb`, newInstance);
     // run diff for all users who have opted in
+if(app.db.get(`highseas_lb_ts`)) {
+await app.client.chat.delete({
+  channel: `C086HHP5J7K`,
+  ts: app.db.get(`highseas_lb_ts`)!,
+})
+}
+    await app.client.chat.postMessage({
+channel: `C086HHP5J7K`,
+text: `*High Seas Lb* (top 10)\n${newInstance.map(d=>`\`<@${d.id}>\` - ${d.current_doubloons}`).join("\n")}`,
+   }).then(e=>{
+     app.db.set(`highseas_lb_ts`,e.ts);
+   })
     for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
       const oldUserData = oldInstance.find((e) => e.id == user.id);
       const newUserData = newInstance.find((e) => e.id == user.id);
       if (!oldUserData && !newUserData) continue;
       if (oldUserData && newUserData) {
+     
       }
     }
   });
