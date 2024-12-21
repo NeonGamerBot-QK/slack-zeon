@@ -285,12 +285,14 @@ const emojis = {
 const emoji_react_list = Object.entries({
   ...emojis,
   ...channels,
-}).map((e) => {
-  return {
-    keyword: e[0],
-    emoji: e[1],
-  };
-}).filter(e=>e.keyword.length>=3);
+})
+  .map((e) => {
+    return {
+      keyword: e[0],
+      emoji: e[1],
+    };
+  })
+  .filter((e) => e.keyword.length >= 3);
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
