@@ -85,8 +85,10 @@ A slack version of zeon for the hackclub slack. zeon is my all purpose bot which
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Features 
+## Features
+
 Some major features of zeon are:
+
 - Blind mail [Learn how that works here](./docs/HOW_BLIND_MAIL_WORKS.md)
 - sticky messages (stays at the bottom of the channel)
 - Hackclub shipment viewer
@@ -114,7 +116,7 @@ Some major features of zeon are:
 - Typescript
 - boltjs (slacks framework)
 - bcrypt
-- Simple Json Db 
+- Simple Json Db
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -153,7 +155,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Neon - neon@saahild.com
-Contact me in the hackclub slack: @neongamerbot 
+Contact me in the hackclub slack: @neongamerbot
 
 Project Link: [https://github.com/NeonGamerBot-QK/slack-zeon](https://github.com/NeonGamerBot-QK/slack-zeon)
 
