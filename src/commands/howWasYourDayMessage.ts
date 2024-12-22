@@ -2,6 +2,7 @@
 import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
+import { emoji_react_list } from "./funny_msg";
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -54,6 +55,17 @@ export default class HowWasUrDayMessage implements Command {
           timestamp: message.event.ts,
           name: "yay",
         });
+              for (const e of emoji_react_list) {
+        if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
+          try {
+            await app.client.reactions.add({
+              channel: par.event.channel,
+              timestamp: par.event.ts,
+              name: e.emoji,
+            });
+          } catch (e) {}
+        }
+      }
       }
       console.debug(`#message-`);
 

@@ -282,7 +282,7 @@ const emojis = {
   "apple vision": "summit-vision",
   nest: "nest",
 };
-const emoji_react_list = Object.entries({
+export const emoji_react_list = Object.entries({
   ...emojis,
   ...channels,
 })
@@ -329,17 +329,17 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       if (!par.event.text) return;
-      for (const e of emoji_react_list) {
-        if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
-          try {
-            await app.client.reactions.add({
-              channel: par.event.channel,
-              timestamp: par.event.ts,
-              name: e.emoji,
-            });
-          } catch (e) {}
-        }
-      }
+      // for (const e of emoji_react_list) {
+      //   if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
+      //     try {
+      //       await app.client.reactions.add({
+      //         channel: par.event.channel,
+      //         timestamp: par.event.ts,
+      //         name: e.emoji,
+      //       });
+      //     } catch (e) {}
+      //   }
+      // }
       if (par.event.text && par.event.text.length > 2000) {
         await app.client.chat.postMessage({
           channel: par.event.channel,
