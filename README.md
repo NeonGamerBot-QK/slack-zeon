@@ -32,7 +32,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/NeonGamerBot-QK/slack-zeon">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://saahild.com/zeon/static/media/logo.496b486aab466e923154.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Slack Zeon</h3>
@@ -68,8 +68,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <!-- <li><a href="#usage">Usage</a></li> -->
+    <li><a href="#features">Features</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -81,15 +81,40 @@
 
 ## About The Project
 
-A slack version of zeon for the hackclub slack.
+A slack version of zeon for the hackclub slack. zeon is my all purpose bot which helps me on a daily basis.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Features 
+Some major features of zeon are:
+- Blind mail [Learn how that works here](./docs/HOW_BLIND_MAIL_WORKS.md)
+- sticky messages (stays at the bottom of the channel)
+- Hackclub shipment viewer
+- bday system
+- d20 dice system
+- poll's (comming soon)
+- high seas lb tracker
+- zeon tags
+- #whats-my-slack-id
+- advent of code priv lb tracker
+- hangman
+- hackclub cdn
+- CTF (comming soon)
+- high seas shop
+- hackatime tracker (personal)
+- how was your day (personal)
+- code watcher (personal)
+- nextdns logs (personal)
+- spotify and jellyfin status in slack (personal)
+- irl status (personal)
+- Many other features which are mostly personal
+
 ### Built With
 
-- javascript
-- bolt (slacks framework)
-
+- Typescript
+- boltjs (slacks framework)
+- bcrypt
+- Simple Json Db 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -128,6 +153,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Neon - neon@saahild.com
+Contact me in the hackclub slack: @neongamerbot 
 
 Project Link: [https://github.com/NeonGamerBot-QK/slack-zeon](https://github.com/NeonGamerBot-QK/slack-zeon)
 
