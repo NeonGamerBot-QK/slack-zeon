@@ -1,6 +1,6 @@
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
-
+import bcrypt from "bcrypt";
 export default class Ping implements Command {
   name: string;
   description: string;
@@ -17,7 +17,7 @@ export default class Ping implements Command {
       const key = Math.random().toString() + body.user.id;
       //@ts-ignore
       const _keys = app.db.get(`ai_keys`) || [];
-      _keys.push(key);
+      _keys.push(bcrypt.hashSync(key,10));
       app.db.set(`ai_keys`, _keys);
       await app.client.chat.postMessage({
         //@ts-ignore
