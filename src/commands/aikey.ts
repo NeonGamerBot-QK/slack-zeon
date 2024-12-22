@@ -17,7 +17,7 @@ export default class Ping implements Command {
       const key = Math.random().toString() + body.user.id;
       //@ts-ignore
       const _keys = app.db.get(`ai_keys`) || [];
-      _keys.push(bcrypt.hashSync(key,10));
+      _keys.push(bcrypt.hashSync(key, 10));
       app.db.set(`ai_keys`, _keys);
       await app.client.chat.postMessage({
         //@ts-ignore
