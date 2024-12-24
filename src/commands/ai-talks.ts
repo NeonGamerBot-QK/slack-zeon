@@ -242,23 +242,35 @@ export default class AiChat implements Command {
       //   if (par.event.hidden) return;
       if (par.event.thread_ts) return;
       await new Promise((r) => setTimeout(r, 15 * 1000));
-      const ai_response = await fetch("https://ollama-free.saahild.com/api/generate", {
-        method: "POST",
-        headers: {
-          "Authorization": process.env.NVIDIA_KEY,
+      const ai_response = await fetch(
+        "https://ollama-free.saahild.com/api/generate",
+        {
+          method: "POST",
+          headers: {
+            Authorization: process.env.NVIDIA_KEY,
+          },
+          body: JSON.stringify({
+            model: "llama2",
+            prompt: is_it_bees_turn
+              ? `You are a bee like robot whos name is beeon. you need to respond to: ${par.event.text}`
+              : `your zeon respond to the message, ${par.event.text}`,
+            raw: true,
+            stream: false,
+          }),
         },
-        body: JSON.stringify({
-          "model": "llama2",  "prompt": is_it_bees_turn?`You are a bee like robot whos name is beeon. you need to respond to: ${par.event.text}`:`your zeon respond to the message, ${par.event.text}`,  "raw": true,  "stream": false
-        })
-      }) 
-        await app.client.chat.postMessage({
-          channel: event.channel!,
-          text: ai_response.response,
-          ...(is_it_bees_turn?{username: `beeon`,
-            icon_url: `https://cloud-4b2fj1bjh-hack-club-bot.vercel.app/0image.png`}:{})
-        })
-      
-      is_it_bees_turn = !is_it_bees_turn
+      );
+      await app.client.chat.postMessage({
+        channel: event.channel!,
+        text: ai_response.response,
+        ...(is_it_bees_turn
+          ? {
+              username: `beeon`,
+              icon_url: `https://cloud-4b2fj1bjh-hack-club-bot.vercel.app/0image.png`,
+            }
+          : {}),
+      });
+
+      is_it_bees_turn = !is_it_bees_turn;
 
       // console.log(
       //   `uh one of them are here ffs`,
