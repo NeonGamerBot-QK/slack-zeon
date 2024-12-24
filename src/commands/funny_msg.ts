@@ -380,7 +380,9 @@ export default class HowWasUrDayMessage implements Command {
       }
       if (
         par.event.text &&
-        par.event.text.match(/[a-z]+/g).join("")
+        par.event.text
+          .match(/[a-z]+/g)
+          .join("")
           .split("")
           .map((e) => e.toUpperCase())
           .join("") == par.event.text
