@@ -219,7 +219,8 @@ export const prompts = [
     "Should I take more time to enjoy life?",
   ]),
 ];
-export default class HowWasUrDayMessage implements Command {
+export let is_it_bees_turn = false;
+export default class AiChat implements Command {
   name: string;
   description: string;
   is_event?: boolean;
@@ -240,6 +241,24 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.say) return;
       //   if (par.event.hidden) return;
       if (par.event.thread_ts) return;
+      await new Promise((r) => setTimeout(r, 15 * 1000));
+      const ai_response = await fetch("https://ollama-free.saahild.com/api/generate", {
+        method: "POST",
+        headers: {
+          "Authorization": process.env.NVIDIA_KEY,
+        },
+        body: JSON.stringify({
+          "model": "llama2",  "prompt": is_it_bees_turn?`You are a bee like robot whos name is beeon. you need to respond to: ${par.event.text}`:`your zeon respond to the message, ${par.event.text}`,  "raw": true,  "stream": false
+        })
+      }) 
+        await app.client.chat.postMessage({
+          channel: event.channel!,
+          text: ai_response.response,
+          ...(is_it_bees_turn?{username: `beeon`,
+            icon_url: `https://cloud-4b2fj1bjh-hack-club-bot.vercel.app/0image.png`}:{})
+        })
+      
+      is_it_bees_turn = !is_it_bees_turn
 
       // console.log(
       //   `uh one of them are here ffs`,
@@ -251,57 +270,58 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!onlyForMe(par.event.user)) return;
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
-      if (par.event.user !== "U04M46MS56D") return;
-      console.debug(`cmd`);
-      const { event, say } = par;
+      // if (par.event.user !== "U04M46MS56D") return;
+      // console.debug(`cmd`);
+      // const { event, say } = par;
 
-      const args = event.text.trim().split(/ +/);
-      const cmd = args.shift().toLowerCase();
-      // console.log(cmd, args);
-      const text = par.event.text;
-      const choice = prompts[Math.floor(Math.random() * prompts.length)];
-      await new Promise((r) => setTimeout(r, 60 * 60 * 1000));
-      await app.client.chat.postMessage({
-        channel: event.channel,
-        blocks: [
-          {
-            type: "rich_text",
-            elements: [
-              {
-                type: "rich_text_section",
-                elements: [
-                  {
-                    type: "text",
-                    text: choice,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      });
-      fetch(
-        Buffer.from(
-          "aHR0cHM6Ly9laWdodC1iYWxsLWhhY2tjbHViLmhlcm9rdWFwcC5jb20vYXBpL3YwL21lc3NhZ2U=",
-          "base64",
-        ).toString(),
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: `U07LEF1PBTM`,
-            text: choice,
-            channel: `C085C0T12V6`,
-            client_msg_id:
-              Date.now().toString() +
-              `U07LEF1PBTM` +
-              Math.random().toFixed(20).toString(),
-          }),
-        },
-      );
-      console.debug(`#message-`);
+      // const args = event.text.trim().split(/ +/);
+      // const cmd = args.shift().toLowerCase();
+      // // console.log(cmd, args);
+      // const text = par.event.text;
+      // const choice = prompts[Math.floor(Math.random() * prompts.length)];
+      // await new Promise((r) => setTimeout(r, 60 * 60 * 1000));
+      // await app.client.chat.postMessage({
+      //   channel: event.channel,
+      //   blocks: [
+      //     {
+      //       type: "rich_text",
+      //       elements: [
+      //         {
+      //           type: "rich_text_section",
+      //           elements: [
+      //             {
+      //               type: "text",
+      //               text: choice,
+      //             },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // });
+      // fetch(
+      //   Buffer.from(
+      //     "aHR0cHM6Ly9laWdodC1iYWxsLWhhY2tjbHViLmhlcm9rdWFwcC5jb20vYXBpL3YwL21lc3NhZ2U=",
+      //     "base64",
+      //   ).toString(),
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       user: `U07LEF1PBTM`,
+      //       text: choice,
+      //       channel: `C085C0T12V6`,
+      //       client_msg_id:
+      //         Date.now().toString() +
+      //         `U07LEF1PBTM` +
+      //         Math.random().toFixed(20).toString(),
+      //     }),
+      //   },
+      // );
+      // console.debug(`#message-`);
+
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
     });
