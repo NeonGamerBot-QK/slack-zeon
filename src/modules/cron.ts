@@ -224,7 +224,7 @@ export function setupOverallCron(app: ModifiedApp) {
             status: s,
           };
         }) as any[];
-      const myInstance = json.find((e: any) => e.name.includes("Saahil"));
+      const myInstance = json.find((e: any) => e.url.toLowerCase().includes("neongamerbot"));
       const myDbInstance = app.db.get("boba_status") || null;
       if (!myDbInstance) {
         await app.client.chat.postMessage({
