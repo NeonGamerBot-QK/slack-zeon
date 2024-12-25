@@ -231,7 +231,7 @@ export function setupOverallCron(app: ModifiedApp) {
           channel: "C07R8DYAZMM",
           text: `:christmas_tree::snowflake::gift::cup_with_straw: *Winter boba status*: ${myInstance.status || "Non existent"}`,
         });
-      } else if (myDbInstance !== myInstance.status) {
+      } else if (myDbInstance !== myInstance.status && myDbInstance) {
         await app.client.chat.postMessage({
           channel: "C07R8DYAZMM",
           text: `:christmas_tree::snowflake::gift::cup_with_straw: *Winter boba status updated*: ${myInstance.status || "Non existent"}`,
