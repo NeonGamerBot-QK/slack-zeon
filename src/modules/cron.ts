@@ -207,8 +207,8 @@ export function setupOverallCron(app: ModifiedApp) {
         temp1.data.preloadPageQueryResults.tableDataById.tblVV0tpvZnQWcsH4
           .partialRowById,
       )
-        .map((e:any) => e.cellValuesByColumnId)
-        .map((e:any) => {
+        .map((e: any) => e.cellValuesByColumnId)
+        .map((e: any) => {
           let s = undefined;
           if (e.fld7qAcn49vVKJ4xc) {
             if (e.fld7qAcn49vVKJ4xc == "selbAbSmkPk9XiuTc") {
@@ -224,7 +224,7 @@ export function setupOverallCron(app: ModifiedApp) {
             status: s,
           };
         }) as any[];
-      const myInstance = json.find((e:any) => e.name.includes("Saahil"));
+      const myInstance = json.find((e: any) => e.name.includes("Saahil"));
       const myDbInstance = app.db.get("boba_status") || null;
       if (!myDbInstance) {
         await app.client.chat.postMessage({
