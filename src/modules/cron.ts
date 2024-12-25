@@ -237,7 +237,7 @@ export function setupOverallCron(app: ModifiedApp) {
           text: `:christmas_tree::snowflake::gift::cup_with_straw: *Winter boba status updated*: ${myInstance.status || "Non existent"}`,
         });
       }
-      app.db.set("boba_status", myInstance.status || "N/A")
+      app.db.set("boba_status", myInstance.status || "N/A");
     } catch (e: any) {
       app.client.chat.postMessage({
         channel: process.env.MY_USER_ID,
