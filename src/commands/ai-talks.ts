@@ -259,7 +259,7 @@ export default class AiChat implements Command {
           }),
         },
       );
-      console.log(ai_response)
+      console.log(ai_response);
       await app.client.chat.postMessage({
         channel: par.event.channel!,
         text: ai_response.response || "No text??!",
