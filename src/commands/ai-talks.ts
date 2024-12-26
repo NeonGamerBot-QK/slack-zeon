@@ -260,7 +260,7 @@ export default class AiChat implements Command {
         },
       );
       await app.client.chat.postMessage({
-        channel: event.channel!,
+        channel: par.event.channel!,
         text: ai_response.response,
         ...(is_it_bees_turn
           ? {
