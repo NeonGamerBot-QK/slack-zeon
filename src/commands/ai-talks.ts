@@ -258,8 +258,8 @@ export default class AiChat implements Command {
             stream: false,
           }),
         },
-      );
-      console.log(ai_response);
+      ).then(r=>r.json());
+      console.log(ai_response)
       await app.client.chat.postMessage({
         channel: par.event.channel!,
         text: ai_response.response || "No text??!",
