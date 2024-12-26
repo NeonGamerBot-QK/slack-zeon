@@ -241,9 +241,9 @@ export default class AiChat implements Command {
       //   if (!par.say) return;
       //   if (par.event.hidden) return;
       if (par.event.thread_ts) return;
-      console.log(`Generating a new thread`)
+      console.log(`Generating a new thread`);
       await new Promise((r) => setTimeout(r, 2 * 1000));
-      console.log(`Time up`)
+      console.log(`Time up`);
       const ai_response = await fetch(
         "https://ollama-free.saahild.com/api/generate",
         {
