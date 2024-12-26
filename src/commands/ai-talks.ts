@@ -241,7 +241,9 @@ export default class AiChat implements Command {
       //   if (!par.say) return;
       //   if (par.event.hidden) return;
       if (par.event.thread_ts) return;
-      await new Promise((r) => setTimeout(r, 15 * 1000));
+      console.log(`Generating a new thread`)
+      await new Promise((r) => setTimeout(r, 2 * 1000));
+      console.log(`Time up`)
       const ai_response = await fetch(
         "https://ollama-free.saahild.com/api/generate",
         {
@@ -252,8 +254,8 @@ export default class AiChat implements Command {
           body: JSON.stringify({
             model: "llama2",
             prompt: is_it_bees_turn
-              ? `You are a bee like robot whos name is beeon. you need to respond to: ${par.event.text}`
-              : `your zeon respond to the message, ${par.event.text}`,
+              ? `You are a bee like robot whos name is beeon. talk in the first person. you need to respond to the text: ${par.event.text}`
+              : `your zeon respond to the message: ${par.event.text}`,
             raw: true,
             stream: false,
           }),
