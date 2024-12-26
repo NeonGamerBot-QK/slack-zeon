@@ -14,17 +14,17 @@ export async function getAdventOfCodeLb() {
 }
 export function setupCronAdventOfCode(app: ModifiedApp) {
   // only for the month of december every day at 11pm
-  cron.schedule("0 23 * 12 *", async () => {
-    //@ts-ignore
-    app.utils.adventOfCode.default(app, `C01GF9987SL`);
-  });
-  cron.schedule("0 0 * 12 *", () => {
-    app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
-  });
-  cron.schedule(`0 * * * *`, async () => {
-    const lb = await getAdventOfCodeLb();
-    app.db.set(`adventofcode_lb`, lb);
-  });
+  // cron.schedule("0 23 * 12 *", async () => {
+  //   //@ts-ignore
+  //   app.utils.adventOfCode.default(app, `C01GF9987SL`);
+  // });
+  // cron.schedule("0 0 * 12 *", () => {
+  //   app.utils.adventOfCode.newDayNewChallange(app, `C01GF9987SL`);
+  // });
+  // cron.schedule(`0 * * * *`, async () => {
+  //   const lb = await getAdventOfCodeLb();
+  //   app.db.set(`adventofcode_lb`, lb);
+  // });
 }
 export default async function adventOfCode(app: ModifiedApp, channel: string) {
   const lbD = await fetch(
