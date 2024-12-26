@@ -259,9 +259,10 @@ export default class AiChat implements Command {
           }),
         },
       );
+      console.log(ai_response)
       await app.client.chat.postMessage({
         channel: par.event.channel!,
-        text: ai_response.response,
+        text: ai_response.response || "No text??!",
         ...(is_it_bees_turn
           ? {
               username: `beeon`,
