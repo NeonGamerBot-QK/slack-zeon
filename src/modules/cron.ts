@@ -217,6 +217,9 @@ export function setupOverallCron(app: ModifiedApp) {
             if (e.fld7qAcn49vVKJ4xc == "seleUd0UfZzubrPKs") {
               s = "being reviewed";
             }
+            if (e.fld7qAcn49vVKJ4xc == "selDYo16Asoc7dxkr") {
+              s = "ordered"
+            }
           }
           return {
             name: e.fldeAMpKMvhiFAokN,
