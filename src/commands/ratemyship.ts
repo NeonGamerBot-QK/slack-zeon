@@ -44,7 +44,7 @@ export default class HowWasUrDayMessage implements Command {
           user: event.user,
           channel: event.channel,
           text: `Maybe add a git url?? (i only run on github.com srry)`,
-          thread_ts: event.ts,
+        //   thread_ts: event.ts,
         });
         return;
       }
@@ -68,15 +68,15 @@ export default class HowWasUrDayMessage implements Command {
       const isBrokenOrArchived = rrdata.archived || rrdata.disabled;
       const repoDescrition = rrdata.description || "";
       const demoURL = rrdata.homepage;
+      const isOlderThenHighSeas = rrdata.pushed_at < 1730260800000
       if (!hasLicense) errors.push(`No license`);
       if (isBrokenOrArchived) errors.push(`Broken or archived`);
       if (repoDescrition.length < 10)
         errors.push(`Repo description is too short`);
       if (!demoURL) errors.push(`No demo url`);
-
+    if(isOlderThenHighSeas) errors.push(`Repo is older than high seas AND has not been pushed since before high seas`);
       if (errors.length > 0) {
         await app.client.chat.postMessage({
-          user: event.user,
           channel: event.channel,
           text: `Feedback:\n- ${errors.join("\n- ")}`,
           thread_ts: event.ts,
