@@ -35,10 +35,12 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
+      console.log(event.text)
       let giturl = event.text
-        .trim()
+        // .trim()
         .split(/ +/)
-        .find((e) => e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/));
+        .find((e) => e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/)).trim();
+        console.log(giturl)
       if (!giturl) {
         await app.client.chat.postEphemeral({
           user: event.user,
