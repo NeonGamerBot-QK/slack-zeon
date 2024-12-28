@@ -35,49 +35,55 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-     let giturl = event.text.trim().split(/ +/).find(e=> e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/))
-    if(!giturl) {
+      let giturl = event.text
+        .trim()
+        .split(/ +/)
+        .find((e) => e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/));
+      if (!giturl) {
         await app.client.chat.postEphemeral({
-            user: event.user,
-            channel: event.channel,
-            text: `Maybe add a git url?? (i only run on github.com srry)`,
-            thread_ts: event.ts,
-        })
-    return;
-    }
-    const [username, reponame] = giturl.split(/\//).slice(-2);
-    console.debug(username, reponame);
-    const rdata = await fetch(`https://api.github.com/repos/${username}/${reponame}`)
-    if(rdata.status == 404) {
-        await app.client.chat.postEphemeral({
-            user: event.user,
-            channel: event.channel,
-            text: `Repo not found`,
-            thread_ts: event.ts,
-        })
+          user: event.user,
+          channel: event.channel,
+          text: `Maybe add a git url?? (i only run on github.com srry)`,
+          thread_ts: event.ts,
+        });
         return;
-    }
-const errors = [];
-const rrdata = await rdata.json();
-const hasLicense = rrdata.license
-const isBrokenOrArchived = rrdata.archived || rrdata.disabled
-const repoDescrition = rrdata.description || ""
-const demoURL = rrdata.homepage
-if(!hasLicense) errors.push(`No license`)
-if(isBrokenOrArchived) errors.push(`Broken or archived`)
-if(repoDescrition.length < 10) errors.push(`Repo description is too short`)
-if(!demoURL) errors.push(`No demo url`)
+      }
+      const [username, reponame] = giturl.split(/\//).slice(-2);
+      console.debug(username, reponame);
+      const rdata = await fetch(
+        `https://api.github.com/repos/${username}/${reponame}`,
+      );
+      if (rdata.status == 404) {
+        await app.client.chat.postEphemeral({
+          user: event.user,
+          channel: event.channel,
+          text: `Repo not found`,
+          thread_ts: event.ts,
+        });
+        return;
+      }
+      const errors = [];
+      const rrdata = await rdata.json();
+      const hasLicense = rrdata.license;
+      const isBrokenOrArchived = rrdata.archived || rrdata.disabled;
+      const repoDescrition = rrdata.description || "";
+      const demoURL = rrdata.homepage;
+      if (!hasLicense) errors.push(`No license`);
+      if (isBrokenOrArchived) errors.push(`Broken or archived`);
+      if (repoDescrition.length < 10)
+        errors.push(`Repo description is too short`);
+      if (!demoURL) errors.push(`No demo url`);
 
-    if(errors.length > 0) {
+      if (errors.length > 0) {
         await app.client.chat.postMessage({
-            user: event.user,
-            channel: event.channel,
-            text: `Feedback:\n- ${errors.join("\n- ")}`,
-            thread_ts: event.ts,
-        })
+          user: event.user,
+          channel: event.channel,
+          text: `Feedback:\n- ${errors.join("\n- ")}`,
+          thread_ts: event.ts,
+        });
         return;
-    }
-    // app.client.chat.postMessage({
+      }
+      // app.client.chat.postMessage({
       //   channel: event.channel,
       //   text: `:hangman: hangman is def starting and this isnt a placeholder message :p`,
       // });
