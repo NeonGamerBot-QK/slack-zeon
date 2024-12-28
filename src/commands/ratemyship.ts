@@ -38,9 +38,11 @@ export default class HowWasUrDayMessage implements Command {
       console.log(event.text);
       let giturl = event.text
         // .trim()
+        .replace("<", "")
+        .replace(">", "")
         .split(/ +/)
         .find((e) => e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/))
-        .trim();
+        ?.trim();
       console.log(giturl);
       if (!giturl) {
         await app.client.chat.postEphemeral({
