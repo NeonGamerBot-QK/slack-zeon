@@ -35,16 +35,19 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-     let giturl = event.text.trim().split(/ +/).find(e=> e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/))
-    if(!giturl) {
+      let giturl = event.text
+        .trim()
+        .split(/ +/)
+        .find((e) => e.match(/^https:\/\/github\.com(?:\/[^\s\/]+){2}$/));
+      if (!giturl) {
         await app.client.chat.postEphemeral({
-            user: event.user,
-            channel: event.channel,
-            text: `Maybe add a git url??`,
-            thread_ts: event.thread_ts,
-        })
-    return;
-    }
+          user: event.user,
+          channel: event.channel,
+          text: `Maybe add a git url??`,
+          thread_ts: event.thread_ts,
+        });
+        return;
+      }
       // app.client.chat.postMessage({
       //   channel: event.channel,
       //   text: `:hangman: hangman is def starting and this isnt a placeholder message :p`,
