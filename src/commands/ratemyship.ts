@@ -22,7 +22,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
-      if(par.event.thread_ts) return;
+      if (par.event.thread_ts) return;
       if (par.event.hidden) return;
       // console.log(
       //   `uh one of them are here ffs`,
@@ -64,7 +64,7 @@ export default class HowWasUrDayMessage implements Command {
           user: event.user,
           channel: event.channel,
           text: `Repo not found`,
-        //   thread_ts: event.ts,
+          //   thread_ts: event.ts,
         });
         return;
       }
@@ -74,7 +74,8 @@ export default class HowWasUrDayMessage implements Command {
       const isBrokenOrArchived = rrdata.archived || rrdata.disabled;
       const repoDescrition = rrdata.description || "";
       const demoURL = rrdata.homepage;
-      const isOlderThenHighSeas = new Date(rrdata.pushed_at).getTime() < 1730260800000;
+      const isOlderThenHighSeas =
+        new Date(rrdata.pushed_at).getTime() < 1730260800000;
       if (!hasLicense) errors.push(`No license`);
       if (isBrokenOrArchived) errors.push(`Broken or archived`);
       if (repoDescrition.length < 10)
@@ -84,14 +85,16 @@ export default class HowWasUrDayMessage implements Command {
         errors.push(
           `Repo is older than high seas AND has not been pushed since before high seas`,
         );
-        // now time for readme checks
-    const readme = await fetch(`https://raw.githubusercontent.com/${username}/${reponame}/${rrdata.default_branch}/README.md`);
-    if(readme.status == 404) {
+      // now time for readme checks
+      const readme = await fetch(
+        `https://raw.githubusercontent.com/${username}/${reponame}/${rrdata.default_branch}/README.md`,
+      );
+      if (readme.status == 404) {
         errors.push(`No readme found`);
-    } else {
-        const readmeData = await readme.text()
+      } else {
+        const readmeData = await readme.text();
         //TODO
-    }
+      }
       if (errors.length > 0) {
         await app.client.chat.postMessage({
           channel: event.channel,
