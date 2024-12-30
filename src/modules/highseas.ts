@@ -148,8 +148,8 @@ export async function getLb() {
       .then((r) => r.users);
     all_users.push(page);
   }
-  return (await Promise.all(all_users)).flat().map(e=>{
-  e.slack = e.slack.replace("https://hackclub.slack.com/team/", "")
+  return (await Promise.all(all_users)).flat().map((e) => {
+    e.slack = e.slack.replace("https://hackclub.slack.com/team/", "");
     return e;
   });
 }
