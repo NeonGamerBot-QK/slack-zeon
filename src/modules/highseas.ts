@@ -14,7 +14,7 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
     const oldEntry = oldLB.find((e) => e.id === entry.id);
     if (!oldEntry) {
       msgs.push(
-        `:yay: <@${entry.slack}> Welcome to the leaderboard joining us in #${
+        `:yay: <@${entry.id}> Welcome to the leaderboard joining us in #${
           newLB.indexOf(entry) + 1
         } place with \`${entry.current_doubloons}\` :doubloon: (${entry.total_doubloons} total)`,
       );
@@ -148,5 +148,8 @@ export async function getLb() {
       .then((r) => r.users);
     all_users.push(page);
   }
-  return (await Promise.all(all_users)).flat();
+  return (await Promise.all(all_users)).flat().map(e=>{
+  e.slack = e.slack.replace("https://hackclub.slack.com/team/", "")
+    return e;
+  });
 }
