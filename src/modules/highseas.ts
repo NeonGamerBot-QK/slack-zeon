@@ -24,8 +24,8 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
     let newRankMessage =
       newLB.indexOf(entry) !== oldLB.indexOf(entry)
         ? newLB.indexOf(entry) - oldLB.indexOf(entry) > 0
-          ? `You have moved up to #${newLB.indexOf(entry) + 1}`
-          : `You have moved down to #${newLB.indexOf(entry) + 1}`
+          ? `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.indexOf(entry) + 1}`
+          : `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.indexOf(entry) + 1}`
         : ``;
     if (diff > 0) {
       msgs.push(
@@ -79,7 +79,7 @@ export function highSeasCron(app: ModifiedApp) {
     // update da cache
     const oldInstance = app.db.get(`highseas_lb`) || [];
     const newInstance = await getLb();
-    app.db.set(`highseas_lb`, newInstance);
+    const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
     // run diff for all users who have opted in
     if (app.db.get(`highseas_lb_ts`)) {
       await app.client.chat.delete({
@@ -128,6 +128,9 @@ export function highSeasCron(app: ModifiedApp) {
       if (oldUserData && newUserData) {
       }
     }
+    app.db.set(`highseas_lb`, newInstance);
+    all_entries.push(newInstance)
+    app.db.set(`highseas_lb_all_entries`, all_entries);
   });
 }
 
