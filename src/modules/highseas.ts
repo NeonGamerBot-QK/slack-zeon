@@ -24,8 +24,8 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
     let newRankMessage =
       newLB.indexOf(entry) !== oldLB.indexOf(entry)
         ? newLB.indexOf(entry) - oldLB.indexOf(entry) > 0
-          ? `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.indexOf(entry) + 1}`
-          : `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.indexOf(entry) + 1}`
+          ? `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLb.findIndex(e => e.id == entry.id) + 1}`
+          : `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex(e => e.id == entry.ID)+ 1}`
         : ``;
     if (diff > 0) {
       msgs.push(
