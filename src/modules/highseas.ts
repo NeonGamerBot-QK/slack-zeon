@@ -10,20 +10,31 @@ interface LeaderboardEntry {
 type Leaderboard = LeaderboardEntry[];
 export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
   const msgs = [];
-  for(const entry of newLB) {
-    const oldEntry = oldLB.find(e => e.id === entry.id);
-    if(!oldEntry) {
-      msgs.push(`:yay: <@${entry.slack}> Welcome to the leaderboard joining us in #${
-        newLB.indexOf(entry) + 1
-      } place with \`${entry.current_doubloons}\` :doubloon: (${entry.total_doubloons} total)`);
+  for (const entry of newLB) {
+    const oldEntry = oldLB.find((e) => e.id === entry.id);
+    if (!oldEntry) {
+      msgs.push(
+        `:yay: <@${entry.slack}> Welcome to the leaderboard joining us in #${
+          newLB.indexOf(entry) + 1
+        } place with \`${entry.current_doubloons}\` :doubloon: (${entry.total_doubloons} total)`,
+      );
       continue;
     }
     const diff = entry.current_doubloons - oldEntry.current_doubloons;
-    let newRankMessage = newLB.indexOf(entry) !== oldLB.indexOf(entry) ? (newLB.indexOf(entry) - oldLB.indexOf(entry) > 0 ? `You have moved up to #${newLB.indexOf(entry) + 1}` : `You have moved down to #${newLB.indexOf(entry) + 1}`) : ``;
-    if(diff > 0) {
-      msgs.push(`${newRankMessage ? newRankMessage.includes("up") ?":upvote:" : ":downvote:"  : ""}:yay: *${entry.username}* You have gained \`${diff}\` :doubloon:. ${newRankMessage ?? "No rank change"}`);
+    let newRankMessage =
+      newLB.indexOf(entry) !== oldLB.indexOf(entry)
+        ? newLB.indexOf(entry) - oldLB.indexOf(entry) > 0
+          ? `You have moved up to #${newLB.indexOf(entry) + 1}`
+          : `You have moved down to #${newLB.indexOf(entry) + 1}`
+        : ``;
+    if (diff > 0) {
+      msgs.push(
+        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:yay: *${entry.username}* You have gained \`${diff}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
+      );
     } else if (diff < 0) {
-      msgs.push(`${newRankMessage ? newRankMessage.includes("up") ?":upvote:" : ":downvote:"  : ""}:noooovanish: *${entry.username}* You lost \`${Math.abs(diff)}\` :doubloon:. ${newRankMessage ?? "No rank change"}`);
+      msgs.push(
+        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:noooovanish: *${entry.username}* You lost \`${Math.abs(diff)}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
+      );
     }
   }
   return msgs;
@@ -78,19 +89,21 @@ export function highSeasCron(app: ModifiedApp) {
     }
     const msgs = diffHighSeasLB(oldInstance, newInstance);
     if (msgs.length > 0) {
-      await app.client.chat.postMessage({
-        channel: `C086HHP5J7K`,
-        text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
-      }).then(async e => {
-        for(const msg of msgs) {
-          await app.client.chat.postMessage({
-            channel: `C086HHP5J7K`,
-            text: msg,
-            thread_ts: e.ts,
-          });
-          await new Promise(r => setTimeout(r, 500));
-        }
-      })
+      await app.client.chat
+        .postMessage({
+          channel: `C086HHP5J7K`,
+          text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
+        })
+        .then(async (e) => {
+          for (const msg of msgs) {
+            await app.client.chat.postMessage({
+              channel: `C086HHP5J7K`,
+              text: msg,
+              thread_ts: e.ts,
+            });
+            await new Promise((r) => setTimeout(r, 500));
+          }
+        });
     }
     await app.client.chat
       .postMessage({
@@ -107,8 +120,8 @@ export function highSeasCron(app: ModifiedApp) {
       .then((e) => {
         app.db.set(`highseas_lb_ts`, e.ts);
       });
-    
-      for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
+
+    for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
       const oldUserData = oldInstance.find((e) => e.id == user.id);
       const newUserData = newInstance.find((e) => e.id == user.id);
       if (!oldUserData && !newUserData) continue;
