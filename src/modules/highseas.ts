@@ -129,7 +129,7 @@ export function highSeasCron(app: ModifiedApp) {
       }
     }
     app.db.set(`highseas_lb`, newInstance);
-    all_entries.push(newInstance)
+    all_entries.push(newInstance);
     app.db.set(`highseas_lb_all_entries`, all_entries);
   });
 }
