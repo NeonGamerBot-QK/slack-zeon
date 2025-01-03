@@ -4,7 +4,7 @@ import cron from "node-cron";
 import { text } from "body-parser";
 const cheerio = require("cheerio");
 export function createShipmentURL(token: string, email: string) {
-  return `https://shipment-viewer.hackclub.com/shipments?email=${encodeURIComponent(email)}&signature=${token}&show_ids=yep`;
+  return `https://shipment-viewer.hackclub.com/dyn/jason/${encodeURI(email)}?email=${encodeURIComponent(email)}&signature=${token}&show_ids=yep`;
 }
 export function requestEmailForUser() {
   // TODO

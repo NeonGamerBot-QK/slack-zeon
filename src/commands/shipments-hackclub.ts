@@ -24,7 +24,7 @@ export default class ZeonShipPkgs implements Command {
         return respond(`:x: You need to provide a shipment url.`);
       if (
         !shipmentURL.startsWith(
-          `https://shipment-viewer.hackclub.com/shipments`,
+          `https://shipment-viewer.hackclub.com/dyn`,
         )
       )
         return respond(`:x: You need to provide a shipment url from hackclub.`);
