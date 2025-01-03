@@ -100,27 +100,29 @@ export function parseShipments(shipmentsURL: string): Promise<ShipmentData> {
   //       res(final);
   //     });
   // });
-  return fetch(shipmentsURL).then(r=> r.json()).then(j => {
-    return j.map(e=> {
-      return {
-        shipmentTitle: e.title,
-        shiprovider: e.type_text,
-        tracking: {
-          text: e.tracking_number,
-          url: e.tracking_url,
-        },
-        isDone: e.shipped,
-        contents: e.description,
-        airtable: {
-          text  : e.source_record,
-          url: e.source_record
-        },
-        addedDate: e.date,
-        id: e.id,
-        icon: e.icon
-      }
-    })
-  })
+  return fetch(shipmentsURL)
+    .then((r) => r.json())
+    .then((j) => {
+      return j.map((e) => {
+        return {
+          shipmentTitle: e.title,
+          shiprovider: e.type_text,
+          tracking: {
+            text: e.tracking_number,
+            url: e.tracking_url,
+          },
+          isDone: e.shipped,
+          contents: e.description,
+          airtable: {
+            text: e.source_record,
+            url: e.source_record,
+          },
+          addedDate: e.date,
+          id: e.id,
+          icon: e.icon,
+        };
+      });
+    });
 }
 export interface Shipment {
   shipmentTitle: string;
