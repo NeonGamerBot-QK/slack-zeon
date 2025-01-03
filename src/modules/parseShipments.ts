@@ -1,6 +1,7 @@
 import { AnyBlock, Block } from "@slack/bolt";
 import { ModifiedApp } from "./slackapp";
 import cron from "node-cron";
+import { text } from "body-parser";
 const cheerio = require("cheerio");
 export function createShipmentURL(token: string, email: string) {
   return `https://shipment-viewer.hackclub.com/shipments?email=${encodeURIComponent(email)}&signature=${token}&show_ids=yep`;
@@ -9,95 +10,117 @@ export function requestEmailForUser() {
   // TODO
 }
 export function parseShipments(shipmentsURL: string): Promise<ShipmentData> {
-  return new Promise((res, rej) => {
-    const final = [];
-    fetch(shipmentsURL)
-      .then((r) => r.text())
-      .then((rhtml) => {
-        const $ = cheerio.load(rhtml);
-        const divs = $(`[class="col-12 col-sm-6 col-md-4 col-lg-4"]`);
-        for (const d of divs) {
-          // console.log(d)
-          const dd = $(d);
-          // YYYY-MM-DD
-          const addedDate = $(
-            dd.find(
-              `[class="card-header d-flex align-items-center justify-content-between"]`,
-            ),
-          )
-            .text()
-            .replaceAll(`on`, ``)
-            .replaceAll(`fulfilled`, ``)
-            .replaceAll(`added`, ``)
-            .replaceAll(`pending...`, ``)
-            .trim();
-          let isDone = $(
-            dd.find(
-              `[class="card-header d-flex align-items-center justify-content-between"]`,
-            ),
-          )
-            .text()
-            .includes(`fulfilled`);
-          const shipmentTitle = $(dd.find(`[class="card-title"]`)).text();
-          const potshipProvider = $(
-            Array.from($(dd.find(`[class="card-body"] > div > p`)))[0],
-          );
-          const potContents = $($(dd.find(`[class="card-body"] > div > ul`)));
-          const potTracking = $(
-            $(
-              Array.from(dd.find(`p`)).find((e) =>
-                $(e).text().startsWith(`tracking #`),
-              ),
-            ).find(`a`),
-          );
-          const Airtable = $(
-            $(
-              Array.from(dd.find(`p`)).find((e) =>
-                $(e).text().startsWith(`Airtable`),
-              ),
-            ).find(`a`),
-          );
-          let airtable = null;
-          let tracking = null;
-          let shiprovider = null;
-          let contents = null;
-          if (potContents) {
-            contents = Array.from(potContents.find(`li`)).map((e) =>
-              $(e).text(),
-            );
-          }
+  // nora made a json api so archiving code below
+  // return new Promise((res, rej) => {
+  //   const final = [];
+  //   fetch(shipmentsURL)
+  //     .then((r) => r.text())
+  //     .then((rhtml) => {
+  //       const $ = cheerio.load(rhtml);
+  //       const divs = $(`[class="col-12 col-sm-6 col-md-4 col-lg-4"]`);
+  //       for (const d of divs) {
+  //         // console.log(d)
+  //         const dd = $(d);
+  //         // YYYY-MM-DD
+  //         const addedDate = $(
+  //           dd.find(
+  //             `[class="card-header d-flex align-items-center justify-content-between"]`,
+  //           ),
+  //         )
+  //           .text()
+  //           .replaceAll(`on`, ``)
+  //           .replaceAll(`fulfilled`, ``)
+  //           .replaceAll(`added`, ``)
+  //           .replaceAll(`pending...`, ``)
+  //           .trim();
+  //         let isDone = $(
+  //           dd.find(
+  //             `[class="card-header d-flex align-items-center justify-content-between"]`,
+  //           ),
+  //         )
+  //           .text()
+  //           .includes(`fulfilled`);
+  //         const shipmentTitle = $(dd.find(`[class="card-title"]`)).text();
+  //         const potshipProvider = $(
+  //           Array.from($(dd.find(`[class="card-body"] > div > p`)))[0],
+  //         );
+  //         const potContents = $($(dd.find(`[class="card-body"] > div > ul`)));
+  //         const potTracking = $(
+  //           $(
+  //             Array.from(dd.find(`p`)).find((e) =>
+  //               $(e).text().startsWith(`tracking #`),
+  //             ),
+  //           ).find(`a`),
+  //         );
+  //         const Airtable = $(
+  //           $(
+  //             Array.from(dd.find(`p`)).find((e) =>
+  //               $(e).text().startsWith(`Airtable`),
+  //             ),
+  //           ).find(`a`),
+  //         );
+  //         let airtable = null;
+  //         let tracking = null;
+  //         let shiprovider = null;
+  //         let contents = null;
+  //         if (potContents) {
+  //           contents = Array.from(potContents.find(`li`)).map((e) =>
+  //             $(e).text(),
+  //           );
+  //         }
 
-          // console.log(potTrackingUrl.html())
-          if (potTracking.html()) {
-            tracking = {
-              text: potTracking.text(),
-              url: potTracking.attr(`href`),
-            };
-          }
-          if (Airtable.html()) {
-            airtable = {
-              text: Airtable.text(),
-              url: Airtable.attr(`href`),
-            };
-          }
-          if (potshipProvider.html) {
-            shiprovider = potshipProvider.text();
-          }
-          final.push({
-            shipmentTitle,
-            // shipmentsURL,
-            shiprovider,
-            tracking,
-            isDone,
-            contents,
-            airtable,
-            addedDate,
-          });
-        }
-        // console.log(final)
-        res(final);
-      });
-  });
+  //         // console.log(potTrackingUrl.html())
+  //         if (potTracking.html()) {
+  //           tracking = {
+  //             text: potTracking.text(),
+  //             url: potTracking.attr(`href`),
+  //           };
+  //         }
+  //         if (Airtable.html()) {
+  //           airtable = {
+  //             text: Airtable.text(),
+  //             url: Airtable.attr(`href`),
+  //           };
+  //         }
+  //         if (potshipProvider.html) {
+  //           shiprovider = potshipProvider.text();
+  //         }
+  //         final.push({
+  //           shipmentTitle,
+  //           // shipmentsURL,
+  //           shiprovider,
+  //           tracking,
+  //           isDone,
+  //           contents,
+  //           airtable,
+  //           addedDate,
+  //         });
+  //       }
+  //       // console.log(final)
+  //       res(final);
+  //     });
+  // });
+  return fetch(shipmentsURL).then(r=> r.json()).then(j => {
+    return j.map(e=> {
+      return {
+        shipmentTitle: e.title,
+        shiprovider: e.type_text,
+        tracking: {
+          text: e.tracking_number,
+          url: e.tracking_url,
+        },
+        isDone: e.shipped,
+        contents: e.description,
+        airtable: {
+          text  : e.source_record,
+          url: e.source_record
+        },
+        addedDate: e.date,
+        id: e.id,
+        icon: e.icon
+      }
+    })
+  })
 }
 export interface Shipment {
   shipmentTitle: string;
