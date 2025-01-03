@@ -214,7 +214,7 @@ export function setupCronForShipments(app: ModifiedApp) {
       for (const userURLID of allUsersWithAShipmentURL) {
         try {
           const shipments = await app.utils.hcshipments.parseShipments(
-          app.db.get(userURLID),
+            app.db.get(userURLID),
           );
           const oldShipments = app.db.get(
             `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
