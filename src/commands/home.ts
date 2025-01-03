@@ -346,7 +346,7 @@ export default class AppHome implements Command {
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: `*Spotify:*\n${spotifyStr}`,
+                  text: `*Spotify:*\n${spotifyStr.replace(`:spotify_new:`, `:new_spotify:`)}`,
                 },
               },
               {
