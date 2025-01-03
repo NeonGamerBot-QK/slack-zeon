@@ -147,6 +147,8 @@ export default class Ping implements Command {
     app.event("message", async ({ event, client, body }) => {
       const dbEntry = app.dbs.stickymessages.get(event.channel);
       if (event.subtype) return;
+      //@ts-ignore
+      if(event.thread_ts) return;
       if (!dbEntry) return;
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
