@@ -76,6 +76,7 @@ export function highSeasCron(app: ModifiedApp) {
     }
   });
   cron.schedule("*/5 * * * *", async () => {
+    try {
     // update da cache
     const oldInstance = app.db.get(`highseas_lb`) || [];
     const newInstance = await getLb();
@@ -131,6 +132,12 @@ export function highSeasCron(app: ModifiedApp) {
     app.db.set(`highseas_lb`, newInstance);
     all_entries.push(newInstance);
     app.db.set(`highseas_lb_all_entries`, all_entries);
+  } catch (e) {
+    await app.client.chat.postMessage({
+      text: `high seas lb ded\n\n${e.stack}`,
+      channel: `C07LGLUTNH2`,
+    });
+  }
   });
 }
 
