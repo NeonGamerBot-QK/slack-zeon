@@ -11,25 +11,25 @@ export let cached_spotify_songs = [];
 export function resetSpotifyCache(app: ModifiedApp) {
   cached_spotify_songs = app.db.get("spotify_songs") || [];
 }
-export function diceDups(arr ) {
-  const r = []
-  for(let i = 0; i < arr.length ; i++) {
-  if(arr[i-1]) {
-     if(arr[i] == arr[i-1]) {
-      // add it to an array 
-      continue;
-     } 
-     else r.push({
-      value: arr[i],
-      count: 1
-  })
-  } else {
-      r.push(arr[i])
-  }
+export function diceDups(arr) {
+  const r = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i - 1]) {
+      if (arr[i] == arr[i - 1]) {
+        // add it to an array
+        continue;
+      } else
+        r.push({
+          value: arr[i],
+          count: 1,
+        });
+    } else {
+      r.push(arr[i]);
+    }
   }
   return r;
-  }
-    
+}
+
 export async function getDayResponse(db: JSONdb) {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
