@@ -197,19 +197,19 @@ export default class AppHome implements Command {
                       .join("\n")}`,
                   },
                 },
-                adventOfCodeData && {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: `*Advent of Code:*\n${(
-                      Object.values(adventOfCodeData.members) as any[]
-                    )
-                      .slice(0, 10)
-                      .sort((a, b) => b.local_score - a.local_score)
-                      .map((e) => `${e.name} has ${e.stars} stars`)
-                      .join("\n")}`,
-                  },
-                },
+                // adventOfCodeData && {
+                //   type: "section",
+                //   text: {
+                //     type: "mrkdwn",
+                //     text: `*Advent of Code:*\n${(
+                //       Object.values(adventOfCodeData.members) as any[]
+                //     )
+                //       .slice(0, 10)
+                //       .sort((a, b) => b.local_score - a.local_score)
+                //       .map((e) => `${e.name} has ${e.stars} stars`)
+                //       .join("\n")}`,
+                //   },
+                // },
                 ...anon_mail_section,
                 ...high_seas_section,
               ].filter(Boolean),
@@ -274,26 +274,26 @@ export default class AppHome implements Command {
                     .join("\n")}`,
                 },
               },
-              adventOfCodeData && {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: `*Advent of Code:*\n${(
-                    Object.values(adventOfCodeData.members) as any[]
-                  )
-                    .slice(0, 10)
-                    .sort((a, b) => b.local_score - a.local_score)
-                    .map((e) => `${e.name} has ${e.stars} stars`)
-                    .join("\n")}`,
-                },
-              },
-              adventOfCodeData && {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
-                },
-              },
+              // adventOfCodeData && {
+              //   type: "section",
+              //   text: {
+              //     type: "mrkdwn",
+              //     text: `*Advent of Code:*\n${(
+              //       Object.values(adventOfCodeData.members) as any[]
+              //     )
+              //       .slice(0, 10)
+              //       .sort((a, b) => b.local_score - a.local_score)
+              //       .map((e) => `${e.name} has ${e.stars} stars`)
+              //       .join("\n")}`,
+              //   },
+              // },
+              // adventOfCodeData && {
+              //   type: "section",
+              //   text: {
+              //     type: "mrkdwn",
+              //     text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
+              //   },
+              // },
               ...anon_mail_section,
               ...high_seas_section,
               {
