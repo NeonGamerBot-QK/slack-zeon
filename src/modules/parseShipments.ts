@@ -9,6 +9,7 @@ export function createShipmentURL(token: string, email: string) {
 export function requestEmailForUser() {
   // TODO
 }
+
 export function parseShipments(shipmentsURL: string): Promise<ShipmentData> {
   // nora made a json api so archiving code below
   // return new Promise((res, rej) => {

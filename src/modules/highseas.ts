@@ -83,10 +83,14 @@ export function highSeasCron(app: ModifiedApp) {
       const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
       // run diff for all users who have opted in
       if (app.db.get(`highseas_lb_ts`)) {
-        await app.client.chat.delete({
-          channel: `C086HHP5J7K`,
-          ts: app.db.get(`highseas_lb_ts`)!,
-        });
+   try {
+    await app.client.chat.delete({
+      channel: `C086HHP5J7K`,
+      ts: app.db.get(`highseas_lb_ts`)!,
+    });
+   } catch (e) {
+    app.db.delete(`highseas_lb_ts`);
+   }
       }
       const msgs = diffHighSeasLB(oldInstance, newInstance);
       if (msgs.length > 0) {

@@ -29,7 +29,7 @@ export async function getDayResponse(db: JSONdb) {
   const lastMessageLink =
     db.get("howday_last_message_link") ||
     "Wow this is the first one or i have not finished the code.";
-  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw} \nTodo.\n> your todo list you want to share here\n> also todo `;
+  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> your todo list you want to share here\n> also todo `;
 }
 // @see https://stackoverflow.com/a/43837711
 // export function makeSlackMessageUrl(channel: string, messageTs: number) {
