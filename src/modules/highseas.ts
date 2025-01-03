@@ -77,67 +77,67 @@ export function highSeasCron(app: ModifiedApp) {
   });
   cron.schedule("*/5 * * * *", async () => {
     try {
-    // update da cache
-    const oldInstance = app.db.get(`highseas_lb`) || [];
-    const newInstance = await getLb();
-    const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
-    // run diff for all users who have opted in
-    if (app.db.get(`highseas_lb_ts`)) {
-      await app.client.chat.delete({
-        channel: `C086HHP5J7K`,
-        ts: app.db.get(`highseas_lb_ts`)!,
-      });
-    }
-    const msgs = diffHighSeasLB(oldInstance, newInstance);
-    if (msgs.length > 0) {
+      // update da cache
+      const oldInstance = app.db.get(`highseas_lb`) || [];
+      const newInstance = await getLb();
+      const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
+      // run diff for all users who have opted in
+      if (app.db.get(`highseas_lb_ts`)) {
+        await app.client.chat.delete({
+          channel: `C086HHP5J7K`,
+          ts: app.db.get(`highseas_lb_ts`)!,
+        });
+      }
+      const msgs = diffHighSeasLB(oldInstance, newInstance);
+      if (msgs.length > 0) {
+        await app.client.chat
+          .postMessage({
+            channel: `C086HHP5J7K`,
+            text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
+          })
+          .then(async (e) => {
+            for (const msg of msgs) {
+              await app.client.chat.postMessage({
+                channel: `C086HHP5J7K`,
+                text: msg,
+                thread_ts: e.ts,
+              });
+              await new Promise((r) => setTimeout(r, 500));
+            }
+          });
+      }
       await app.client.chat
         .postMessage({
           channel: `C086HHP5J7K`,
-          text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
+          text: `*High Seas Lb* (top 10)\n${newInstance
+            .slice(0, 10)
+            .map(
+              (d) =>
+                `\`${d.username}\` - ${parseInt(d.current_doubloons)} :doubloon:`,
+            )
+            .join("\n")}`,
+          parse: "none",
         })
-        .then(async (e) => {
-          for (const msg of msgs) {
-            await app.client.chat.postMessage({
-              channel: `C086HHP5J7K`,
-              text: msg,
-              thread_ts: e.ts,
-            });
-            await new Promise((r) => setTimeout(r, 500));
-          }
+        .then((e) => {
+          app.db.set(`highseas_lb_ts`, e.ts);
         });
-    }
-    await app.client.chat
-      .postMessage({
-        channel: `C086HHP5J7K`,
-        text: `*High Seas Lb* (top 10)\n${newInstance
-          .slice(0, 10)
-          .map(
-            (d) =>
-              `\`${d.username}\` - ${parseInt(d.current_doubloons)} :doubloon:`,
-          )
-          .join("\n")}`,
-        parse: "none",
-      })
-      .then((e) => {
-        app.db.set(`highseas_lb_ts`, e.ts);
-      });
 
-    for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
-      const oldUserData = oldInstance.find((e) => e.id == user.id);
-      const newUserData = newInstance.find((e) => e.id == user.id);
-      if (!oldUserData && !newUserData) continue;
-      if (oldUserData && newUserData) {
+      for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
+        const oldUserData = oldInstance.find((e) => e.id == user.id);
+        const newUserData = newInstance.find((e) => e.id == user.id);
+        if (!oldUserData && !newUserData) continue;
+        if (oldUserData && newUserData) {
+        }
       }
+      app.db.set(`highseas_lb`, newInstance);
+      all_entries.push(newInstance);
+      app.db.set(`highseas_lb_all_entries`, all_entries);
+    } catch (e) {
+      await app.client.chat.postMessage({
+        text: `high seas lb ded\n\n${e.stack}`,
+        channel: `C07LGLUTNH2`,
+      });
     }
-    app.db.set(`highseas_lb`, newInstance);
-    all_entries.push(newInstance);
-    app.db.set(`highseas_lb_all_entries`, all_entries);
-  } catch (e) {
-    await app.client.chat.postMessage({
-      text: `high seas lb ded\n\n${e.stack}`,
-      channel: `C07LGLUTNH2`,
-    });
-  }
   });
 }
 
