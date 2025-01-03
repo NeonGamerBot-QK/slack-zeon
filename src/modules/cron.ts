@@ -99,7 +99,7 @@ export function setupOverallCron(app: ModifiedApp) {
     // at home? at school?
     // set away if in any focus mode
   });
-  cronWithCheckIn.schedule(
+  cron.schedule(
     "30 21 * * *",
     async () => {
       await howWasYourDay(app);
