@@ -46,5 +46,4 @@ export function PrivateDNS(app: ModifiedApp, id: string, channel: string) {
       chunks = [];
     }
   };
- 
 }
