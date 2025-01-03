@@ -32,4 +32,3 @@ export function startBdayCron(app: ModifiedApp) {
     cronFunc(app);
   });
 }
-
