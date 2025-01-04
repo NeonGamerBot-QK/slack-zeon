@@ -106,9 +106,9 @@ export function setupOverallCron(app: ModifiedApp) {
         await howWasYourDay(app);
       } catch (e: any) {
         app.client.chat.postMessage({
-          channel: ``,
-          text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
-        });
+          channel: `C07R8DYAZMM`,
+          text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``
+        })
       }
     },
     // ,{ name: "howwasmyday" },
