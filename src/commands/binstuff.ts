@@ -23,9 +23,9 @@ export default class UUID implements Command {
       const { event, say } = par;
       // roll the dice!
       if (
-      //@ts-ignore
+        //@ts-ignore
         !event.text.toLowerCase().startsWith("```") ||
-      //@ts-ignore
+        //@ts-ignore
         !event.text.toLowerCase().endsWith("```")
       ) {
         await app.client.chat.postEphemeral({
