@@ -28,13 +28,16 @@ export default class UUID implements Command {
         //@ts-ignore
         !event.text.toLowerCase().endsWith("```")
       ) {
+        //@ts-ignore
+       if(!event.thread_ts) {
         await app.client.chat.postEphemeral({
-          text: `:x: You need to use code blocks for this command.`,
-          //@ts-ignore
-          channel: event.channel,
-          //@ts-ignore
-          user: event.user,
-        });
+            text: `:x: You need to use code blocks for this command.`,
+            //@ts-ignore
+            channel: event.channel,
+            //@ts-ignore
+            user: event.user,
+          });
+       }
         return;
       }
       //@ts-ignore
