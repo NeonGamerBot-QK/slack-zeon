@@ -175,7 +175,7 @@ export function getShipmentDiff(
       }
       if (oldShipment.contents && typeof oldShipment.contents == "string") {
         if (
-        //@ts-ignore WHY
+          //@ts-ignore WHY
           oldShipment.contents.join(", ") !== newShipment.contents.join(", ")
         ) {
           str += `> ${newShipment.shipmentTitle} has new contents (${newShipment.contents.join(", ")})\n`;
