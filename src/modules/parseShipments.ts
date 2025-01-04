@@ -220,7 +220,7 @@ export function setupCronForShipments(app: ModifiedApp) {
         try {
           const shipments = await app.utils.hcshipments.parseShipments(
             app.db.get(userURLID),
-          );
+          ).then(e=>e.flat());
           const oldShipments = app.db.get(
             `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
           );
@@ -228,7 +228,7 @@ export function setupCronForShipments(app: ModifiedApp) {
           if (oldShipments !== shipments && oldShipments) {
             try {
               // run diff and uhh send stuff
-              const blocks = getShipmentDiff(oldShipments, shipments);
+              const blocks = getShipmentDiff(oldShipments.flat(), shipments);
               for (const b of blocks) {
                 await app.client.chat.postMessage({
                   channel: userURLID.replace(`shipment_url_`, ``),
