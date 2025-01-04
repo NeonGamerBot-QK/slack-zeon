@@ -47,11 +47,12 @@ export default class UUID implements Command {
           e.elements
             .filter((e) => e.type == "text")
             .map((e) => e.text)
-            .join("").trim(),
+            .join("")
+            .trim(),
         )
         .map((e) => e.trim())
         .filter(Boolean)
-        .filter(c=>c.length > 1);
+        .filter((c) => c.length > 1);
       for (const c of contents) {
         //@ts-ignore
         const contentToUpload = c;
