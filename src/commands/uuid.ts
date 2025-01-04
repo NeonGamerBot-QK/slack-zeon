@@ -23,16 +23,16 @@ export default class UUID implements Command {
       const { event, say } = par;
       // roll the dice!
       //@ts-ignore
-if(!event.text.toLowerCase().startsWith("gib uuid")) return;
-const uuid = require("uuid");
-const roll = uuid.v4();
-await app.client.chat.postMessage({
-    text: `uuid: \`${roll}\``, 
-    //@ts-ignore
-    channel: event.channel,
-    //@ts-ignore
-    thread_ts: event.ts!,
-})
+      if (!event.text.toLowerCase().startsWith("gib uuid")) return;
+      const uuid = require("uuid");
+      const roll = uuid.v4();
+      await app.client.chat.postMessage({
+        text: `uuid: \`${roll}\``,
+        //@ts-ignore
+        channel: event.channel,
+        //@ts-ignore
+        thread_ts: event.ts!,
+      });
 
       console.debug(`#message-`);
     });
