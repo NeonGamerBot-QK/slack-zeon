@@ -41,22 +41,26 @@ export default class UUID implements Command {
         return;
       }
       //@ts-ignore
-      const contentToUpload = event.text.slice(3, event.text.length - 3);
-      //@ts-ignore
-      const bin = await fetch(" https://bin.saahild.com/documents", {
-        method: "POST",
-        body: contentToUpload,
-      })
-        .then((r) => r.json())
-        .then((r) => r.key);
-      await app.client.chat.postMessage({
-        //@ts-ignore
-        text: `<@${event.user}> Here is your bin link :P\n> https://bin.saahild.com/${bin}`,
-        //@ts-ignore
-        channel: event.channel,
-        //@ts-ignore
-        thread_ts: event.ts!,
-      });
+      const contents = event.blocks[0].elements.filter(e=>e.type == "rich_text_preformatted").map(e=>e.elements.filter(e=>e.type=='text').map(e=>e.text).join(''))
+     for(const c of contents) {
+       //@ts-ignore
+       const contentToUpload = c
+       //@ts-ignore
+       const bin = await fetch(" https://bin.saahild.com/documents", {
+         method: "POST",
+         body: contentToUpload,
+       })
+         .then((r) => r.json())
+         .then((r) => r.key);
+       await app.client.chat.postMessage({
+         //@ts-ignore
+         text: `<@${event.user}> Here is your bin link :P\n> https://bin.saahild.com/${bin}`,
+         //@ts-ignore
+         channel: event.channel,
+         //@ts-ignore
+         thread_ts: event.ts!,
+       });
+     }
 
       console.debug(`#message-`);
     });
