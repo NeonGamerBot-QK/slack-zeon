@@ -38,7 +38,7 @@ export default class UUID implements Command {
         return;
       }
       //@ts-ignore
-      const contentToUpload = event.text.replace(/```[\s\S]*?```/, "");
+      const contentToUpload = event.text.slice(3, event.text.length - 3);
       //@ts-ignore
       const bin = await fetch(" https://bin.saahild.com/documents", {
         method: "POST",
