@@ -14,7 +14,7 @@ export default class UUID implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //@ts-ignore
-      if (par.event.channel !== "C087MFJ54U9") return;
+      if (par.event.channel !== "C07LGLUTNH2") return;
       const message = par;
       //@ts-ignore
       //   if (par.event.thread_ts) return;
