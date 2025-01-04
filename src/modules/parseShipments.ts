@@ -173,10 +173,13 @@ export function getShipmentDiff(
         str += `> ${newShipment.shipmentTitle} is now from ${newShipment.shiprovider}\n`;
         updateCount++;
       }
-      if (oldShipment.contents.join(", ") !== newShipment.contents.join(", ")) {
-        str += `> ${newShipment.shipmentTitle} has new contents (${newShipment.contents.join(", ")})\n`;
-        updateCount++;
-      }
+if(oldShipment.contents && typeof oldShipment.contents == 'string') {
+  //@ts-ignore WHY
+  if (oldShipment.contents.join(", ") !== newShipment.contents.join(", ")) {
+    str += `> ${newShipment.shipmentTitle} has new contents (${newShipment.contents.join(", ")})\n`;
+    updateCount++;
+  }
+}
       if (oldShipment.tracking && newShipment.tracking) {
         if (oldShipment.tracking.text !== newShipment.tracking.text) {
           str += `> ${newShipment.shipmentTitle} has a new tracking number\n`;
