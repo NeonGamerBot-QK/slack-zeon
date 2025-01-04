@@ -55,7 +55,6 @@ export default class UUID implements Command {
         thread_ts: event.ts!,
       });
 
-
       console.debug(`#message-`);
     });
   }
