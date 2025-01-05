@@ -28,7 +28,8 @@
     "smee-client": "^2.0.3",
     "socket.io": "^4.8.1",
     "stegcloak": "^1.1.1",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "memwatch-next": "latest"
   },
   "optionalDependencies": {},
   "devDependencies": {
