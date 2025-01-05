@@ -31,8 +31,7 @@
     "ws": "^8.18.0",
     "memwatch-next": "latest"
   },
-  "optionalDependencies": {
-  },
+  "optionalDependencies": {},
   "devDependencies": {
     "@types/node": "^22.7.4",
     "canvas": "^2.11.2",
