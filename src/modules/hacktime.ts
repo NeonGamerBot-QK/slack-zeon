@@ -146,7 +146,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
         }
       }
     } catch (e) {
-      console.error(e);
+      console.error(e, `fucking hackatime`);
     }
     // console.log(userHacktimeDat)
   }, 1000 * 60);

@@ -48,7 +48,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
       }
       r();
     } catch (e) {
-      console.error(e);
+      console.error(e, `uptime`);
     }
   }, 60_000);
   app.client.chat.postMessage({
