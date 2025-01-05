@@ -35,7 +35,7 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
 attachDB(db);
-watchMem(app)
+watchMem(app);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
