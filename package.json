@@ -22,14 +22,14 @@
     "ms": "^2.1.3",
     "node-cron": "^3.0.3",
     "node-ical": "^0.20.1",
+    "node-memwatch-new": "0.0.1",
     "octokit": "^4.0.2",
     "openai": "latest",
     "simple-json-db": "^2.0.0",
     "smee-client": "^2.0.3",
     "socket.io": "^4.8.1",
     "stegcloak": "^1.1.1",
-    "ws": "^8.18.0",
-    "node-memwatch-new": "latest"
+    "ws": "^8.18.0"
   },
   "optionalDependencies": {},
   "devDependencies": {
