@@ -262,5 +262,5 @@ export function setupOverallCron(app: ModifiedApp) {
   startBdayCron(app);
   setupCronAdventOfCode(app);
   setupCronForIrl(app);
-  // highSeasCron(app);
+  highSeasCron(app);
 }
