@@ -75,7 +75,7 @@ export function setupOverallCron(app: ModifiedApp) {
   cron.schedule("15 */3 * * *", sendRandomStuff);
   cron.schedule("45 2 */2 * *", sendRandomStuff);
   cron.schedule("* * * * *", async () => {
-    Sentry.profiler.startProfiler();
+    // Sentry.profiler.startProfiler();
     //TODO: Add custom PFP's for music (cuz headphones would be nice)
     const jellyfinStr = await getJellyfinStatus();
     const spotifyStr = await getSpotifyStatus();
@@ -94,24 +94,25 @@ export function setupOverallCron(app: ModifiedApp) {
         true,
       );
     }
-    Sentry.profiler.stopProfiler();
+    // Sentry.profiler.stopProfiler();
     //TODO ADD MORE RPC
     // at home? at school?
     // set away if in any focus mode
   });
-  cron.schedule(
+  cronWithCheckIn.schedule(
     "30 21 * * *",
     async () => {
       try {
         await howWasYourDay(app);
       } catch (e: any) {
+        // uh guess what this doesnt run because this cron doesnt run ...
         app.client.chat.postMessage({
           channel: `C07R8DYAZMM`,
           text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
         });
       }
     },
-    // ,{ name: "howwasmyday" },
+    ,{ name: "howwasmyday" },
   );
   cronWithCheckIn.schedule(
     "1 7 * * 1-5",
@@ -261,5 +262,5 @@ export function setupOverallCron(app: ModifiedApp) {
   startBdayCron(app);
   setupCronAdventOfCode(app);
   setupCronForIrl(app);
-  highSeasCron(app);
+  // highSeasCron(app);
 }
