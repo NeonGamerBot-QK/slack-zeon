@@ -112,7 +112,7 @@ export function setupOverallCron(app: ModifiedApp) {
         });
       }
     },
-    ,{ name: "howwasmyday" },
+    { name: "howwasmyday" },
   );
   cronWithCheckIn.schedule(
     "1 7 * * 1-5",
