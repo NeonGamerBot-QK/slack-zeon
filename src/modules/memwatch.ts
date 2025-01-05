@@ -1,3 +1,4 @@
+//@ts-ignore
 import memwatch from "memwatch-next";
 import { ModifiedApp } from "./slackapp";
 export default function watchMem(app: ModifiedApp) {
