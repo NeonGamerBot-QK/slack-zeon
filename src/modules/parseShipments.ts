@@ -248,7 +248,7 @@ export function setupCronForShipments(app: ModifiedApp) {
           );
         } catch (e) {
           // coulda failed parsing or diff..
-          console.error(e, `shipment viewer`);
+          console.error(e, `shipment viewer`, userURLID);
         }
       }
     }
