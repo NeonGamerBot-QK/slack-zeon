@@ -1,5 +1,5 @@
 //@ts-ignore
-import memwatch from 'node-memwatch-new';
+import memwatch from "node-memwatch-new";
 import { ModifiedApp } from "./slackapp";
 export default function watchMem(app: ModifiedApp) {
   memwatch.on("leak", (info) => {
