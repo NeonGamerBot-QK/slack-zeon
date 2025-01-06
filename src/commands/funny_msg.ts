@@ -293,6 +293,8 @@ export const emoji_react_list = Object.entries({
     };
   })
   .filter((e) => e.keyword.length >= 3);
+  const allowed_channels = ["C07LEEB50KD", "C07LGLUTNH2", "C07R8DYAZMM"];
+
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -307,13 +309,9 @@ export default class HowWasUrDayMessage implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
-      if (
-        par.event.channel !== "C07R8DYAZMM" &&
-        par.event.channel !== "C07LGLUTNH2"
-      )
-        return;
+      if (!allowed_channels.includes(par.event.channel)) return;
       const message = par;
-      console.log(`funnymsg`, par.event.user, `USLACKBOT`);
+      // console.log(`funnymsg`, par.event.user, `USLACKBOT`);
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
@@ -341,6 +339,22 @@ export default class HowWasUrDayMessage implements Command {
       //     } catch (e) {}
       //   }
       // }
+      if(par.event.user == `USLACKBOT`){
+        await app.client.reactions.add({
+          name: "slackbot_thonk",
+          timestamp: par.event.ts,
+          channel: par.event.channel
+        })
+      }
+      if(par.event.user == `USLACKBOT` && par.event.text == "no") {
+        await app.client.chat.postMessage({
+          channel: par.event.channel,
+          text: `:notcool: yes you will`,
+          thread_ts: par.event.ts,
+          reply_broadcast: true,
+        });
+      }
+
       if (par.event.text && par.event.text.length > 2000) {
         await app.client.chat.postMessage({
           channel: par.event.channel,
