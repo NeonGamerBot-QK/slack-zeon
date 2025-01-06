@@ -40,7 +40,7 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
   return msgs;
 }
 export function highSeasCron(app: ModifiedApp) {
-  cron.schedule(`* * * * *`, async () => {
+  cron.schedule(`*/10 * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
         method: "POST",
