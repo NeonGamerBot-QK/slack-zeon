@@ -24,8 +24,8 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
     let newRankMessage =
       newLB.indexOf(entry) !== oldLB.findIndex((e) => e.id == entry.id)
         ? newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id) > 0
-          ? `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.indexOf(entry)} (debug)`
-          : `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1}`
+          ? `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)} (debug)`
+          : `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)} (debug)`
         : ``;
     if (diff > 0) {
       msgs.push(
@@ -75,7 +75,7 @@ export function highSeasCron(app: ModifiedApp) {
       });
     }
   });
-  cron.schedule("*/5 * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     try {
       // update da cache
       const oldInstance = app.db.get(`highseas_lb`) || [];
@@ -92,6 +92,7 @@ export function highSeasCron(app: ModifiedApp) {
           app.db.delete(`highseas_lb_ts`);
         }
       }
+
       const msgs = diffHighSeasLB(oldInstance, newInstance);
       if (msgs.length > 0) {
         await app.client.chat
