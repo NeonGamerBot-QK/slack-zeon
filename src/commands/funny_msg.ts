@@ -293,7 +293,7 @@ export const emoji_react_list = Object.entries({
     };
   })
   .filter((e) => e.keyword.length >= 3);
-  const allowed_channels = ["C07LEEB50KD", "C07LGLUTNH2", "C07R8DYAZMM"];
+const allowed_channels = ["C07LEEB50KD", "C07LGLUTNH2", "C07R8DYAZMM"];
 
 export default class HowWasUrDayMessage implements Command {
   name: string;
@@ -339,14 +339,14 @@ export default class HowWasUrDayMessage implements Command {
       //     } catch (e) {}
       //   }
       // }
-      if(par.event.user == `USLACKBOT`){
+      if (par.event.user == `USLACKBOT`) {
         await app.client.reactions.add({
           name: "slackbot_thonk",
           timestamp: par.event.ts,
-          channel: par.event.channel
-        })
+          channel: par.event.channel,
+        });
       }
-      if(par.event.user == `USLACKBOT` && par.event.text == "no") {
+      if (par.event.user == `USLACKBOT` && par.event.text == "no") {
         await app.client.chat.postMessage({
           channel: par.event.channel,
           text: `:notcool: yes you will`,
