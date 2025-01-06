@@ -24,8 +24,8 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
     let newRankMessage =
       newLB.indexOf(entry) !== oldLB.findIndex((e) => e.id == entry.id)
         ? newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id) > 0
-          ?  `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)}, o: ${oldLB.findIndex((e) => e.id == entry.id)}, n: ${newLB.indexOf(entry)}  (debug)`
-          :`You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)}, o: ${oldLB.findIndex((e) => e.id == entry.id)}, n: ${newLB.indexOf(entry)} (debug)` 
+          ? `You have moved down to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)}, o: ${oldLB.findIndex((e) => e.id == entry.id)}, n: ${newLB.indexOf(entry)}  (debug)`
+          : `You have moved up to #${newLB.indexOf(entry) + 1} from #${oldLB.findIndex((e) => e.id == entry.id) + 1} -- diff of ${newLB.indexOf(entry) - oldLB.findIndex((e) => e.id == entry.id)}, o: ${oldLB.findIndex((e) => e.id == entry.id)}, n: ${newLB.indexOf(entry)} (debug)`
         : ``;
     if (diff > 0) {
       msgs.push(
