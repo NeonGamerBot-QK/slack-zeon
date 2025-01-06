@@ -14,9 +14,9 @@ export default function watchMem(app: ModifiedApp) {
     //   channel: `C07LGLUTNH2`,
     // });
     // save in db for graph ;p
-    const old = app.db.get(`memwatch`) || [];
+    const old = app.dbs.memdebug.get(`memwatch`) || [];
     old.push(stats);
-    if (old.length > 100) old.shift();
-    app.db.set(`memwatch`, old);
+    // if (old.length > 100) old.shift();
+    app.dbs.memdebug.set(`memwatch`, old);
   });
 }
