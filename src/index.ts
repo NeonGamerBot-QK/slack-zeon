@@ -29,7 +29,7 @@ const db = new JSONdb("data/data.json");
 app.dbs = {};
 app.dbs.bday = new JSONdb("data/bday.json");
 app.dbs.ddm = new JSONdb("data/discord-datamining.json");
-app.dbs.memdebug = new JSONdb("data/memdb.json")
+app.dbs.memdebug = new JSONdb("data/memdb.json");
 app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
   password: process.env.ANONDM_PASSWORD,
 });
