@@ -313,7 +313,7 @@ export default class HowWasUrDayMessage implements Command {
       )
         return;
       const message = par;
-      console.log(`funnymsg`, par.event.user, `USLACKBOT`)
+      console.log(`funnymsg`, par.event.user, `USLACKBOT`);
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
