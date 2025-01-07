@@ -28,11 +28,11 @@ export async function cronFunc(app: ModifiedApp) {
   }
 }
 
-export async function renderBday(userID:string, app:ModifiedApp) {
-  const userInfo = await app.client.users.info({ user: userID})
-  if(userInfo.error) return `Error: ${userInfo.error}`
-  const bday = app.dbs.bday.get(userID)
-  if(!bday) return `No bday found for ${userID}\n maybe you should opt-in?`
+export async function renderBday(userID: string, app: ModifiedApp) {
+  const userInfo = await app.client.users.info({ user: userID });
+  if (userInfo.error) return `Error: ${userInfo.error}`;
+  const bday = app.dbs.bday.get(userID);
+  if (!bday) return `No bday found for ${userID}\n maybe you should opt-in?`;
   // currently borrowing https://github.com/NeonGamerBot-QK/myBot/blob/master/views/bday.ejs
   //todo jsx..
   return `<!DOCTYPE html>
@@ -129,7 +129,7 @@ body {
 };
 
 const texts = [
-\`Happy birthday ${userInfo.user.real_name || userInfo.user.name}.  Congrats on being ${new Date().getFullYear()  -new Date(bday).getFullYear() } years old\`
+\`Happy birthday ${userInfo.user.real_name || userInfo.user.name}.  Congrats on being ${new Date().getFullYear() - new Date(bday).getFullYear()} years old\`
 ];
 
 const morphTime = 1;
@@ -202,7 +202,7 @@ function animate() {
 
 animate();
 </script>
-</html>`
+</html>`;
 }
 export function startBdayCron(app: ModifiedApp) {
   cron.schedule("0 0 * * *", async () => {
