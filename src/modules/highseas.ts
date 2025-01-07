@@ -333,9 +333,14 @@ export function highSeasCron(app: ModifiedApp) {
       });
     }
   });
-  cron.schedule("0 * * * *", async () => {
+  // cron.schedule("0 * * * *", async () => {
+  //   await cronForAirtable(app);
+  // });
+
+  // you dont want to work cron, fine back to setInterval
+  setInterval(async () => {
     await cronForAirtable(app);
-  });
+  }, 1000 * 60 * 60);
   cron.schedule("*/10 * * * *", async () => {
     try {
       // update da cache
