@@ -227,7 +227,9 @@ export function diffAirtable(
 }
 export async function cronForAirtable(app: ModifiedApp) {
   const data: AirtableResponse = await fetchPerson();
-  const old: AirtableResponse = app.dbs.highseas.get("airtable") || { fields: {} };
+  const old: AirtableResponse = app.dbs.highseas.get("airtable") || {
+    fields: {},
+  };
   const diffMessages = diffAirtable(old, data);
   if (diffMessages.length > 0) {
     app.client.chat
