@@ -15,6 +15,7 @@
     "body-parser": "latest",
     "cheerio": "latest",
     "cors": "latest",
+    "croner": "^9.0.0",
     "dotenv": "^16.4.5",
     "eventsource": "latest",
     "form-data": "^4.0.1",

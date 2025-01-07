@@ -1,5 +1,6 @@
 import { ModifiedApp } from "./slackapp";
 import cron from "node-cron";
+import { Cron } from "croner";
 export interface AirtableResponse {
   id: string;
   createdTime: string;
@@ -298,6 +299,10 @@ export async function fetchPerson() {
 }
 
 export function highSeasCron(app: ModifiedApp) {
+  app.client.chat.postMessage({
+    channel: `C07LGLUTNH2`,
+    text: `:clock: High Seas cron started`,
+  })
   cron.schedule(`*/2 * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
@@ -337,7 +342,7 @@ export function highSeasCron(app: ModifiedApp) {
   //   await cronForAirtable(app);
   // });
 
-  cron.schedule("*/10 * * * *", async () => {
+ const job = new Cron("*/10 * * * *", async () => {
     try {
       // update da cache
       const oldInstance = app.db.get(`highseas_lb`) || [];
@@ -413,6 +418,7 @@ export function highSeasCron(app: ModifiedApp) {
       });
     }
   });
+return { job }
 }
 
 export async function getLb() {
