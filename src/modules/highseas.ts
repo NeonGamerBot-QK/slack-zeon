@@ -242,7 +242,7 @@ export async function cronForAirtable(app: ModifiedApp) {
           app.client.chat.postMessage({
             channel: `C07LGLUTNH2`,
             text: msg,
-            thread_ts: r.ts
+            thread_ts: r.ts,
           });
           await new Promise((r) => setTimeout(r, 1000));
         }
