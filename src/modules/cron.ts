@@ -101,7 +101,7 @@ export function setupOverallCron(app: ModifiedApp) {
   });
   try {
     cronWithCheckIn.schedule(
-      "30 21 * * *",
+      "* * * * *",
       async () => {
         try {
           await howWasYourDay(app);
