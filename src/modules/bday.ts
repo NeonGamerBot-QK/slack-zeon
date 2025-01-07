@@ -41,12 +41,13 @@ export async function renderBday(userID: string, app: ModifiedApp) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Happy Bday ${userInfo.user.real_name || userInfo.user.name} turing ${new Date().getFullYear() - new Date(bday).getFullYear()} years old">
+    <meta name="description" content="Happy Bday ${userInfo.user.real_name || userInfo.user.name} turning ${new Date().getFullYear() - new Date(bday).getFullYear()} years old">
     <meta name="author" content="NeonGamerBot-QK">
     <meta property="og:title" content="Happy Bday ${userInfo.user.real_name || userInfo.user.name}">
-    <meta property="og:description" content="Happy Bday ${userInfo.user.real_name || userInfo.user.name} turing ${new Date().getFullYear() - new Date(bday).getFullYear()} years old">
+    <meta property="og:description" content="Happy Bday ${userInfo.user.real_name || userInfo.user.name} turning ${new Date().getFullYear() - new Date(bday).getFullYear()} years old">
     <meta property="og:image" content="${userInfo.user.profile.image_512 || userInfo.user.profile.image_192}">
     <title>Happy Bday ${userInfo.user.real_name || userInfo.user.name}</title>
+</head>
 <style>
     @import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
 
@@ -80,7 +81,6 @@ body {
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
-</head>
 <body>
     <div id="container">
 <img src="${userInfo.user.profile.image_192}" style="border-radius: 50%">
