@@ -11,6 +11,7 @@ import * as Sentry from "@sentry/node";
 import cron from "node-cron";
 import howWasYourDay, { cached_spotify_songs } from "./howWasYourDay";
 import { highSeasCron } from "./highseas";
+import { Cron } from "croner";
 
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -100,7 +101,7 @@ export function setupOverallCron(app: ModifiedApp) {
     // set away if in any focus mode
   });
   try {
-    cronWithCheckIn.schedule(
+    const job = new Cron(
       "40 21 * * *",
       async () => {
         try {
@@ -112,8 +113,8 @@ export function setupOverallCron(app: ModifiedApp) {
             text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
           });
         }
-      },
-      { name: "howwasmyday" },
+      }
+      // { name: "howwasmyday" },
     );
   } catch (e) {
     app.client.chat.postMessage({
@@ -162,7 +163,7 @@ export function setupOverallCron(app: ModifiedApp) {
     { name: "morning-weekend" },
   );
 
-  cron.schedule("0 * * * *", async () => {
+  const moneroJob = new Cron("0 * * * *", async () => {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=XMR&tsyms=USD")
       .then((r) => r.json())
       .then((d) => {
@@ -180,7 +181,7 @@ export function setupOverallCron(app: ModifiedApp) {
         }
       });
   });
-  cron.schedule("*/5 * * * *", async () => {
+  const checkAirtableBoba = new Cron("*/5 * * * *", async () => {
     try {
       // idgaf about the temp creds
       const temp1 = await fetch(
