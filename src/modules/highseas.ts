@@ -232,14 +232,15 @@ export async function cronForAirtable(app: ModifiedApp) {
   if (diffMessages.length > 0) {
     app.client.chat
       .postMessage({
-        channel: `C07R8DYAZMM`,
+        channel: `C07LGLUTNH2`,
         text: `Airtable data changed :0`,
       })
       .then(async (r) => {
         for (const msg of diffMessages) {
           app.client.chat.postMessage({
-            channel: `C07R8DYAZMM`,
+            channel: `C07LGLUTNH2`,
             text: msg,
+            thread_ts: r.ts
           });
           await new Promise((r) => setTimeout(r, 1000));
         }
