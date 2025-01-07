@@ -83,7 +83,7 @@ body {
 </head>
 <body>
     <div id="container">
-<img src="${userInfo.user.profile.image_192}" style="border-radius: 50%;width: 50%;height: 50%">
+<img src="${userInfo.user.profile.image_192}" style="border-radius: 50%">
         <span id="text1"></span>
         <span id="text2"></span>
     </div>
