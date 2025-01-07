@@ -1,3 +1,4 @@
+import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
 import cron from "node-cron";
 
@@ -210,7 +211,7 @@ animate();
 </html>`;
 }
 export function startBdayCron(app: ModifiedApp) {
-  cron.schedule("0 0 * * *", async () => {
+  new Cron("0 0 * * *", async () => {
     cronFunc(app);
   });
 }

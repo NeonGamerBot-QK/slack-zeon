@@ -73,9 +73,9 @@ export function setupOverallCron(app: ModifiedApp) {
   //utils.startWatchingDirectory(app);
   cron.schedule("5 */12 * * *", sendRandomStuff);
   cron.schedule("25 */22 * * *", sendRandomStuff);
-  cron.schedule("15 */3 * * *", sendRandomStuff);
-  cron.schedule("45 2 */2 * *", sendRandomStuff);
-  cron.schedule("* * * * *", async () => {
+  new Cron("15 */3 * * *", sendRandomStuff);
+  new Cron("45 2 */2 * *", sendRandomStuff);
+  new Cron("* * * * *", async () => {
     // Sentry.profiler.startProfiler();
     //TODO: Add custom PFP's for music (cuz headphones would be nice)
     const jellyfinStr = await getJellyfinStatus();
@@ -271,4 +271,10 @@ export function setupOverallCron(app: ModifiedApp) {
   setupCronAdventOfCode(app);
   setupCronForIrl(app);
   highSeasCron(app);
+  return { 
+    checkAirtableBoba,
+    cronWithCheckIn,
+    moneroJob,
+    sendRandomStuff,
+   };
 }
