@@ -4,6 +4,7 @@ import { App } from "@slack/bolt";
 import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import JSONdb from "simple-json-db";
 import { handleGitRequest } from "./projectWaterydo";
+import { bdayutils } from "./index";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
@@ -105,7 +106,7 @@ export const app = new App({
         console.log(user);
         if (!user) return res.writeHead(400).end(`I cant find that user`);
         //@ts-ignore
-        res.writeHead(200).end(`Happy bday!! (this is a WIP)`);
+        res.writeHead(200).end(await bdayutils.renderBday(user, app));
       },
     },
     {
