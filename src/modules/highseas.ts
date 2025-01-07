@@ -261,11 +261,11 @@ export async function cronForAirtable(app: ModifiedApp) {
         }
       });
   }
-  const oldList = app.dbs.highseas.get("airtables") || []
-  oldList.push(data)
+  const oldList = app.dbs.highseas.get("airtables") || [];
+  oldList.push(data);
   app.dbs.highseas.set("airtable", data);
-  app.dbs.highseas.set("airtables", oldList)
-  
+  app.dbs.highseas.set("airtables", oldList);
+
   // i give up what
 }
 export async function getActionHash(path, name) {
@@ -338,9 +338,12 @@ export function highSeasCron(app: ModifiedApp) {
   // });
 
   // you dont want to work cron, fine back to setInterval
-  setInterval(async () => {
-    await cronForAirtable(app);
-  }, 1000 * 60 * 60);
+  setInterval(
+    async () => {
+      await cronForAirtable(app);
+    },
+    1000 * 60 * 60,
+  );
   cron.schedule("*/10 * * * *", async () => {
     try {
       // update da cache
