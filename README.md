@@ -99,7 +99,7 @@ Some major features of zeon are:
 - high seas lb tracker
 - zeon tags
 - #whats-my-slack-id
-- advent of code priv lb tracker
+- advent of code priv lb tracker (not active rn since no aoc)
 - hangman
 - hackclub cdn
 - CTF (comming soon)
