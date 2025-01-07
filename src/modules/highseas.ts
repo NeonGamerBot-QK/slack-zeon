@@ -302,7 +302,7 @@ export function highSeasCron(app: ModifiedApp) {
   app.client.chat.postMessage({
     channel: `C07LGLUTNH2`,
     text: `:clock: High Seas cron started`,
-  })
+  });
   cron.schedule(`*/2 * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
@@ -342,7 +342,7 @@ export function highSeasCron(app: ModifiedApp) {
   //   await cronForAirtable(app);
   // });
 
- const job = new Cron("*/10 * * * *", async () => {
+  const job = new Cron("*/10 * * * *", async () => {
     try {
       // update da cache
       const oldInstance = app.db.get(`highseas_lb`) || [];
@@ -418,7 +418,7 @@ export function highSeasCron(app: ModifiedApp) {
       });
     }
   });
-return { job }
+  return { job };
 }
 
 export async function getLb() {
