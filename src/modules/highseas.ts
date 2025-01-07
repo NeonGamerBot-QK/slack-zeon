@@ -20,6 +20,7 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
       );
       continue;
     }
+    
     const diff = entry.current_doubloons - oldEntry.current_doubloons;
     let newRankMessage =
       newLB.indexOf(entry) !== oldLB.findIndex((e) => e.id == entry.id)
@@ -102,12 +103,19 @@ export function highSeasCron(app: ModifiedApp) {
           })
           .then(async (e) => {
             for (const msg of msgs) {
+              // 
               await app.client.chat.postMessage({
                 channel: `C086HHP5J7K`,
                 text: msg,
                 thread_ts: e.ts,
               });
-              await new Promise((r) => setTimeout(r, 500));
+              await fetch(process.env.CANVAS_URL, {
+                method: "POST",
+               body: JSON.stringify({
+                text: msg
+               })
+              })
+              await new Promise((r) => setTimeout(r, 400));
             }
           });
       }
