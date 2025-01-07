@@ -217,7 +217,7 @@ export function diffAirtable(
 ): string[] {
   const msgs: string[] = [];
   for (const key in newD.fields) {
-    if (old.fields[key] !== newD.fields[key]) {
+    if (old?.fields[key] !== newD.fields[key]) {
       msgs.push(
         `*${key}* changed from \`${JSON.stringify(old.fields[key])}\` to \`${JSON.stringify(newD.fields[key])}\``,
       );
@@ -227,7 +227,7 @@ export function diffAirtable(
 }
 export async function cronForAirtable(app: ModifiedApp) {
   const data: AirtableResponse = await fetchPerson();
-  const old: AirtableResponse = app.dbs.highseas.get("airtable") || {};
+  const old: AirtableResponse = app.dbs.highseas.get("airtable") || { fields: {} };
   const diffMessages = diffAirtable(old, data);
   if (diffMessages.length > 0) {
     app.client.chat
