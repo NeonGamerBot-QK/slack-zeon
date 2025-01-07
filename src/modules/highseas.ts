@@ -18,7 +18,7 @@ export interface Fields {
   shop_true: boolean;
   address: string[];
   doubloon_grants: string[];
-  'YSWS Verification User': string[];
+  "YSWS Verification User": string[];
   waka_last_synced_from_db: string;
   waka_last_heartbeat: string;
   waka_known_machine_count: number;
@@ -43,7 +43,7 @@ export interface Fields {
   curse_blessing_status: string;
   last_step_completed: boolean;
   auto_num: number;
-  'Fraud - Wonderdome Reports': string[];
+  "Fraud - Wonderdome Reports": string[];
   first_name: string[];
   last_name: string[];
   identifier: string;
@@ -211,52 +211,68 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
   }
   return msgs;
 }
-export function diffAirtable(old: AirtableResponse, newD: AirtableResponse): string[] {
-  const msgs:string[] = []
-  for(const key in newD.fields) {
+export function diffAirtable(
+  old: AirtableResponse,
+  newD: AirtableResponse,
+): string[] {
+  const msgs: string[] = [];
+  for (const key in newD.fields) {
     if (old.fields[key] !== newD.fields[key]) {
-      msgs.push(`*${key}* changed from \`${JSON.stringify(old.fields[key])}\` to \`${JSON.stringify(newD.fields[key])}\``)
+      msgs.push(
+        `*${key}* changed from \`${JSON.stringify(old.fields[key])}\` to \`${JSON.stringify(newD.fields[key])}\``,
+      );
     }
   }
-return msgs; 
+  return msgs;
 }
 export async function cronForAirtable(app: ModifiedApp) {
-const data:AirtableResponse = await fetchPerson();
-const old:AirtableResponse = app.dbs.highseas.get("airtable") || {}
-const diffMessages = diffAirtable(old, data)
-if (diffMessages.length > 0) {
-  app.client.chat.postMessage({
-    channel: `C07R8DYAZMM`,
-    text: `Airtable data changed :0`, 
-  }).then(async r=>{
-    for(const msg of diffMessages) {
-      app.client.chat.postMessage({
+  const data: AirtableResponse = await fetchPerson();
+  const old: AirtableResponse = app.dbs.highseas.get("airtable") || {};
+  const diffMessages = diffAirtable(old, data);
+  if (diffMessages.length > 0) {
+    app.client.chat
+      .postMessage({
         channel: `C07R8DYAZMM`,
-        text: msg,
+        text: `Airtable data changed :0`,
       })
-      await new Promise(r => setTimeout(r, 1000))
-    }
-  })
-}
+      .then(async (r) => {
+        for (const msg of diffMessages) {
+          app.client.chat.postMessage({
+            channel: `C07R8DYAZMM`,
+            text: msg,
+          });
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+      });
+  }
 }
 export async function getActionHash(path, name) {
-	const input = `/vercel/path0/${path}:${name}`;
-	const hashed = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(input));
-	return [...new Uint8Array(hashed)].map(x => x.toString(16).padStart(2, '0')).join('');
+  const input = `/vercel/path0/${path}:${name}`;
+  const hashed = await crypto.subtle.digest(
+    "SHA-1",
+    new TextEncoder().encode(input),
+  );
+  return [...new Uint8Array(hashed)]
+    .map((x) => x.toString(16).padStart(2, "0"))
+    .join("");
 }
 export async function fetchPerson() {
-	const res = await fetch("https://highseas.hackclub.com/", {
-		"headers": {
-			"accept": "text/x-component",
-			"content-type": "text/plain;charset=UTF-8",
-			"next-action": await getActionHash("src/app/utils/data.ts", "person"),
-			"cookie": process.env.HIGH_SEAS_COOKIES
-		},
-		"body": JSON.stringify([]),
-		"method": "POST"
-	}).then(r => r.text());
-	const components = res.split('\n').map(x => x.substring(x.indexOf(':') + 1));
-	return JSON.parse(`{"id":"` + components[components.length - 2].split(`{"id":"`)[1]);
+  const res = await fetch("https://highseas.hackclub.com/", {
+    headers: {
+      accept: "text/x-component",
+      "content-type": "text/plain;charset=UTF-8",
+      "next-action": await getActionHash("src/app/utils/data.ts", "person"),
+      cookie: process.env.HIGH_SEAS_COOKIES,
+    },
+    body: JSON.stringify([]),
+    method: "POST",
+  }).then((r) => r.text());
+  const components = res
+    .split("\n")
+    .map((x) => x.substring(x.indexOf(":") + 1));
+  return JSON.parse(
+    `{"id":"` + components[components.length - 2].split(`{"id":"`)[1],
+  );
 }
 
 export function highSeasCron(app: ModifiedApp) {
@@ -296,8 +312,8 @@ export function highSeasCron(app: ModifiedApp) {
     }
   });
   cron.schedule("0 * * * *", async () => {
-    await cronForAirtable(app)
-  })
+    await cronForAirtable(app);
+  });
   cron.schedule("*/10 * * * *", async () => {
     try {
       // update da cache
