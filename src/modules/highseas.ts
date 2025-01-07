@@ -245,6 +245,8 @@ export async function cronForAirtable(app: ModifiedApp) {
         }
       });
   }
+  app.dbs.highseas.set("airtable", data);
+  // i give up what
 }
 export async function getActionHash(path, name) {
   const input = `/vercel/path0/${path}:${name}`;
