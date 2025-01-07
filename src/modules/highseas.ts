@@ -303,7 +303,7 @@ export function highSeasCron(app: ModifiedApp) {
     channel: `C07LGLUTNH2`,
     text: `:clock: High Seas cron started`,
   });
-  cron.schedule(`*/2 * * * *`, async () => {
+  new Cron(`*/2 * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
         method: "POST",
