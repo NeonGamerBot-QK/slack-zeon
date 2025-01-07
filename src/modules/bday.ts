@@ -5,6 +5,7 @@ export async function cronFunc(app: ModifiedApp) {
   const today = new Date();
   for (const [user, bday] of Object.entries(app.dbs.bday.JSON())) {
     const date = new Date(bday);
+    console.debug(`bday: ${user}`, `${today.getDate()} == ${date.getDate()}`, `${today.getMonth()} == ${date.getMonth()}`);
     if (
       date.getDate() == today.getDate() &&
       date.getMonth() == today.getMonth()
