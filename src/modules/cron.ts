@@ -271,10 +271,10 @@ export function setupOverallCron(app: ModifiedApp) {
   // setupCronAdventOfCode(app);
   setupCronForIrl(app);
   highSeasCron(app);
-  return { 
+  return {
     checkAirtableBoba,
     cronWithCheckIn,
     moneroJob,
     sendRandomStuff,
-   };
+  };
 }
