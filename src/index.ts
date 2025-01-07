@@ -28,6 +28,8 @@ import watchMem from "./modules/memwatch";
 const db = new JSONdb("data/data.json");
 app.dbs = {};
 app.dbs.bday = new JSONdb("data/bday.json");
+// im so sorry this db is going to fill up so fast as each entry is arround 116kb
+app.dbs.highseas = new JSONdb("data/highseas.json");
 app.dbs.ddm = new JSONdb("data/discord-datamining.json");
 app.dbs.memdebug = new JSONdb("data/memdb.json");
 app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
