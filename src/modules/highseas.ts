@@ -218,13 +218,16 @@ export function diffAirtable(
   const msgs: string[] = [];
   for (const key in newD.fields) {
     // this is such a bad way to check so if its an object or array its getting skipped
-    if(typeof newD.fields[key] === "object" || Array.isArray(newD.fields[key])){
+    if (
+      typeof newD.fields[key] === "object" ||
+      Array.isArray(newD.fields[key])
+    ) {
       continue;
     }
-    if(typeof old.fields[key] == 'number') {
+    if (typeof old.fields[key] == "number") {
       old.fields[key] = old.fields[key].toFixed(2);
     }
-    if(typeof newD.fields[key] == 'number') {
+    if (typeof newD.fields[key] == "number") {
       newD.fields[key] = newD.fields[key].toFixed(2);
     }
     if (old?.fields[key] !== newD.fields[key]) {
