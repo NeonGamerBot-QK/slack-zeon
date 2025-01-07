@@ -99,6 +99,7 @@ export function setupOverallCron(app: ModifiedApp) {
     // at home? at school?
     // set away if in any focus mode
   });
+  try {
   cronWithCheckIn.schedule(
     "30 21 * * *",
     async () => {
@@ -114,6 +115,12 @@ export function setupOverallCron(app: ModifiedApp) {
     },
     { name: "howwasmyday" },
   );
+} catch (e) {
+   app.client.chat.postMessage({
+    channel: `C07R8DYAZMM`,
+    text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+  });
+}
   cronWithCheckIn.schedule(
     "1 7 * * 1-5",
     async () => {

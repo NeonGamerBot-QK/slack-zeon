@@ -10,7 +10,7 @@ import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
 import JSONdb from "simple-json-db";
-
+import cron from "node-cron"
 import * as utils from "./modules/index";
 import howWasYourDay, {
   cached_spotify_songs,
@@ -84,5 +84,21 @@ function handleError(e: any) {
   } catch (e) {}
 }
 setupOverallCron(app);
+// im going parinoiddd
+ cron.schedule(
+    "30 21 * * *",
+    async () => {
+      try {
+        await howWasYourDay(app);
+      } catch (e: any) {
+        // uh guess what this doesnt run because this cron doesnt run ...
+        app.client.chat.postMessage({
+          channel: `C07R8DYAZMM`,
+          text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+        });
+      }
+    },
+    { name: "howwasmyday" },
+  );
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
