@@ -21,7 +21,7 @@ Great question, to start go to @Zeon's app home and you should see something lik
 ![app home](../assets/zeon-app-home-blindmail.png)
 
 Then to send mail you click the `Send Mail` button!
-![send mail](../assets/zeon-app-home-blindmail-sendmail.png)
 
 Then you will be prompted to open a modal to fill out the mail.
+![send mail](../assets/zeon-app-home-blindmail-sendmail.png)
 Once you have filled it out it will send your mail!!
