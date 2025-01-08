@@ -2,6 +2,7 @@ import { AnyBlock, Block } from "@slack/bolt";
 import { ModifiedApp } from "./slackapp";
 import cron from "node-cron";
 import { text } from "body-parser";
+import { Cron } from "croner";
 const cheerio = require("cheerio");
 export function createShipmentURL(token: string, email: string) {
   return `https://shipment-viewer.hackclub.com/dyn/jason/${encodeURI(email)}?email=${encodeURIComponent(email)}&signature=${token}&show_ids=yep`;
@@ -211,7 +212,7 @@ export function getShipmentDiff(
 }
 
 export function setupCronForShipments(app: ModifiedApp) {
-  cron.schedule("*/2 * * * *", async () => {
+  new Cron("*/2 * * * *", async () => {
     const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
       e.startsWith(`shipment_url_`),
     );
