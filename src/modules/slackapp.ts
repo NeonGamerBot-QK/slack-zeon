@@ -11,7 +11,7 @@ export interface ModifiedApp extends App<StringIndexed> {
   dbs: {
     [k: string]: JSONdb;
   };
-  nocodb: Api<any>
+  nocodb: Api<any>;
   is_at_school: boolean;
   disable_wmi: boolean;
   ws: null | any;
