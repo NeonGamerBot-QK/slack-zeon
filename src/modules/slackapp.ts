@@ -5,11 +5,13 @@ import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 import JSONdb from "simple-json-db";
 import { handleGitRequest } from "./projectWaterydo";
 import { bdayutils } from "./index";
+import { Api } from "nocodb-sdk";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
     [k: string]: JSONdb;
   };
+  nocodb: Api<any>
   is_at_school: boolean;
   disable_wmi: boolean;
   ws: null | any;

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "./modules/sentry";
 import * as Sentry from "@sentry/node";
-
+import { Api } from "nocodb-sdk"
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
@@ -37,6 +37,12 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 });
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
+app.nocodb = new Api({
+  url: process.env.NOCODB_URL,
+  headers: {
+    "xc-token": process.env.NOCODB_TOKEN,
+  },
+})
 attachDB(db);
 watchMem(app);
 app.start(process.env.PORT || 3000).then(async (d) => {
