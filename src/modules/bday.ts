@@ -53,7 +53,7 @@ export async function renderBday(userID: string, app: ModifiedApp) {
       // im not tryna get sql injected..
       where: `(userID,eq,${userID.slice(0, 11)})`,
     })
-      //@ts-ignore
+    //@ts-ignore
     .then((e) => e.bday!);
   if (!bday) return `No bday found for ${userID}\n maybe you should opt-in?`;
   // currently borrowing https://github.com/NeonGamerBot-QK/myBot/blob/master/views/bday.ejs
