@@ -19,11 +19,21 @@ export default class Bday implements Command {
       const cmd = args.shift().toLowerCase();
       if (cmd == "config") {
         try {
-          if((await app.nocodb.dbViewRow.findOne(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2",  "vwrz4wa8z4jhfo0y", {
-            fields: ["userID", "bday"],
-            where: `(userID,eq,${command.user_id})`,
-          //@ts-ignore
-          })).userID) {
+          if (
+            (
+              await app.nocodb.dbViewRow.findOne(
+                `noco`,
+                "p63yjsdax7yacy4",
+                "mgu9yv5wts3qmt2",
+                "vwrz4wa8z4jhfo0y",
+                {
+                  fields: ["userID", "bday"],
+                  where: `(userID,eq,${command.user_id})`,
+                  //@ts-ignore
+                },
+              )
+            ).userID
+          ) {
             await app.client.chat.postEphemeral({
               channel: command.channel_id,
               user: command.user_id,
@@ -33,10 +43,16 @@ export default class Bday implements Command {
           }
           const formatedDate = new Date(args.join(" "));
           // app.dbs.bday.set(command.user_id, formatedDate.toISOString());
-          await app.nocodb.dbViewRow.create(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2",  "vwrz4wa8z4jhfo0y", {
-            userID: command.user_id,
-            bday: formatedDate.toISOString().split("T")[0],
-          })
+          await app.nocodb.dbViewRow.create(
+            `noco`,
+            "p63yjsdax7yacy4",
+            "mgu9yv5wts3qmt2",
+            "vwrz4wa8z4jhfo0y",
+            {
+              userID: command.user_id,
+              bday: formatedDate.toISOString().split("T")[0],
+            },
+          );
           await app.client.chat.postEphemeral({
             channel: command.channel_id,
             user: command.user_id,
@@ -50,12 +66,26 @@ export default class Bday implements Command {
           });
         }
       } else if (cmd == "remove-my-data") {
-        const ID = await app.nocodb.dbViewRow.findOne(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2",  "vwrz4wa8z4jhfo0y", {
-          fields: ["Id"],
-          where: `(userID,eq,${command.user_id})`,
-        //@ts-ignore
-        }).then(e=>e.Id);
-await app.nocodb.dbViewRow.delete(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2",  "vwrz4wa8z4jhfo0y",ID)
+        const ID = await app.nocodb.dbViewRow
+          .findOne(
+            `noco`,
+            "p63yjsdax7yacy4",
+            "mgu9yv5wts3qmt2",
+            "vwrz4wa8z4jhfo0y",
+            {
+              fields: ["Id"],
+              where: `(userID,eq,${command.user_id})`,
+              //@ts-ignore
+            },
+          )
+          .then((e) => e.Id);
+        await app.nocodb.dbViewRow.delete(
+          `noco`,
+          "p63yjsdax7yacy4",
+          "mgu9yv5wts3qmt2",
+          "vwrz4wa8z4jhfo0y",
+          ID,
+        );
         // app.dbs.bday.delete(command.user_id);
         await app.client.chat.postEphemeral({
           channel: command.channel_id,
