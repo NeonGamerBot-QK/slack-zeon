@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "./modules/sentry";
 import * as Sentry from "@sentry/node";
-import { Api } from "nocodb-sdk"
+import { Api } from "nocodb-sdk";
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
@@ -42,7 +42,7 @@ app.nocodb = new Api({
   headers: {
     "xc-token": process.env.NOCODB_TOKEN,
   },
-})
+});
 attachDB(db);
 watchMem(app);
 app.start(process.env.PORT || 3000).then(async (d) => {
