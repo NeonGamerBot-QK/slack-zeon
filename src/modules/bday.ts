@@ -5,18 +5,16 @@ type BdayEntry = {
   userID: string;
   bday: string;
   Id: number;
-}
+};
 export async function cronFunc(app: ModifiedApp) {
   const today = new Date();
-  for (const {userID, bday} of (await  app.nocodb.dbViewRow.list(
-    "noco",
-    "p63yjsdax7yacy4",
-    "mgu9yv5wts3qmt2",
-    "vwrz4wa8z4jhfo0y", {
-    "offset": 0,
-    "where": ""
-}).then(e=>e.list as BdayEntry[]))) {
-  const user = userID
+  for (const { userID, bday } of await app.nocodb.dbViewRow
+    .list("noco", "p63yjsdax7yacy4", "mgu9yv5wts3qmt2", "vwrz4wa8z4jhfo0y", {
+      offset: 0,
+      where: "",
+    })
+    .then((e) => e.list as BdayEntry[])) {
+    const user = userID;
     const date = new Date(bday);
     console.debug(
       `bday: ${user}`,
@@ -49,12 +47,14 @@ export async function cronFunc(app: ModifiedApp) {
 export async function renderBday(userID: string, app: ModifiedApp) {
   const userInfo = await app.client.users.info({ user: userID });
   if (userInfo.error) return `Error: ${userInfo.error}`;
-  const bday =await app.nocodb.dbViewRow.findOne(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2",  "vwrz4wa8z4jhfo0y", {
-    fields: ["userID", "bday"],
-// im not tryna get sql injected..
-    where: `(userID,eq,${userID.slice(0,11)})`,
-  //@ts-ignore
-  }).then(e=>e.bday!)
+  const bday = await app.nocodb.dbViewRow
+    .findOne(`noco`, "p63yjsdax7yacy4", "mgu9yv5wts3qmt2", "vwrz4wa8z4jhfo0y", {
+      fields: ["userID", "bday"],
+      // im not tryna get sql injected..
+      where: `(userID,eq,${userID.slice(0, 11)})`,
+      //@ts-ignore
+    })
+    .then((e) => e.bday!);
   if (!bday) return `No bday found for ${userID}\n maybe you should opt-in?`;
   // currently borrowing https://github.com/NeonGamerBot-QK/myBot/blob/master/views/bday.ejs
   //todo jsx..
