@@ -38,9 +38,9 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
 app.nocodb = new Api({
-  url: process.env.NOCODB_URL,
+  baseURL: process.env.NOCODB_URL!,
   headers: {
-    "xc-token": process.env.NOCODB_TOKEN,
+    "xc-token": process.env.NOCODB_TOKEN!,
   },
 });
 attachDB(db);
