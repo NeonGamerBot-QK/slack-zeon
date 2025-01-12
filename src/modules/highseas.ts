@@ -306,7 +306,6 @@ export function highSeasCron(app: ModifiedApp) {
   new Cron(`*/5 * * * *`, () => lbCronFunc(app));
   return { job };
 }
-
 export  async function lbCronFunc(app:ModifiedApp) {
   try {
     await fetch("https://highseas.hackclub.com/shipyard", {
@@ -341,7 +340,7 @@ export  async function lbCronFunc(app:ModifiedApp) {
       channel: `C07LGLUTNH2`,
     });
   }
-});
+}
 // cron.schedule("0 * * * *", async () => {
 //   await cronForAirtable(app);
 // });
