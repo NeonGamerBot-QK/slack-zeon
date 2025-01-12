@@ -304,10 +304,10 @@ export function highSeasCron(app: ModifiedApp) {
     text: `:clock: High Seas cron started`,
   });
   new Cron(`*/5 * * * *`, () => lbCronFunc(app));
-  const job = new Cron("*/5 * * * *", () => ShipYardCron(app))
+  const job = new Cron("*/5 * * * *", () => ShipYardCron(app));
   return { job };
 }
-export async function lbCronFunc(app: ModifiedApp)  {
+export async function lbCronFunc(app: ModifiedApp) {
   try {
     // update da cache
     const oldInstance = app.db.get(`highseas_lb`) || [];
@@ -383,7 +383,7 @@ export async function lbCronFunc(app: ModifiedApp)  {
     });
   }
 }
-export  async function ShipYardCron(app:ModifiedApp) {
+export async function ShipYardCron(app: ModifiedApp) {
   try {
     await fetch("https://highseas.hackclub.com/shipyard", {
       method: "POST",
@@ -422,8 +422,6 @@ export  async function ShipYardCron(app:ModifiedApp) {
 // cron.schedule("0 * * * *", async () => {
 //   await cronForAirtable(app);
 // });
-
-
 
 export async function getLb() {
   const all_users = [];
