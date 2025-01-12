@@ -303,7 +303,7 @@ export function highSeasCron(app: ModifiedApp) {
     channel: `C07LGLUTNH2`,
     text: `:clock: High Seas cron started`,
   });
-  new Cron(`*/2 * * * *`, async () => {
+  new Cron(`*/5 * * * *`, async () => {
     try {
       await fetch("https://highseas.hackclub.com/shipyard", {
         method: "POST",
@@ -342,7 +342,7 @@ export function highSeasCron(app: ModifiedApp) {
   //   await cronForAirtable(app);
   // });
 
-  const job = new Cron("*/10 * * * *", async () => {
+  const job = new Cron("*/5 * * * *", async () => {
     try {
       // update da cache
       const oldInstance = app.db.get(`highseas_lb`) || [];
