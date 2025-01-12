@@ -20,6 +20,7 @@ export default class Bday implements Command {
       if (cmd == "config") {
         try {
           if (
+            //@ts-ignore
             (
               await app.nocodb.dbViewRow.findOne(
                 `noco`,
@@ -31,8 +32,7 @@ export default class Bday implements Command {
                   where: `(userID,eq,${command.user_id})`,
                 },
               )
-                  //@ts-ignore
-                ).userID
+            ).userID
           ) {
             await app.client.chat.postEphemeral({
               channel: command.channel_id,
@@ -77,7 +77,7 @@ export default class Bday implements Command {
               where: `(userID,eq,${command.user_id})`,
             },
           )
-              //@ts-ignore
+          //@ts-ignore
           .then((e) => e.Id);
         await app.nocodb.dbViewRow.delete(
           `noco`,
