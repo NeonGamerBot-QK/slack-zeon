@@ -304,48 +304,10 @@ export function highSeasCron(app: ModifiedApp) {
     text: `:clock: High Seas cron started`,
   });
   new Cron(`*/5 * * * *`, () => lbCronFunc(app));
+  const job = new Cron("*/5 * * * *", () => ShipYardCron(app))
   return { job };
 }
-export  async function lbCronFunc(app:ModifiedApp) {
-  try {
-    await fetch("https://highseas.hackclub.com/shipyard", {
-      method: "POST",
-      headers: {
-        Cookie: process.env.HIGH_SEAS_COOKIES,
-      },
-      body: "[]",
-    }).then((r) => {
-      const oldAmount = app.db.get(`highseas_tickets`);
-      const cookieHeader = r.headers
-        .getSetCookie()
-        .find((e) => e.startsWith("tickets="));
-      const amount = parseFloat(
-        cookieHeader.split(`tickets=`)[1].split(";")[0],
-      ).toFixed(2);
-      // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
-      app.db.set(`highseas_tickets`, amount);
-      if (oldAmount !== amount) {
-        const diff = parseFloat(
-          (parseFloat(amount) - parseFloat(oldAmount)).toFixed(2),
-        );
-        app.client.chat.postMessage({
-          text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff > 0 ? `+${diff}` : diff} :doubloon: )`,
-          channel: `C07R8DYAZMM`,
-        });
-      }
-    });
-  } catch (e) {
-    await app.client.chat.postMessage({
-      text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token for high seas\n\n${e.stack}`,
-      channel: `C07LGLUTNH2`,
-    });
-  }
-}
-// cron.schedule("0 * * * *", async () => {
-//   await cronForAirtable(app);
-// });
-
-const job = new Cron("*/5 * * * *", async () => {
+export async function lbCronFunc(app: ModifiedApp)  {
   try {
     // update da cache
     const oldInstance = app.db.get(`highseas_lb`) || [];
@@ -421,6 +383,48 @@ const job = new Cron("*/5 * * * *", async () => {
     });
   }
 }
+export  async function ShipYardCron(app:ModifiedApp) {
+  try {
+    await fetch("https://highseas.hackclub.com/shipyard", {
+      method: "POST",
+      headers: {
+        Cookie: process.env.HIGH_SEAS_COOKIES,
+      },
+      body: "[]",
+    }).then((r) => {
+      const oldAmount = app.db.get(`highseas_tickets`);
+      const cookieHeader = r.headers
+        .getSetCookie()
+        .find((e) => e.startsWith("tickets="));
+      const amount = parseFloat(
+        cookieHeader.split(`tickets=`)[1].split(";")[0],
+      ).toFixed(2);
+      // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
+      app.db.set(`highseas_tickets`, amount);
+      if (oldAmount !== amount) {
+        const diff = parseFloat(
+          (parseFloat(amount) - parseFloat(oldAmount)).toFixed(2),
+        );
+        app.client.chat.postMessage({
+          text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff > 0 ? `+${diff}` : diff} :doubloon: )`,
+          channel: `C07R8DYAZMM`,
+        });
+      }
+    });
+  } catch (e) {
+    await app.client.chat.postMessage({
+      text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token for high seas\n\n${e.stack}`,
+      channel: `C07LGLUTNH2`,
+    });
+  }
+}
+
+// cron.schedule("0 * * * *", async () => {
+//   await cronForAirtable(app);
+// });
+
+
+
 export async function getLb() {
   const all_users = [];
   const page0 = await fetch(
