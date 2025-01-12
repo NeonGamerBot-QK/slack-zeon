@@ -29,10 +29,10 @@ export default class Bday implements Command {
                 {
                   fields: ["userID", "bday"],
                   where: `(userID,eq,${command.user_id})`,
-                  //@ts-ignore
                 },
               )
-            ).userID
+                  //@ts-ignore
+                ).userID
           ) {
             await app.client.chat.postEphemeral({
               channel: command.channel_id,
@@ -75,9 +75,9 @@ export default class Bday implements Command {
             {
               fields: ["Id"],
               where: `(userID,eq,${command.user_id})`,
-              //@ts-ignore
             },
           )
+              //@ts-ignore
           .then((e) => e.Id);
         await app.nocodb.dbViewRow.delete(
           `noco`,

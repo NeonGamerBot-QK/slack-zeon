@@ -92,7 +92,7 @@ function handleError(e: any) {
   } catch (e) {}
 }
 // cron might be eating the cpu
-// setupOverallCron(app);
+setupOverallCron(app);
 // im going parinoiddd
 cron.schedule(
   "30 21 * * *",

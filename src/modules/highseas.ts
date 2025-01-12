@@ -303,124 +303,125 @@ export function highSeasCron(app: ModifiedApp) {
     channel: `C07LGLUTNH2`,
     text: `:clock: High Seas cron started`,
   });
-  new Cron(`*/5 * * * *`, async () => {
-    try {
-      await fetch("https://highseas.hackclub.com/shipyard", {
-        method: "POST",
-        headers: {
-          Cookie: process.env.HIGH_SEAS_COOKIES,
-        },
-        body: "[]",
-      }).then((r) => {
-        const oldAmount = app.db.get(`highseas_tickets`);
-        const cookieHeader = r.headers
-          .getSetCookie()
-          .find((e) => e.startsWith("tickets="));
-        const amount = parseFloat(
-          cookieHeader.split(`tickets=`)[1].split(";")[0],
-        ).toFixed(2);
-        // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
-        app.db.set(`highseas_tickets`, amount);
-        if (oldAmount !== amount) {
-          const diff = parseFloat(
-            (parseFloat(amount) - parseFloat(oldAmount)).toFixed(2),
-          );
-          app.client.chat.postMessage({
-            text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff > 0 ? `+${diff}` : diff} :doubloon: )`,
-            channel: `C07R8DYAZMM`,
-          });
-        }
-      });
-    } catch (e) {
-      await app.client.chat.postMessage({
-        text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token for high seas\n\n${e.stack}`,
-        channel: `C07LGLUTNH2`,
-      });
-    }
-  });
-  // cron.schedule("0 * * * *", async () => {
-  //   await cronForAirtable(app);
-  // });
-
-  const job = new Cron("*/5 * * * *", async () => {
-    try {
-      // update da cache
-      const oldInstance = app.db.get(`highseas_lb`) || [];
-      const newInstance = await getLb();
-      const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
-      // run diff for all users who have opted in
-      if (app.db.get(`highseas_lb_ts`)) {
-        try {
-          await app.client.chat.delete({
-            channel: `C086HHP5J7K`,
-            ts: app.db.get(`highseas_lb_ts`)!,
-          });
-        } catch (e) {
-          app.db.delete(`highseas_lb_ts`);
-        }
-      }
-
-      const msgs = diffHighSeasLB(oldInstance, newInstance);
-      if (msgs.length > 0) {
-        await app.client.chat
-          .postMessage({
-            channel: `C086HHP5J7K`,
-            text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
-          })
-          .then(async (e) => {
-            for (const msg of msgs) {
-              //
-              await app.client.chat.postMessage({
-                channel: `C086HHP5J7K`,
-                text: msg,
-                thread_ts: e.ts,
-              });
-              await fetch(process.env.CANVAS_URL, {
-                method: "POST",
-                body: JSON.stringify({
-                  text: msg,
-                }),
-              });
-              await new Promise((r) => setTimeout(r, 400));
-            }
-          });
-      }
-      await app.client.chat
-        .postMessage({
-          channel: `C086HHP5J7K`,
-          text: `*High Seas Lb* (top 10)\n${newInstance
-            .slice(0, 10)
-            .map(
-              (d) =>
-                `\`${d.username}\` - ${parseInt(d.current_doubloons)} :doubloon:`,
-            )
-            .join("\n")}`,
-          parse: "none",
-        })
-        .then((e) => {
-          app.db.set(`highseas_lb_ts`, e.ts);
-        });
-
-      for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
-        const oldUserData = oldInstance.find((e) => e.id == user.id);
-        const newUserData = newInstance.find((e) => e.id == user.id);
-        if (!oldUserData && !newUserData) continue;
-        if (oldUserData && newUserData) {
-        }
-      }
-      app.db.set(`highseas_lb`, newInstance);
-      all_entries.push(newInstance);
-      app.db.set(`highseas_lb_all_entries`, all_entries);
-    } catch (e) {
-      await app.client.chat.postMessage({
-        text: `high seas lb ded\n\n${e.stack}`,
-        channel: `C07LGLUTNH2`,
-      });
-    }
-  });
+  new Cron(`*/5 * * * *`, () => lbCronFunc(app));
   return { job };
 }
 
+export  async function lbCronFunc(app:ModifiedApp) {
+  try {
+    await fetch("https://highseas.hackclub.com/shipyard", {
+      method: "POST",
+      headers: {
+        Cookie: process.env.HIGH_SEAS_COOKIES,
+      },
+      body: "[]",
+    }).then((r) => {
+      const oldAmount = app.db.get(`highseas_tickets`);
+      const cookieHeader = r.headers
+        .getSetCookie()
+        .find((e) => e.startsWith("tickets="));
+      const amount = parseFloat(
+        cookieHeader.split(`tickets=`)[1].split(";")[0],
+      ).toFixed(2);
+      // console.log(`You have ${parseFloat(amount).toFixed(2)} amount of doubloons`)
+      app.db.set(`highseas_tickets`, amount);
+      if (oldAmount !== amount) {
+        const diff = parseFloat(
+          (parseFloat(amount) - parseFloat(oldAmount)).toFixed(2),
+        );
+        app.client.chat.postMessage({
+          text: `*Doubloonies* :3\n:doubloon: ${oldAmount} -> ${amount} :doubloon: (diff ${diff > 0 ? `+${diff}` : diff} :doubloon: )`,
+          channel: `C07R8DYAZMM`,
+        });
+      }
+    });
+  } catch (e) {
+    await app.client.chat.postMessage({
+      text: `*Doubloonies* :3\n:x: Error :x: maybe update ur token for high seas\n\n${e.stack}`,
+      channel: `C07LGLUTNH2`,
+    });
+  }
+});
+// cron.schedule("0 * * * *", async () => {
+//   await cronForAirtable(app);
+// });
+
+const job = new Cron("*/5 * * * *", async () => {
+  try {
+    // update da cache
+    const oldInstance = app.db.get(`highseas_lb`) || [];
+    const newInstance = await getLb();
+    const all_entries = app.db.get(`highseas_lb_all_entries`) || [];
+    // run diff for all users who have opted in
+    if (app.db.get(`highseas_lb_ts`)) {
+      try {
+        await app.client.chat.delete({
+          channel: `C086HHP5J7K`,
+          ts: app.db.get(`highseas_lb_ts`)!,
+        });
+      } catch (e) {
+        app.db.delete(`highseas_lb_ts`);
+      }
+    }
+
+    const msgs = diffHighSeasLB(oldInstance, newInstance);
+    if (msgs.length > 0) {
+      await app.client.chat
+        .postMessage({
+          channel: `C086HHP5J7K`,
+          text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
+        })
+        .then(async (e) => {
+          for (const msg of msgs) {
+            //
+            await app.client.chat.postMessage({
+              channel: `C086HHP5J7K`,
+              text: msg,
+              thread_ts: e.ts,
+            });
+            await fetch(process.env.CANVAS_URL, {
+              method: "POST",
+              body: JSON.stringify({
+                text: msg,
+              }),
+            });
+            await new Promise((r) => setTimeout(r, 400));
+          }
+        });
+    }
+    await app.client.chat
+      .postMessage({
+        channel: `C086HHP5J7K`,
+        text: `*High Seas Lb* (top 10)\n${newInstance
+          .slice(0, 10)
+          .map(
+            (d) =>
+              `\`${d.username}\` - ${parseInt(d.current_doubloons)} :doubloon:`,
+          )
+          .join("\n")}`,
+        parse: "none",
+      })
+      .then((e) => {
+        app.db.set(`highseas_lb_ts`, e.ts);
+      });
+
+    for (const user of app.db.get(`i_want_to_track_my_doubloons`) || []) {
+      const oldUserData = oldInstance.find((e) => e.id == user.id);
+      const newUserData = newInstance.find((e) => e.id == user.id);
+      if (!oldUserData && !newUserData) continue;
+      if (oldUserData && newUserData) {
+      }
+    }
+    app.db.set(`highseas_lb`, newInstance);
+    all_entries.push(newInstance);
+    app.db.set(`highseas_lb_all_entries`, all_entries);
+  } catch (e) {
+    await app.client.chat.postMessage({
+      text: `high seas lb ded\n\n${e.stack}`,
+      channel: `C07LGLUTNH2`,
+    });
+  }
+}
 export async function getLb() {
   const all_users = [];
   const page0 = await fetch(
