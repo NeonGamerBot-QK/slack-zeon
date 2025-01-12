@@ -212,7 +212,7 @@ export function getShipmentDiff(
 }
 
 export function setupCronForShipments(app: ModifiedApp) {
-  new Cron("*/2 * * * *", async () => {
+  new Cron("*/10 * * * *", async () => {
     const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
       e.startsWith(`shipment_url_`),
     );

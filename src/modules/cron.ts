@@ -181,7 +181,7 @@ export function setupOverallCron(app: ModifiedApp) {
         }
       });
   });
-  const checkAirtableBoba = new Cron("*/5 * * * *", async () => {
+  const checkAirtableBoba = new Cron("*/15 * * * *", async () => {
     try {
       // idgaf about the temp creds
       const temp1 = await fetch(
