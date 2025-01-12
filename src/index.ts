@@ -91,7 +91,8 @@ function handleError(e: any) {
     });
   } catch (e) {}
 }
-setupOverallCron(app);
+// cron might be eating the cpu
+// setupOverallCron(app);
 // im going parinoiddd
 cron.schedule(
   "30 21 * * *",
