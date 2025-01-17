@@ -184,26 +184,32 @@ export function setupOverallCron(app: ModifiedApp) {
   const checkAirtableBoba = new Cron("*/15 * * * *", async () => {
     try {
       // idgaf about the temp creds
-      const temp1 = await fetch('https://airtable.com/v0.3/application/app05mIKwNPO2l1vT/readForSharedPages?stringifiedObjectParams=%7B%22includeDataForPageId%22%3A%22pagVJtLdaiiXaC2D1%22%2C%22shouldIncludeSchemaChecksum%22%3Atrue%2C%22expectedPageLayoutSchemaVersion%22%3A26%2C%22shouldPreloadQueries%22%3Atrue%2C%22shouldPreloadAllPossibleContainerElementQueries%22%3Atrue%2C%22urlSearch%22%3A%22%22%2C%22includeDataForExpandedRowPageFromQueryContainer%22%3Atrue%2C%22includeDataForAllReferencedExpandedRowPagesInLayout%22%3Atrue%2C%22navigationMode%22%3A%22view%22%7D&requestId=reqOkjBOX34VNPINe&accessPolicy=%7B%22allowedActions%22%3A%5B%7B%22modelClassName%22%3A%22page%22%2C%22modelIdSelector%22%3A%22pagVJtLdaiiXaC2D1%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22app05mIKwNPO2l1vT%22%2C%22action%22%3A%22readForSharedPages%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22app05mIKwNPO2l1vT%22%2C%22action%22%3A%22readSignedAttachmentUrls%22%7D%5D%2C%22shareId%22%3A%22shrGTZVv0GaS4S4Kk%22%2C%22applicationId%22%3A%22app05mIKwNPO2l1vT%22%2C%22generationNumber%22%3A0%2C%22expires%22%3A%222025-02-13T00%3A00%3A00.000Z%22%2C%22signature%22%3A%22a72b1a25e034a6600fcbce501d6ebba67b7a0bf888538604aa227ea51cbdd3dd%22%7D', {
-        headers: {
-          'x-airtable-inter-service-client': 'webClient',
-          'sec-ch-ua-platform': '"Linux"',
-          'x-airtable-inter-service-client-code-version': '16c9ba318d59b9179baf308a61decbf1a9096e51',
-          'x-airtable-page-load-id': 'pgl7kQeLDDcmD28eW',
-          'x-airtable-application-id': 'app05mIKwNPO2l1vT',
-          'sec-ch-ua': '"Chromium";v="131", "Not_A Brand";v="24"',
-          'x-time-zone': 'America/New_York',
-          'sec-ch-ua-mobile': '?0',
-          'traceparent': '00-8a94a47d3e5b2a68b213f60dd51719a2-e942490da9f51df7-01',
-          'X-Requested-With': 'XMLHttpRequest',
-          'Accept': 'application/json, text/javascript, */*; q=0.01',
-          'x-airtable-client-queue-time': '2.600000001490116',
-          'tracestate': '',
-          'Referer': '',
-          'x-user-locale': 'en',
-          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-        }
-      }).then((r) => r.json());
+      const temp1 = await fetch(
+        "https://airtable.com/v0.3/application/app05mIKwNPO2l1vT/readForSharedPages?stringifiedObjectParams=%7B%22includeDataForPageId%22%3A%22pagVJtLdaiiXaC2D1%22%2C%22shouldIncludeSchemaChecksum%22%3Atrue%2C%22expectedPageLayoutSchemaVersion%22%3A26%2C%22shouldPreloadQueries%22%3Atrue%2C%22shouldPreloadAllPossibleContainerElementQueries%22%3Atrue%2C%22urlSearch%22%3A%22%22%2C%22includeDataForExpandedRowPageFromQueryContainer%22%3Atrue%2C%22includeDataForAllReferencedExpandedRowPagesInLayout%22%3Atrue%2C%22navigationMode%22%3A%22view%22%7D&requestId=reqOkjBOX34VNPINe&accessPolicy=%7B%22allowedActions%22%3A%5B%7B%22modelClassName%22%3A%22page%22%2C%22modelIdSelector%22%3A%22pagVJtLdaiiXaC2D1%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22app05mIKwNPO2l1vT%22%2C%22action%22%3A%22readForSharedPages%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22app05mIKwNPO2l1vT%22%2C%22action%22%3A%22readSignedAttachmentUrls%22%7D%5D%2C%22shareId%22%3A%22shrGTZVv0GaS4S4Kk%22%2C%22applicationId%22%3A%22app05mIKwNPO2l1vT%22%2C%22generationNumber%22%3A0%2C%22expires%22%3A%222025-02-13T00%3A00%3A00.000Z%22%2C%22signature%22%3A%22a72b1a25e034a6600fcbce501d6ebba67b7a0bf888538604aa227ea51cbdd3dd%22%7D",
+        {
+          headers: {
+            "x-airtable-inter-service-client": "webClient",
+            "sec-ch-ua-platform": '"Linux"',
+            "x-airtable-inter-service-client-code-version":
+              "16c9ba318d59b9179baf308a61decbf1a9096e51",
+            "x-airtable-page-load-id": "pgl7kQeLDDcmD28eW",
+            "x-airtable-application-id": "app05mIKwNPO2l1vT",
+            "sec-ch-ua": '"Chromium";v="131", "Not_A Brand";v="24"',
+            "x-time-zone": "America/New_York",
+            "sec-ch-ua-mobile": "?0",
+            traceparent:
+              "00-8a94a47d3e5b2a68b213f60dd51719a2-e942490da9f51df7-01",
+            "X-Requested-With": "XMLHttpRequest",
+            Accept: "application/json, text/javascript, */*; q=0.01",
+            "x-airtable-client-queue-time": "2.600000001490116",
+            tracestate: "",
+            Referer: "",
+            "x-user-locale": "en",
+            "User-Agent":
+              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+          },
+        },
+      ).then((r) => r.json());
 
       //@ts-ignore
       const json = Object.values(
