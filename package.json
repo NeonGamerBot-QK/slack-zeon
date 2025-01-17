@@ -5,9 +5,10 @@
   "author": "Saahil <neon@saahild.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "NODE_OPTIONS=\"--max-old-space-size=4096\" ts-node src/index.ts"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.4.4",
     "@sentry/node": "^8.41.0",
     "@sentry/profiling-node": "^8.41.0",
     "@slack/bolt": "^3.21.2",
