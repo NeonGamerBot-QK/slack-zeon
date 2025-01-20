@@ -333,29 +333,29 @@ export async function lbCronFunc(app: ModifiedApp) {
           text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
         })
         .then(async (e) => {
-          if(msgs.length > 100) {
+          if (msgs.length > 100) {
             await app.client.chat.postMessage({
               channel: `C086HHP5J7K`,
               text: `:warning: There is a diff of ${msgs.length}... im not showing it for reasons.`,
               thread_ts: e.ts,
             });
           } else {
-          for (const msg of msgs) {
-            //
-            await app.client.chat.postMessage({
-              channel: `C086HHP5J7K`,
-              text: msg,
-              thread_ts: e.ts,
-            });
-            await fetch(process.env.CANVAS_URL, {
-              method: "POST",
-              body: JSON.stringify({
+            for (const msg of msgs) {
+              //
+              await app.client.chat.postMessage({
+                channel: `C086HHP5J7K`,
                 text: msg,
-              }),
-            });
-            await new Promise((r) => setTimeout(r, 400));
+                thread_ts: e.ts,
+              });
+              await fetch(process.env.CANVAS_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                  text: msg,
+                }),
+              });
+              await new Promise((r) => setTimeout(r, 400));
+            }
           }
-        }
         });
     }
     await app.client.chat
