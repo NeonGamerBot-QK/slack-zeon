@@ -333,6 +333,13 @@ export async function lbCronFunc(app: ModifiedApp) {
           text: `:thread: Leaderboard changes as of ${new Date().toLocaleString()} :thread:`,
         })
         .then(async (e) => {
+          if(msgs.length > 100) {
+            await app.client.chat.postMessage({
+              channel: `C086HHP5J7K`,
+              text: `:warning: There is a diff of ${msgs.length}... im not showing it for reasons.`,
+              thread_ts: e.ts,
+            });
+          } else {
           for (const msg of msgs) {
             //
             await app.client.chat.postMessage({
@@ -348,6 +355,7 @@ export async function lbCronFunc(app: ModifiedApp) {
             });
             await new Promise((r) => setTimeout(r, 400));
           }
+        }
         });
     }
     await app.client.chat
