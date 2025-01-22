@@ -15,53 +15,64 @@ export default class Zpurge implements Command {
 
       if (!onlyForMe(command.user_id))
         return respond(`:x: You cannot use this command.`);
-    let args = command.text.split(" ");
-    args.shift();
-    if (args.length < 1) return respond(`:x: You need to specify a number of messages to purge.`);
-    let amount:string | number = (args[0]);
-    //@ts-ignore
-    if (isNaN(amount)) return respond(`:x: You need to specify a number of messages to purge.`);
-    amount = parseInt(amount);
-    if(amount < 0 || amount > 100) return respond(`:x: You need to specify a valid number of messages to purge. (must be under 100 and above 0)`);
-    const userId = args[1]
-    if(userId) {
+      let args = command.text.split(" ");
+      args.shift();
+      if (args.length < 1)
+        return respond(
+          `:x: You need to specify a number of messages to purge.`,
+        );
+      let amount: string | number = args[0];
+      //@ts-ignore
+      if (isNaN(amount))
+        return respond(
+          `:x: You need to specify a number of messages to purge.`,
+        );
+      amount = parseInt(amount);
+      if (amount < 0 || amount > 100)
+        return respond(
+          `:x: You need to specify a valid number of messages to purge. (must be under 100 and above 0)`,
+        );
+      const userId = args[1];
+      if (userId) {
         // check if user exists
-        const user = await app.client.users.info({user: userId})
-        if(!user.ok) return respond(`:x: User ${userId} does not exist.`)
+        const user = await app.client.users.info({ user: userId });
+        if (!user.ok) return respond(`:x: User ${userId} does not exist.`);
         // check if users are admin
-        if(user.user.is_admin) return respond(`:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`)
-    }
-    const purgeMessage = await app.client.chat.postMessage({ 
-    text: `:x: Purging \`${amount}\` messages ${userId? `from user ${userId}`: ""}`,
-    channel: command.channel_id,
-})
-const currentMessages = await app.client.conversations.history({
-    channel: command.channel_id,
-    count: amount || 100,
-    // oldest: purgeMessage.ts,
-})
-let cleared_messages = 0;
-for(const msg of currentMessages.messages) {
-if(userId) {
-    if(msg.user !== userId) continue;
-}
-try {
-    await app.client.chat.delete({
+        if (user.user.is_admin)
+          return respond(
+            `:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`,
+          );
+      }
+      const purgeMessage = await app.client.chat.postMessage({
+        text: `:x: Purging \`${amount}\` messages ${userId ? `from user ${userId}` : ""}`,
         channel: command.channel_id,
-        ts: msg.ts,
-    })
-    cleared_messages++;
-} catch(e) {
-    console.error(e)
-}
-}
-await app.client.chat.postMessage({
-    channel: command.channel_id,
-    reply_broadcast: true,
-    thread_ts: purgeMessage.ts,
-    text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId? `from user ${userId}`: ""}\nTook \`${Date.now() - stamp}ms\``,
-})
-
+      });
+      const currentMessages = await app.client.conversations.history({
+        channel: command.channel_id,
+        count: amount || 100,
+        // oldest: purgeMessage.ts,
+      });
+      let cleared_messages = 0;
+      for (const msg of currentMessages.messages) {
+        if (userId) {
+          if (msg.user !== userId) continue;
+        }
+        try {
+          await app.client.chat.delete({
+            channel: command.channel_id,
+            ts: msg.ts,
+          });
+          cleared_messages++;
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      await app.client.chat.postMessage({
+        channel: command.channel_id,
+        reply_broadcast: true,
+        thread_ts: purgeMessage.ts,
+        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user ${userId}` : ""}\nTook \`${Date.now() - stamp}ms\``,
+      });
     });
   }
 }
