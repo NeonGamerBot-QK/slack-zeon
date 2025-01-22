@@ -14,12 +14,11 @@ export default class Zpurge implements Command {
       await ack();
 
       if (!onlyForMe(command.user_id))
-        return respond(`:x: You cannot use this command.`);
+        return respond(`:x: You cannot use this command :P`);
       let args = command.text.split(" ");
-      //   args.shift();
       if (args.length < 1)
         return respond(
-          `:x: You need to specify a number of messages to purge.`,
+          `:x: You need to specify a number of messages to purge. :P`,
         );
       let amount: string | number = args[0];
       //@ts-ignore
@@ -35,22 +34,22 @@ export default class Zpurge implements Command {
       const userId = args[1];
       if (userId) {
         // check if user exists
-        const user = await app.client.users.info({ user: userId });
+        const user = await app.client.users.info({ user: userId }).catch(e=> ({ok: false}));
         if (!user.ok) return respond(`:x: User ${userId} does not exist.`);
         // check if users are admin
+       //@ts-ignore
         if (user.user.is_admin)
           return respond(
             `:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`,
           );
       }
       const purgeMessage = await app.client.chat.postMessage({
-        text: `:x: Purging \`${amount}\` messages ${userId ? `from user ${userId}` : ""}`,
+        text: `:spin-loading: Purging \`${amount}\` messages ${userId ? `from user <@${userId}>` : ""}`,
         channel: command.channel_id,
       });
       const currentMessages = await app.client.conversations.history({
         channel: command.channel_id,
         count: amount || 100,
-        // oldest: purgeMessage.ts,
       });
       let cleared_messages = 0;
       for (const msg of currentMessages.messages) {
@@ -73,7 +72,7 @@ export default class Zpurge implements Command {
         channel: command.channel_id,
         reply_broadcast: true,
         thread_ts: purgeMessage.ts,
-        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user ${userId}` : ""}\nTook \`${Math.floor((Date.now() - stamp) / 1000)}s\``,
+        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user <@${userId}>` : ""}\nTook \`${Math.floor((Date.now() - stamp) / 1000)}s\``,
       });
     });
   }
