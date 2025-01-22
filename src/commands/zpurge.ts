@@ -45,6 +45,8 @@ for(const msg of currentMessages.messages) {
 if(userId) {
     if(msg.user !== userId) continue;
 }
+if(cleared_messages >= amount) break;
+if(msg.ts === purgeMessage.ts) continue;
 try {
     await app.client.chat.delete({
         channel: command.channel_id,
