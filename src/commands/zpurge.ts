@@ -34,10 +34,12 @@ export default class Zpurge implements Command {
       const userId = args[1];
       if (userId) {
         // check if user exists
-        const user = await app.client.users.info({ user: userId }).catch(e=> ({ok: false}));
+        const user = await app.client.users
+          .info({ user: userId })
+          .catch((e) => ({ ok: false }));
         if (!user.ok) return respond(`:x: User ${userId} does not exist.`);
         // check if users are admin
-       //@ts-ignore
+        //@ts-ignore
         if (user.user.is_admin)
           return respond(
             `:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`,
