@@ -16,7 +16,7 @@ export default class Zpurge implements Command {
       if (!onlyForMe(command.user_id))
         return respond(`:x: You cannot use this command.`);
       let args = command.text.split(" ");
-    //   args.shift();
+      //   args.shift();
       if (args.length < 1)
         return respond(
           `:x: You need to specify a number of messages to purge.`,
@@ -59,7 +59,7 @@ export default class Zpurge implements Command {
         }
         if (cleared_messages >= amount) break;
         if (msg.ts === purgeMessage.ts) continue;
-        try { 
+        try {
           await app.client.chat.delete({
             channel: command.channel_id,
             ts: msg.ts,
@@ -73,7 +73,7 @@ export default class Zpurge implements Command {
         channel: command.channel_id,
         reply_broadcast: true,
         thread_ts: purgeMessage.ts,
-        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user ${userId}` : ""}\nTook \`${Math.floor((Date.now() - stamp)/1000)}s\``,
+        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user ${userId}` : ""}\nTook \`${Math.floor((Date.now() - stamp) / 1000)}s\``,
       });
     });
   }
