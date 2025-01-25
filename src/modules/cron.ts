@@ -12,6 +12,7 @@ import cron from "node-cron";
 import howWasYourDay, { cached_spotify_songs } from "./howWasYourDay";
 import { highSeasCron } from "./highseas";
 import { Cron } from "croner";
+import { setupCron } from "./juice";
 
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -263,6 +264,7 @@ export function setupOverallCron(app: ModifiedApp) {
   startBdayCron(app);
   // setupCronAdventOfCode(app);
   setupCronForIrl(app);
+  setupCron(app);
   highSeasCron(app);
   return {
     checkAirtableBoba,

@@ -1,6 +1,7 @@
 import path from "path";
 import { ModifiedApp } from "./slackapp";
 import { writeFileSync } from "fs";
+import { Cron } from "croner";
 interface Moment {
   id: string;
   description: string;
@@ -46,6 +47,7 @@ export async function cron(app: ModifiedApp) {
         description: moment.description,
         video_url: moment.video,
         airtable_created_at: moment.created_at,
+        kudos: moment.kudos,
       },
     );
     // send message to slack
@@ -70,3 +72,8 @@ export async function cron(app: ModifiedApp) {
     });
   }
 }
+export function setupCron(app: ModifiedApp) {
+    new Cron("*/5 * * * *", async () => {
+      cron(app);
+    });
+  }
