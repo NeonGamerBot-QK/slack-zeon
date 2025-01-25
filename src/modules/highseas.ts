@@ -202,11 +202,11 @@ export function diffHighSeasLB(oldLB: Leaderboard, newLB: Leaderboard) {
         : ``;
     if (diff > 0) {
       msgs.push(
-        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:yay: *${entry.username}* You have gained \`${diff}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
+        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:yay: ${entry.username ? `*${entry.username}*` : `<@${entry.id}>`} You have gained \`${diff}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
       );
     } else if (diff < 0) {
       msgs.push(
-        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:noooovanish: *${entry.username}* You lost \`${Math.abs(diff)}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
+        `${newRankMessage ? (newRankMessage.includes("up") ? ":upvote:" : ":downvote:") : ""}:noooovanish: ${entry.username ? `*${entry.username}*` : `<@${entry.id}>`} You lost \`${Math.abs(diff)}\` :doubloon:. ${newRankMessage ?? "No rank change"}`,
       );
     }
   }
@@ -365,7 +365,7 @@ export async function lbCronFunc(app: ModifiedApp) {
           .slice(0, 10)
           .map(
             (d) =>
-              `\`${d.username}\` - ${parseInt(d.current_doubloons)} :doubloon:`,
+              `${d.username ? `\`${d.username}\`` : `<@${d.id}>`} - ${parseInt(d.current_doubloons)} :doubloon:`,
           )
           .join("\n")}`,
         parse: "none",
