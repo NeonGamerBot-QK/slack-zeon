@@ -25,6 +25,8 @@ export async function cron(app: ModifiedApp) {
     .list("noco", "p63yjsdax7yacy4", "mx0auhbm95uv2xe", "vwkxqq24oc49spbq", {
       offset: 0,
       where: "",
+      //@ts-ignore
+      limit: 1000,
     })
     .then(
       (e) =>
@@ -34,6 +36,7 @@ export async function cron(app: ModifiedApp) {
         }[],
     );
   for (const moment of moments) {
+  
     const isPresent = records.find((e) => e.airtable_id === moment.id);
     if (isPresent) continue;
     // insert into db
