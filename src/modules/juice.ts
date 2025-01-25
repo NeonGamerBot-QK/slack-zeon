@@ -75,7 +75,7 @@ export async function cron(app: ModifiedApp) {
   }
 }
 export function setupCron(app: ModifiedApp) {
-  new Cron("*/5 * * * *", async () => {
-    cron(app);
+  new Cron("*/15 * * * *", async () => {
+    // cron(app);
   });
 }
