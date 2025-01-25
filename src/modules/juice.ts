@@ -13,7 +13,7 @@ interface Moment {
 export function getKudosMoments() {
   return fetch("https://juice.hackclub.com/api/get-omg-moments").then(
     (r) => r.json() as Promise<Moment[]>,
-  );
+  ).then(r=>[...new Set(r)] as Moment[]);
 }
 
 export async function cron(app: ModifiedApp) {
@@ -30,13 +30,13 @@ export async function cron(app: ModifiedApp) {
     })
     .then(
       (e) =>
-        e.list as {
+       ([...new Set((e.list as {
           airtable_id: string;
           // there is other stuff but we dont need it
-        }[],
+        }[]).map(e=>e.airtable_id.trim()))])
     );
   for (const moment of moments) {
-    const isPresent = records.find((e) => e.airtable_id === moment.id);
+    const isPresent = records.includes(moment.id.trim());
     if (isPresent) continue;
     // insert into db
     await app.nocodb.dbViewRow.create(
@@ -66,13 +66,14 @@ export async function cron(app: ModifiedApp) {
     await app.client.files.uploadV2({
       file: video,
       filename: `kudos.mp4`,
-      channel_id: `C089VGTV1D5`,
+      channel_id: `C07LGLUTNH2`,
       alt_text: `users kudos video `,
       initial_comment: `:juice: ${moment.description} -- Earned *${moment.kudos}* :juice-kudos:`,
       // title: `:d20: You rolled a *${roll}* and the video is here:`,
       // initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
     });
   }
+  console.log(`#juicedone`)
 }
 export function setupCron(app: ModifiedApp) {
   new Cron("*/15 * * * *", async () => {
