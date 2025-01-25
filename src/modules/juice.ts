@@ -69,17 +69,18 @@ export async function cron(app: ModifiedApp) {
     await app.client.files.uploadV2({
       file: video,
       filename: `kudos.mp4`,
-      channel_id: `C07LGLUTNH2`,
+      channel_id: `C089VGTV1D5`,
       alt_text: `users kudos video `,
       initial_comment: `:juice: ${moment.description} -- Earned *${moment.kudos}* :juice-kudos:`,
       // title: `:d20: You rolled a *${roll}* and the video is here:`,
       // initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
     });
+    await new Promise((r) => setTimeout(r, 100));
   }
   console.log(`#juicedone`);
 }
 export function setupCron(app: ModifiedApp) {
-  new Cron("*/15 * * * *", async () => {
-    // cron(app);
+  new Cron("*/5 * * * *", async () => {
+    cron(app);
   });
 }
