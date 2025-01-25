@@ -11,9 +11,9 @@ interface Moment {
   video: string;
 }
 export function getKudosMoments() {
-  return fetch("https://juice.hackclub.com/api/get-omg-moments").then(
-    (r) => r.json() as Promise<Moment[]>,
-  ).then(r=>[...new Set(r)] as Moment[]);
+  return fetch("https://juice.hackclub.com/api/get-omg-moments")
+    .then((r) => r.json() as Promise<Moment[]>)
+    .then((r) => [...new Set(r)] as Moment[]);
 }
 
 export async function cron(app: ModifiedApp) {
@@ -28,13 +28,16 @@ export async function cron(app: ModifiedApp) {
       //@ts-ignore
       limit: 1000,
     })
-    .then(
-      (e) =>
-       ([...new Set((e.list as {
-          airtable_id: string;
-          // there is other stuff but we dont need it
-        }[]).map(e=>e.airtable_id.trim()))])
-    );
+    .then((e) => [
+      ...new Set(
+        (
+          e.list as {
+            airtable_id: string;
+            // there is other stuff but we dont need it
+          }[]
+        ).map((e) => e.airtable_id.trim()),
+      ),
+    ]);
   for (const moment of moments) {
     const isPresent = records.includes(moment.id.trim());
     if (isPresent) continue;
@@ -73,7 +76,7 @@ export async function cron(app: ModifiedApp) {
       // initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
     });
   }
-  console.log(`#juicedone`)
+  console.log(`#juicedone`);
 }
 export function setupCron(app: ModifiedApp) {
   new Cron("*/15 * * * *", async () => {
