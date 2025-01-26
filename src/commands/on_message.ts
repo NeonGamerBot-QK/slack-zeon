@@ -188,20 +188,20 @@ export default class Message implements Command {
               console.log("Connected to WS server");
             });
           } else if (cmd == "robotics") {
-         const out = await   sendSchedule(args.join(" "), app, `C07R8DYAZMM`)
-         if(out) {
-           await app.client.chat.postEphemeral({
-             channel: event.channel,
-             text: `Robotics schedule sent!`,
-             user: event.user,
-           });
-         } else {
-           await app.client.chat.postEphemeral({
-             channel: event.channel,
-             text: `Robotics schedule not sent!`,
-             user: event.user,
-           });
-         }
+            const out = await sendSchedule(args.join(" "), app, `C07R8DYAZMM`);
+            if (out) {
+              await app.client.chat.postEphemeral({
+                channel: event.channel,
+                text: `Robotics schedule sent!`,
+                user: event.user,
+              });
+            } else {
+              await app.client.chat.postEphemeral({
+                channel: event.channel,
+                text: `Robotics schedule not sent!`,
+                user: event.user,
+              });
+            }
           }
           console.debug(`#message-`);
 
