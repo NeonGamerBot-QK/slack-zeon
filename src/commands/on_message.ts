@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/node";
 import { ModifiedApp } from "../modules/slackapp";
 import { compareSync } from "bcrypt";
 import { EncryptedJsonDb } from "../modules/encrypted-db";
+import { sendSchedule } from "../modules/robotics";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -186,6 +187,21 @@ export default class Message implements Command {
             app.ws.on("connect", () => {
               console.log("Connected to WS server");
             });
+          } else if (cmd == "robotics") {
+         const out = await   sendSchedule(args.join(" "), app, `C07R8DYAZMM`)
+         if(out) {
+           await app.client.chat.postEphemeral({
+             channel: event.channel,
+             text: `Robotics schedule sent!`,
+             user: event.user,
+           });
+         } else {
+           await app.client.chat.postEphemeral({
+             channel: event.channel,
+             text: `Robotics schedule not sent!`,
+             user: event.user,
+           });
+         }
           }
           console.debug(`#message-`);
 

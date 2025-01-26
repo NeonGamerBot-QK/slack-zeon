@@ -52,7 +52,7 @@ export async function sendSchedule(
   channel: string,
 ) {
   const schedule = extractText(text);
-  if (schedule.length == 0) return;
+  if (schedule.length == 0) return 0;
   const msg = await app.client.chat.postMessage({
     channel,
     text: `Oh whats this? a schedule? for .. Robotics?? :robot:`,
@@ -65,4 +65,5 @@ export async function sendSchedule(
     });
     await new Promise((r) => setTimeout(r, 100));
   }
+  return 1;
 }
