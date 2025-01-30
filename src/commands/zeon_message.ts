@@ -60,22 +60,23 @@ export default class Message implements Command {
           //     ],
           //     model: "gpt-3.5-turbo",
           //   })
-          const aiReq0 = await 
-          fetch("https://ai.hackclub.com/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+          const aiReq0 = await fetch(
+            "https://ai.hackclub.com/chat/completions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
 
-            body: JSON.stringify({
-              messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: event.text },
-              ],
-            }),
-          })
-            .then((r) => r.json())
-            // .then((r) => r);
+              body: JSON.stringify({
+                messages: [
+                  { role: "system", content: prompt },
+                  { role: "user", content: event.text },
+                ],
+              }),
+            },
+          ).then((r) => r.json());
+          // .then((r) => r);
           console.log(aiReq0, `api responsne`);
           await app.client.chat.postMessage({
             channel: event.channel,
