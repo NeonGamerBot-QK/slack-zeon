@@ -75,13 +75,13 @@ export default class Message implements Command {
                 ],
               }),
             },
-          ).then((r) => r.json());
-          // .then((r) => r);
+          ).then((r) => r.json())
+          .then((r) => r.choices[0].message.content);
           console.log(aiReq0, `api responsne`);
-          await app.client.chat.postMessage({
-            channel: event.channel,
-            text: aiReq0,
-          });
+          // await app.client.chat.postMessage({
+          //   channel: event.channel,
+          //   text: aiReq0,
+          // });
           const aiReq = JSON.parse(aiReq0);
           const m = await app.client.chat.postMessage({
             channel: event.channel,
