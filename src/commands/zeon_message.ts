@@ -74,7 +74,7 @@ export default class Message implements Command {
             }),
           })
             .then((r) => r.json())
-            .then((r) => r.choices[0].message.content.replaceAll("```", ""));
+            .then((r) => r);
           console.log(aiReq0);
           await app.client.chat.postMessage({
             channel: event.channel,
