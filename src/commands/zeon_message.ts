@@ -75,7 +75,7 @@ export default class Message implements Command {
           })
             .then((r) => r.json())
             .then((r) => r);
-          console.log(aiReq0);
+          console.log(aiReq0, `api responsne`);
           await app.client.chat.postMessage({
             channel: event.channel,
             text: aiReq0,
