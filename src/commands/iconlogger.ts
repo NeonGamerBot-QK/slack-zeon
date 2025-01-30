@@ -13,18 +13,29 @@ export default class IconLogger implements Command {
   }
   run(app: ModifiedApp) {
     // app.command()
-    app.event(this.name, async ({ event }) => {
-        console.debug(event);
-        // try {
-            //@ts-ignore
-            const { profile } = event;
-            if (profile && profile.icon) {
-                await app.client.chat.postMessage({
+    setInterval(async () => {
+const teamInfo = await app.client.team.info();
+console.debug(teamInfo);
+if(teamInfo.team.icon.image_34 !== app.db.get("team_icon")){
+              await app.client.chat.postMessage({
                     channel: `C08AUQ4AZL5`,
-                    text: `:tada: New icon! ${profile.icon}`,
+                    text: `:tada: New icon!\n> ${teamInfo.team.icon.image_132}`,
                 });
-            }
+            app.db.set("team_icon", teamInfo.team.icon.image_34);
+}
+    }, 60 * 1000)
+    // app.event(this.name, async ({ event }) => {
+    //     console.debug(event);
+    //     // try {
+    //         //@ts-ignore
+    //         const { profile } = event;
+    //         if (profile && profile.icon) {
+    //             await app.client.chat.postMessage({
+    //                 channel: `C08AUQ4AZL5`,
+    //                 text: `:tada: New icon! ${profile.icon}`,
+    //             });
+    //         }
 
-    });
+    // });
   }
 }
