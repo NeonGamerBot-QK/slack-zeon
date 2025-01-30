@@ -48,17 +48,32 @@ export default class Message implements Command {
 
       const args = event.text.slice("zeon ".length).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
-      if (onlyForMe(event.user)) {
+      // best code fr
+      if (true) {
         let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. All  durations must be in miliseconds. there must be a type property no matter what.`;
         try {
-          const aiReq = await ai.chat.completions
-            .create({
-              messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: event.text },
-              ],
-              model: "gpt-3.5-turbo",
-            })
+          const aiReq = await 
+          // ai.chat.completions
+          //   .create({
+          //     messages: [
+          //       { role: "system", content: prompt },
+          //       { role: "user", content: event.text },
+          //     ],
+          //     model: "gpt-3.5-turbo",
+          //   })
+            fetch('https://ai.hackclub.com/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+             
+              body: JSON.stringify({
+                messages: [
+                  { role: "system", content: prompt },
+                  { role: "user", content: event.text },
+                ],
+              })
+            }).then(r=>r.json())
             .then((r) => JSON.parse(r.choices[0].message.content));
           const m = await app.client.chat.postMessage({
             channel: event.channel,
