@@ -75,8 +75,9 @@ export default class Message implements Command {
                 ],
               }),
             },
-          ).then((r) => r.json())
-          .then((r) => r.choices[0].message.content);
+          )
+            .then((r) => r.json())
+            .then((r) => r.choices[0].message.content);
           console.log(aiReq0, `api responsne`);
           // await app.client.chat.postMessage({
           //   channel: event.channel,
