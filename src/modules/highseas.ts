@@ -325,7 +325,7 @@ export async function lbCronFunc(app: ModifiedApp) {
       }
     }
 
-    const msgs = diffHighSeasLB(oldInstance, newInstance);
+    const msgs = diffHighSeasLB(oldInstance, newInstance).filter(e=>!e.includes("U0859RC9Y9M"));
     if (msgs.length > 0) {
       await app.client.chat
         .postMessage({
@@ -347,12 +347,13 @@ export async function lbCronFunc(app: ModifiedApp) {
                 text: msg,
                 thread_ts: e.ts,
               });
-              await fetch(process.env.CANVAS_URL, {
-                method: "POST",
-                body: JSON.stringify({
-                  text: msg,
-                }),
-              });
+              // PLEASE SLACKBOT STOP SENDING ME DMSSS
+              // await fetch(process.env.CANVAS_URL, {
+              //   method: "POST",
+              //   body: JSON.stringify({
+              //     text: msg,
+              //   }),
+              // });
               await new Promise((r) => setTimeout(r, 400));
             }
           }
