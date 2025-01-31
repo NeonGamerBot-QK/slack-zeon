@@ -65,7 +65,7 @@ export default class Message implements Command {
           //     ],
           //     model: "gpt-3.5-turbo",
           //   })
-          const aiReq0 = await fetch(
+          const aiReq00 = await fetch(
             "https://ai.hackclub.com/chat/completions",
             {
               method: "POST",
@@ -81,12 +81,21 @@ export default class Message implements Command {
               }),
             },
           )
-            .then((r) => r.json())
-            .then((r) =>
-              r.choices[0].message.content
-                .replace("```json", "")
-                .replace("```", ""),
-            );
+            .then((r) => r.text())
+           let aiReq0 = null;
+
+           try {
+            aiReq0 = JSON.parse(aiReq00).choices[0].message.content
+            .replace("```json", "")
+            .replace("```", "");
+           } catch (e) {
+            aiReq0 = aiReq00;
+           }
+            // .then((r) =>
+            //   r.choices[0].message.content
+            //     .replace("```json", "")
+            //     .replace("```", ""),
+            // );
           console.log(aiReq0, `api responsne`);
           // await app.client.chat.postMessage({
           //   channel: event.channel,
