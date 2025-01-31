@@ -325,7 +325,9 @@ export async function lbCronFunc(app: ModifiedApp) {
       }
     }
 
-    const msgs = diffHighSeasLB(oldInstance, newInstance).filter(e=>!e.includes("U0859RC9Y9M"));
+    const msgs = diffHighSeasLB(oldInstance, newInstance).filter(
+      (e) => !e.includes("U0859RC9Y9M"),
+    );
     if (msgs.length > 0) {
       await app.client.chat
         .postMessage({
