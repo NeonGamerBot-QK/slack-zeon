@@ -80,22 +80,21 @@ export default class Message implements Command {
                 ],
               }),
             },
-          )
-            .then((r) => r.text())
-           let aiReq0 = null;
+          ).then((r) => r.text());
+          let aiReq0 = null;
 
-           try {
-            aiReq0 = JSON.parse(aiReq00).choices[0].message.content
-            .replace("```json", "")
-            .replace("```", "");
-           } catch (e) {
+          try {
+            aiReq0 = JSON.parse(aiReq00)
+              .choices[0].message.content.replace("```json", "")
+              .replace("```", "");
+          } catch (e) {
             aiReq0 = aiReq00;
-           }
-            // .then((r) =>
-            //   r.choices[0].message.content
-            //     .replace("```json", "")
-            //     .replace("```", ""),
-            // );
+          }
+          // .then((r) =>
+          //   r.choices[0].message.content
+          //     .replace("```json", "")
+          //     .replace("```", ""),
+          // );
           console.log(aiReq0, `api responsne`);
           // await app.client.chat.postMessage({
           //   channel: event.channel,
