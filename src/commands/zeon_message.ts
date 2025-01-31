@@ -145,7 +145,7 @@ export default class Message implements Command {
                 timestamp: event.ts,
                 name: "old-map",
               });
-            break;
+              break;
             case "politics":
             case "political":
               app.client.reactions.add({
