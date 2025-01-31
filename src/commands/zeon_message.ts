@@ -77,17 +77,25 @@ export default class Message implements Command {
             },
           )
             .then((r) => r.json())
-            .then((r) => r.choices[0].message.content);
+            .then((r) => r.choices[0].message.content.replace('```json', '').replace('```', ''));
           console.log(aiReq0, `api responsne`);
           // await app.client.chat.postMessage({
           //   channel: event.channel,
           //   text: aiReq0,
           // });
-          const aiReq = JSON.parse(aiReq0);
+          let aiReq
+          
+          
+          try {
+            aiReq = JSON.parse(aiReq0); 
+          } catch (e) {
+            aiReq = { message: `Error:\n`+aiReq0 }
+          }
           const m = await app.client.chat.postMessage({
             channel: event.channel,
+            thread_ts: event.thread_ts,
             text:
-              `${aiReq.message} - \`${aiReq.type}\`` ||
+              `${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
               ":notcool: i didnt get a message/error im very scared... >> " +
                 JSON.stringify(aiReq),
