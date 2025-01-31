@@ -132,15 +132,34 @@ export default class Message implements Command {
               break;
             case "warning":
             case "error":
+            case "sassy":
               app.client.reactions.add({
                 channel: event.channel,
                 timestamp: event.ts,
                 name: "warning",
               });
               break;
+            case "geography":
+              app.client.reactions.add({
+                channel: event.channel,
+                timestamp: event.ts,
+                name: "old-map",
+              });
+            break;
+            case "politics":
+            case "political":
+              app.client.reactions.add({
+                channel: event.channel,
+                timestamp: event.ts,
+                name: "politics",
+              });
+              break;
             case "info":
+            case "repetition":
             case "inform":
             case "math":
+            case "informative":
+            case "reverse":
               break;
             default:
               console.log(aiReq, `unk`);
@@ -151,6 +170,13 @@ export default class Message implements Command {
               });
               break;
           }
+          try {
+            await app.client.reactions.add({
+              channel: event.channel,
+              timestamp: event.ts,
+              name: aiReq.type,
+            });
+          } catch (e) {}
         } catch (e) {
           app.client.chat.postMessage({
             channel: event.channel,
