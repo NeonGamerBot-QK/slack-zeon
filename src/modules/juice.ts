@@ -9,6 +9,7 @@ interface Moment {
   kudos: number;
   created_at: string;
   video: string;
+  slackId?: string[];
 }
 export function getKudosMoments() {
   return fetch("https://juice.hackclub.com/api/get-omg-moments")
@@ -26,7 +27,7 @@ export async function cron(app: ModifiedApp) {
       offset: 0,
       where: "",
       //@ts-ignore
-      limit: 1000,
+      limit: 100000,
     })
     .then((e) => [
       ...new Set(
@@ -53,6 +54,7 @@ export async function cron(app: ModifiedApp) {
         video_url: moment.video,
         airtable_created_at: moment.created_at,
         kudos: moment.kudos,
+        slackID: moment.slackId ? moment.slackId[0] : "",
       },
     );
     // send message to slack
@@ -71,7 +73,7 @@ export async function cron(app: ModifiedApp) {
       filename: `kudos.mp4`,
       channel_id: `C089VGTV1D5`,
       alt_text: `users kudos video `,
-      initial_comment: `:juice: ${moment.description} -- Earned *${moment.kudos}* :juice-kudos:`,
+      initial_comment: `:juice: ${moment.description} -- Earned *${moment.kudos}* :juice-kudos: ${moment.slackId ? `by <@${moment.slackId[0]}>` : ""}`,
       // title: `:d20: You rolled a *${roll}* and the video is here:`,
       // initial_comment: `:d20: You rolled a *${roll}* and the video is here:`,
     });
