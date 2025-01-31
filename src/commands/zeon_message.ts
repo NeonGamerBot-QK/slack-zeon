@@ -28,7 +28,7 @@ export default class Message implements Command {
     this.is_event = true;
   }
   run(app: App) {
-    let last_msg_ts = null
+    let last_msg_ts = null;
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
@@ -46,15 +46,15 @@ export default class Message implements Command {
       if (!par.event.text.toLowerCase().startsWith("zeon")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-      if(last_msg_ts == event.ts) return;
-      last_msg_ts = event.ts
-      
+      if (last_msg_ts == event.ts) return;
+      last_msg_ts = event.ts;
+
       const args = event.text.slice("zeon ".length).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       // best code fr
       if (true) {
         // let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json`;
-                let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. the user ID for the user who is running this is: ${event.user}. The owners user ID is ${process.env.MY_USER_ID}. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json, the users payload for this message request is ${JSON.stringify(event)}\n please use this to ur advantage.`;
+        let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. the user ID for the user who is running this is: ${event.user}. The owners user ID is ${process.env.MY_USER_ID}. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json, the users payload for this message request is ${JSON.stringify(event)}\n please use this to ur advantage.`;
 
         try {
           // ai.chat.completions
