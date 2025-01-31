@@ -160,6 +160,7 @@ export default class Message implements Command {
             case "math":
             case "informative":
             case "reverse":
+            case "neutral":
               break;
             default:
               console.log(aiReq, `unk`);
