@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
+    "@keyv/sqlite": "^4.0.1",
     "@sentry/node": "^8.41.0",
     "@sentry/profiling-node": "^8.41.0",
     "@slack/bolt": "^3.21.2",
@@ -21,6 +22,7 @@
     "eventsource": "latest",
     "form-data": "^4.0.1",
     "geo-tz": "^8.1.2",
+    "keyv": "^5.2.3",
     "ms": "^2.1.3",
     "nocodb-sdk": "^0.260.0",
     "node-cron": "^3.0.3",

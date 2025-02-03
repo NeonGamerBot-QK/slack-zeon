@@ -5,7 +5,7 @@ import { Api } from "nocodb-sdk";
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
-
+import Keyv from 'keyv';
 import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
@@ -35,6 +35,7 @@ app.dbs.memdebug = new JSONdb("data/memdb.json");
 app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
   password: process.env.ANONDM_PASSWORD,
 });
+app.dbs.mykcd = new JSONdb("data/mykcd.json");
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
 app.nocodb = new Api({

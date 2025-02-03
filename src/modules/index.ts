@@ -17,6 +17,7 @@ export * as tempmail from "./TempHackclubEmail";
 export * as irl from "./watchMyIrl";
 export * as hangman from "./hangman";
 export * as highseas from "./highseas";
+export * as school from "./school";
 // @see https://github.com/hackclub/librarian/blob/main/utils/channelManagers.js
 export async function getChannelManagers(channel) {
   const myHeaders = new Headers();
