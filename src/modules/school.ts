@@ -153,7 +153,7 @@ export interface AssignmentsReqPayload {
     LtiInd: number;
     DropBoxToDo: boolean;
   }
-async function fetchAssignments() {
+export async function fetchAssignments() {
    return fetch('https://kcd.myschoolapp.com/api/assignment2/StudentAssignmentCenterGet?displayByDueDate=true', {
         headers: {
           'content-type': 'application/json',
