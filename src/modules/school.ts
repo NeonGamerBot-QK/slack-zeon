@@ -171,7 +171,7 @@ export async function fetchAssignments() {
 export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
     fetchAssignments().then((d) => {
-      if (d.ActiveTerm || d.AssignmentId || d.SectionId || d.DateDue) {
+      if (d.ActiveTerm || d.AssignmentId || d.SectionId == 0 || d.DateDue || d.AssignmentStatus || d.DueNextWeek || d.DueToday || d.NewAssessmentInd) {
         if (!app.db.get("mykcd_check")) {
           app.client.chat.postMessage({
             channel: `C07LEEB50KD`,
