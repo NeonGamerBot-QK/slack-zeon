@@ -64,7 +64,7 @@ export async function cron(app: ModifiedApp) {
       },
     );
     // send message to slack
-
+    if(!moment.description || !moment.video) continue;
     // stream the video (this is such a bad idea1)
     // download video to tmp.mp4
     await fetch(moment.video)
