@@ -161,7 +161,7 @@ export async function fetchAssignments() {
     {
       headers: {
         "content-type": "application/json",
-        cookie: Buffer.from(process.env.KCD_COOKIE, 'base64').toString(),
+        cookie: Buffer.from(process.env.KCD_COOKIE, "base64").toString(),
       },
     },
   )
