@@ -4,7 +4,7 @@ export * as Status from "./status";
 export * as Random from "./randomResponseSystem";
 export * as howWasYourDay from "./howWasYourDay";
 // export * from "./wsDirectory";
-export * from "./smee";
+// export * from "./smee";
 export * as whatYouDo from "./projectWaterydo";
 export * as songs from "./Songs";
 export * as nextdns from "./nextdns";
