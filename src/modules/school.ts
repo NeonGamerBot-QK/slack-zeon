@@ -200,3 +200,13 @@ export function tempcronjob(app: ModifiedApp) {
     });
   }, 120 * 1000);
 }
+export async function tellMeMissing(data: AssignmentsReqPayload, app: ModifiedApp, channel:string) {
+  for (const a of data.Missing) {
+    if (await app.dbs.mykcd.get(`missing_` + a.AssignmentId)) continue;
+    app.client.chat.postMessage({
+      channel,
+      text: `Hey neon! i was looking thru ur assignments and i found something shocking... your missing *${a.ShortDescription}*! you should prob turn that in esp since it was due @ _${a.DateDue}_...`
+    })
+    await app.dbs.mykcd.set(`missing_`+ a.AssignmentId, true)
+  }
+}
