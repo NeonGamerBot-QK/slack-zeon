@@ -1,3 +1,5 @@
+import { ModifiedApp } from "./slackapp";
+
 // #blackbaudapiyummy
 export interface AssignmentsReqPayload {
   SectionId: number;
@@ -165,4 +167,27 @@ export async function fetchAssignments() {
   )
     .then((r) => r.json())
     .then((d) => d as AssignmentsReqPayload);
+}
+export function tempcronjob(app:ModifiedApp) {
+  setInterval(() => {
+    fetchAssignments().then(d=> {
+      if(d.ActiveTerm) {
+        if(!app.db.get("mykcd_check")) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `Hey! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`
+          })
+          app.db.set("mykcd_check", Date.now())
+        } 
+      } else {
+        if(!app.db.get("mykcd_fail")) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `Hey! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms`
+          })
+          app.db.set("mykcd_fail", Date.now())
+        }
+      }
+    })
+  }, 5 * 60 * 1000)
 }
