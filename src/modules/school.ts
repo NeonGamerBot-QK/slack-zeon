@@ -155,6 +155,18 @@ export interface Missing {
   LtiInd: number;
   DropBoxToDo: boolean;
 }
+export function makeReq(path: string) {
+  return fetch(
+    "https://kcd.myschoolapp.com" + path,
+    {
+      headers: {
+        "content-type": "application/json",
+        cookie: Buffer.from(process.env.KCD_COOKIE, "base64").toString(),
+      },
+    },
+  )
+    .then((r) => r.json())
+}
 export async function fetchAssignments() {
   return fetch(
     "https://kcd.myschoolapp.com/api/assignment2/StudentAssignmentCenterGet?displayByDueDate=true",
