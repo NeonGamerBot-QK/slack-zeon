@@ -175,7 +175,7 @@ export function tempcronjob(app:ModifiedApp) {
         if(!app.db.get("mykcd_check")) {
           app.client.chat.postMessage({
             channel: `C07LEEB50KD`,
-            text: `Hey! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`
+            text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`
           })
           app.db.set("mykcd_check", Date.now())
         } 
@@ -183,7 +183,7 @@ export function tempcronjob(app:ModifiedApp) {
         if(!app.db.get("mykcd_fail")) {
           app.client.chat.postMessage({
             channel: `C07LEEB50KD`,
-            text: `Hey! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms`
+            text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms`
           })
           app.db.set("mykcd_fail", Date.now())
         }

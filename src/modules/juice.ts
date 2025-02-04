@@ -22,25 +22,31 @@ export async function cron(app: ModifiedApp) {
   // console.log(moments)
   // query via nocodb to get current records ig
   // const records = await app.nocodb.dbViewRow
-  const records = await app.nocodb.dbViewRow
-    .list("noco", "p63yjsdax7yacy4", "mx0auhbm95uv2xe", "vwkxqq24oc49spbq", {
-      offset: 0,
-      where: "",
-      //@ts-ignore
-      limit: 100000,
-    })
-    .then((e) => [
-      ...new Set(
-        (
-          e.list as {
-            airtable_id: string;
-            // there is other stuff but we dont need it
-          }[]
-        ).map((e) => e.airtable_id.trim()),
-      ),
-    ]);
+  // const records = await app.nocodb.dbViewRow
+  //   .list("noco", "p63yjsdax7yacy4", "mx0auhbm95uv2xe", "vwkxqq24oc49spbq", {
+  //     offset: 0,
+  //     where: "",
+  //     //@ts-ignore
+  //     limit: 1,
+  //   })
+  //   .then((e) => [
+  //     ...new Set(
+  //       (
+  //         e.list as {
+  //           airtable_id: string;
+  //           // there is other stuff but we dont need it
+  //         }[]
+  //       ).map((e) => e.airtable_id.trim()),
+  //     ),
+  //   ]);
   for (const moment of moments) {
-    const isPresent = records.includes(moment.id.trim());
+    const isPresent = await app.nocodb.dbViewRow
+      .list("noco", "p63yjsdax7yacy4", "mx0auhbm95uv2xe", "vwkxqq24oc49spbq", {
+        offset: 0,
+        where: `{"airtable_id":"${moment.id}"}`,
+        //@ts-ignore
+        limit: 1,
+      })
     if (isPresent) continue;
     // insert into db
     await app.nocodb.dbViewRow.create(
