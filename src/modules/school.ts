@@ -191,6 +191,6 @@ export function tempcronjob(app: ModifiedApp) {
         }
       });
     },
-    5 * 60 * 1000,
+    60 * 1000,
   );
 }
