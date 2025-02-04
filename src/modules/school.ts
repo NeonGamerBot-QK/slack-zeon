@@ -169,28 +169,25 @@ export async function fetchAssignments() {
     .then((d) => d as AssignmentsReqPayload);
 }
 export function tempcronjob(app: ModifiedApp) {
-  setInterval(
-    () => {
-      fetchAssignments().then((d) => {
-        if (d.ActiveTerm || d.AssignmentId || d.SectionId || d.DateDue) {
-          if (!app.db.get("mykcd_check")) {
-            app.client.chat.postMessage({
-              channel: `C07LEEB50KD`,
-              text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`,
-            });
-            app.db.set("mykcd_check", Date.now());
-          }
-        } else {
-          if (!app.db.get("mykcd_fail")) {
-            app.client.chat.postMessage({
-              channel: `C07LEEB50KD`,
-              text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms\n${JSON.stringify(d)}`,
-            });
-            app.db.set("mykcd_fail", Date.now());
-          }
+  setInterval(() => {
+    fetchAssignments().then((d) => {
+      if (d.ActiveTerm || d.AssignmentId || d.SectionId || d.DateDue) {
+        if (!app.db.get("mykcd_check")) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`,
+          });
+          app.db.set("mykcd_check", Date.now());
         }
-      });
-    },
-    120 * 1000,
-  );
+      } else {
+        if (!app.db.get("mykcd_fail")) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms\n${JSON.stringify(d)}`,
+          });
+          app.db.set("mykcd_fail", Date.now());
+        }
+      }
+    });
+  }, 120 * 1000);
 }
