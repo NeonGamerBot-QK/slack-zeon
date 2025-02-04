@@ -161,7 +161,7 @@ export async function fetchAssignments() {
     {
       headers: {
         "content-type": "application/json",
-        cookie: process.env.KCD_COOKIE,
+        cookie: Buffer.from(process.env.KCD_COOKIE, 'base64').toString(),
       },
     },
   )
@@ -176,7 +176,7 @@ export function tempcronjob(app: ModifiedApp) {
           if (!app.db.get("mykcd_check")) {
             app.client.chat.postMessage({
               channel: `C07LEEB50KD`,
-              text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp\n${JSON.stringify(d)}`,
+              text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`,
             });
             app.db.set("mykcd_check", Date.now());
           }
@@ -184,7 +184,7 @@ export function tempcronjob(app: ModifiedApp) {
           if (!app.db.get("mykcd_fail")) {
             app.client.chat.postMessage({
               channel: `C07LEEB50KD`,
-              text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms`,
+              text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - app.db.get("mykcd_check")}ms\n${JSON.stringify(d)}`,
             });
             app.db.set("mykcd_fail", Date.now());
           }
