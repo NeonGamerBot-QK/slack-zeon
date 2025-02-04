@@ -172,7 +172,7 @@ export function tempcronjob(app: ModifiedApp) {
   setInterval(
     () => {
       fetchAssignments().then((d) => {
-        if (d.ActiveTerm) {
+        if (d.ActiveTerm || d.AssignmentId || d.SectionId || d.DateDue) {
           if (!app.db.get("mykcd_check")) {
             app.client.chat.postMessage({
               channel: `C07LEEB50KD`,
@@ -191,6 +191,6 @@ export function tempcronjob(app: ModifiedApp) {
         }
       });
     },
-    60 * 1000,
+    120 * 1000,
   );
 }
