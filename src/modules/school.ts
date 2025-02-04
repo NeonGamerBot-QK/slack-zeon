@@ -176,7 +176,7 @@ export function tempcronjob(app: ModifiedApp) {
           if (!app.db.get("mykcd_check")) {
             app.client.chat.postMessage({
               channel: `C07LEEB50KD`,
-              text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`,
+              text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp\n${JSON.stringify(d)}`,
             });
             app.db.set("mykcd_check", Date.now());
           }

@@ -47,12 +47,13 @@ export async function cron(app: ModifiedApp) {
       "vwkxqq24oc49spbq",
       {
         offset: 0,
-        where: `{"airtable_id":"${moment.id}"}`,
+        where: `(airtable_id,eq,${moment.id})`,
         //@ts-ignore
         limit: 1,
       },
     );
     if (isPresent) continue;
+    if (!moment.description || !moment.video) continue;
     // insert into db
     await app.nocodb.dbViewRow.create(
       `noco`,
@@ -69,7 +70,6 @@ export async function cron(app: ModifiedApp) {
       },
     );
     // send message to slack
-    if (!moment.description || !moment.video) continue;
     // stream the video (this is such a bad idea1)
     // download video to tmp.mp4
     await fetch(moment.video)
