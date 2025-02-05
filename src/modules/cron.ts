@@ -268,7 +268,7 @@ export function setupOverallCron(app: ModifiedApp) {
   setupCron(app);
   highSeasCron(app);
   // temp? nah perm now
-  tempcronjob(app)
+  tempcronjob(app);
   return {
     checkAirtableBoba,
     cronWithCheckIn,
