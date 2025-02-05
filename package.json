@@ -30,6 +30,7 @@
     "node-memwatch-new": "0.0.1",
     "octokit": "^4.0.2",
     "openai": "latest",
+    "rss": "^1.2.2",
     "simple-json-db": "^2.0.0",
     "smee-client": "^2.0.3",
     "socket.io": "^4.8.1",
