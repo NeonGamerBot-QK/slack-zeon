@@ -196,7 +196,7 @@ export function tempcronjob(app: ModifiedApp) {
           });
           app.db.set("mykcd_check", Date.now());
         }
-         tellMeMissing(d, app, `C07R8DYAZMM`);
+        tellMeMissing(d, app, `C07R8DYAZMM`);
       } else {
         if (!app.db.get("mykcd_fail")) {
           app.client.chat.postMessage({
