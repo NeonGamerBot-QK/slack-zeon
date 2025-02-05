@@ -7,7 +7,7 @@ import { handleGitRequest } from "./projectWaterydo";
 import { bdayutils } from "./index";
 import { Api } from "nocodb-sdk";
 import KeyvSqlite from "@keyv/sqlite";
-import RSS from "rss"
+import RSS from "rss";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
@@ -108,23 +108,22 @@ export const app = new App({
         async function getAllMessages(channelId) {
           let messages = [];
           let cursor;
-        
+
           try {
             do {
               const response = await app.client.conversations.history({
                 channel: channelId,
                 limit: 200,
-                cursor: cursor
+                cursor: cursor,
               });
-        
+
               messages = messages.concat(response.messages);
               cursor = response.response_metadata?.next_cursor;
-        
             } while (cursor);
-        
+
             return messages;
           } catch (error) {
-            console.error('Error fetching messages:', error);
+            console.error("Error fetching messages:", error);
             return [];
           }
         }
@@ -132,18 +131,20 @@ export const app = new App({
           title: `Happenings!`,
           site_url: `https://app.slack.com/client/T0266FRGM/C05B6DBN802`,
           feed_url: `https://slack.mybot.saahild.com/happenings.xml`,
-          description: `Happenings!`
-        })
-        for(const m of await getAllMessages("C05B6DBN802")) {
+          description: `Happenings!`,
+        });
+        for (const m of await getAllMessages("C05B6DBN802")) {
           rss.item({
             title: `Post for ${new Date(m.ts * 1000).toLocaleDateString()}`,
             description: m.text,
-            date: new Date(m.ts * 1000)
-          })
+            date: new Date(m.ts * 1000),
+          });
         }
-        res.writeHead(200, {
-          'Content-Type': 'application/rss+xml'
-        }).end(rss.xml({indent: true}));
+        res
+          .writeHead(200, {
+            "Content-Type": "application/rss+xml",
+          })
+          .end(rss.xml({ indent: true }));
         // res.writeHead(200).end(site);
       },
     },
