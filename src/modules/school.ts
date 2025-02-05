@@ -178,7 +178,7 @@ export async function fetchAssignments() {
 }
 export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
-    fetchAssignments().then((d) => {
+    fetchAssignments().then(async (d) => {
       if (
         d.ActiveTerm ||
         d.AssignmentId ||
@@ -196,6 +196,7 @@ export function tempcronjob(app: ModifiedApp) {
           });
           app.db.set("mykcd_check", Date.now());
         }
+         tellMeMissing(d, app, `C07R8DYAZMM`);
       } else {
         if (!app.db.get("mykcd_fail")) {
           app.client.chat.postMessage({

@@ -13,6 +13,7 @@ import howWasYourDay, { cached_spotify_songs } from "./howWasYourDay";
 import { highSeasCron } from "./highseas";
 import { Cron } from "croner";
 import { setupCron } from "./juice";
+import { tempcronjob } from "./school";
 
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -266,6 +267,8 @@ export function setupOverallCron(app: ModifiedApp) {
   setupCronForIrl(app);
   setupCron(app);
   highSeasCron(app);
+  // temp? nah perm now
+  tempcronjob(app)
   return {
     checkAirtableBoba,
     cronWithCheckIn,
