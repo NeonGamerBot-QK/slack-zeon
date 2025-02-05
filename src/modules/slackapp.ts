@@ -145,7 +145,7 @@ export const app = new App({
         }
         res
           .writeHead(200, {
-            "Content-Type": "application/rss+xml",
+            "Content-Type": "text/xml",
           })
           .end(rss.xml({ indent: true }));
         // res.writeHead(200).end(site);
