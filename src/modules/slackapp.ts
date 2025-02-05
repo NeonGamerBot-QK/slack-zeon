@@ -133,7 +133,7 @@ export const app = new App({
           feed_url: `https://slack.mybot.saahild.com/happenings.xml`,
           description: `Happenings!`,
         });
-        for (const m of await getAllMessages("C05B6DBN802")) {
+        for (const m of (await getAllMessages("C05B6DBN802")).slice(0, Math.random() > .5 ? 3 : 5)) {
           rss.item({
             title: `Post for ${new Date(m.ts * 1000).toLocaleDateString()}`,
             description: m.text,
