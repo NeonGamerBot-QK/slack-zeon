@@ -210,16 +210,26 @@ export function tempcronjob(app: ModifiedApp) {
     });
   }, 120 * 1000);
 }
-export async function WowYouDidAnAssignment(app:ModifiedApp, channel:string, data:AssignmentsReqPayload) {
-  const allAssignments = [...data.DueNextWeek, ...data.DueToday, ...data.DueTomorrow, ...data.DueAfterNextWeek, ...data.Overdue]
+export async function WowYouDidAnAssignment(
+  app: ModifiedApp,
+  channel: string,
+  data: AssignmentsReqPayload,
+) {
+  const allAssignments = [
+    ...data.DueNextWeek,
+    ...data.DueToday,
+    ...data.DueTomorrow,
+    ...data.DueAfterNextWeek,
+    ...data.Overdue,
+  ];
   for (const a of allAssignments) {
-    if(!a.AssignmentId) continue;
-    if(!a.StudentStatus) continue;
-    if(a.StudentStatus == 0) continue;
-    const d = await app.dbs.mykcd.get(`has_been_done_${a.AssignmentId}`) || 0
-    if(d == a.StudentStatus) continue;
-    
-  await  app.dbs.mykcd.set(`has_been_done_${a.AssignmentId}`, a.StudentStatus);
+    if (!a.AssignmentId) continue;
+    if (!a.StudentStatus) continue;
+    if (a.StudentStatus == 0) continue;
+    const d = (await app.dbs.mykcd.get(`has_been_done_${a.AssignmentId}`)) || 0;
+    if (d == a.StudentStatus) continue;
+
+    await app.dbs.mykcd.set(`has_been_done_${a.AssignmentId}`, a.StudentStatus);
     await app.client.chat.postMessage({
       channel,
       text: `Hey looks like you did a school assignemt! how nice :3 im very happy and proud of you for doing *${a.ShortDescription}*!`,
