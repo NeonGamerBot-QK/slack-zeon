@@ -40,13 +40,12 @@ export async function cron(app: ModifiedApp) {
   //     ),
   //   ]);
   for (const moment of moments) {
-    const isPresent = await app.nocodb.dbViewRow.list(
+    const isPresent = await app.nocodb.dbViewRow.findOne(
       "noco",
       "p63yjsdax7yacy4",
       "mx0auhbm95uv2xe",
       "vwkxqq24oc49spbq",
       {
-        offset: 0,
         where: `(airtable_id,eq,${moment.id})`,
         //@ts-ignore
         limit: 1,
@@ -93,7 +92,8 @@ export async function cron(app: ModifiedApp) {
   console.log(`#juicedone`);
 }
 export function setupCron(app: ModifiedApp) {
-  new Cron("*/5 * * * *", async () => {
+  new Cron("*/10 * * * *", async () => {
     cron(app);
   });
 }
+
