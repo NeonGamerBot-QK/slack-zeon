@@ -54,7 +54,7 @@ export async function cron(app: ModifiedApp) {
     );
     console.log(isPresent);
     //@ts-ignore SHUT UP TS ERRORS
-    if (isPresent.id) continue;
+    if (isPresent.airtable_id) continue;
     if (!moment.description && !moment.video) continue;
     console.log(1);
     // insert into db
