@@ -40,6 +40,7 @@ export async function cron(app: ModifiedApp) {
   //     ),
   //   ]);
   for (const moment of moments) {
+    console.log(moment.id)
     const isPresent = await app.nocodb.dbViewRow.findOne(
       "noco",
       "p63yjsdax7yacy4",
@@ -52,7 +53,8 @@ export async function cron(app: ModifiedApp) {
       },
     );
     if (isPresent) continue;
-    if (!moment.description || !moment.video) continue;
+    if (!moment.description && !moment.video) continue;
+    console.log(1)
     // insert into db
     await app.nocodb.dbViewRow.create(
       `noco`,
@@ -61,7 +63,7 @@ export async function cron(app: ModifiedApp) {
       "vwkxqq24oc49spbq",
       {
         airtable_id: moment.id,
-        description: moment.description,
+        description: moment.description || "No desc",
         video_url: moment.video,
         airtable_created_at: moment.created_at,
         kudos: moment.kudos,
