@@ -40,7 +40,7 @@ export async function cron(app: ModifiedApp) {
   //     ),
   //   ]);
   for (const moment of moments) {
-    console.log(moment.id)
+    console.log(moment)
     const isPresent = await app.nocodb.dbViewRow.findOne(
       "noco",
       "p63yjsdax7yacy4",
@@ -52,6 +52,7 @@ export async function cron(app: ModifiedApp) {
         limit: 1,
       },
     );
+    console.log(isPresent)
     if (isPresent) continue;
     if (!moment.description && !moment.video) continue;
     console.log(1)
