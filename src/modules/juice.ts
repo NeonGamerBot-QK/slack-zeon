@@ -53,7 +53,8 @@ export async function cron(app: ModifiedApp) {
       },
     );
     console.log(isPresent);
-    if (isPresent) continue;
+    //@ts-ignore SHUT UP TS ERRORS
+    if (isPresent.id) continue;
     if (!moment.description && !moment.video) continue;
     console.log(1);
     // insert into db
