@@ -96,4 +96,3 @@ export function setupCron(app: ModifiedApp) {
     cron(app);
   });
 }
-
