@@ -55,7 +55,7 @@ export async function cron(app: ModifiedApp) {
     console.log(isPresent)
     if (isPresent) continue;
     if (!moment.description && !moment.video) continue;
-    console.log(1)
+    console.log(1);
     // insert into db
     await app.nocodb.dbViewRow.create(
       `noco`,
