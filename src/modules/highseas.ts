@@ -394,6 +394,7 @@ export async function lbCronFunc(app: ModifiedApp) {
     });
   }
 }
+
 export async function ShipYardCron(app: ModifiedApp) {
   try {
     await fetch("https://highseas.hackclub.com/shipyard", {
