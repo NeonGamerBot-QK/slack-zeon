@@ -270,7 +270,7 @@ export function setupOverallCron(app: ModifiedApp) {
   // temp? nah perm now
   tempcronjob(app);
   return {
-    checkAirtableBoba,
+    // checkAirtableBoba,
     cronWithCheckIn,
     moneroJob,
     sendRandomStuff,
