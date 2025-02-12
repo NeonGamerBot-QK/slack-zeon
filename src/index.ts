@@ -24,6 +24,7 @@ import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
+import watchWS from "./modules/capslockwhat";
 
 const db = new JSONdb("data/data.json");
 app.dbs = {};
@@ -50,6 +51,7 @@ watchMem(app);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
+  watchWS(app);
   setInterval(() => {
     try {
       function r() {
