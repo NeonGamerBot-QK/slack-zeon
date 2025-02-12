@@ -13,7 +13,7 @@ export default function watchWS(app: ModifiedApp) {
         });
   let lastSwitch = -1;
   ws.on("message", async (d) => {
-    await new Promise(r=>setTimeout(r,1000));
+    await new Promise((r) => setTimeout(r, 1000));
     const switc: number = parseFloat(d.toString());
     if (switc == lastSwitch) return;
     cb(`Switched from \`${lastSwitch}\` -> \`${switc}\``);
