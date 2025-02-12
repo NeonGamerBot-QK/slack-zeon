@@ -5,7 +5,7 @@ export default function watchWS(app: ModifiedApp) {
   const ws = new WebsocketClient("wss://globalcapslock.com/ws");
   let msgsArray = [];
   const cb = (message: string) =>
-    msgsArray.length < 12
+    msgsArray.length < 10
       ? msgsArray.push(message)
       : app.client.chat.postMessage({
           text: msgsArray.join("\n"),
@@ -16,6 +16,7 @@ export default function watchWS(app: ModifiedApp) {
     await new Promise((r) => setTimeout(r, 1000));
     const switc: number = parseFloat(d.toString());
     if (switc == lastSwitch) return;
+    if(msgsArray.length > 8) msgsArray=  []
     cb(`Switched from \`${lastSwitch}\` -> \`${switc}\``);
     lastSwitch = switc;
   });
