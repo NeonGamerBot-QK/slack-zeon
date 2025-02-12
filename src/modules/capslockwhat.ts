@@ -16,7 +16,7 @@ export default function watchWS(app: ModifiedApp) {
     await new Promise((r) => setTimeout(r, 1000));
     const switc: number = parseFloat(d.toString());
     if (switc == lastSwitch) return;
-    if(msgsArray.length > 8) msgsArray=  []
+    if (msgsArray.length > 8) msgsArray = [];
     cb(`Switched from \`${lastSwitch}\` -> \`${switc}\``);
     lastSwitch = switc;
   });
