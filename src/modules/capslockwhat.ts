@@ -1,5 +1,5 @@
 // ws moment
-import WebsocketClient from "ws"
+import WebsocketClient from "ws";
 import { ModifiedApp } from "./slackapp";
 export default function watchWS(app: ModifiedApp) {
     const ws = new WebsocketClient("wss://globalcapslock.com/ws")
