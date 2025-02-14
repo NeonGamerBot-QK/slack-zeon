@@ -98,20 +98,20 @@ function handleError(e: any) {
 // cron might be eating the cpu
 setupOverallCron(app);
 // im going parinoiddd
-cron.schedule(
-  "30 21 * * *",
-  async () => {
-    try {
-      await howWasYourDay(app);
-    } catch (e: any) {
-      // uh guess what this doesnt run because this cron doesnt run ...
-      app.client.chat.postMessage({
-        channel: `C07R8DYAZMM`,
-        text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
-      });
-    }
-  },
-  { name: "howwasmyday" },
-);
+// cron.schedule(
+//   "30 21 * * *",
+//   async () => {
+//     try {
+//       await howWasYourDay(app);
+//     } catch (e: any) {
+//       // uh guess what this doesnt run because this cron doesnt run ...
+//       app.client.chat.postMessage({
+//         channel: `C07R8DYAZMM`,
+//         text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+//       });
+//     }
+//   },
+//   { name: "howwasmyday" },
+// );
 process.on("unhandledRejection", handleError);
 process.on("unhandledException", handleError);
