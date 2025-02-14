@@ -7,6 +7,7 @@ interface NowPlayingItem {
   Name: string;
   Type: "Movie" | "Episode" | string;
   SeriesName?: string;
+  UserName: string;
 }
 interface JellyfinSession {
   // not fully typed cuz i dont have allat time
@@ -35,6 +36,7 @@ export async function getJellyfinStatus(): Promise<string | null> {
     (d) => d.NowPlayingItem,
   ) as JellyfinSession;
   if (!mySession) return null;
+  if(mySession.NowPlayingItem.UserName !== "Neon") return null;
   const type = mySession.NowPlayingItem.Type;
   const isMovie = type === "Movie";
 
