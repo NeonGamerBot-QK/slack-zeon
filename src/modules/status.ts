@@ -36,7 +36,7 @@ export async function getJellyfinStatus(): Promise<string | null> {
     (d) => d.NowPlayingItem,
   ) as JellyfinSession;
   if (!mySession) return null;
-  if(mySession.NowPlayingItem.UserName !== "Neon") return null;
+  if (mySession.NowPlayingItem.UserName !== "Neon") return null;
   const type = mySession.NowPlayingItem.Type;
   const isMovie = type === "Movie";
 
