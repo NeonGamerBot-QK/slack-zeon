@@ -184,6 +184,7 @@ export default class Message implements Command {
               });
               break;
           }
+          for(const r of [...aiReq.reactions, aiReq.type]) {
           try {
             await app.client.reactions.add({
               channel: event.channel,
@@ -191,6 +192,7 @@ export default class Message implements Command {
               name: aiReq.type,
             });
           } catch (e) {}
+          }
         } catch (e) {
           app.client.chat.postMessage({
             channel: event.channel,
