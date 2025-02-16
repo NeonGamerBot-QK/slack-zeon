@@ -38,7 +38,7 @@ export async function watchTimezone(app: ModifiedApp, data: IrlData) {
       m: m.ts,
     });
   } else {
-    if (app.db.get(`tz`)) {
+    if (app.db.get(`tz`) && !mainTimezone.includes(app.db.get('tz')) && mainTimezone.includes(tz)) {
       await app.client.chat.postMessage({
         thread_ts: app.db.get(`tz`).m,
         text: `Neon is back to his normal tz`,
