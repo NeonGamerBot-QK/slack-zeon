@@ -6,7 +6,7 @@ export * as howWasYourDay from "./howWasYourDay";
 // export * from "./wsDirectory";
 // export * from "./smee";
 export * as whatYouDo from "./projectWaterydo";
-export * as songs from "./Songs";
+// export * as songs from "./Songs";
 export * as nextdns from "./nextdns";
 export * as hacktime from "./hacktime";
 export * as adventOfCode from "./adventofcode";
