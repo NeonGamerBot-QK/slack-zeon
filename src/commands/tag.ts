@@ -161,6 +161,7 @@ export default class TagSystem implements Command {
           text: `Zeon Tag System Help\n\n/tag use <tag>\n/tag add\n/tag rm <tag>`,
         });
       } else if (cmd == "list") {
+        //@ts-ignore
         const tags = Object.keys(app.dbs.tags.JSON())
           .filter((e) => e.startsWith(command.user_id))
           .map((e) => {
