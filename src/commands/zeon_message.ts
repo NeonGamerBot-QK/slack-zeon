@@ -189,7 +189,7 @@ export default class Message implements Command {
               await app.client.reactions.add({
                 channel: event.channel,
                 timestamp: event.ts,
-                name: aiReq.type,
+                name: r,
               });
             } catch (e) {}
           }
