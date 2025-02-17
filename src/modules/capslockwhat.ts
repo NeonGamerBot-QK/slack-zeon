@@ -4,6 +4,9 @@ import { ModifiedApp } from "./slackapp";
 export default function watchWS(app: ModifiedApp) {
   const ws = new WebsocketClient("wss://globalcapslock.com/ws");
   let msgsArray = [];
+  ws.on('error', (e) => {
+    console.error(e, `oops`)
+  })
   const cb = (message: string) =>
     msgsArray.length < 10
       ? msgsArray.push(message)
