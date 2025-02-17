@@ -72,6 +72,7 @@ export default class Message implements Command {
           const cmd = args.shift().toLowerCase();
           // console.log(cmd, args);
           if (cmd == "eval") {
+            return say("remove me from code")
             try {
               // console.log(args);
               // Evaluate (execute) our input
