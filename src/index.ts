@@ -49,10 +49,54 @@ app.nocodb = new Api({
 });
 attachDB(db);
 watchMem(app);
+
+
+// app.client.cha
+const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
+// this is temp i swear
+cmdLoader.runQuery();
+
+function handleError(e: any) {
+  console.error(e);
+  try {
+    Sentry.captureException(e);
+  } catch (e) {
+    console.error(`rip sentry (died while tryna report an error)`);
+  }
+  try {
+    app.client.chat.postMessage({
+      channel: `D07LBMXD9FF`,
+      text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
+    });
+  } catch (e) {}
+}
+process.on("unhandledRejection", handleError);
+process.on("unhandledException", handleError);
+
+// cron might be eating the cpu
+setupOverallCron(app);
+// im going parinoiddd
+// cron.schedule(
+//   "30 21 * * *",
+//   async () => {
+//     try {
+//       await howWasYourDay(app);
+//     } catch (e: any) {
+//       // uh guess what this doesnt run because this cron doesnt run ...
+//       app.client.chat.postMessage({
+//         channel: `C07R8DYAZMM`,
+//         text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+//       });
+//     }
+//   },
+//   { name: "howwasmyday" },
+// );
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
+try {
   watchWS(app);
+} catch (e) {}
   setInterval(() => {
     try {
       function r() {
@@ -77,43 +121,3 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   // grab spotify cache from db
   resetSpotifyCache(app);
 });
-
-// app.client.cha
-const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
-// this is temp i swear
-cmdLoader.runQuery();
-
-function handleError(e: any) {
-  console.error(e);
-  try {
-    Sentry.captureException(e);
-  } catch (e) {
-    console.error(`rip sentry (died while tryna report an error)`);
-  }
-  try {
-    app.client.chat.postMessage({
-      channel: `D07LBMXD9FF`,
-      text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
-    });
-  } catch (e) {}
-}
-// cron might be eating the cpu
-setupOverallCron(app);
-// im going parinoiddd
-// cron.schedule(
-//   "30 21 * * *",
-//   async () => {
-//     try {
-//       await howWasYourDay(app);
-//     } catch (e: any) {
-//       // uh guess what this doesnt run because this cron doesnt run ...
-//       app.client.chat.postMessage({
-//         channel: `C07R8DYAZMM`,
-//         text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
-//       });
-//     }
-//   },
-//   { name: "howwasmyday" },
-// );
-process.on("unhandledRejection", handleError);
-process.on("unhandledException", handleError);
