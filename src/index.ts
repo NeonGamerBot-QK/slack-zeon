@@ -50,7 +50,6 @@ app.nocodb = new Api({
 attachDB(db);
 watchMem(app);
 
-
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
@@ -94,9 +93,9 @@ setupOverallCron(app);
 app.start(process.env.PORT || 3000).then(async (d) => {
   console.log(`App is UP (please help)`);
   watchForWhenIUseHacktime(app);
-try {
-  watchWS(app);
-} catch (e) {}
+  try {
+    watchWS(app);
+  } catch (e) {}
   setInterval(() => {
     try {
       function r() {

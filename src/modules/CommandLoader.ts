@@ -57,7 +57,9 @@ export default class CommandLoader {
     }
     for (const { commandClass, file } of cmds) {
       const stamp = Date.now();
-      const c = commandClass.default ? new commandClass.default() : new commandClass();
+      const c = commandClass.default
+        ? new commandClass.default()
+        : new commandClass();
       console.log(`Running ${file}`);
       try {
         c.run(this._app);
