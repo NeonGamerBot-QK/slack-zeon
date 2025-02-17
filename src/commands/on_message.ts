@@ -66,7 +66,7 @@ export default class Message implements Command {
           if (!par.event.text) return;
           if (!par.event.text.startsWith("!")) return;
           //@ts-ignore
-          console.debug(`cmd`, event.text);
+          console.debug(`cmd`);
           const { event, say } = par;
 
           const args = event.text.slice(1).trim().split(/ +/);
