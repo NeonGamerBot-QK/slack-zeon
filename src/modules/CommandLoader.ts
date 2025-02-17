@@ -39,7 +39,7 @@ export default class CommandLoader {
       const stamp = Date.now();
       try {
         const commandClass = await import(path.join(this.dir, file));
-        console.log(commandClass)
+        console.log(commandClass);
         cmds.push({ commandClass, file });
         // const cmd = new commandClass.default();
         // cmd.run(this._app);
@@ -57,7 +57,9 @@ export default class CommandLoader {
     }
     for (const { commandClass, file } of cmds) {
       const stamp = Date.now();
-      const c = commandClass.default ? new commandClass.default() : new commandClass();
+      const c = commandClass.default
+        ? new commandClass.default()
+        : new commandClass();
       console.log(`Running ${file}`);
       try {
         c.run(this._app);
