@@ -1,5 +1,5 @@
 import "dotenv/config";
-// import "./modules/sentry";
+import "./modules/sentry";
 import * as Sentry from "@sentry/node";
 import { Api } from "nocodb-sdk";
 import init from "./modules/watch-git";
