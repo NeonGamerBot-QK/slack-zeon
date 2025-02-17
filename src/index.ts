@@ -11,9 +11,7 @@ import Loader from "./modules/CommandLoader";
 import path from "path";
 import JSONdb from "simple-json-db";
 import * as utils from "./modules/index";
-import  {
-  resetSpotifyCache,
-} from "./modules/howWasYourDay";
+import { resetSpotifyCache } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 
@@ -23,8 +21,8 @@ import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
 import watchWS from "./modules/capslockwhat";
-console.log(`Loading db's`)
-console.time(`Loading db's`)
+console.log(`Loading db's`);
+console.time(`Loading db's`);
 const db = new JSONdb("data/data.json");
 app.dbs = {};
 // app.dbs.bday = new JSONdb("data/bday.json");
@@ -39,8 +37,8 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 app.dbs.mykcd = new JSONdb("data/mykcd.json");
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
-console.debug(`Dbs loaded`)
-console.timeEnd(`Loading db's`)
+console.debug(`Dbs loaded`);
+console.timeEnd(`Loading db's`);
 app.db = db;
 app.utils = utils;
 app.nocodb = new Api({
