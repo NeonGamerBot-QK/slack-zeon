@@ -50,7 +50,8 @@ export default class CommandLoader {
         logging_values.push({ file, failed: true });
       } finally {
         console.log(`Finished  reading/dying to ${file}`);
-        logging_values.find((e) => e.file === file).took_read = `${Date.now() - stamp}ms`;
+        logging_values.find((e) => e.file === file).took_read =
+          `${Date.now() - stamp}ms`;
       }
     }
     for (const { commandClass, file } of cmds) {
