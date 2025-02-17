@@ -29,10 +29,10 @@ export default function (app: any) {
           const text = `\`${new Date().toISOString()}\` Automatic update from GitHub, pulling files. <https://github.com/NeonGamerBot-QK/slack-zeon/compare/${compareStr}|\`${compareStr}\`>\n\`\`\`${cap(
             response,
             1700,
-          )}\`\`\`\n## Current Branch \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${bhash}|\`View Changes\`>     <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${bhash}|\`Branch\`>       **Commit Message**: \`${bcommitMessage.replace(
+          )}\`\`\`\n*Current Branch* \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${bhash}|\`View Changes\`>   |  <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${bhash}|\`Branch\`>       *Commit Message*: \`\`\`${bcommitMessage.replace(
             "\n",
             "",
-          )}\`\n## Latest Branch\n## Current Branch \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${hash}|\`View Changes\`>     <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${hash}|\`Branch\`>       **Commit Message**: \`${commitMessage}\``;
+          )}\`\`\`\n\n*Latest Branch* \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${hash}|\`View Changes\`>   |  <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${hash}|\`Branch\`>       *Commit Message*: \`\`\`${commitMessage}\`\`\``;
 
           app.client.chat.postMessage({
             channel: `D07LBMXD9FF`,
