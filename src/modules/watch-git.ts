@@ -3,8 +3,8 @@ import { readFileSync } from "fs";
 export default function (app: any) {
   const timer = setInterval(() => {
     const bcommitMessage = require("child_process")
-    .execSync("git log -1 --pretty=%B")
-    .toString();
+      .execSync("git log -1 --pretty=%B")
+      .toString();
     const bhash = readFileSync(".git/refs/heads/master").toString();
     exec(`git pull`, (error, stdout) => {
       let response = error?.stdout ? error?.stdout[0].toString() : stdout;
@@ -13,11 +13,10 @@ export default function (app: any) {
           const commitMessage = require("child_process")
             .execSync("git log -1 --pretty=%B")
             .toString();
-            const hash = 
-            readFileSync(".git/refs/heads/master")
+          const hash = readFileSync(".git/refs/heads/master")
             .toString()
             .split("\n")[0];
-            const compareStr =
+          const compareStr =
             response.split("Updating ")[1].split("\n")[0].trim() ||
             `${bhash}...${hash}`;
           console.log(`New git stuff wowie`);
@@ -29,12 +28,12 @@ export default function (app: any) {
           };
           const text = `\`${new Date().toISOString()}\` Automatic update from GitHub, pulling files. <https://github.com/NeonGamerBot-QK/slack-zeon/compare/${compareStr}|\`${compareStr}\`>\n\`\`\`${cap(
             response,
-            1700
+            1700,
           )}\`\`\`\n## Current Branch \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${bhash}|\`View Changes\`>     <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${bhash}|\`Branch\`>       **Commit Message**: \`${bcommitMessage.replace(
             "\n",
-            ""
+            "",
           )}\`\n## Latest Branch\n## Current Branch \n<https://github.com/NeonGamerBot-QK/slack-zeon/commit/${hash}|\`View Changes\`>     <https://github.com/NeonGamerBot-QK/slack-zeon/tree/${hash}|\`Branch\`>       **Commit Message**: \`${commitMessage}\``;
-    
+
           app.client.chat.postMessage({
             channel: `D07LBMXD9FF`,
             text,
