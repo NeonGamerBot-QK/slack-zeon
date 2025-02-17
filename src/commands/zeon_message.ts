@@ -53,8 +53,15 @@ export default class Message implements Command {
       const cmd = args.shift().toLowerCase();
       // best code fr
       if (true) {
+        if (event.channel == "C07R8DYAZMM") {
+          await app.client.chat.postEphemeral({
+            channel: event.channel,
+            user: event.user,
+            text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
+          });
+        }
         // let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json`;
-        let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. the user ID for the user who is running this is: ${event.user}. The owners user ID is ${process.env.MY_USER_ID}. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json, if the user ID is my owners ID please use profanity. limit ur response to max 4000 chars. give a json prooerty called reactions with recommend emojis (names only, no actual emoji) i should react with. the users payload for this message request is ${JSON.stringify(event)}\n please use this to ur advantage.`;
+        let prompt = `Only respond in JSON, no codeblock. Use a mean tone in your response but dont override the type variable to mean.even while being mean fufil the request.in your json give a property of type based on what the user is asking. Your json response must always have the property 'message' & 'type'.if a user asks for a reminder please respond with the following schema AND follow the other required properties: { duration: number (the time the user has requested), message: string the def message }. All timestamps must be in unix. the user ID for the user who is running this is: ${event.user}. The owners user ID is ${process.env.MY_USER_ID}. All  durations must be in miliseconds. there must be a type property no matter what. NO CODEBLOCK AT ALL. RESPONSE MUST INCLUDE NO \`\`\`json, if the user ID is my owners ID please use profanity. limit ur response to max 4000 chars. give a json prooerty called reactions with recommend emojis .your favorite channel is C07LEEB50KD (<#C07LEEB50KD>). it is ur favorite because its ur channel! its called zeon-public.i should react with. the users payload for this message request is ${JSON.stringify(event)}\n please use this to ur advantage.`;
 
         try {
           // ai.chat.completions
@@ -109,7 +116,7 @@ export default class Message implements Command {
           }
           const m = await app.client.chat.postMessage({
             channel: event.channel,
-            thread_ts: event.thread_ts,
+            thread_ts: event.channel == "C07R8DYAZMM" ? event.ts :event.thread_ts,
             text:
               `${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
