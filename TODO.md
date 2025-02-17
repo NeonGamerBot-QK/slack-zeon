@@ -7,3 +7,5 @@ _this is a high seas project..._
 - [ ] finish `docs/` and zeon canvas
 - [ ] solve memory issues (maybe just maybe, graph it) -- monotiered.
 - - OR MIGRATE TO ~~NOCODB HOLY~~ starting keyv migration soon
+
+
