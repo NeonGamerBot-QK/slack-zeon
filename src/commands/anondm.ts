@@ -1,4 +1,3 @@
-import { App, SlackAction } from "@slack/bolt";
 import { Command } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
 import bcrypt from "bcrypt";

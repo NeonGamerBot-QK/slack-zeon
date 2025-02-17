@@ -5,8 +5,8 @@ import { Api } from "nocodb-sdk";
 import init from "./modules/watch-git";
 // import "./modules/smee"
 import app from "./modules/slackapp";
-import Keyv from "keyv";
-import { View } from "@slack/bolt";
+// import Keyv from "keyv";
+// import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
 import JSONdb from "simple-json-db";

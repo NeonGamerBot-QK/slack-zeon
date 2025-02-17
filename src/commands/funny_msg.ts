@@ -326,7 +326,7 @@ export default class HowWasUrDayMessage implements Command {
 
       //   if (par.event.channel_type !== "im") return;
       //   if (!par.event.text.startsWith("!")) return;
-      console.debug(`cmd`);
+      console.debug(`cmd0`);
       if (!par.event.text) return;
       // for (const e of emoji_react_list) {
       //   if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
