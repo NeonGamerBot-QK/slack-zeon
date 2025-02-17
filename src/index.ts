@@ -1,5 +1,5 @@
 import "dotenv/config";
-import "./modules/sentry";
+// import "./modules/sentry";
 import * as Sentry from "@sentry/node";
 import { Api } from "nocodb-sdk";
 import init from "./modules/watch-git";
@@ -10,10 +10,8 @@ import { View } from "@slack/bolt";
 import Loader from "./modules/CommandLoader";
 import path from "path";
 import JSONdb from "simple-json-db";
-import cron from "node-cron";
 import * as utils from "./modules/index";
-import howWasYourDay, {
-  cached_spotify_songs,
+import  {
   resetSpotifyCache,
 } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
@@ -25,10 +23,11 @@ import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
 import watchWS from "./modules/capslockwhat";
-
+console.log(`Loading db's`)
+console.time(`Loading db's`)
 const db = new JSONdb("data/data.json");
 app.dbs = {};
-app.dbs.bday = new JSONdb("data/bday.json");
+// app.dbs.bday = new JSONdb("data/bday.json");
 // im so sorry this db is going to fill up so fast as each entry is arround 116kb
 // app.dbs.highseas = new JSONdb("data/highseas.json");
 app.dbs.ddm = new JSONdb("data/discord-datamining.json");
@@ -40,6 +39,10 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 app.dbs.mykcd = new JSONdb("data/mykcd.json");
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
+console.debug(`Dbs loaded`)
+console.timeEnd(`Loading db's`)
+app.db = db;
+app.utils = utils;
 app.nocodb = new Api({
   baseURL: process.env.NOCODB_URL!,
   headers: {
@@ -81,9 +84,6 @@ app.start(process.env.PORT || 3000).then(async (d) => {
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
 cmdLoader.runQuery();
-
-app.db = db;
-app.utils = utils;
 
 function handleError(e: any) {
   console.error(e);
