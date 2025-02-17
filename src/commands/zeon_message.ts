@@ -116,7 +116,8 @@ export default class Message implements Command {
           }
           const m = await app.client.chat.postMessage({
             channel: event.channel,
-            thread_ts: event.channel == "C07R8DYAZMM" ? event.ts :event.thread_ts,
+            thread_ts:
+              event.channel == "C07R8DYAZMM" ? event.ts : event.thread_ts,
             text:
               `${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
               (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
