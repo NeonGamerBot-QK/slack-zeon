@@ -5,7 +5,7 @@ export default function (app: any) {
     const bcommitMessage = require("child_process")
       .execSync("git log -1 --pretty=%B")
       .toString();
-    const bhash = readFileSync(".git/refs/heads/master").toString();
+    const bhash = readFileSync(".git/refs/heads/main").toString();
     exec(`git pull`, (error, stdout) => {
       let response = error?.stdout ? error?.stdout[0].toString() : stdout;
       if (!error) {
@@ -13,7 +13,7 @@ export default function (app: any) {
           const commitMessage = require("child_process")
             .execSync("git log -1 --pretty=%B")
             .toString();
-          const hash = readFileSync(".git/refs/heads/master")
+          const hash = readFileSync(".git/refs/heads/main")
             .toString()
             .split("\n")[0];
           const compareStr =
