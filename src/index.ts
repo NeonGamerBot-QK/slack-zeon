@@ -87,7 +87,11 @@ app.utils = utils;
 
 function handleError(e: any) {
   console.error(e);
-  Sentry.captureException(e);
+try {
+  Sentry.captureException(e)
+} catch (e) {
+  console.error(`rip sentry (died while tryna report an error)`)
+}
   try {
     app.client.chat.postMessage({
       channel: `D07LBMXD9FF`,
