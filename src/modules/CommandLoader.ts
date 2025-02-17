@@ -36,6 +36,7 @@ export default class CommandLoader {
     const cmds = [];
     let logging_values = [];
     for (const file of files) {
+      const stamp = Date.now();
       try {
         const commandClass = require(path.join(this.dir, file));
         cmds.push({ commandClass, file });
@@ -47,6 +48,9 @@ export default class CommandLoader {
         console.error(e);
         console.error(`Failed to load ${file}`);
         logging_values.push({ file, failed: true });
+      } finally {
+        console.log(`Finished  reading/dying to ${file}`);
+        logging_values.find((e) => e.file === file).took_read = `${Date.now() - stamp}ms`;
       }
     }
     for (const { commandClass, file } of cmds) {
