@@ -39,7 +39,7 @@ export default class UserJoinEvent implements Command {
       //@ts-ignore
       await app.client.conversations.kick({
         channel: channel,
-        users: user,
+        user: user,
       });
       //@ts-ignore
       await app.client.chat.postMessage({
