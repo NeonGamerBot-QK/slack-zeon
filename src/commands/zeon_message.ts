@@ -60,7 +60,7 @@ export default class Message implements Command {
             text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
           });
         }
-        await    app.client.reactions.add({
+        await app.client.reactions.add({
           channel: event.channel,
           timestamp: event.ts,
           name: "loading",
@@ -205,7 +205,7 @@ export default class Message implements Command {
               });
             } catch (e) {}
           }
-          await    app.client.reactions.remove({
+          await app.client.reactions.remove({
             channel: event.channel,
             timestamp: event.ts,
             name: "loading",
