@@ -19,32 +19,30 @@ export default class UserJoinEvent implements Command {
       console.debug(event, "#userjoin");
       //@ts-ignore
       const { user, channel } = event;
-     
-        if (event.channel !== "C08ELF4UK96") return;
+
+      if (event.channel !== "C08ELF4UK96") return;
       try {
-
-      //@ts-ignore
-      await app.client.conversations.kick({
-        channel: channel,
-        user: user,
-      });
-      //@ts-ignore
-      await app.client.chat.postMessage({
         //@ts-ignore
-        channel,
+        await app.client.conversations.kick({
+          channel: channel,
+          user: user,
+        });
         //@ts-ignore
-        text: `You cant join <@${user}>`,
-      });
+        await app.client.chat.postMessage({
+          //@ts-ignore
+          channel,
+          //@ts-ignore
+          text: `You cant join <@${user}>`,
+        });
       } catch (e) {
-      //@ts-ignore
-      await app.client.chat.postMessage({
         //@ts-ignore
-        channel,
-        //@ts-ignore
-        text: `You are here for now <@${user}>`,
-      });
+        await app.client.chat.postMessage({
+          //@ts-ignore
+          channel,
+          //@ts-ignore
+          text: `You are here for now <@${user}>`,
+        });
       }
-
     });
   }
 }
