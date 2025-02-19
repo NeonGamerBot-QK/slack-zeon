@@ -26,6 +26,7 @@ export default class UserJoinEvent implements Command {
         await app.client.conversations.kick({
           channel: channel,
           user: user,
+          token: process.env.SLACK_USER_TOKEN
         });
         //@ts-ignore
         await app.client.chat.postMessage({
