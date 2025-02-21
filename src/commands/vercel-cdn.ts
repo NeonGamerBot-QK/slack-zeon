@@ -17,7 +17,7 @@ export default class VercelCDN implements Command {
     // app.command()
     app.event(this.name, async (par) => {
       //  console.debug(par);
-      if (par.event.channel !== "C08EF3PLRS8") return;
+      if (par.event.channel !== "C08EJR20WCC") return;
       const message = par;
       const { event, say } = par;
 
