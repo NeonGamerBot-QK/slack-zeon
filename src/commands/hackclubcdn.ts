@@ -20,7 +20,7 @@ export default class Ping implements Command {
       const cdnUrl = command.text;
       if (!cdnUrl) return respond(`:x: You need to provide a cdn url.`);
 
-      const result = await app.utils.hackclubcdn.uploadURL(cdnUrl);
+      const result = await app.utils.hackclubcdn.uploadURL([cdnUrl]);
       app.client.chat.postEphemeral({
         channel: command.channel_id,
         user: command.user_id,

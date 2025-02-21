@@ -29,10 +29,38 @@ export default class VercelCDN implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd upload`);
       if (event.files && event.files.length > 0) {
-        event.files.forEach((file) => {
-            console.log(`File Name: ${file.name}`);
-            console.log(`Download URL: ${file.url_private}`); // Private URL requires authentication
+        // event.files.forEach((file) => {
+        //     console.log(`File Name: ${file.name}`);
+        //     console.log(`Download URL: ${file.url_private}`); // Private URL requires authentication
+        // });
+        await app.client.reactions.add({
+            channel: event.channel,
+            timestamp: event.ts,
+            name: "beachball",
+        })
+        const urls = []
+        for(const file of event.files) {
+            const url = file.url_private;
+            urls.push(url)
+        }
+        const cdnUrls = await app.utils.hackclubcdn.uploadURL(urls)
+        await app.client.chat.postMessage({
+            channel: event.channel,
+            thread_ts: event.ts,
+            text: `:white_check_mark: <@${event.user}> Uploaded to cdn!\n> ${cdnUrls.join("\n> ")}`,
+            unfurl_links: false,
+            unfurl_media: false,
+            // user: event.user,
         });
+        await Promise.all([app.client.reactions.add({
+            channel: event.channel,
+            timestamp: event.ts,
+            name: "white_check_mark",
+        }), app.client.reactions.remove({
+            channel: event.channel,
+            timestamp: event.ts,
+            name: "beachball",
+        })])
     }
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
