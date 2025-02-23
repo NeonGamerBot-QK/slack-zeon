@@ -117,7 +117,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       channel,
       thread_ts: mobj.ts,
       //@ts-ignore
-      text: `Here is what you listned to today :spotify_new: : \n- ${[...diceDups(cached_spotify_songs)].map((s) => `${s} x ${cached_spotify_songs.filter((e) => e == s).length}`).join("\n- ")}\n\n`.replaceAll(
+      text: `Here is what you listned to today :spotify_new: : \n- ${[...diceDups(cached_spotify_songs)].map((s) => typeof s == 'string'? `${s} x ${cached_spotify_songs.filter((e) => e == s).length}`: `${s.value} x ${s.count}`).join("\n- ")}\n\n`.replaceAll(
         ":spotify_new:",
         ":new_spotify:",
       ),
