@@ -1,3 +1,5 @@
+import { ModifiedApp } from "./slackapp";
+
 // time to get fudge pt 2
 export interface UserSystem {
     username: string;
@@ -24,3 +26,32 @@ export async function getUsers() {
     return {data:parseTextAndExtractUsers(response), meta:getMetaInfo(response)}
 }
 
+export function diffStrings(oldArray: UserSystem[], newArray: UserSystem[]) {
+const strings = []
+    for(const user of newArray) {
+    const oldUser = oldArray.find(e=>e.username === user.username)
+    if(!oldUser) {
+        strings.push(`✓ ${user.username} has started there first day!`)
+    continue;
+    }
+    const daysDiffLength = user.days.length - oldUser.days.length
+    if(daysDiffLength > 0) {
+        strings.push(`:yay: ${user.username} has moved up to ${user.days.length + 1} days!`)
+    }
+}
+return strings
+}
+export async function cronMoment(app: ModifiedApp) {
+const oldData = app.db.get('15daysofcode') || []
+const {data} = await getUsers()
+const strings = diffStrings(oldData, data)
+app.db.set('15daysofcode', data)
+if(strings.length > 0) {
+// diff moment
+app.client.chat.postMessage({
+    channel: `C045S4393CY`,
+    thread_ts: `1740283783.721689`,
+    text: `Diff for \`${new Date().toISOString()}\` (EST)\n\n${strings.join('\n')}`
+})
+}
+}
