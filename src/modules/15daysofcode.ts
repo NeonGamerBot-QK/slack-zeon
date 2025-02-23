@@ -1,3 +1,4 @@
+import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
 
 // time to get fudge pt 2
@@ -36,7 +37,7 @@ const strings = []
     }
     const daysDiffLength = user.days.length - oldUser.days.length
     if(daysDiffLength > 0) {
-        strings.push(`:yay: ${user.username} has moved up to ${user.days.length + 1} days!`)
+        strings.push(`:yay: ${user.username} has is now at ${user.days.length} days!`)
     }
 }
 return strings
@@ -54,4 +55,9 @@ app.client.chat.postMessage({
     text: `Diff for \`${new Date().toISOString()}\` (EST)\n\n${strings.join('\n')}`
 })
 }
+}
+export function cronJobFor15daysofcode(app: ModifiedApp) {
+    new Cron("*/15 * * * *", async () => {
+        await cronMoment(app)
+    })
 }
