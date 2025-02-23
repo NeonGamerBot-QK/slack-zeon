@@ -95,6 +95,19 @@ export default class AppHome implements Command {
           //     },
           //   },
           // ];
+          // db entry 
+          const db_entry = app.db.get('15daysofcode')
+          const daysof15_section = [
+{
+  type: "divider",
+}, {
+  type: "section",
+  text: {
+    type: "mrkdwn",
+    text: `*15 days of code:*\n${db_entry.map((e) => `${e.username} has ${e.days.length}/15 days`).join("\n")}`,
+  },
+}
+          ]
           const anon_mail_section = [
             {
               type: "divider",
@@ -210,6 +223,7 @@ export default class AppHome implements Command {
                 //       .join("\n")}`,
                 //   },
                 // },
+                ...daysof15_section,
                 ...anon_mail_section,
               ].filter(Boolean),
             };
@@ -293,6 +307,7 @@ export default class AppHome implements Command {
               //     text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
               //   },
               // },
+              ...daysof15_section,
               ...anon_mail_section,
               {
                 type: "divider",
