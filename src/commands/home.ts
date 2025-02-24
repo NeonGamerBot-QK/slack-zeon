@@ -104,7 +104,7 @@ export default class AppHome implements Command {
   type: "section",
   text: {
     type: "mrkdwn",
-    text: `*15 days of code:*\n${db_entry.map((e) => `${e.username} has ${e.days.length}/15 days`).join("\n")}`,
+    text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
   },
 }
           ]
