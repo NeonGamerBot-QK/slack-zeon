@@ -2,10 +2,17 @@ import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
 
 // time to get fudge pt 2
-export interface UserSystem {
-    username: string;
-    days: string[];
-}
+interface Post {
+    timestamp: number;
+    content: string;
+  }
+  interface Leaderboard {
+    user: string;
+    posts: Post[];
+  }
+export interface RootObjectFor15Response {
+    leaderboard: Leaderboard[];
+  }
 export function parseTextAndExtractUsers(text:string) {
     return text.split('|--------------------')[2].split('\n').filter(Boolean).map(e=>e.split("|").filter(Boolean).map(d=>d.trim().replace('✓ ', ''))).filter(e=>e.length > 1).map(d=> {
         return {
@@ -23,28 +30,28 @@ return {
 }
 export async function getUsers() {
     // this will take a hot sec
-    const response = await fetch("https://daysinpublic.blaisee.me/").then(r=>r.text())
-    return {data:parseTextAndExtractUsers(response), meta:getMetaInfo(response)}
+    const response = await fetch("https://daysinpublic.blaisee.me/").then(r=>r.json()).then(d=> (d as RootObjectFor15Response).leaderboard)
+    return response
 }
 
-export function diffStrings(oldArray: UserSystem[], newArray: UserSystem[]) {
+export function diffStrings(oldArray: Leaderboard[], newArray: Leaderboard[]) {
 const strings = []
     for(const user of newArray) {
-    const oldUser = oldArray.find(e=>e.username === user.username)
+    const oldUser = oldArray.find(e=>e.user === user.user)
     if(!oldUser) {
-        strings.push(`✓ ${user.username} has started there first day!`)
+        strings.push(`✓ ${user.user} has started there first day!`)
     continue;
     }
-    const daysDiffLength = user.days.length - oldUser.days.length
+    const daysDiffLength = user.posts.length - oldUser.posts.length
     if(daysDiffLength > 0) {
-        strings.push(`:yay: ${user.username} has is now at ${user.days.length} days!`)
+        strings.push(`:yay: ${user.user} has is now at ${user.posts.length} days!`)
     }
 }
 return strings
 }
 export async function cronMoment(app: ModifiedApp) {
 const oldData = app.db.get('15daysofcode') || []
-const {data} = await getUsers()
+const data = await getUsers()
 const strings = diffStrings(oldData, data)
 app.db.set('15daysofcode', data)
 if(strings.length > 0) {
