@@ -95,19 +95,20 @@ export default class AppHome implements Command {
           //     },
           //   },
           // ];
-          // db entry 
-          const db_entry = app.db.get('15daysofcode')
+          // db entry
+          const db_entry = app.db.get("15daysofcode");
           const daysof15_section = [
-{
-  type: "divider",
-}, {
-  type: "section",
-  text: {
-    type: "mrkdwn",
-    text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
-  },
-}
-          ]
+            {
+              type: "divider",
+            },
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
+              },
+            },
+          ];
           const anon_mail_section = [
             {
               type: "divider",
