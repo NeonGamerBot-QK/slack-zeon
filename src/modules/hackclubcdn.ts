@@ -4,7 +4,7 @@ export function uploadURL(url: string[]) {
     headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer beans" 
-    }
+    },
     body: JSON.stringify(url),
   }).then((r) => r.json());
 }
