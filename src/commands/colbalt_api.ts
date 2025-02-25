@@ -37,19 +37,16 @@ export default class Message implements Command {
         let url = event.text.split("<")[1].split(">")[0];
         console.log(event.text, url);
 
-        fetch(
-          "https://cobalt.saahild.com/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              url: url,
-            }),
+        fetch("https://cobalt.saahild.com/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
           },
-        )
+          body: JSON.stringify({
+            url: url,
+          }),
+        })
           .then((d) => d.json())
           .then((data) => {
             console.debug(data);
