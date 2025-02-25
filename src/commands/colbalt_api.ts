@@ -59,7 +59,7 @@ export default class Message implements Command {
               return;
             }
             app.utils.hackclubcdn.uploadURL([data.url]).then((uploadedURL) => {
-              console.log(uploadedURL)
+              console.log(uploadedURL);
               app.client.chat.postMessage({
                 channel: event.channel,
                 // text: data.url,
