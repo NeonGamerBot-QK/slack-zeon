@@ -38,12 +38,7 @@ export default class Message implements Command {
         console.log(event.text, url);
 
         fetch(
-          Buffer.from(
-            "aHR0cHM6Ly9jb2JhbHQuc2FhaGlsZC5jb20vYXBpL2pzb24=",
-            "base64",
-          )
-            .toString()
-            .replace("/api/json", "/"),
+          "https://cobalt.saahild.com/",
           {
             method: "POST",
             headers: {
