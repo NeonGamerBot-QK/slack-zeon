@@ -178,6 +178,12 @@ export async function fetchAssignments() {
 }
 export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
+    try {
+      fetchHomePage().then(r=>r.json()).then(console.log)
+      console.log(`omg it worked`)
+    } catch (e) {
+      console.error(e, `#pointer-at-school`)
+    }
     fetchAssignments().then(async (d) => {
       if (
         d.ActiveTerm ||
@@ -235,6 +241,20 @@ export async function WowYouDidAnAssignment(
       text: `Hey looks like you did a school assignemt! how nice :3 im very happy and proud of you for doing *${a.ShortDescription}*!`,
     });
   }
+}
+export async function fetchHomePage() {
+  // ima hope this owrks
+  return fetch(
+    "https://kcd.myschoolapp.com/api/datadirect/ParentStudentUserClassesGet?userId=6013459&schoolYearLabel=2024%20-%202025&memberLevel=3&persona=2&durationList=173777&markingPeriodId=&viewCid=view107&parentViewCid=view54&changeSchoolYearCount=1&ts=1740594623207&rnd=0.6762289703626907",
+    {
+      headers: {
+        "content-type": "application/json",
+        // cookie maxxing
+        cookie: Buffer.from(process.env.KCD_COOKIE2, "base64").toString(),
+      },
+    },
+  )
+    .then((r) => r.json())
 }
 export async function tellMeMissing(
   data: AssignmentsReqPayload,
