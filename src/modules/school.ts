@@ -179,9 +179,10 @@ export async function fetchAssignments() {
 export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
     try {
-      fetchHomePage()
-        .then((r) => r.json())
-        .then(console.log);
+      fetchHomePage().then(data => {
+app.db.set(`temp_mykcd_grades`, data)
+})
+        
       console.log(`omg it worked`);
     } catch (e) {
       console.error(e, `#pointer-at-school`);
