@@ -180,7 +180,36 @@ export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
     try {
       fetchHomePage().then((data) => {
-        app.db.set(`temp_mykcd_grades`, data);
+        // app.db.set(`temp_mykcd_grades`, data);
+        data.map(d => ({ grade: d.cumgrade, name: d.sectionidentifier, id: d.sectionid })).forEach(async d => {
+         const instance =  app.dbs.mykcd.get(`class_`+d.id)
+         if(!instance) {
+          // shout its been discovered
+          await app.client.chat.postMessage({
+            channel: `C07R8DYAZMM`,
+            text: `Enrolled in *${d.name}* and starting with grade of *${d.grade || 0}%*`,
+          });
+         } else {
+          if(instance.grade !== d.grade) {
+            // post emph
+            await app.client.chat.postEphemeral({
+              channel: `C07R8DYAZMM`,
+              user: `U07L45W79E1`,
+              text: `Hey for *${d.name}* your grade updated to *${d.grade}%* from *${instance.grade}%*, would you like to share it?`,
+              // todo add button to share lol
+              // blocks: [{
+              // }]
+            });
+          }
+          if(instance.name !== d.name) {
+            await app.client.chat.postMessage({
+              channel: `C07R8DYAZMM`,
+              text: `Class *${instance.name}* -> *${d.name}*`,
+            });
+          }
+         }
+         app.dbs.mykcd.set(`class_`+d.id, d)
+        })
       });
 
       console.log(`omg it worked`);
