@@ -179,10 +179,12 @@ export async function fetchAssignments() {
 export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
     try {
-      fetchHomePage().then(r=>r.json()).then(console.log)
-      console.log(`omg it worked`)
+      fetchHomePage()
+        .then((r) => r.json())
+        .then(console.log);
+      console.log(`omg it worked`);
     } catch (e) {
-      console.error(e, `#pointer-at-school`)
+      console.error(e, `#pointer-at-school`);
     }
     fetchAssignments().then(async (d) => {
       if (
@@ -253,8 +255,7 @@ export async function fetchHomePage() {
         cookie: Buffer.from(process.env.KCD_COOKIE2, "base64").toString(),
       },
     },
-  )
-    .then((r) => r.json())
+  ).then((r) => r.json());
 }
 export async function tellMeMissing(
   data: AssignmentsReqPayload,
