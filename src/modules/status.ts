@@ -24,29 +24,33 @@ export function parseSeriesName(name: string): string {
   return name;
 }
 export async function getJellyfinStatus(): Promise<string | null> {
-  const jellyfinData = await fetch(
-    process.env.MY_JELLYFIN_INSTANCE + "/Sessions?active=true",
-    {
-      headers: {
-        "X-Emby-Token": process.env.MY_JELLYFIN_TOKEN || "no",
+  try {
+    const jellyfinData = await fetch(
+      process.env.MY_JELLYFIN_INSTANCE + "/Sessions?active=true",
+      {
+        headers: {
+          "X-Emby-Token": process.env.MY_JELLYFIN_TOKEN || "no",
+        },
       },
-    },
-  ).then((r) => r.json());
-  const mySession = jellyfinData.find(
-    (d) => d.NowPlayingItem,
-  ) as JellyfinSession;
-  if (!mySession) return null;
-  if (mySession.NowPlayingItem.UserName !== "Neon") return null;
-  const type = mySession.NowPlayingItem.Type;
-  const isMovie = type === "Movie";
+    ).then((r) => r.json());
+    const mySession = jellyfinData.find(
+      (d) => d.NowPlayingItem,
+    ) as JellyfinSession;
+    if (!mySession) return null;
+    if (mySession.NowPlayingItem.UserName !== "Neon") return null;
+    const type = mySession.NowPlayingItem.Type;
+    const isMovie = type === "Movie";
 
-  if (!(type in { Movie: 1, Episode: 1 })) return null;
-  const title = isMovie
-    ? mySession.NowPlayingItem.Name
-    : `${mySession.NowPlayingItem.SeriesName} - ${parseSeriesName(mySession.NowPlayingItem.Name)}`;
+    if (!(type in { Movie: 1, Episode: 1 })) return null;
+    const title = isMovie
+      ? mySession.NowPlayingItem.Name
+      : `${mySession.NowPlayingItem.SeriesName} - ${parseSeriesName(mySession.NowPlayingItem.Name)}`;
 
-  let str = `${isMovie ? "🍿" : ""}📺️ ${title}`;
-  return str;
+    let str = `${isMovie ? "🍿" : ""}📺️ ${title}`;
+    return str;
+  } catch (e: any) {
+    return `:x: ${e.message}`
+  }
 }
 export async function getSpotifyStatus(): Promise<string | null> {
   // contact zeon (me) discord version for spotify status
