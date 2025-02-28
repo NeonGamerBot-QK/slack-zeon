@@ -49,7 +49,7 @@ export async function getJellyfinStatus(): Promise<string | null> {
     let str = `${isMovie ? "🍿" : ""}📺️ ${title}`;
     return str;
   } catch (e: any) {
-    return `:x: ${e.message}`
+    return `:x: ${e.message}`;
   }
 }
 export async function getSpotifyStatus(): Promise<string | null> {
