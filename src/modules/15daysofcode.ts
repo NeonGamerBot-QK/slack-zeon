@@ -87,9 +87,8 @@ export function cronJobFor15daysofcode(app: ModifiedApp) {
   new Cron("*/15 * * * *", async () => {
     try {
       await cronMoment(app);
-
     } catch (e) {
-      console.error(e)
-}
+      console.error(e);
+    }
   });
 }
