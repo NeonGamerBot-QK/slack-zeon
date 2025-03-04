@@ -17,7 +17,7 @@ const ai = new OpenAI({
 function zeonMessageCommands(d, r) {
   // TODO: im eepy buddy
 }
-
+export const bot_try_cache  = []
 export default class Message implements Command {
   name: string;
   description: string;
@@ -60,6 +60,15 @@ export default class Message implements Command {
             text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
           });
         }
+        if (event.bot_id && !bot_try_cache.includes(event.bot_id)) {
+          await app.client.chat.postMessage({
+            channel: event.channel,
+            text: `Hi there robot :3 we should'nt communicate using plain text!! communicate via my telelink :3 (not made yet) (you will see this message once)`
+          })
+          bot_try_cache.push(event.bot_id)
+          return;
+        }
+      
         await app.client.reactions.add({
           channel: event.channel,
           timestamp: event.ts,
@@ -76,6 +85,11 @@ export default class Message implements Command {
           //     ],
           //     model: "gpt-3.5-turbo",
           //   })
+            // abort controller of 15s
+          const controller = new AbortController()
+         const timeout =  setTimeout(() => {
+            controller.abort()
+          }, 15_000)
           const aiReq00 = await fetch(
             "https://ai.hackclub.com/chat/completions",
             {
@@ -83,7 +97,7 @@ export default class Message implements Command {
               headers: {
                 "Content-Type": "application/json",
               },
-
+              signal: controller.signal,
               body: JSON.stringify({
                 messages: [
                   { role: "system", content: prompt },
@@ -93,6 +107,7 @@ export default class Message implements Command {
             },
           ).then((r) => r.text());
           let aiReq0 = null;
+          clearTimeout(timeout)
 
           try {
             aiReq0 = JSON.parse(aiReq00)
