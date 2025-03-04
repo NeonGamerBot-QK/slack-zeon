@@ -89,7 +89,7 @@ export default class Message implements Command {
           const controller = new AbortController();
           const timeout = setTimeout(() => {
             controller.abort();
-          }, 15_000);
+          }, 45_000);
           const aiReq00 = await fetch(
             "https://ai.hackclub.com/chat/completions",
             {
