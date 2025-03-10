@@ -115,10 +115,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   PrivateDNS(app, process.env.HACKCLUB_NEXTDNS, `C07TWGJKK98`);
   // grab spotify cache from db
   resetSpotifyCache(app);
-  app.client.chat.postMessage({
-    channel: `D07LBMXD9FF`,
-    text: `Im up and running :3`,
-  });
+  app.client.chat.postMessage({channel: `C07LEEB50KD`,text: `Im up and running :3`,});
 });
 process.on("SIGINT", async () => {
   try {
