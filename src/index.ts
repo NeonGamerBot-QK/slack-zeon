@@ -115,4 +115,18 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   PrivateDNS(app, process.env.HACKCLUB_NEXTDNS, `C07TWGJKK98`);
   // grab spotify cache from db
   resetSpotifyCache(app);
+  app.client.chat.postMessage({
+    channel: `D07LBMXD9FF`,
+    text: `Im up and running :3`,
+  });
 });
+process.on("SIGINT", async () => {
+try {
+ await app.client.chat.postMessage({
+    channel: `D07LBMXD9FF`,
+    text: `I was up for ${process.uptime()} seconds :3 its now time for my leave`,
+  });
+} catch (e) {
+  console.error(`Slack dont wana work >:3`)
+}
+})
