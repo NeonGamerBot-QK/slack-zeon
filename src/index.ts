@@ -14,7 +14,7 @@ import * as utils from "./modules/index";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
-
+import monitorMemCpu from "./modules/alertcpu"
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 
 import { EncryptedJsonDb } from "./modules/encrypted-db";
@@ -111,8 +111,8 @@ app.start(process.env.PORT || 3000).then(async (d) => {
     text: `Starting Slack Bot :D`,
   });
   init(app);
-  PrivateDNS(app, process.env.MY_NEXTDNS, `C07LT7XS28Z`);
-  PrivateDNS(app, process.env.HACKCLUB_NEXTDNS, `C07TWGJKK98`);
+  PrivateDNS(app, process.env.MY_NEXTDNS, `C07LT7XS28Z`); 
+  monitorMemCpu()
   // grab spotify cache from db
   resetSpotifyCache(app);
   app.client.chat.postMessage({
