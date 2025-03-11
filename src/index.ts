@@ -112,7 +112,7 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   });
   init(app);
   PrivateDNS(app, process.env.MY_NEXTDNS, `C07LT7XS28Z`);
-  monitorMemCpu();
+  monitorMemCpu(app);
   // grab spotify cache from db
   resetSpotifyCache(app);
   app.client.chat.postMessage({
