@@ -1,7 +1,7 @@
 import { ModifiedApp } from "./slackapp";
 import pidusage from "pidusage";
-const THRESHOLD_CPU = 80; // In percentage
-const THRESHOLD_MEM = 700 * 1024 * 1024; // 700MB
+const THRESHOLD_CPU = 85; // In percentage
+const THRESHOLD_MEM = 850 * 1024 * 1024; // 850mb
 export default function monitorMemCpu(app: ModifiedApp) {
   setInterval(() => {
     pidusage(process.pid, (err, stats) => {
@@ -22,5 +22,5 @@ export default function monitorMemCpu(app: ModifiedApp) {
         });
       }
     });
-  }, 3000);
+  }, 30_000);
 }
