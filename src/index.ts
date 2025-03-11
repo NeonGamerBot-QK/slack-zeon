@@ -129,6 +129,6 @@ process.on("SIGINT", async () => {
   } catch (e) {
     console.error(`Slack dont wana work >:3`);
   } finally {
-    process.exit(0)
+    process.exit(0);
   }
 });
