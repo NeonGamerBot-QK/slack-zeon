@@ -124,9 +124,11 @@ process.on("SIGINT", async () => {
   try {
     await app.client.chat.postMessage({
       channel: `C07LEEB50KD`,
-      text: `I was up for ${process.uptime()} seconds :3 its now time for my leave`,
+      text: `I was up for \`${process.uptime()}\` seconds :3 its now time for my leave`,
     });
   } catch (e) {
     console.error(`Slack dont wana work >:3`);
+  } finally {
+    process.exit(0)
   }
 });
