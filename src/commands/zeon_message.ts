@@ -60,12 +60,12 @@ export default class Message implements Command {
             text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
           });
         }
-        if (event.bot_id && !bot_try_cache.includes(event.bot_id)) {
+        if  (event.bot_message ||  event.bot_id && !bot_try_cache.includes(event.user)) {
           await app.client.chat.postMessage({
             channel: event.channel,
             text: `Hi there robot :3 we should'nt communicate using plain text!! communicate via my telelink :3 (not made yet) (you will see this message once)`,
           });
-          bot_try_cache.push(event.bot_id);
+          bot_try_cache.push(event.user);
           return;
         }
 
