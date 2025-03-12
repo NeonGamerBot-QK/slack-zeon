@@ -95,11 +95,13 @@ export function setupSeverCron(app: ModifiedApp) {
         "accept-language": "en-US,en;q=0.9",
         "content-type": "text/plain;charset=UTF-8",
         "next-action": "60f5fd81034ead85c201a71fc0b495af5b112e870f",
+        cookie: process.env.SEVEN39_TOKEN,
         "next-router-state-tree":
           "%5B%22%22%2C%7B%22children%22%3A%5B%22timeline%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2Ftimeline%22%2C%22refresh%22%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D",
       },
       body: "[]",
     }).then((r) => r.text());
+    if(!data.includes(":1")) return;
     const dataa = JSON.parse(data.split("\n1:")[1]) as SevenTimeline;
     //  writeFileSync('data.json', JSON.stringify(dataa, null, 2))
     for (const post of dataa.posts) {
