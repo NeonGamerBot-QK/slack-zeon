@@ -101,7 +101,7 @@ export function setupSeverCron(app: ModifiedApp) {
       },
       body: "[]",
     }).then((r) => r.text());
-    if(!data.includes(":1")) return;
+    if (!data.includes(":1")) return;
     const dataa = JSON.parse(data.split("\n1:")[1]) as SevenTimeline;
     //  writeFileSync('data.json', JSON.stringify(dataa, null, 2))
     for (const post of dataa.posts) {
