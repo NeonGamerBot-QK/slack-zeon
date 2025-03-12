@@ -14,7 +14,7 @@ import * as utils from "./modules/index";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
-
+import monitorMemCpu from "./modules/alertcpu";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 
 import { EncryptedJsonDb } from "./modules/encrypted-db";
@@ -114,21 +114,23 @@ app.start(process.env.PORT || 3000).then(async (d) => {
   });
   init(app);
   PrivateDNS(app, process.env.MY_NEXTDNS, `C07LT7XS28Z`);
-  PrivateDNS(app, process.env.HACKCLUB_NEXTDNS, `C07TWGJKK98`);
+  monitorMemCpu(app);
   // grab spotify cache from db
   resetSpotifyCache(app);
   app.client.chat.postMessage({
-    channel: `D07LBMXD9FF`,
+    channel: `C07LEEB50KD`,
     text: `Im up and running :3`,
   });
 });
 process.on("SIGINT", async () => {
   try {
     await app.client.chat.postMessage({
-      channel: `D07LBMXD9FF`,
-      text: `I was up for ${process.uptime()} seconds :3 its now time for my leave`,
+      channel: `C07LEEB50KD`,
+      text: `I was up for \`${process.uptime()}\` seconds :3 its now time for my leave`,
     });
   } catch (e) {
     console.error(`Slack dont wana work >:3`);
+  } finally {
+    process.exit(0);
   }
 });
