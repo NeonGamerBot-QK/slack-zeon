@@ -94,7 +94,7 @@ export function setupSeverCron(app: ModifiedApp) {
         accept: "text/x-component",
         "accept-language": "en-US,en;q=0.9",
         "content-type": "text/plain;charset=UTF-8",
-        "next-action": "60f5fd81034ead85c201a71fc0b495af5b112e870f",
+        "next-action": "60b606c160f5b7d21bf51d88e469c19a14de9f9bbf",
         cookie: process.env.SEVEN39_TOKEN,
         "next-router-state-tree":
           "%5B%22%22%2C%7B%22children%22%3A%5B%22timeline%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2Ftimeline%22%2C%22refresh%22%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D",
