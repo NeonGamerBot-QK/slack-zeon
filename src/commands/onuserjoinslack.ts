@@ -18,10 +18,10 @@ export default class UserJoinSlackEvent implements Command {
     app.event(this.name, async ({ event, say, body }) => {
       console.debug(event, "#userjoinslack");
       //@ts-ignore
-        app.client.chat.postMessage({
-            text: JSON.stringify(event),
-            channel: "#zeon-public"
-    })
+      app.client.chat.postMessage({
+        text: JSON.stringify(event),
+        channel: "#zeon-public",
+      });
     });
   }
 }
