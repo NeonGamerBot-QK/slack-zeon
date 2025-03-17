@@ -34,17 +34,7 @@ export const beggingMessage = [
   "PLEASE PLEASE PLZ PLZPLZ",
 ];
 // if you want to become a neighboor of this channel just dm me on slack or add your self to the canvas
-export const neighbors = [
-  "C06R5NKVCG5",
-  "C04H0MG1BLN",
-  "C07SLT702UA",
-  "C074L3A4C3E",
-  "C0793T42XV4",
-  "C07S1QSSKTQ",
-  "C07RQ6682N8",
-  "C080NCDAVNH",
-  "C064DNF64LU",
-];
+export const neighbors =["C06R5NKVCG5","C04H0MG1BLN","C0822J7KZBN","C07SLT702UA","C027Y33B93L","C0793T42XV4","C07S1QSSKTQ","C07RQ6682N8","C080NCDAVNH","C064DNF64LU","C0819J5AFPS","C08282RKC04","C081VBWQV24","C0828PJJPD4","C069CM9M2SV","C082HNFPPQF","C07TRUCSL5B","C082TSTL4SU","C0840NYNB9A","C07TSCMB4LC","C07BY3TFRBR","C083VTAK6KX","C07AJB4TC5B","C07MYBDLBGU","C07TN7PDQF5","C086CK5MBAL","C087EBS1P5J","C08AMFKL0EL","C07PKEP7U94","C0718RG5GNM","C08AXLD8MD5","C089C9E856C","C089D3X5V33","C08E27TQUP2","C08B2B03J68","C07U4JJSNMV","C07T2EP4PLZ","C087MQ0PHHR","C08EZ3GJ5GV","C083LD69E4W","C073QTDTV7Z"]
 // dont dupe channels :P
 export const channelsToAdvs = [
   ...new Set([
@@ -52,7 +42,6 @@ export const channelsToAdvs = [
     "C07QWGLQUH2", // kcd-lunch
     "C07RE4N7S4B", // hackclub-spotify-bot
     "C07PGEGJ3B6", // hackclub-verification
-    "C07LZ237WCF", // nest-pgp-chat
     "C07LEEB50KD", // zeon-public
     "C07STMAUMTK", //hackclub-ai-faq-bot
     "C07RW1666UV", //zeon-bdays
@@ -61,7 +50,6 @@ export const channelsToAdvs = [
     "C07UNAHD9C3", // stickers-watcher
     "C07TKPC0ZNZ", // surakku
     "C07V6F1A5FH", // web bridge slack
-    "C07MLF9A8H5", // riceathon
   ]),
 ];
 export function actualRandomResponse() {
