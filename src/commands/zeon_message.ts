@@ -60,6 +60,18 @@ export default class Message implements Command {
             text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
           });
         }
+        if (event.channel == "C0159TSJVH8") {
+          await app.client.chat.postEphemeral({
+            channel: event.channel,
+            user: event.user,
+            text: `Hey Please use <#C07LEEB50KD> for zeon ai because why are u using it in this channel`,
+          });
+          app.client.conversations.invite({
+            channel: 'C07LEEB50KD', // Replace with the channel ID
+            users: [event.user] // Replace with the user ID
+        });
+          return;
+        }
         if (
           event.bot_message ||
           (event.bot_id && !bot_try_cache.includes(event.user))
