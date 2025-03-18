@@ -68,7 +68,7 @@ export default class Message implements Command {
           });
           app.client.conversations.invite({
             channel: "C07LEEB50KD", // Replace with the channel ID
-            users: [event.user], // Replace with the user ID
+            users: event.user, // Replace with the user ID
           });
           return;
         }
