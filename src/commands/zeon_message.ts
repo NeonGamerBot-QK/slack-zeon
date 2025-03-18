@@ -67,9 +67,9 @@ export default class Message implements Command {
             text: `Hey Please use <#C07LEEB50KD> for zeon ai because why are u using it in this channel`,
           });
           app.client.conversations.invite({
-            channel: 'C07LEEB50KD', // Replace with the channel ID
-            users: [event.user] // Replace with the user ID
-        });
+            channel: "C07LEEB50KD", // Replace with the channel ID
+            users: [event.user], // Replace with the user ID
+          });
           return;
         }
         if (
