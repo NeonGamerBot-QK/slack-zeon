@@ -96,8 +96,21 @@ export default class AppHome implements Command {
           //   },
           // ];
           // db entry
-          const db_entry = app.db.get("15daysofcode");
-          const daysof15_section = [
+          // const db_entry = app.db.get("15daysofcode");
+          // const daysof15_section = [
+          //   {
+          //     type: "divider",
+          //   },
+          //   {
+          //     type: "section",
+          //     text: {
+          //       type: "mrkdwn",
+          //       text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
+          //     },
+          //   },
+          // ];
+          const db_entry2 = app.db.get("rpg_lb");
+          const rpgysws_section = [
             {
               type: "divider",
             },
@@ -105,7 +118,7 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
+                text: `*RPG Ysws lb:*\n${db_entry2.map((e) => `(${e.index}) - ${e.name} ${e.treasure} :treasure-box:`).join("\n")}`,
               },
             },
           ];
@@ -224,7 +237,8 @@ export default class AppHome implements Command {
                 //       .join("\n")}`,
                 //   },
                 // },
-                ...daysof15_section,
+                // ...daysof15_section,
+                ...rpgysws_section,
                 ...anon_mail_section,
               ].filter(Boolean),
             };
@@ -308,7 +322,8 @@ export default class AppHome implements Command {
               //     text: `You are in #${(Object.values(adventOfCodeData.members) as any[]).findIndex((e) => e.name == `NeonGamerBot-QK`) + 1} place on the leaderboard`,
               //   },
               // },
-              ...daysof15_section,
+              // ...daysof15_section,
+              ...rpgysws_section,
               ...anon_mail_section,
               {
                 type: "divider",

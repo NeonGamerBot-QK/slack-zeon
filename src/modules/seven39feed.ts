@@ -88,6 +88,7 @@ export interface Avatar {
 }
 export function setupSeverCron(app: ModifiedApp) {
   new Cron("39-59 19-22 * * *", async () => {
+ try {
     const data = await fetch("https://www.seven39.com/timeline", {
       method: "POST",
       headers: {
@@ -117,5 +118,8 @@ export function setupSeverCron(app: ModifiedApp) {
       app.dbs.seven39.set(post.id, true);
       await new Promise((r) => setTimeout(r, 100));
     }
+  } catch (e) {
+    console.error(e, 'cookie ded')
+  }
   });
 }
