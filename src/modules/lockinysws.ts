@@ -28,7 +28,7 @@ export async function parseHomepage() {
       return { datetime, duration, users };
     });
 }
-export default async function onLoad(app: ModifiedApp) {
+export async function onLoadForLockIn(app: ModifiedApp) {
   setInterval(
     async () => {
       // data
