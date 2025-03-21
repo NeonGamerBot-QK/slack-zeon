@@ -276,7 +276,7 @@ export function setupOverallCron(app: ModifiedApp) {
   cronJobFor15daysofcode(app);
   setupSeverCron(app);
   cronJobForRPG(app);
-  onLoadForLockIn(app)
+  onLoadForLockIn(app);
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
