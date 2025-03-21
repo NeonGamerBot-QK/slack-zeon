@@ -17,7 +17,7 @@ import { tempcronjob } from "./school";
 import { cronJobFor15daysofcode } from "./15daysofcode";
 import { setupSeverCron } from "./seven39feed";
 import { cronJobForRPG } from "./rpgysws";
-import { onLoad} from "./lockinysws";
+import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
 function updateStatus(
