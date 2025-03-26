@@ -17,7 +17,7 @@ export default class HowWasUrDayMessage implements Command {
     const pg = app.db.get("potato_game");
     console.log(pg, event.text, event.thread_ts);
     if (!pg) return;
-    console.log(1)
+    console.log(1);
     let valid_attack = false;
     if (pg.ts == event.thread_ts || pg.last_cmd == event.thread_ts) {
       if (
@@ -49,7 +49,9 @@ export default class HowWasUrDayMessage implements Command {
             name: "fuck",
           });
         } catch (e) {}
-      } else if (event.text.toLowerCase().trim() == "no! i love the potatos!!") {
+      } else if (
+        event.text.toLowerCase().trim() == "no! i love the potatos!!"
+      ) {
         try {
           app.client.reactions.add({
             channel: event.channel,
