@@ -8,6 +8,7 @@ export const banned_users = [
   // no workspace owners lmao :3 (zrl, max)
   "U0266FRGP",
   "U0C7B14Q3",
+  "U0261EB1EG7",
   // u got deactivated 3 times () = bad
   "U07BMK9NSDB",
   // no unless required
