@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { emoji_react_list } from "./funny_msg";
 import ms from "ms";
+import { ModifiedApp } from "../modules/slackapp";
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -13,7 +13,7 @@ export default class HowWasUrDayMessage implements Command {
     this.description = `If message matches 'today' il react & add it to db`;
     this.is_event = true;
   }
-  potatoGame(app: App, event) {
+  potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
     if (!pg) return;
     let valid_attack = false;
@@ -72,18 +72,22 @@ export default class HowWasUrDayMessage implements Command {
       }
     }
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
     console.debug(`#message-hwowasurday`);
     // app.command()
     app.event(this.name, async (par) => {
-      potatoGame(app, par.event);
+      this.potatoGame(app, par.event);
       //  console.debug(par);
+            //@ts-ignore
+
       if (par.event.channel == "C07ST3FF4S0") return;
       const message = par;
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
+      //@ts-ignore
       if (par.event.hidden) return;
+            //@ts-ignore
       if (!par.event.thread_ts) return;
 
       // console.log(
@@ -98,31 +102,45 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-
+      //@ts-ignore
       const args = event.text.trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       // console.log(cmd, args);
-
+      //@ts-ignore
       if (par.event.text.toLowerCase().includes("today i")) {
         const link = await app.client.chat
           .getPermalink({
+                 //@ts-ignore
+
             message_ts: message.event.ts,
+      //@ts-ignore
+
             channel: message.event.channel,
           })
           .then((d) => d.permalink);
         app.db.set("howday_last_message_link", link);
         app.client.reactions.add({
+      //@ts-ignore
+
           channel: message.event.channel,
+                //@ts-ignore
+
           timestamp: message.event.ts,
           name: "yay",
         });
         for (const e of emoji_react_list) {
+      //@ts-ignore
+
           if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
             try {
               await app.client.reactions.add({
+      //@ts-ignore
+
                 channel: par.event.channel,
-                timestamp: par.event.ts,
-                name: e.emoji,
+      //@ts-ignore
+      timestamp: par.event.ts,
+
+      name: e.emoji,
               });
             } catch (e) {}
           }
