@@ -78,7 +78,7 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       this.potatoGame(app, par.event);
       //  console.debug(par);
-            //@ts-ignore
+      //@ts-ignore
 
       if (par.event.channel == "C07ST3FF4S0") return;
       const message = par;
@@ -87,7 +87,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.say) return;
       //@ts-ignore
       if (par.event.hidden) return;
-            //@ts-ignore
+      //@ts-ignore
       if (!par.event.thread_ts) return;
 
       // console.log(
@@ -110,37 +110,37 @@ export default class HowWasUrDayMessage implements Command {
       if (par.event.text.toLowerCase().includes("today i")) {
         const link = await app.client.chat
           .getPermalink({
-                 //@ts-ignore
+            //@ts-ignore
 
             message_ts: message.event.ts,
-      //@ts-ignore
+            //@ts-ignore
 
             channel: message.event.channel,
           })
           .then((d) => d.permalink);
         app.db.set("howday_last_message_link", link);
         app.client.reactions.add({
-      //@ts-ignore
+          //@ts-ignore
 
           channel: message.event.channel,
-                //@ts-ignore
+          //@ts-ignore
 
           timestamp: message.event.ts,
           name: "yay",
         });
         for (const e of emoji_react_list) {
-      //@ts-ignore
+          //@ts-ignore
 
           if (par.event.text.toLowerCase().includes(e.keyword.toLowerCase())) {
             try {
               await app.client.reactions.add({
-      //@ts-ignore
+                //@ts-ignore
 
                 channel: par.event.channel,
-      //@ts-ignore
-      timestamp: par.event.ts,
+                //@ts-ignore
+                timestamp: par.event.ts,
 
-      name: e.emoji,
+                name: e.emoji,
               });
             } catch (e) {}
           }
