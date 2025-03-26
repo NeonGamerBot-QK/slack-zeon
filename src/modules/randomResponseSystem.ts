@@ -98,7 +98,7 @@ export const channelsToAdvs = [
 export async function potatoGame(app: ModifiedApp) {
   const potato = await app.client.chat.postMessage({
     text: "Respond in the thread with 'DEFEND AGAINST THE ROUGE POTATOE'!!",
-    channel: "C07RW1666UV",
+    channel: "C07R8DYAZMM",
   });
   app.db.set("potato_game", {
     ts: potato.ts,
