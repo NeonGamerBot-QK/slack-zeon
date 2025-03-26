@@ -15,11 +15,12 @@ export default class HowWasUrDayMessage implements Command {
   }
   potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
+    console.log(pg, event.text)
     if (!pg) return;
     let valid_attack = false;
     if (pg.ts == event.thread_ts) {
       if (
-        event.text.toLowerCase().includes("defend against the rouge potatoe")
+        event.text.toLowerCase().trim().includes("defend against the rouge potatoe")
       ) {
         // react with potato
         try {
@@ -29,13 +30,19 @@ export default class HowWasUrDayMessage implements Command {
             name: "potato",
           });
           valid_attack = true;
-        } catch (e) {}
+        } catch (e) {
+          app.client.chat.postEphemeral({
+            text: `:x: Failed to react with potato!`,
+            channel: event.channel,
+            user: event.user,
+          })
+        }
       } else if (event.text.toLowerCase() == "fuck this") {
         try {
           app.client.reactions.add({
             channel: event.channel,
             timestamp: event.ts,
-            name: "middle-finger",
+            name: "fuck",
           });
         } catch (e) {}
       } else if (event.text.toLowerCase() == "no! i love the potatos!!") {
@@ -43,7 +50,7 @@ export default class HowWasUrDayMessage implements Command {
           app.client.reactions.add({
             channel: event.channel,
             timestamp: event.ts,
-            name: "middle-finger",
+            name: "no",
           });
         } catch (e) {}
         app.client.chat.postMessage({
@@ -62,10 +69,12 @@ export default class HowWasUrDayMessage implements Command {
         valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
       });
       if (pg.total_cmd_count >= 5) {
+        console.log(`Bye bye!`)
         app.client.chat.postMessage({
           text: `:tada: Congrats! You have defended against the rouge potatoes attacking with ${pg.valid_attacks_count}/${pg.total_cmd_count} (valid/total)! :tada:\nThanks to <@${pg.users_who_participated.join(">, <@")}> for participating!\n> raid took ${ms(Date.now() - pg.created_at)} to complete!`,
           channel: event.channel,
           thread_ts: event.ts,
+          reply_broadcast: true,
         });
         //delete it all now
         app.db.delete("potato_game");
