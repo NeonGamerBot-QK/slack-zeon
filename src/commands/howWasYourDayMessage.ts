@@ -15,10 +15,11 @@ export default class HowWasUrDayMessage implements Command {
   }
   potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
-    console.log(pg, event.text);
+    console.log(pg, event.text, event.thread_ts);
     if (!pg) return;
+    console.log(1)
     let valid_attack = false;
-    if (pg.ts == event.thread_ts) {
+    if (pg.ts == event.thread_ts || pg.last_cmd == event.thread_ts) {
       if (
         event.text
           .toLowerCase()
@@ -40,7 +41,7 @@ export default class HowWasUrDayMessage implements Command {
             user: event.user,
           });
         }
-      } else if (event.text.toLowerCase() == "fuck this") {
+      } else if (event.text.toLowerCase().trim() == "fuck this") {
         try {
           app.client.reactions.add({
             channel: event.channel,
@@ -48,7 +49,7 @@ export default class HowWasUrDayMessage implements Command {
             name: "fuck",
           });
         } catch (e) {}
-      } else if (event.text.toLowerCase() == "no! i love the potatos!!") {
+      } else if (event.text.toLowerCase().trim() == "no! i love the potatos!!") {
         try {
           app.client.reactions.add({
             channel: event.channel,
@@ -68,7 +69,7 @@ export default class HowWasUrDayMessage implements Command {
         users_who_participated: [
           ...(pg.users_who_participated || []),
           event.user,
-        ],
+        ].filter(Boolean),
         valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
       });
       if (pg.total_cmd_count >= 5) {
