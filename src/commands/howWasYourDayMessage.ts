@@ -76,10 +76,10 @@ export default class HowWasUrDayMessage implements Command {
     console.debug(`#message-hwowasurday`);
     // app.command()
     app.event(this.name, async (par) => {
+      potatoGame(app, par.event);
       //  console.debug(par);
       if (par.event.channel == "C07ST3FF4S0") return;
       const message = par;
-      potatoGame(app);
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
