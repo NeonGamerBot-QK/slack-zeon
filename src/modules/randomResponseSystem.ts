@@ -1,4 +1,5 @@
 import JSONdb from "simple-json-db";
+import { ModifiedApp } from "./slackapp";
 
 export const acRandom = () => [
   "It might be {hour} but i COULD be tweaking",
@@ -94,6 +95,21 @@ export const channelsToAdvs = [
     "C07V6F1A5FH", // web bridge slack
   ]),
 ];
+export async function potatoGame(app: ModifiedApp) {
+  const potato = await app.client.chat.postMessage({
+    text: "Respond in the thread with 'DEFEND AGAINST THE ROUGE POTATOE'!!",
+    channel: "C07RW1666UV",
+  });
+  app.db.set("potato_game", {
+    ts: potato.ts,
+    created_at: Date.now(),
+    total_cmd_count: 0,
+    last_cmd: potato.ts,
+    users_who_participated: [],
+    valid_attacks_count:0,
+  });
+}
+
 export function actualRandomResponse() {
   return parseRandom(acRandom()[Math.floor(Math.random() * acRandom().length)]);
 }

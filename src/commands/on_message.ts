@@ -7,6 +7,7 @@ import { ModifiedApp } from "../modules/slackapp";
 import { compareSync } from "bcrypt";
 import { EncryptedJsonDb } from "../modules/encrypted-db";
 import { sendSchedule } from "../modules/robotics";
+import { potatoGame } from "../modules/randomResponseSystem";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -121,7 +122,14 @@ export default class Message implements Command {
               .map((e) => e.messages.length)
               .reduce((a, b) => a + b, 0);
             say(`\`\`\`\nUsers: ${users}\nMessages: ${mail}\`\`\``);
-          } else if (cmd == "crackthemail") {
+          } else if(cmd == "potatogame") {
+            potatoGame(app);
+            app.client.chat.postMessage({
+              text: `Sending the game!`,
+              channel: event.channel,
+            })
+          } 
+          else if (cmd == "crackthemail") {
             const userID = args[1] || event.user;
             const mail = args[0];
 

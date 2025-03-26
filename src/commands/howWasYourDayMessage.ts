@@ -3,6 +3,7 @@ import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { emoji_react_list } from "./funny_msg";
+import ms from "ms";
 export default class HowWasUrDayMessage implements Command {
   name: string;
   description: string;
@@ -12,6 +13,63 @@ export default class HowWasUrDayMessage implements Command {
     this.description = `If message matches 'today' il react & add it to db`;
     this.is_event = true;
   }
+  potatoGame(app: App, event) {
+    const pg = app.db.get("potato_game");
+    if(!pg) return;
+    let valid_attack = false;
+if(pg.ts == event.thread_ts) {
+  if(event.text.toLowerCase().includes("defend against the rouge potatoe")) {
+    // react with potato
+  try {
+    app.client.reactions.add({
+      channel: event.channel,
+      timestamp: event.ts,
+      name: "potato",
+    });
+    valid_attack = true;
+  } catch (e) {}
+  } else if(event.text.toLowerCase() == ("fuck this")) {
+    try {
+      app.client.reactions.add({
+        channel: event.channel,
+        timestamp: event.ts,
+        name: "middle-finger",
+      });
+    } catch (e) {}
+  } else if (event.text.toLowerCase() == ("no! i love the potatos!!")) {
+    try {
+      app.client.reactions.add({
+        channel: event.channel,
+        timestamp: event.ts,
+        name: "middle-finger",
+      });
+    } catch (e) {}
+    app.client.chat.postMessage({
+      text: `No!! i will go against the potatoes!!`,
+      channel: event.channel,
+      thread_ts: event.ts,
+    })
+  }
+  app.db.set("potato_game", {
+    total_cmd_count: pg.total_cmd_count + 1,
+    last_cmd: event.ts,
+    users_who_participated: [
+      ...(pg.users_who_participated || []),
+      event.user,
+    ],
+    valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
+  });
+  if(pg.total_cmd_count >= 5) {
+app.client.chat.postMessage({
+  text: `:tada: Congrats! You have defended against the rouge potatoes attacking with ${pg.valid_attacks_count}/${pg.total_cmd_count} (valid/total)! :tada:\nThanks to <@${pg.users_who_participated.join(">, <@")}> for participating!\n> raid took ${ms(Date.now() - pg.created_at)} to complete!`,
+  channel: event.channel,
+  thread_ts: event.ts,
+})
+//delete it all now
+app.db.delete("potato_game");
+  }
+}
+  }
   run(app: App) {
     console.debug(`#message-hwowasurday`);
     // app.command()
@@ -19,6 +77,7 @@ export default class HowWasUrDayMessage implements Command {
       //  console.debug(par);
       if (par.event.channel == "C07ST3FF4S0") return;
       const message = par;
+      potatoGame(app)
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
