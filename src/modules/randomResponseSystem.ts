@@ -106,7 +106,7 @@ export async function potatoGame(app: ModifiedApp) {
     total_cmd_count: 0,
     last_cmd: potato.ts,
     users_who_participated: [],
-    valid_attacks_count:0,
+    valid_attacks_count: 0,
   });
 }
 
