@@ -160,7 +160,7 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
   const chanceOfPotatoGame = isItMyChance(20);
   if (chanceOfPotatoGame) {
     potatoGame(app);
-    return ":potato:"
+    return ":potato:";
   }
   const overSpending = await checkOverSpending(db);
   if (overSpending) return overSpending;
