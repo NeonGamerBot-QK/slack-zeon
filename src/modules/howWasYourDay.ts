@@ -81,6 +81,63 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
   // TODO: find a way to stop the event after xyz time
   app.event("message", messageListener);
 }
+/**
+ * @see https://github.com/SkyfallWasTaken/slack-activity-webhook/blob/main/index.ts
+ */
+export async function getMessageCount(db: JSONdb) {
+  // js use the .env lmao
+
+	const formData = new FormData();
+	formData.append("token", process.env.SLACK_BROWSER_TOKEN);
+	formData.append("module", "messages");
+	formData.append(
+		"query",
+		`from:<@${process.env.MY_USER_ID}> before:${new Date().toISOString()} after:${new Date(
+			new Date().setDate(new Date().getDate() - 1),
+		).toISOString()}`,
+	);
+	formData.append("page", "1");
+
+	const response = await fetch(
+		`https://hackclub.slack.com/api/search.modules.messages`,
+		{
+			headers: {
+				accept: "*/*",
+				cookie: `d=${encodeURIComponent(process.env.SLACK_USER_COOKIE)}`,
+			},
+			body: formData,
+			method: "POST",
+		},
+	);
+	const data =await response.json()
+
+	const messagesSent = data.pagination.total_count;
+	console.log(`Messages sent: ${messagesSent}`);
+	const messagesSentYesterday = await db.get("messages_sent_yesterday") || -1;
+	console.log(`Messages sent yesterday: ${messagesSentYesterday}`);
+
+	const difference =
+		messagesSentYesterday !== undefined
+			? messagesSent - messagesSentYesterday
+			: 0;
+
+	const emoji = (() => {
+		if (difference > 0) return ":chart_with_upwards_trend:";
+		if (difference < 0) return ":chart_with_downwards_trend:";
+		return ":chart_with_upwards_trend:";
+	})();
+
+	const differenceText = (() => {
+		if (!difference) return "";
+		const direction = difference > 0 ? "more" : "less";
+		return ` _(${Math.abs(difference)} ${direction} than yesterday)_`;
+	})();
+
+	const message = `${emoji} <@${process.env.MY_USER_ID}> has sent *${messagesSent} messages* today.${differenceText}`;
+  await db.set("messages_sent_yesterday", messagesSent);
+  return message;
+}
+
 export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   const db = app.db;
   const getStr = await getDayResponse(db);
