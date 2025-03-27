@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import ms from "ms";
+import { ModifiedApp } from "./slackapp";
 export interface FlightData {
   flight: Flight;
   flightPosition: FlightPosition[];
@@ -159,7 +160,51 @@ export function getFlightData(flightId: string): Promise<Flight> {
     }
   });
 }
+function detectChanges(newData, previousData) {
+    if (!previousData) {
+        console.log("Initial flight data loaded.");
+        previousData = newData;
+        return;
+    }
 
+    let changes = [];
+    function compareObjects(oldObj, newObj, path = "") {
+        for (let key in newObj) {
+            let newPath = path ? `${path}.${key}` : key;
+            if (typeof newObj[key] === "object" && newObj[key] !== null) {
+                compareObjects(oldObj[key] || {}, newObj[key], newPath);
+            } else if (oldObj[key] !== newObj[key]) {
+                changes.push(`${newPath}: ${oldObj[key]} → ${newObj[key]}`);
+            }
+        }
+    }
+
+    compareObjects(previousData, newData);
+
+    if (changes.length > 0) {
+      return changes;
+        console.log("Flight data changed:");
+        console.log(changes.join("\n"));
+    } else {
+        // console.log("No changes detected.");
+    }
+
+    // previousData = newData;
+}
+
+export async function cronForTrackingData(app: ModifiedApp) {
+ const IdsToTrack = app.dbs.flightly.get("flightly-ids")
+  for(const {flightId, userId} of IdsToTrack){
+    const flightD = await getFlightData(flightId);
+   const changes = await detectChanges(flightD, app.dbs.flightly.get(userId));
+  await  app.client.chat.postMessage({
+     channel: userId,
+     text: changes.join("\n")
+   })
+   app.dbs.flightly.set(userId, flightD);
+   await new Promise(r => setTimeout(r, 1000));
+  }
+}
 export async function getTextVersionOfData(flightId: string) {
   const flightD = await getFlightData(flightId);
   return `
