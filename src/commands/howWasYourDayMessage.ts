@@ -91,9 +91,9 @@ export default class HowWasUrDayMessage implements Command {
     console.debug(`#message-hwowasurday`);
     // app.command()
     app.event(this.name, async (par) => {
-try{
-  this.potatoGame(app, par.event);
-} catch (e) {}      //  console.debug(par);
+      try {
+        this.potatoGame(app, par.event);
+      } catch (e) {} //  console.debug(par);
       //@ts-ignore
 
       if (par.event.channel == "C07ST3FF4S0") return;
