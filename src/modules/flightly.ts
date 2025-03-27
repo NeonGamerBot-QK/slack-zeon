@@ -188,9 +188,9 @@ function detectChanges(newData, previousData) {
     // console.log(changes.join("\n"));
   } else {
     // console.log("No changes detected.");
-    return []
+    return [];
   }
-  return []
+  return [];
 
   // previousData = newData;
 }
