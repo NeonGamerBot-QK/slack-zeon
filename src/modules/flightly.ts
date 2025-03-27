@@ -197,10 +197,12 @@ export async function cronForTrackingData(app: ModifiedApp) {
   for (const { flightId, userId } of IdsToTrack) {
     const flightD = await getFlightData(flightId);
     const changes = await detectChanges(flightD, app.dbs.flightly.get(userId));
+   if(changes.length > 0){
     await app.client.chat.postMessage({
       channel: userId,
       text: changes.join("\n"),
     });
+   }
     app.dbs.flightly.set(userId, flightD);
     await new Promise((r) => setTimeout(r, 1000));
   }
