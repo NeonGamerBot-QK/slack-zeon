@@ -92,11 +92,7 @@ export async function getMessageCount(db: JSONdb) {
   formData.append("module", "messages");
   formData.append(
     "query",
-    `from:<@${process.env.MY_USER_ID}> after:${new Date().toISOString().split("T")[0]} before:${
-      new Date(new Date().setDate(new Date().getDate() - 1))
-        .toISOString()
-        .split("T")[0]
-    }`,
+    `from:<@${process.env.MY_USER_ID}> after:Yesterday`,
   );
   formData.append("page", "1");
 
@@ -191,4 +187,9 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => d.repo.includes("zeon")) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
     });
   }
+  await app.client.chat.postMessage({
+    channel,
+    thread_ts: mobj.ts,
+    text: await getMessageCount(app.db),
+  });
 }
