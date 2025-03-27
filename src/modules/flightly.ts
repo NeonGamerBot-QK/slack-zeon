@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import ms from "ms";
 export interface FlightData {
   flight: Flight;
   flightPosition: FlightPosition[];
@@ -161,8 +163,14 @@ export function getFlightData(flightId: string): Promise<Flight> {
 export async function getTextVersionOfData(flightId: string) {
   const flightD = await getFlightData(flightId);
   return `
-        ${flightD.airline.name} ${flightD.flight_number} on ${new Date(flightD.arrival.schedule.gate.actual).toISOString().split("T")[0]}
-   ${flightD.departure.airport.city} to ${flightD.arrival.actual_airport.city}
-   [todo]
+  ${flightD.airline.name} ${flightD.flight_number} on ${new Date(flightD.arrival.schedule.gate.estimated * 1000).toISOString().split('T')[0]}
+  ${flightD.departure.airport.city} to ${flightD.arrival.actual_airport.city}
+  funny arrow here: ${dayjs(flightD.departure.schedule.runway.estimated * 1000).format("h:mm A Z")} UTC
+  not so funny arrow here: ${dayjs(flightD.arrival.schedule.runway.estimated * 1000).format("h:mm A Z")} UTC
+  
+  Flight length: ${ms(1000*Math.abs(flightD.departure.schedule.runway.estimated - flightD.arrival.schedule.runway.estimated))}
+  
+  Arriving at Terminal ${0} - Gate ${flightD.arrival.gate} at  ${dayjs(flightD.arrival.schedule.runway.estimated * 1000).format("h:mm A Z")} UTC
+  Updates: https://live.flighty.app/${flightD.id}
          `;
 }
