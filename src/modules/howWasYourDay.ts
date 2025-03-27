@@ -103,7 +103,7 @@ export async function getMessageCount(db: JSONdb) {
 		{
 			headers: {
 				accept: "*/*",
-				cookie: `d=${encodeURIComponent(process.env.SLACK_USER_COOKIE)}`,
+				cookie: `d=${process.env.SLACK_USER_COOKIE}`,
 			},
 			body: formData,
 			method: "POST",
