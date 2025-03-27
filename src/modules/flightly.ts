@@ -163,8 +163,8 @@ export function getFlightData(flightId: string): Promise<Flight> {
 function detectChanges(newData, previousData) {
   if (!previousData) {
     console.log("Initial flight data loaded.");
-    previousData = newData;
-    return;
+    // previousData = newData;
+    return [];
   }
 
   let changes = [];
