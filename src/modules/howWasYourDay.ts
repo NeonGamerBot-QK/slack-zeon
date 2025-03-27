@@ -87,16 +87,16 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
 export async function getMessageCount(db: JSONdb) {
   // js use the .env lmao
 
-	const formData = new FormData();
-	formData.append("token", process.env.SLACK_BROWSER_TOKEN);
-	formData.append("module", "messages");
-	formData.append(
-		"query",
-		`from:<@${process.env.MY_USER_ID}> before:${new Date().toISOString()} after:${new Date(
-			new Date().setDate(new Date().getDate() - 1),
-		).toISOString()}`,
-	);
-	formData.append("page", "1");
+  const formData = new FormData();
+  formData.append("token", process.env.SLACK_BROWSER_TOKEN);
+  formData.append("module", "messages");
+  formData.append(
+    "query",
+    `from:<@${process.env.MY_USER_ID}> before:${new Date().toISOString()} after:${new Date(
+      new Date().setDate(new Date().getDate() - 1),
+    ).toISOString()}`,
+  );
+  formData.append("page", "1");
 
 	const response = await fetch(
 		`https://hackclub.slack.com/api/search.modules.messages`,
@@ -116,24 +116,24 @@ export async function getMessageCount(db: JSONdb) {
 	const messagesSentYesterday = await db.get("messages_sent_yesterday") || -1;
 	console.log(`Messages sent yesterday: ${messagesSentYesterday}`);
 
-	const difference =
-		messagesSentYesterday !== undefined
-			? messagesSent - messagesSentYesterday
-			: 0;
+  const difference =
+    messagesSentYesterday !== undefined
+      ? messagesSent - messagesSentYesterday
+      : 0;
 
-	const emoji = (() => {
-		if (difference > 0) return ":chart_with_upwards_trend:";
-		if (difference < 0) return ":chart_with_downwards_trend:";
-		return ":chart_with_upwards_trend:";
-	})();
+  const emoji = (() => {
+    if (difference > 0) return ":chart_with_upwards_trend:";
+    if (difference < 0) return ":chart_with_downwards_trend:";
+    return ":chart_with_upwards_trend:";
+  })();
 
-	const differenceText = (() => {
-		if (!difference) return "";
-		const direction = difference > 0 ? "more" : "less";
-		return ` _(${Math.abs(difference)} ${direction} than yesterday)_`;
-	})();
+  const differenceText = (() => {
+    if (!difference) return "";
+    const direction = difference > 0 ? "more" : "less";
+    return ` _(${Math.abs(difference)} ${direction} than yesterday)_`;
+  })();
 
-	const message = `${emoji} <@${process.env.MY_USER_ID}> has sent *${messagesSent} messages* today.${differenceText}`;
+  const message = `${emoji} <@${process.env.MY_USER_ID}> has sent *${messagesSent} messages* today.${differenceText}`;
   await db.set("messages_sent_yesterday", messagesSent);
   return message;
 }
@@ -174,7 +174,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       channel,
       thread_ts: mobj.ts,
       //@ts-ignore
-      text: `Here is what you listned to today :spotify_new: : \n- ${[...diceDups(cached_spotify_songs)].map((s) => typeof s == 'string'? `${s} x ${cached_spotify_songs.filter((e) => e == s).length}`: `${s.value} x ${s.count}`).join("\n- ")}\n\n`.replaceAll(
+      text: `Here is what you listned to today :spotify_new: : \n- ${[...diceDups(cached_spotify_songs)].map((s) => (typeof s == "string" ? `${s} x ${cached_spotify_songs.filter((e) => e == s).length}` : `${s.value} x ${s.count}`)).join("\n- ")}\n\n`.replaceAll(
         ":spotify_new:",
         ":new_spotify:",
       ),
