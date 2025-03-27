@@ -64,6 +64,7 @@ export default class HowWasUrDayMessage implements Command {
         });
       }
       app.db.set("potato_game", {
+        ...pg, 
         total_cmd_count: pg.total_cmd_count + 1,
         last_cmd: event.ts,
         users_who_participated: [
