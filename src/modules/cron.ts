@@ -279,7 +279,7 @@ export function setupOverallCron(app: ModifiedApp) {
   cronJobForRPG(app);
   onLoadForLockIn(app);
   setupFlightlyCron(app);
-  
+
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
