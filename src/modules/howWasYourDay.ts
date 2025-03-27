@@ -92,7 +92,7 @@ export async function getMessageCount(db: JSONdb) {
   formData.append("module", "messages");
   formData.append(
     "query",
-    `from:<@${process.env.MY_USER_ID}> before:${new Date().toISOString().split("T")[0]} after:${
+    `from:<@${process.env.MY_USER_ID}> after:${new Date().toISOString().split("T")[0]} before:${
       new Date(new Date().setDate(new Date().getDate() - 1))
         .toISOString()
         .split("T")[0]
