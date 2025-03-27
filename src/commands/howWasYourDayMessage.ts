@@ -70,7 +70,7 @@ export default class HowWasUrDayMessage implements Command {
         total_cmd_count: pg.total_cmd_count + 1,
         last_cmd: event.ts,
         users_who_participated: [
-          ...new Set(...(pg.users_who_participated || []), event.user),
+          ...new Set([...(pg.users_who_participated || []), event.user]),
         ].filter(Boolean),
         valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
       });
@@ -91,8 +91,9 @@ export default class HowWasUrDayMessage implements Command {
     console.debug(`#message-hwowasurday`);
     // app.command()
     app.event(this.name, async (par) => {
-      this.potatoGame(app, par.event);
-      //  console.debug(par);
+try{
+  this.potatoGame(app, par.event);
+} catch (e) {}      //  console.debug(par);
       //@ts-ignore
 
       if (par.event.channel == "C07ST3FF4S0") return;

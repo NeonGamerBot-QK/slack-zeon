@@ -110,7 +110,7 @@ export async function getMessageCount(db: JSONdb) {
 		},
 	);
 	const data =await response.json()
-
+  console.log(data)
 	const messagesSent = data.pagination.total_count;
 	console.log(`Messages sent: ${messagesSent}`);
 	const messagesSentYesterday = await db.get("messages_sent_yesterday") || -1;
