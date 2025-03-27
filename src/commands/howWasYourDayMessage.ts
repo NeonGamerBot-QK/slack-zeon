@@ -69,9 +69,8 @@ export default class HowWasUrDayMessage implements Command {
         ...pg,
         total_cmd_count: pg.total_cmd_count + 1,
         last_cmd: event.ts,
-        users_who_participated: [...new Set(
-          ...(pg.users_who_participated || []),
-          event.user)
+        users_who_participated: [
+          ...new Set(...(pg.users_who_participated || []), event.user),
         ].filter(Boolean),
         valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
       });
