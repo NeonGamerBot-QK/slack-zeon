@@ -69,13 +69,13 @@ export default class HowWasUrDayMessage implements Command {
         ...pg, 
         total_cmd_count: pg.total_cmd_count + 1,
         last_cmd: event.ts,
-        users_who_participated: [
+        users_who_participated: [...new Set(
           ...(pg.users_who_participated || []),
-          event.user,
+          event.user)
         ].filter(Boolean),
         valid_attacks_count: pg.valid_attacks_count + (valid_attack ? 1 : 0),
       });
-      if (pg.total_cmd_count >= 5) {
+      if (pg.total_cmd_count >= 5 && pg.users_who_participated.length >= 4) {
         console.log(`Bye bye!`);
         app.client.chat.postMessage({
           text: `:tada: Congrats! You have defended against the rouge potatoes attacking with ${pg.valid_attacks_count}/${pg.total_cmd_count} (valid/total)! :tada:\nThanks to <@${pg.users_who_participated.join(">, <@")}> for participating!\n> raid took ${ms(Date.now() - pg.created_at)} to complete!`,

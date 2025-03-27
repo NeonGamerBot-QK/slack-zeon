@@ -154,8 +154,14 @@ export async function checkOverSpending(db: JSONdb) {
   }
   return false;
 }
-export async function getResponse(db: JSONdb): Promise<string> {
+export async function getResponse(app: ModifiedApp): Promise<string> {
+  const db = app.db;
   let chanceOfChannelAdvs = isItMyChance(20);
+  const chanceOfPotatoGame = isItMyChance(20);
+  if (chanceOfPotatoGame) {
+    potatoGame(app);
+    return ":potato:"
+  }
   const overSpending = await checkOverSpending(db);
   if (overSpending) return overSpending;
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
