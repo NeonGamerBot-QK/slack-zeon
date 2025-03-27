@@ -98,23 +98,23 @@ export async function getMessageCount(db: JSONdb) {
   );
   formData.append("page", "1");
 
-	const response = await fetch(
-		`https://hackclub.slack.com/api/search.modules.messages`,
-		{
-			headers: {
-				accept: "*/*",
-				cookie: `d=${process.env.SLACK_USER_COOKIE}`,
-			},
-			body: formData,
-			method: "POST",
-		},
-	);
-	const data =await response.json()
-  console.log(data)
-	const messagesSent = data.pagination.total_count;
-	console.log(`Messages sent: ${messagesSent}`);
-	const messagesSentYesterday = await db.get("messages_sent_yesterday") || -1;
-	console.log(`Messages sent yesterday: ${messagesSentYesterday}`);
+  const response = await fetch(
+    `https://hackclub.slack.com/api/search.modules.messages`,
+    {
+      headers: {
+        accept: "*/*",
+        cookie: `d=${process.env.SLACK_USER_COOKIE}`,
+      },
+      body: formData,
+      method: "POST",
+    },
+  );
+  const data = await response.json();
+  console.log(data);
+  const messagesSent = data.pagination.total_count;
+  console.log(`Messages sent: ${messagesSent}`);
+  const messagesSentYesterday = (await db.get("messages_sent_yesterday")) || -1;
+  console.log(`Messages sent yesterday: ${messagesSentYesterday}`);
 
   const difference =
     messagesSentYesterday !== undefined
