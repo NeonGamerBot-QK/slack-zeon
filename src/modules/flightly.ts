@@ -184,11 +184,13 @@ function detectChanges(newData, previousData) {
 
   if (changes.length > 0) {
     return changes;
-    console.log("Flight data changed:");
-    console.log(changes.join("\n"));
+    // console.log("Flight data changed:");
+    // console.log(changes.join("\n"));
   } else {
     // console.log("No changes detected.");
+    return []
   }
+  return []
 
   // previousData = newData;
 }
