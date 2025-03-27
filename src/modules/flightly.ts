@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import ms from "ms";
 import { ModifiedApp } from "./slackapp";
+import { Cron } from "croner";
 export interface FlightData {
   flight: Flight;
   flightPosition: FlightPosition[];
@@ -174,7 +175,7 @@ function detectChanges(newData, previousData) {
       if (typeof newObj[key] === "object" && newObj[key] !== null) {
         compareObjects(oldObj[key] || {}, newObj[key], newPath);
       } else if (oldObj[key] !== newObj[key]) {
-        changes.push(`${newPath}: ${oldObj[key]} → ${newObj[key]}`);
+        changes.push(`\`${newPath}\`: \`${oldObj[key]}\` → \`${newObj[key]}\``);
       }
     }
   }
@@ -192,19 +193,29 @@ function detectChanges(newData, previousData) {
   // previousData = newData;
 }
 
+export function setupFlightlyCron(app: ModifiedApp) {
+  new Cron("*/20 * * * *", async () => {
+    await cronForTrackingData(app);
+  })
+}
+
 export async function cronForTrackingData(app: ModifiedApp) {
   const IdsToTrack = app.dbs.flightly.get("flightly-ids");
-  for (const { flightId, userId } of IdsToTrack) {
+  for (const { flightIds, userId } of IdsToTrack) {
+   for(const flightId of flightIds){
     const flightD = await getFlightData(flightId);
-    const changes = await detectChanges(flightD, app.dbs.flightly.get(userId));
+    const changes = await detectChanges(flightD, app.dbs.flightly.get(userId+flightD.id));
     if (changes.length > 0) {
       await app.client.chat.postMessage({
         channel: userId,
-        text: changes.join("\n"),
+        text: `Flight updates for \`${flightId}\`\n`+changes.join("\n"),
       });
     }
-    app.dbs.flightly.set(userId, flightD);
+    app.dbs.flightly.set(userId+flightD.id, flightD);
     await new Promise((r) => setTimeout(r, 1000));
+   }
+   await new Promise((r) => setTimeout(r, 250));
+
   }
 }
 export async function getTextVersionOfData(flightId: string) {

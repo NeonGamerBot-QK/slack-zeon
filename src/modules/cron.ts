@@ -18,6 +18,7 @@ import { cronJobFor15daysofcode } from "./15daysofcode";
 import { setupSeverCron } from "./seven39feed";
 import { cronJobForRPG } from "./rpgysws";
 import { onLoadForLockIn } from "./lockinysws";
+import { setupFlightlyCron } from "./flightly";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -277,6 +278,8 @@ export function setupOverallCron(app: ModifiedApp) {
   setupSeverCron(app);
   cronJobForRPG(app);
   onLoadForLockIn(app);
+  setupFlightlyCron(app);
+  
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
