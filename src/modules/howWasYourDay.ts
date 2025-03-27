@@ -90,10 +90,7 @@ export async function getMessageCount(db: JSONdb) {
   const formData = new FormData();
   formData.append("token", process.env.SLACK_BROWSER_TOKEN);
   formData.append("module", "messages");
-  formData.append(
-    "query",
-    `from:<@${process.env.MY_USER_ID}> after:Yesterday`,
-  );
+  formData.append("query", `from:<@${process.env.MY_USER_ID}> after:Yesterday`);
   formData.append("page", "1");
 
   const response = await fetch(
