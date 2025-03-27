@@ -131,14 +131,13 @@ export default class Message implements Command {
             });
           } else if (cmd == "howmanymessages") {
             const _count = await app.db.get("messages_sent_yesterday");
-            await say(await getMessageCount(app.db))
-          await app.db.set("messages_sent_yesterday", _count)
-          } else if(cmd == "flightly") {
-            const flight = args[0]
+            await say(await getMessageCount(app.db));
+            await app.db.set("messages_sent_yesterday", _count);
+          } else if (cmd == "flightly") {
+            const flight = args[0];
             // const flightData = await getFlightData(flight)
-            await say(await getTextVersionOfData(flight))
-          }
-          else if (cmd == "crackthemail") {
+            await say(await getTextVersionOfData(flight));
+          } else if (cmd == "crackthemail") {
             const userID = args[1] || event.user;
             const mail = args[0];
 
