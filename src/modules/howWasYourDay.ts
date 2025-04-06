@@ -7,6 +7,8 @@ import { getTodaysEvents } from "./hw";
 import { GitBody, GitSession } from "./projectWaterydo";
 import ms from "ms";
 import { hacktime } from ".";
+import { writeFileSync } from "fs";
+import path from "path";
 export let cached_spotify_songs = [];
 export function resetSpotifyCache(app: ModifiedApp) {
   cached_spotify_songs = app.db.get("spotify_songs") || [];
@@ -130,6 +132,9 @@ export async function getMessageCount(db: JSONdb) {
 
   const message = `${emoji} <@${process.env.MY_USER_ID}> has sent *${messagesSent} messages* today.${differenceText}`;
   await db.set("messages_sent_yesterday", messagesSent);
+  const messagesTotal = (await db.get("messages_total")) || [];
+  messagesTotal.push(messagesSent)
+  await db.set("messages_total", messagesTotal)
   return message;
 }
 
@@ -189,4 +194,31 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     thread_ts: mobj.ts,
     text: await getMessageCount(app.db),
   });
+  if(app.db.get("messages_total") && app.db.get("messages_total").length >= 7){ 
+    // send weekly graph to channel
+   sendWeeklyGraph(app, channel)
+  }
+}
+
+export async function sendWeeklyGraph(app: ModifiedApp, channel:string) {
+  const messagesTotal = app.db.get("messages_total").slice(0,7)
+  const graphUrl = `https://api.saahild.com/api/graph/line/simple?labels=Monday,Tuesday,Wensday,Thursday,Friday,Saturday,Sunday&y=${messagesTotal.join(",")}`
+// attach as file or something
+await fetch(graphUrl)
+.then((r) => r.arrayBuffer())
+.then(Buffer.from)
+.then((d) => {
+  writeFileSync(path.join(__dirname, "..", "graph.png"), d);
+});
+const img = path.join(__dirname, "..", "graph.png");
+await app.client.files.uploadV2({
+file: img,
+filename: `graph.png`,
+// thread_ts: mobj.ts,
+channel_id: channel,
+alt_text: `Your weekly message graph.`,
+initial_comment: `Your weekly message graph! Average message count per day is *${messagesTotal.reduce((a, b) => a + b, 0) / messagesTotal.length}*`,
+});
+
+app.db.set("messages_total", [])
 }
