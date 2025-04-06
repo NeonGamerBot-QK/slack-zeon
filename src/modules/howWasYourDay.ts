@@ -217,7 +217,7 @@ filename: `graph.png`,
 // thread_ts: mobj.ts,
 channel_id: channel,
 alt_text: `Your weekly message graph.`,
-initial_comment: `Your weekly message graph! Average message count per day is *${messagesTotal.reduce((a, b) => a + b, 0) / messagesTotal.length}*`,
+initial_comment: `Your weekly message graph! Average message count per day is *${(messagesTotal.reduce((a, b) => a + b, 0) / messagesTotal.length).toFixed(2)}*`,
 });
 
 app.db.set("messages_total", [])
