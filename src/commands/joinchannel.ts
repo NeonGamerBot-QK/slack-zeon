@@ -27,13 +27,12 @@ export default class JoinNeonschannel implements Command {
     app.command(this.name, async ({ command, ack, respond }) => {
       //   const stamp = Date.now();
       await ack();
-try {
-  await app.client.chat.postMessage({
-text: `<@${command.user_id}> is trying to join <#C07R8DYAZMM>...`,
-channel: "C07LGLUTNH2"
-  })
-} catch (e) {
-}
+      try {
+        await app.client.chat.postMessage({
+          text: `<@${command.user_id}> is trying to join <#C07R8DYAZMM>...`,
+          channel: "C07LGLUTNH2",
+        });
+      } catch (e) {}
       // if (onlyForMe(command.user_id))
       //   return respond(`:x: you are the channel owner.`);
       try {
