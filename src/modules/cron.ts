@@ -282,7 +282,7 @@ export function setupOverallCron(app: ModifiedApp) {
   onLoadForLockIn(app);
   setupFlightlyCron(app);
   cronJobForAvatar();
-  cronTS(app)
+  cronTS(app);
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
