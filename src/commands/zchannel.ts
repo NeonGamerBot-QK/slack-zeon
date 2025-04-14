@@ -19,7 +19,7 @@ export default class ChannelPing implements Command {
         user?.user?.profile?.display_name || user?.user?.name || "<unknown>";
       const avatar =
         user?.user?.profile?.image_original || user?.user?.profile?.image_512;
-    
+
       const payload = {
         text: command.text,
         username: displayName,
@@ -34,7 +34,7 @@ export default class ChannelPing implements Command {
           },
         ],
       };
-    
+
       const response = await app.client.chat.postMessage({
         channel: command.channel_id,
         ...payload,
