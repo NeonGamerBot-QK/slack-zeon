@@ -165,7 +165,7 @@ export async function getWalletBalance(app: ModifiedApp) {
     .then((r) => r.json())
     .then((json) =>
       json.currentTransactions.filter((d) => {
-        const f = new Date(d.started_at);
+        const f = new Date(d.created_at);
         const today = new Date();
         // check if less then 24h
         // return (
