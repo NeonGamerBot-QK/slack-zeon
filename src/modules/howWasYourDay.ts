@@ -50,7 +50,7 @@ export async function getDayResponse(db: JSONdb) {
   const lastMessageLink =
     db.get("howday_last_message_link") ||
     "Wow this is the first one or i have not finished the code.";
-  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> Your todo list you want to share here\n> ${await fetch("https://raw.githubusercontent.com/NeonGamerBot-QK/public-my-notes/refs/heads/main/slack_channel/todo.md").then(r=>r.text())} `;
+  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> Your todo list you want to share here\n> ${await fetch("https://raw.githubusercontent.com/NeonGamerBot-QK/public-my-notes/refs/heads/main/slack_channel/todo.md").then((r) => r.text())} `;
 }
 // @see https://stackoverflow.com/a/43837711
 // export function makeSlackMessageUrl(channel: string, messageTs: number) {
@@ -140,21 +140,21 @@ export async function getMessageCount(db: JSONdb) {
 function getMoneyEmoji(card: string) {
   switch (card) {
     case "chase":
-      return ":rocket_chase_bank:"
-    break;
+      return ":rocket_chase_bank:";
+      break;
     case "fidelity":
-return ":rocket_fidelity:"
-    break;
+      return ":rocket_fidelity:";
+      break;
     case "paypal":
-      return ":rocket_paypal:"
+      return ":rocket_paypal:";
       break;
     case "capitalone":
-    return ":rocket_capital_one:"
-    break;
+      return ":rocket_capital_one:";
+      break;
   }
 }
 export async function getWalletBalance(app: ModifiedApp) {
- const walletData = await fetch(
+  const walletData = await fetch(
     process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions",
     {
       headers: {
@@ -163,21 +163,23 @@ export async function getWalletBalance(app: ModifiedApp) {
     },
   )
     .then((r) => r.json())
-    .then((json) => json.currentTransactions.filter((d) => {
-      const f = new Date(d.started_at);
-      const today = new Date();
-      // check if less then 24h
-      // return (
-      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
-      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
-      // );
-      return (
-        f.getDate() == today.getDate() &&
-        f.getMonth() == today.getMonth() &&
-        f.getFullYear() == today.getFullYear()
-      );
-    }));
-  return `${walletData.map((d) => `-${d.type=="rocket"?getMoneyEmoji(d.card):":appleinc:"} - *${d.amount}* @ _${d.name}_`).join("\n")}`;
+    .then((json) =>
+      json.currentTransactions.filter((d) => {
+        const f = new Date(d.started_at);
+        const today = new Date();
+        // check if less then 24h
+        // return (
+        //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
+        //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
+        // );
+        return (
+          f.getDate() == today.getDate() &&
+          f.getMonth() == today.getMonth() &&
+          f.getFullYear() == today.getFullYear()
+        );
+      }),
+    );
+  return `${walletData.map((d) => `-${d.type == "rocket" ? getMoneyEmoji(d.card) : ":appleinc:"} - *${d.amount}* @ _${d.name}_`).join("\n")}`;
 }
 export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   const db = app.db;
@@ -186,23 +188,23 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
-  
+
   const formattedHacktimeResults = await hacktime.getStatusBar().then((d) => {
     return d.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
   });
-if(formattedHacktimeResults.length > 0){
-  app.client.chat.postMessage({
-    channel,
-    thread_ts: mobj.ts,
-    text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`,
-  });
-} else {
-  app.client.chat.postMessage({
-    channel,
-    thread_ts: mobj.ts,
-    text: `No hacktime activity for today found...you didnt code.. AT ALL!`,
-  });
-}
+  if (formattedHacktimeResults.length > 0) {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`,
+    });
+  } else {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `No hacktime activity for today found...you didnt code.. AT ALL!`,
+    });
+  }
   const today = new Date();
   const codewatcherForToday = (
     (app.db.get("git_session") || []) as GitSession[]
@@ -219,8 +221,8 @@ if(formattedHacktimeResults.length > 0){
       f.getFullYear() == today.getFullYear()
     );
   });
-  const walletForToday = await getWalletBalance(app)
-  if(walletForToday.length > 5){
+  const walletForToday = await getWalletBalance(app);
+  if (walletForToday.length > 5) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
