@@ -50,7 +50,7 @@ export async function getDayResponse(db: JSONdb) {
   const lastMessageLink =
     db.get("howday_last_message_link") ||
     "Wow this is the first one or i have not finished the code.";
-  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> your todo list you want to share here\n> also todo `;
+  return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> Your todo list you want to share here\n> ${await fetch("https://raw.githubusercontent.com/NeonGamerBot-QK/public-my-notes/refs/heads/main/slack_channel/todo.md").then(r=>r.text())} `;
 }
 // @see https://stackoverflow.com/a/43837711
 // export function makeSlackMessageUrl(channel: string, messageTs: number) {
@@ -137,7 +137,48 @@ export async function getMessageCount(db: JSONdb) {
   await db.set("messages_total", messagesTotal);
   return message;
 }
-
+function getMoneyEmoji(card: string) {
+  switch (card) {
+    case "chase":
+      return ":rocket_chase_bank:"
+    break;
+    case "fidelity":
+return ":rocket_fidelity:"
+    break;
+    case "paypal":
+      return ":rocket_paypal:"
+      break;
+    case "capitalone":
+    return ":rocket_capital_one:"
+    break;
+  }
+}
+export async function getWalletBalance(app: ModifiedApp) {
+ const walletData = await fetch(
+    process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions",
+    {
+      headers: {
+        Authorization: process.env.IRL_AUTH,
+      },
+    },
+  )
+    .then((r) => r.json())
+    .then((json) => json.currentTransactions.filter((d) => {
+      const f = new Date(d.started_at);
+      const today = new Date();
+      // check if less then 24h
+      // return (
+      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
+      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
+      // );
+      return (
+        f.getDate() == today.getDate() &&
+        f.getMonth() == today.getMonth() &&
+        f.getFullYear() == today.getFullYear()
+      );
+    }));
+  return `${walletData.map((d) => `-${d.type=="rocket"?getMoneyEmoji(d.card):":appleinc:"} - *${d.amount}* @ _${d.name}_`).join("\n")}`;
+}
 export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   const db = app.db;
   const getStr = await getDayResponse(db);
@@ -145,14 +186,23 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
+  
   const formattedHacktimeResults = await hacktime.getStatusBar().then((d) => {
     return d.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
   });
+if(formattedHacktimeResults.length > 0){
   app.client.chat.postMessage({
     channel,
     thread_ts: mobj.ts,
     text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`,
   });
+} else {
+  app.client.chat.postMessage({
+    channel,
+    thread_ts: mobj.ts,
+    text: `No hacktime activity for today found...you didnt code.. AT ALL!`,
+  });
+}
   const today = new Date();
   const codewatcherForToday = (
     (app.db.get("git_session") || []) as GitSession[]
@@ -169,6 +219,20 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       f.getFullYear() == today.getFullYear()
     );
   });
+  const walletForToday = await getWalletBalance(app)
+  if(walletForToday.length > 5){
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `Here is your wallet transactions for today:\n${walletForToday}`,
+    });
+  } else {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `No wallet activity for today found...`,
+    });
+  }
   if (cached_spotify_songs.length > 0) {
     app.client.chat.postMessage({
       channel,
@@ -181,12 +245,24 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     });
     cached_spotify_songs = [];
     app.db.delete("spotify_songs");
+  } else {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `No spotify activity for today found...`,
+    });
   }
   if (codewatcherForToday.length > 0) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
       text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => d.repo.includes("zeon")) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
+    });
+  } else {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `No codewatcher activity for today found...`,
     });
   }
   await app.client.chat.postMessage({
