@@ -118,7 +118,13 @@ export default class AppHome implements Command {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `*RPG Ysws lb:*\n${db_entry2.map((e) => `(${e.index}) - ${e.name} ${e.treasure} :treasure-box:`).slice(0,10).join("\n")}`,
+                text: `*RPG Ysws lb:*\n${db_entry2
+                  .map(
+                    (e) =>
+                      `(${e.index}) - ${e.name} ${e.treasure} :treasure-box:`,
+                  )
+                  .slice(0, 10)
+                  .join("\n")}`,
               },
             },
           ];
