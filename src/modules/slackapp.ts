@@ -8,6 +8,7 @@ import { bdayutils } from "./index";
 import { Api } from "nocodb-sdk";
 import KeyvSqlite from "@keyv/sqlite";
 import RSS from "rss";
+import { Update } from "./journey";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
@@ -100,6 +101,46 @@ export const app = new App({
         const site = buildHtml();
         res.writeHead(200).end(site);
       },
+    },
+    {
+      "path": "/project-feed-journey.xml",
+      "method": ["GET"],
+      async handler(req, res) {
+        // get ID query
+        const query = new URLSearchParams(req.url.split("?")[1]);
+        const id = query.get("id");
+        if (!id) return res.writeHead(400).end(`I cant find that project`);
+        //@ts-ignore
+        const entry = app.dbs.journey.get(id);
+        if (!entry) return res.writeHead(400).end(`I cant find that project - db`);
+        const rss = new RSS({
+          title: `Journey for ${id}`,
+          site_url: `https://journey.hackclub.com/projects/${id}`,
+          feed_url: `https://slack.mybot.saahild.com/project-feed-journey.xml?id=${id}`,
+          description: `Journey for ${id}`,
+        });
+        const updates = entry.updates
+        for (const m of updates) {
+          const meta  = m.meta as Update
+          rss.item({
+            title: `Update for ${new Date(meta.created_at).toLocaleDateString()}`,
+            description: m.text,
+            link: `https://journey.hackclub.com/projects/${id}`,
+            guid: m.ts,
+            author: meta.slack_id,
+            enclosure: meta.attachment ? {
+              url: meta.attachment,
+              type: "image/png",
+            } : undefined,
+            date: new Date(m.meta.created_at),
+          });
+        }
+        res
+        .writeHead(200, {
+          "Content-Type": "text/xml",
+        })
+        .end(rss.xml({ indent: true }));
+      }
     },
     {
       path: "/happenings.xml",
