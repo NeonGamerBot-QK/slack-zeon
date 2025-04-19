@@ -21,6 +21,7 @@ import { onLoadForLockIn } from "./lockinysws";
 import { setupFlightlyCron } from "./flightly";
 import { cronJobForAvatar } from "./alaskasavatar";
 import { cronTS } from "./thething";
+import { ActualCronForJourney } from "./journey";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -283,6 +284,7 @@ export function setupOverallCron(app: ModifiedApp) {
   setupFlightlyCron(app);
   cronJobForAvatar();
   cronTS(app);
+  ActualCronForJourney(app);
   return {
     // checkAirtableBoba,
     cronWithCheckIn,

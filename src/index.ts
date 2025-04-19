@@ -31,6 +31,7 @@ app.dbs.ddm = new JSONdb("data/discord-datamining.json");
 app.dbs.memdebug = new JSONdb("data/memdb.json");
 app.dbs.seven39 = new JSONdb("data/739.json");
 app.dbs.flightly = new JSONdb("data/flightly.json");
+app.dbs.journey = new JSONdb("data/journey.json");
 app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
   password: process.env.ANONDM_PASSWORD,
 });
