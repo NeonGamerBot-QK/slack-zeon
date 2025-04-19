@@ -57,7 +57,7 @@ export async function shipsCron(app: ModifiedApp) {
           text: {
             type: "mrkdwn",
             // TODO add the ping back
-            text: `:tada: *New/ project!*\n*${ship.title}*\n_${ship.description}_ by <${ship.slack_id}>`,
+            text: `:tada: *New/ project!*\n*${ship.title}*\n_${ship.description}_ by <@${ship.slack_id}>`,
           },
         },
         {
@@ -65,7 +65,7 @@ export async function shipsCron(app: ModifiedApp) {
           elements: [
             {
               type: "button",
-              action_id: "button-action-" + Date.now(),
+              action_id: "button-action-" + Math.random(),
               text: {
                 type: "plain_text",
                 text: "View Project",
@@ -80,7 +80,7 @@ export async function shipsCron(app: ModifiedApp) {
           elements: [
             ship.readme_link && {
               type: "button",
-              action_id: "button-action-" + Date.now(),
+              action_id: "button-action-" + Math.random(),
               text: {
                 type: "plain_text",
                 text: "Readme",
@@ -90,7 +90,7 @@ export async function shipsCron(app: ModifiedApp) {
             },
             ship.demo_link && {
               type: "button",
-              action_id: "button-action-" + Date.now(),
+              action_id: "button-action-" + Math.random(),
               text: {
                 type: "plain_text",
                 text: "Demo",
@@ -100,7 +100,7 @@ export async function shipsCron(app: ModifiedApp) {
             },
             ship.repo_link && {
               type: "button",
-              action_id: "button-action-" + Date.now(),
+              action_id: "button-action-" + Math.random(),
               text: {
                 type: "plain_text",
                 text: ":github: Repo",
@@ -142,7 +142,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
           text: {
             type: "mrkdwn",
             // TODO add the ping back
-            text: `:tada: *New Update!*\n_${update.text}_ by <${update.slack_id}>`,
+            text: `:tada: *New Update!*\n_${update.text}_ by <@${update.slack_id}>`,
           },
         },
         // add image
