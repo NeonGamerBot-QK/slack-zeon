@@ -131,6 +131,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
   for (const update of updates) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
+    if(entry.updates.find(e=>e.meta.created_at === update.created_at)) continue;
     let msg = null;
     try {
       msg = await app.client.chat.postMessage({
