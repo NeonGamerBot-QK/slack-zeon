@@ -139,14 +139,14 @@ export async function shipUpdatesCron(app: ModifiedApp) {
         channel: `C08N1NWKEF4`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
-        text: update.text.slice(0,3000) || "no update text huh",
+        text: update.text.slice(0, 3000) || "no update text huh",
         blocks: [
           {
             type: "section",
             text: {
               type: "mrkdwn",
               // TODO add the ping back
-              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0,2900)}`,
+              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
             },
           },
           // add image
@@ -163,14 +163,14 @@ export async function shipUpdatesCron(app: ModifiedApp) {
         channel: `C08N1NWKEF4`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
-        text: update.text.slice(0,3000) || "no update text huh",
+        text: update.text.slice(0, 3000) || "no update text huh",
         blocks: [
           {
             type: "section",
             text: {
               type: "mrkdwn",
               // TODO add the ping back
-              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0,2900)}`,
+              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
             },
           },
         ].filter(Boolean),
