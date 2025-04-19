@@ -131,9 +131,9 @@ export async function shipUpdatesCron(app: ModifiedApp) {
   for (const update of updates) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
-let msg = null;
-try {
-     msg = await app.client.chat.postMessage({
+    let msg = null;
+    try {
+      msg = await app.client.chat.postMessage({
         channel: `C08N1NWKEF4`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
@@ -155,9 +155,9 @@ try {
           },
         ].filter(Boolean),
       });
-} catch(e) {
-    // please dont use bad img urls smh
-    msg = await app.client.chat.postMessage({
+    } catch (e) {
+      // please dont use bad img urls smh
+      msg = await app.client.chat.postMessage({
         channel: `C08N1NWKEF4`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
@@ -170,10 +170,10 @@ try {
               // TODO add the ping back
               text: `:tada: *New Update!*\n_${update.text}_ by <@${update.slack_id}>`,
             },
-          }
+          },
         ].filter(Boolean),
       });
-}
+    }
     entry.updates.push({
       meta: update,
       created_at: Date.now(),
