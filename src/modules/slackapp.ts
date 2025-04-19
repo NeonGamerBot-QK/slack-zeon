@@ -123,8 +123,8 @@ export const app = new App({
         for (const m of updates) {
           const meta  = m.meta as Update
           rss.item({
-            title: `Update for ${new Date(meta.created_at).toLocaleDateString()}`,
-            description: m.text,
+            title: m.text,
+            // description: m.text,
             link: `https://journey.hackclub.com/projects/${id}`,
             guid: m.ts,
             author: meta.slack_id,
