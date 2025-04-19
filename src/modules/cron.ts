@@ -273,7 +273,7 @@ export function setupOverallCron(app: ModifiedApp) {
   startBdayCron(app);
   // setupCronAdventOfCode(app);
   setupCronForIrl(app);
-  setupCron(app);
+  // setupCron(app);
   // highSeasCron(app);
   // temp? nah perm now
   tempcronjob(app);
