@@ -131,28 +131,49 @@ export async function shipUpdatesCron(app: ModifiedApp) {
   for (const update of updates) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
-    const msg = await app.client.chat.postMessage({
-      channel: `C08N1NWKEF4`,
-      thread_ts: entry.root_message,
-      reply_broadcast: true,
-      text: update.text || "no update text huh",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            // TODO add the ping back
-            text: `:tada: *New Update!*\n_${update.text}_ by <@${update.slack_id}>`,
+let msg = null;
+try {
+     msg = await app.client.chat.postMessage({
+        channel: `C08N1NWKEF4`,
+        thread_ts: entry.root_message,
+        reply_broadcast: true,
+        text: update.text || "no update text huh",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              // TODO add the ping back
+              text: `:tada: *New Update!*\n_${update.text}_ by <@${update.slack_id}>`,
+            },
           },
-        },
-        // add image
-        update.attachment && {
-          type: "image",
-          image_url: update.attachment,
-          alt_text: "image",
-        },
-      ].filter(Boolean),
-    });
+          // add image
+          update.attachment && {
+            type: "image",
+            image_url: update.attachment,
+            alt_text: "image",
+          },
+        ].filter(Boolean),
+      });
+} catch(e) {
+    // please dont use bad img urls smh
+    msg = await app.client.chat.postMessage({
+        channel: `C08N1NWKEF4`,
+        thread_ts: entry.root_message,
+        reply_broadcast: true,
+        text: update.text || "no update text huh",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              // TODO add the ping back
+              text: `:tada: *New Update!*\n_${update.text}_ by <@${update.slack_id}>`,
+            },
+          }
+        ].filter(Boolean),
+      });
+}
     entry.updates.push({
       meta: update,
       created_at: Date.now(),
