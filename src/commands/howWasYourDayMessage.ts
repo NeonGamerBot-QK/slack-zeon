@@ -13,7 +13,7 @@ export default class HowWasUrDayMessage implements Command {
     this.description = `If message matches 'today' il react & add it to db`;
     this.is_event = true;
   }
- async potatoGame(app: ModifiedApp, event) {
+  async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
     console.log(pg, event.text, event.thread_ts);
     if (!pg) return;
@@ -82,16 +82,19 @@ export default class HowWasUrDayMessage implements Command {
           thread_ts: event.ts,
           reply_broadcast: true,
         });
-        let usersWhoHaveOne = pg.users_who_participated
+        let usersWhoHaveOne = pg.users_who_participated;
         const usersInTHeChannel = await app.client.conversations.members({
-          channel: process.env.POTATO_CHANNEL
-        })
-        usersWhoHaveOne = usersWhoHaveOne.filter(e=>!usersInTHeChannel.members.includes(e))
-        const randomUser = usersWhoHaveOne[Math.floor(Math.random() * usersWhoHaveOne.length)]
-   await  app.client.conversations.invite({
           channel: process.env.POTATO_CHANNEL,
-          users: randomUser
-        })
+        });
+        usersWhoHaveOne = usersWhoHaveOne.filter(
+          (e) => !usersInTHeChannel.members.includes(e),
+        );
+        const randomUser =
+          usersWhoHaveOne[Math.floor(Math.random() * usersWhoHaveOne.length)];
+        await app.client.conversations.invite({
+          channel: process.env.POTATO_CHANNEL,
+          users: randomUser,
+        });
         //delete it all now
         app.db.delete("potato_game");
       }
