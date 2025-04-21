@@ -192,24 +192,37 @@ export function setupOverallCron(app: ModifiedApp) {
       });
   });
   const dailyPkgCheckCron = new Cron("0 12 * * *", async () => {
-  const filterPkgs = (str) => !['chart.js', 'node-fetch'].some(w => str.includes(w))
-const out = require('child_process').execSync('yarn outdated || echo ""').toString().split('\n').slice(6).filter(filterPkgs).map((e) => {
-      const splits = e.split(/ +/)
-      return {
-        name: splits[0],
-        currentVersion: splits[1],
-        wantedVersion: splits[2],
-        latestVersion: splits[3],
-        PkgType: splits[4],
-        url: splits[5]
-      }
-    }).filter(e=>e.latestVersion)
-    const pkgsString = out.map(e=>`<https://npmjs.com/${e.name}|${e.name}> - \`${e.currentVersion}\` -> \`${e.latestVersion}\` (min: ${e.wantedVersion})`).join('\n')
+    const filterPkgs = (str) =>
+      !["chart.js", "node-fetch"].some((w) => str.includes(w));
+    const out = require("child_process")
+      .execSync('yarn outdated || echo ""')
+      .toString()
+      .split("\n")
+      .slice(6)
+      .filter(filterPkgs)
+      .map((e) => {
+        const splits = e.split(/ +/);
+        return {
+          name: splits[0],
+          currentVersion: splits[1],
+          wantedVersion: splits[2],
+          latestVersion: splits[3],
+          PkgType: splits[4],
+          url: splits[5],
+        };
+      })
+      .filter((e) => e.latestVersion);
+    const pkgsString = out
+      .map(
+        (e) =>
+          `<https://npmjs.com/${e.name}|${e.name}> - \`${e.currentVersion}\` -> \`${e.latestVersion}\` (min: ${e.wantedVersion})`,
+      )
+      .join("\n");
     app.client.chat.postMessage({
       text: `:npm: Daily noon package check ;p you need to update ${out.length} packages! here is a list:\n${pkgsString}`,
-      channel: `C07LEEB50KD`
-    })
-  })
+      channel: `C07LEEB50KD`,
+    });
+  });
   // const checkAirtableBoba = new Cron("*/15 * * * *", async () => {
   //   try {
   //     // idgaf about the temp creds
