@@ -1,16 +1,46 @@
 import { ModifiedApp } from "./slackapp";
 import ms from "ms";
+export interface RootInterface0 {
+  data: Data;
+}
+
+export interface Data {
+  username: string;
+  user_id: string;
+  is_coding_activity_visible: boolean;
+  is_other_usage_visible: boolean;
+  status: string;
+  start: string;
+  end: string;
+  range: string;
+  human_readable_range: string;
+  total_seconds: number;
+  daily_average: number;
+  human_readable_total: string;
+  human_readable_daily_average: string;
+  projects: Project[];
+}
+
+export interface Project {
+  name: string;
+  total_seconds: number;
+  text: string;
+  hours: number;
+  minutes: number;
+  percent: number;
+  digital: string;
+}
 export function getStatusBar() {
   return fetch(
-    "https://waka.hackclub.com/api/users/U07L45W79E1/statusbar/today",
+    "https://hackatime.hackclub.com/api/v1/users/U07L45W79E1/stats?start_date=2025-04-22&features=projects&end_date=2025-04-22",
     {
-      headers: {
-        Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
+      // },
     },
   )
     .then((r) => r.json())
-    .then((d) => d.data.projects);
+    .then((d) => (d as RootInterface0).data);
 }
 function isWithinLastTwoMinutes(timestamp) {
   if (timestamp instanceof Date) timestamp = timestamp.getTime();

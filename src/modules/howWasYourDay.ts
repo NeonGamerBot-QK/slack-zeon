@@ -188,15 +188,13 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
-
-  const formattedHacktimeResults = await hacktime.getStatusBar().then((d) => {
-    return d.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
-  });
+const statusBar = await hacktime.getStatusBar();
+  const formattedHacktimeResults = statusBar.projects.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
   if (formattedHacktimeResults.length > 0) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
-      text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}`,
+      text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}\n you also spent *${statusBar.human_readable_total}* time total on coding today :p`,
     });
   } else {
     app.client.chat.postMessage({
