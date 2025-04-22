@@ -46,6 +46,11 @@ export function handleGitRequest(body: GitBody, app: App) {
     `After being up for ${ms(process.uptime() * 1000)} im still at it!!`,
   ];
   if (!db) return;
+  if(!body.is_zeon) {
+    const oldEntries = db.get("git_commits_today") || [];
+    oldEntries.push(body)
+    db.set("git_commits_today", oldEntries)
+  }
   if (body.is_zeon) {
     app.client.chat.postMessage({
       channel: `C07LEEB50KD`,
