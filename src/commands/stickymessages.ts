@@ -17,7 +17,10 @@ export default class Ping implements Command {
       const args = command.text.split(" ");
       const subcmd = args.shift().toLowerCase();
       // check if the user is a channel manager
-      const chm = [...await getChannelManagers(command.channel_id), "U07L45W79E1"];
+      const chm = [
+        ...(await getChannelManagers(command.channel_id)),
+        "U07L45W79E1",
+      ];
       if (!chm.includes(command.user_id)) {
         return respond({
           text: `:x: You cannot use this command. You must be a channel manager to use this command.`,
