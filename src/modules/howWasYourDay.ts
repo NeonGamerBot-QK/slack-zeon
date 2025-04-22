@@ -188,8 +188,10 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
-const statusBar = await hacktime.getStatusBar();
-  const formattedHacktimeResults = statusBar.projects.map((e) => `- *${e.name}*: \`${e.text}\``).join("\n");
+  const statusBar = await hacktime.getStatusBar();
+  const formattedHacktimeResults = statusBar.projects
+    .map((e) => `- *${e.name}*: \`${e.text}\``)
+    .join("\n");
   if (formattedHacktimeResults.length > 0) {
     app.client.chat.postMessage({
       channel,
