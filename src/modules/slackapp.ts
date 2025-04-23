@@ -110,7 +110,7 @@ export const app = new App({
       method: ["GET"],
       async handler(req, res) {
         const img = await generateGraph(app as ModifiedApp);
-      //set headers!
+        //set headers!
         res.writeHead(200, {
           "Content-Type": "image/png",
           "Content-Length": img.length,
