@@ -326,13 +326,23 @@ export function setupOverallCron(app: ModifiedApp) {
     const lastEntry = app.db.get("shipwreck_count") || 0;
     if (lastEntry !== data) {
       app.db.set("shipwreck_count", data);
+      const allEntries = app.db.get("ship_wrecks_entries") || []
+      allEntries.push({
+        count: data,
+        date: new Date().toISOString()
+      })
+      app.db.set("ship_wrecks_entries", allEntries)
       app.client.chat.postMessage({
         channel: "C08P152AU94",
-        text: `:shipwreck: Shipwreck count is now \`${data}\` and was last at \`${lastEntry}\``,
+        username: "Shipwreck counter",
+        icon_emoji: ":shipwrecked:",
+        text: `:shipwrecked:  Shipwreck count is now \`${data}\` and was last at \`${lastEntry}\``,
       });
       if (data >= 5000) {
         app.client.chat.postMessage({
           channel: "C08P152AU94",
+          username: "Shipwreck counter",
+          icon_emoji: ":shipwrecked:",
           text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
         });
         // ping @everyone
