@@ -272,21 +272,24 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     thread_ts: mobj.ts,
     text: await getMessageCount(app.db),
   });
-  const github_stuff = (await app.db.get("git_commits_today")||[]).map(body=>`${body.is_zeon ? ":zeon: " : ""}\`<https://git.new/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``)
-  if(github_stuff.length > 0) {
+  const github_stuff = ((await app.db.get("git_commits_today")) || []).map(
+    (body) =>
+      `${body.is_zeon ? ":zeon: " : ""}\`<https://git.new/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
+  );
+  if (github_stuff.length > 0) {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
       text: `Here are your github commits:\n${github_stuff.join("\n")}`,
-    })
+    });
   } else {
     app.client.chat.postMessage({
       channel,
       thread_ts: mobj.ts,
       text: `No github commits found... like this is concerning /gen`,
-    })
+    });
   }
-  app.db.delete("git_commits_today")
+  app.db.delete("git_commits_today");
   if (
     app.db.get("messages_total") &&
     app.db.get("messages_total").length >= 7
