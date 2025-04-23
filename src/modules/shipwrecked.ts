@@ -203,144 +203,150 @@ export async function generateGraph(app: ModifiedApp) {
   }
 }
 
-
 export async function generateGraph12h(app: ModifiedApp) {
-    const width = 1200;
-    const goal = 5000;
-    const height = 600;
-    const highlightLast12Hours = true;
-    try {  
-      const data = (await app.db.get("ship_wrecks_entries") || []).filter((_, i) => i % 2 == 0);
-  
-      // Dates and counts
-      const rawDates = data.map((entry: any) => new Date(entry.date));
-      const formattedDates = rawDates.map((d) => d.toISOString().split("T")[0]);
-      const counts = data.map((entry: any) => entry.count);
-  
-      // Highlight last 12 hours if the variable is true
-      const now = new Date();
-      const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
-  
-      const normalData = counts.map((count: number, i: number) =>
-        rawDates[i] < twelveHoursAgo ? count : null
-      );
-  
-      // If `highlightLast12Hours` is true, highlight data within the last 12 hours
-      const highlightData = highlightLast12Hours
-        ? counts.map((count: number, i: number) =>
-            rawDates[i] >= twelveHoursAgo ? count : null
-          )
-        : new Array(counts.length).fill(null); // Empty array if no highlighting
-  
-      // Estimate progress toward goal
-      const startDate = rawDates[0];
-      const endDate = rawDates[rawDates.length - 1];
-      const totalCount = counts[counts.length - 1];
-      const totalDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
-      const avgPerDay = totalCount / totalDays;
-      const remaining = goal - totalCount;
-      const estimatedDaysLeft = remaining / avgPerDay;
-      const estimatedGoalDate = new Date(now.getTime() + estimatedDaysLeft * 24 * 60 * 60 * 1000);
-  
-      console.log(`📊 Current count: ${totalCount}`);
-      console.log(`🎯 Goal: ${goal}`);
-      console.log(`📈 Average per day: ${avgPerDay.toFixed(2)}`);
-      console.log(`⏳ Days left: ${estimatedDaysLeft.toFixed(1)} (ETA: ${estimatedGoalDate.toDateString()})`);
-  
-      // Chart render setup
-      const chartJSNodeCanvas = new ChartJSNodeCanvas({
-        width,
-        height,
-        backgroundColour: "white",
-        chartCallback: (ChartJS) => {
-          ChartJS.defaults.color = "#333";
-          ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
-          ChartJS.defaults.font.size = 14;
-        },
-      });
-  
-      const config = {
-        type: "line" as const,
-        data: {
-          labels: formattedDates,
-          datasets: [
-            {
-              label: "Previous Data",
-              data: normalData,
-              borderColor: "#007BFF",
-              backgroundColor: "rgba(0,123,255,0.1)",
-              fill: false,
-              tension: 0.4,
-              pointRadius: 4,
+  const width = 1200;
+  const goal = 5000;
+  const height = 600;
+  const highlightLast12Hours = true;
+  try {
+    const data = ((await app.db.get("ship_wrecks_entries")) || []).filter(
+      (_, i) => i % 2 == 0,
+    );
+
+    // Dates and counts
+    const rawDates = data.map((entry: any) => new Date(entry.date));
+    const formattedDates = rawDates.map((d) => d.toISOString().split("T")[0]);
+    const counts = data.map((entry: any) => entry.count);
+
+    // Highlight last 12 hours if the variable is true
+    const now = new Date();
+    const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
+
+    const normalData = counts.map((count: number, i: number) =>
+      rawDates[i] < twelveHoursAgo ? count : null,
+    );
+
+    // If `highlightLast12Hours` is true, highlight data within the last 12 hours
+    const highlightData = highlightLast12Hours
+      ? counts.map((count: number, i: number) =>
+          rawDates[i] >= twelveHoursAgo ? count : null,
+        )
+      : new Array(counts.length).fill(null); // Empty array if no highlighting
+
+    // Estimate progress toward goal
+    const startDate = rawDates[0];
+    const endDate = rawDates[rawDates.length - 1];
+    const totalCount = counts[counts.length - 1];
+    const totalDays =
+      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+    const avgPerDay = totalCount / totalDays;
+    const remaining = goal - totalCount;
+    const estimatedDaysLeft = remaining / avgPerDay;
+    const estimatedGoalDate = new Date(
+      now.getTime() + estimatedDaysLeft * 24 * 60 * 60 * 1000,
+    );
+
+    console.log(`📊 Current count: ${totalCount}`);
+    console.log(`🎯 Goal: ${goal}`);
+    console.log(`📈 Average per day: ${avgPerDay.toFixed(2)}`);
+    console.log(
+      `⏳ Days left: ${estimatedDaysLeft.toFixed(1)} (ETA: ${estimatedGoalDate.toDateString()})`,
+    );
+
+    // Chart render setup
+    const chartJSNodeCanvas = new ChartJSNodeCanvas({
+      width,
+      height,
+      backgroundColour: "white",
+      chartCallback: (ChartJS) => {
+        ChartJS.defaults.color = "#333";
+        ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
+        ChartJS.defaults.font.size = 14;
+      },
+    });
+
+    const config = {
+      type: "line" as const,
+      data: {
+        labels: formattedDates,
+        datasets: [
+          {
+            label: "Previous Data",
+            data: normalData,
+            borderColor: "#007BFF",
+            backgroundColor: "rgba(0,123,255,0.1)",
+            fill: false,
+            tension: 0.4,
+            pointRadius: 4,
+          },
+          {
+            label: "Last 12 Hours",
+            data: highlightData,
+            borderColor: "#FF4136",
+            backgroundColor: "rgba(255,65,54,0.2)",
+            fill: false,
+            tension: 0.4,
+            pointRadius: 5,
+          },
+        ],
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "📈 RSVP Sign Ups Over Time (Last 12h Highlighted)",
+            font: {
+              size: 22,
+              weight: "bold",
             },
-            {
-              label: "Last 12 Hours",
-              data: highlightData,
-              borderColor: "#FF4136",
-              backgroundColor: "rgba(255,65,54,0.2)",
-              fill: false,
-              tension: 0.4,
-              pointRadius: 5,
+            padding: {
+              top: 10,
+              bottom: 20,
             },
-          ],
+          },
+          legend: {
+            display: true,
+          },
         },
-        options: {
-          responsive: false,
-          plugins: {
+        scales: {
+          x: {
             title: {
               display: true,
-              text: "📈 RSVP Sign Ups Over Time (Last 12h Highlighted)",
-              font: {
-                size: 22,
-                weight: "bold",
-              },
-              padding: {
-                top: 10,
-                bottom: 20,
-              },
+              text: "Date",
+              font: { weight: "bold" },
             },
-            legend: {
-              display: true,
+            ticks: {
+              maxRotation: 45,
+              minRotation: 45,
+              maxTicksLimit: 10,
+            },
+            grid: {
+              color: "#eee",
             },
           },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: "Date",
-                font: { weight: "bold" },
-              },
-              ticks: {
-                maxRotation: 45,
-                minRotation: 45,
-                maxTicksLimit: 10,
-              },
-              grid: {
-                color: "#eee",
-              },
+          y: {
+            title: {
+              display: true,
+              text: "Sign Up Count",
+              font: { weight: "bold" },
             },
-            y: {
-              title: {
-                display: true,
-                text: "Sign Up Count",
-                font: { weight: "bold" },
-              },
-              grid: {
-                color: "#f3f3f3",
-              },
-              ticks: {
-                callback: (value: any) => `${value}`,
-              },
+            grid: {
+              color: "#f3f3f3",
+            },
+            ticks: {
+              callback: (value: any) => `${value}`,
             },
           },
         },
-      };
-  //@ts-ignore
-      const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
+      },
+    };
+    //@ts-ignore
+    const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
     //   await writeFile(imagePath, imageBuffer);
     return imageBuffer;
     //   console.log(`✅ Chart saved to ${imagePath}`);
-    } catch (err) {
-      console.error("❌ Error:", err);
-    }
+  } catch (err) {
+    console.error("❌ Error:", err);
   }
+}
