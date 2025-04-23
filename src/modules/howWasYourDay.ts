@@ -274,7 +274,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   });
   const github_stuff = ((await app.db.get("git_commits_today")) || []).map(
     (body) =>
-      `${body.is_zeon ? ":zeon: " : ""}\`<https://git.new/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
+      `${body.is_zeon ? ":zeon: " : ""}\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commits/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
   );
   if (github_stuff.length > 0) {
     app.client.chat.postMessage({

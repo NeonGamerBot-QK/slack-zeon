@@ -54,7 +54,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   if (body.is_zeon) {
     app.client.chat.postMessage({
       channel: `C07LEEB50KD`,
-      text: `${funny_words[Math.floor(Math.random() * funny_words.length)]}\n> :zeon:\`<https://git.new/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
+      text: `${funny_words[Math.floor(Math.random() * funny_words.length)]}\n> :zeon:\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commits/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
     });
   }
   if (!db.get("git_session")) return;
@@ -66,7 +66,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   app.client.chat.postMessage({
     channel: session.channel,
     thread_ts: session.message_ts!,
-    text: `${body.is_zeon ? ":zeon: " : ""}\`<https://git.new/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
+    text: `${body.is_zeon ? ":zeon: " : ""}\`<https://github.com/NeonGamerBot-QK/${body.repo_name}/commits/${body.commit_id}|${body.commit_id.slice(0, 7)}>\``,
   });
 }
 
