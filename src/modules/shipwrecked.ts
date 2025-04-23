@@ -73,6 +73,7 @@ export async function majorUpdate(app: ModifiedApp, channel_id: string) {
           type: "plain_text",
           text: "Shipwreck graph over the last 12 hours",
         },
+        alt_text: "Shipwreck graph over the last 12 hours",
         image_url:
           "https://slack.mybot.saahild.com/count_over_time_from_url.png",
       },

@@ -32,7 +32,7 @@ export interface Project {
 }
 export function getStatusBar() {
   return fetch(
-    "https://hackatime.hackclub.com/api/v1/users/U07L45W79E1/stats?start_date=2025-04-22&features=projects&end_date=2025-04-22",
+    `https://hackatime.hackclub.com/api/v1/users/U07L45W79E1/stats?start_date=${new Date().toISOString().split("T")[0]}&features=projects&end_date=${new Date().toISOString().split("T")[0]}`,
     {
       // headers: {
       //   Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
