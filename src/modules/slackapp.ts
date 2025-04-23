@@ -107,7 +107,7 @@ export const app = new App({
       method: ["GET"],
       async handler(req, res) {
         //@ts-ignore
-        const data =  app.db.get("ship_wrecks_entries") 
+        const data = app.db.get("ship_wrecks_entries");
         res.writeHead(200).end(JSON.stringify(data));
       },
     },
