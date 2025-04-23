@@ -2,7 +2,7 @@ import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
 import { ChartJSNodeCanvas } from "chartjs-node-canvas";
 
-export async function  doMinUpdate(app: ModifiedApp) {
+export async function doMinUpdate(app: ModifiedApp) {
   //@ts-ignore
   if (app.over) return;
   const data = await fetch("https://shipwrecked.hackclub.com/api/stats/count")
@@ -30,7 +30,7 @@ export async function  doMinUpdate(app: ModifiedApp) {
         icon_emoji: ":shipwrecked:",
         text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
       });
-      
+
       app.client.chat.postMessage({
         channel: "C08N0R86DMJ",
         username: "Shipwreck counter",
@@ -49,41 +49,43 @@ export async function  doMinUpdate(app: ModifiedApp) {
 }
 
 export async function majorUpdate(app: ModifiedApp, channel_id: string) {
-// get time for the last 12h
+  // get time for the last 12h
   const last12h = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
   const data = app.db.get("ship_wrecks_entries") || [];
-  const entries = data.filter((e) => new Date(e.date).getTime() > last12h.getTime());
+  const entries = data.filter(
+    (e) => new Date(e.date).getTime() > last12h.getTime(),
+  );
   const count = entries.reduce((a, b) => a + b.count, 0);
   app.client.chat.postMessage({
     channel: channel_id,
     blocks: [
-        {
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: `:shipwrecked:  Shipwreck count is now at \`${data.length}\` over the last 12 hours it has gained \`${count}\` rsvp's :shipwrecked-bottle:`,
-            }
-        }, 
-        {
-            // image
-            type: "image",
-            title: {
-                type: "plain_text",
-                text: "Shipwreck graph over the last 12 hours",
-            },
-            image_url: "https://slack.mybot.saahild.com/count_over_time_from_url.png",
-        }
-    ]
-  })
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `:shipwrecked:  Shipwreck count is now at \`${data.length}\` over the last 12 hours it has gained \`${count}\` rsvp's :shipwrecked-bottle:`,
+        },
+      },
+      {
+        // image
+        type: "image",
+        title: {
+          type: "plain_text",
+          text: "Shipwreck graph over the last 12 hours",
+        },
+        image_url:
+          "https://slack.mybot.saahild.com/count_over_time_from_url.png",
+      },
+    ],
+  });
 }
 export function setupShipwrecked(app: ModifiedApp) {
-    new Cron("* * * * *", async () => {
-      await doMinUpdate(app);
-    });
-    new Cron("0 8,20 * * * *", async () => {
-        await majorUpdate(app, "C08N0R86DMJ");
-    })
-
+  new Cron("* * * * *", async () => {
+    await doMinUpdate(app);
+  });
+  new Cron("0 8,20 * * * *", async () => {
+    await majorUpdate(app, "C08N0R86DMJ");
+  });
 }
 
 // Format ISO date to "YYYY-MM-DD"
@@ -93,16 +95,14 @@ function formatDate(dateStr: string): string {
 }
 
 export async function generateGraph(app: ModifiedApp) {
-    
-// Settings
-const url = "https://slack.mybot.saahild.com/shipwreck-data.json";
-const width = 1200;
-const height = 600;
-const imagePath = "./count_over_time_from_url.png";
+  // Settings
+  const url = "https://slack.mybot.saahild.com/shipwreck-data.json";
+  const width = 1200;
+  const height = 600;
+  const imagePath = "./count_over_time_from_url.png";
 
   try {
-  
-    const data = app.db.get("ship_wrecks_entries").filter((_,i) => i % 2 == 0);
+    const data = app.db.get("ship_wrecks_entries").filter((_, i) => i % 2 == 0);
 
     const dates = data.map((entry: any) => formatDate(entry.date));
     const counts = data.map((entry: any) => entry.count);
@@ -192,12 +192,12 @@ const imagePath = "./count_over_time_from_url.png";
         },
       },
     };
-//@ts-ignore
+    //@ts-ignore
     const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
-return imageBuffer;
+    return imageBuffer;
     // console.log(`✅ Pretty graph saved to ${imagePath}`);
   } catch (err) {
     console.error("❌ Error generating chart:", err);
-return Buffer.from("well shit") 
-}
+    return Buffer.from("well shit");
+  }
 }
