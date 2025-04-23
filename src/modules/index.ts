@@ -19,6 +19,7 @@ export * as hangman from "./hangman";
 export * as highseas from "./highseas";
 export * as school from "./school";
 export * as daysofcode15 from "./15daysofcode";
+export * as shipwrecked from "./shipwrecked"
 
 // @see https://github.com/hackclub/librarian/blob/main/utils/channelManagers.js
 export async function getChannelManagers(channel) {

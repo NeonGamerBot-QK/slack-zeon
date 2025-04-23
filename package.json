@@ -16,6 +16,8 @@
     "@slack/bolt": "^3.21.2",
     "bcrypt": "^5.1.1",
     "body-parser": "latest",
+    "chart.js": "^4.4.9",
+    "chartjs-node-canvas": "^5.0.0",
     "cheerio": "latest",
     "cors": "latest",
     "croner": "^9.0.0",

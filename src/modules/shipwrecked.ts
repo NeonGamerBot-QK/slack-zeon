@@ -1,0 +1,203 @@
+import { Cron } from "croner";
+import { ModifiedApp } from "./slackapp";
+import { ChartJSNodeCanvas } from "chartjs-node-canvas";
+
+export async function  doMinUpdate(app: ModifiedApp) {
+  //@ts-ignore
+  if (app.over) return;
+  const data = await fetch("https://shipwrecked.hackclub.com/api/stats/count")
+    .then((r) => r.json())
+    .then((e) => e.count);
+  const lastEntry = app.db.get("shipwreck_count") || 0;
+  if (lastEntry !== data) {
+    app.db.set("shipwreck_count", data);
+    const allEntries = app.db.get("ship_wrecks_entries") || [];
+    allEntries.push({
+      count: data,
+      date: new Date().toISOString(),
+    });
+    app.db.set("ship_wrecks_entries", allEntries);
+    app.client.chat.postMessage({
+      channel: "C08P152AU94",
+      username: "Shipwreck counter",
+      icon_emoji: ":shipwrecked:",
+      text: `:shipwrecked:  Shipwreck count is now \`${data}\` (diff of \`${data - lastEntry}\`)`,
+    });
+    if (data >= 5000) {
+      app.client.chat.postMessage({
+        channel: "C08P152AU94",
+        username: "Shipwreck counter",
+        icon_emoji: ":shipwrecked:",
+        text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
+      });
+      
+      app.client.chat.postMessage({
+        channel: "C08N0R86DMJ",
+        username: "Shipwreck counter",
+        icon_emoji: ":shipwrecked:",
+        text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
+      });
+      // ping @everyone
+      app.client.chat.postMessage({
+        text: `@everyone`,
+        channel: "C08P152AU94",
+      });
+      //@ts-ignore
+      app.over = true;
+    }
+  }
+}
+
+export async function majorUpdate(app: ModifiedApp, channel_id: string) {
+// get time for the last 12h
+  const last12h = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
+  const data = app.db.get("ship_wrecks_entries") || [];
+  const entries = data.filter((e) => new Date(e.date).getTime() > last12h.getTime());
+  const count = entries.reduce((a, b) => a + b.count, 0);
+  app.client.chat.postMessage({
+    channel: channel_id,
+    blocks: [
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `:shipwrecked:  Shipwreck count is now at \`${data.length}\` over the last 12 hours it has gained \`${count}\` rsvp's :shipwrecked-bottle:`,
+            }
+        }, 
+        {
+            // image
+            type: "image",
+            title: {
+                type: "plain_text",
+                text: "Shipwreck graph over the last 12 hours",
+            },
+            image_url: "https://slack.mybot.saahild.com/count_over_time_from_url.png",
+        }
+    ]
+  })
+}
+export function setupShipwrecked(app: ModifiedApp) {
+    new Cron("* * * * *", async () => {
+      await doMinUpdate(app);
+    });
+    new Cron("0 8,20 * * * *", async () => {
+        await majorUpdate(app, "C08N0R86DMJ");
+    })
+
+}
+
+// Format ISO date to "YYYY-MM-DD"
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toISOString().split("T")[0];
+}
+
+export async function generateGraph(app: ModifiedApp) {
+    
+// Settings
+const url = "https://slack.mybot.saahild.com/shipwreck-data.json";
+const width = 1200;
+const height = 600;
+const imagePath = "./count_over_time_from_url.png";
+
+  try {
+  
+    const data = app.db.get("ship_wrecks_entries").filter((_,i) => i % 2 == 0);
+
+    const dates = data.map((entry: any) => formatDate(entry.date));
+    const counts = data.map((entry: any) => entry.count);
+
+    const chartJSNodeCanvas = new ChartJSNodeCanvas({
+      width,
+      height,
+      backgroundColour: "white",
+      chartCallback: (ChartJS) => {
+        ChartJS.defaults.color = "#333";
+        ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
+        ChartJS.defaults.font.size = 14;
+      },
+    });
+
+    const config = {
+      type: "line" as const,
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: "RSVP Sign Ups",
+            data: counts,
+            borderColor: "#007BFF",
+            backgroundColor: "rgba(0, 123, 255, 0.2)",
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: "#007BFF",
+            pointBorderColor: "#fff",
+            pointBorderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "📈 RSVP Sign Ups Over Time",
+            font: {
+              size: 22,
+              weight: "bold",
+            },
+            padding: {
+              top: 10,
+              bottom: 20,
+            },
+          },
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Date",
+              font: {
+                weight: "bold",
+              },
+            },
+            ticks: {
+              maxRotation: 45,
+              minRotation: 45,
+            },
+            grid: {
+              color: "#eee",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Sign Up Count",
+              font: {
+                weight: "bold",
+              },
+            },
+            ticks: {
+              callback: (value: any) => `${value}`,
+            },
+            grid: {
+              color: "#f3f3f3",
+            },
+          },
+        },
+      },
+    };
+//@ts-ignore
+    const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
+return imageBuffer;
+    // console.log(`✅ Pretty graph saved to ${imagePath}`);
+  } catch (err) {
+    console.error("❌ Error generating chart:", err);
+return Buffer.from("well shit") 
+}
+}

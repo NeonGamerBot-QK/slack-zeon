@@ -7,8 +7,11 @@ import { handleGitRequest } from "./projectWaterydo";
 import { bdayutils } from "./index";
 import { Api } from "nocodb-sdk";
 import KeyvSqlite from "@keyv/sqlite";
+// import { ChartJSNodeCanvas } from "chartjs-node-canvas";
+
 import RSS from "rss";
 import { Update } from "./journey";
+import { generateGraph } from "./shipwrecked";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
@@ -100,6 +103,19 @@ export const app = new App({
         // res.end(`bye`);
         const site = buildHtml();
         res.writeHead(200).end(site);
+      },
+    },
+    {
+      path: "/count_over_time_from_url.png",
+      method: ["GET"],
+      async handler(req, res) {
+        const img = await generateGraph(app as ModifiedApp);
+      //set headers!
+        res.writeHead(200, {
+          "Content-Type": "image/png",
+          "Content-Length": img.length,
+        });
+        res.end(img);
       },
     },
     {
