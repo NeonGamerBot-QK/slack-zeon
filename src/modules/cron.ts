@@ -326,12 +326,12 @@ export function setupOverallCron(app: ModifiedApp) {
     const lastEntry = app.db.get("shipwreck_count") || 0;
     if (lastEntry !== data) {
       app.db.set("shipwreck_count", data);
-      const allEntries = app.db.get("ship_wrecks_entries") || []
+      const allEntries = app.db.get("ship_wrecks_entries") || [];
       allEntries.push({
         count: data,
-        date: new Date().toISOString()
-      })
-      app.db.set("ship_wrecks_entries", allEntries)
+        date: new Date().toISOString(),
+      });
+      app.db.set("ship_wrecks_entries", allEntries);
       app.client.chat.postMessage({
         channel: "C08P152AU94",
         username: "Shipwreck counter",
