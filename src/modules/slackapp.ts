@@ -103,6 +103,15 @@ export const app = new App({
       },
     },
     {
+      path: "/shipwreck-data.json",
+      method: ["GET"],
+      async handler(req, res) {
+        //@ts-ignore
+        const data =  app.db.get("ship_wrecks_entries") 
+        res.writeHead(200).end(JSON.stringify(data));
+      },
+    },
+    {
       path: "/project-feed-journey.xml",
       method: ["GET"],
       async handler(req, res) {
