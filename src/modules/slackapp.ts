@@ -11,7 +11,7 @@ import KeyvSqlite from "@keyv/sqlite";
 
 import RSS from "rss";
 import { Update } from "./journey";
-import { generateGraph } from "./shipwrecked";
+import { generateGraph, generateGraph12h } from "./shipwrecked";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
@@ -110,6 +110,19 @@ export const app = new App({
       method: ["GET"],
       async handler(req, res) {
         const img = await generateGraph(app as ModifiedApp);
+        //set headers!
+        res.writeHead(200, {
+          "Content-Type": "image/png",
+          "Content-Length": img.length,
+        });
+        res.end(img);
+      },
+    },
+    {
+      path: "/count_over_time_from_url12h.png",
+      method: ["GET"],
+      async handler(req, res) {
+        const img = await generateGraph12h(app as ModifiedApp);
         //set headers!
         res.writeHead(200, {
           "Content-Type": "image/png",
