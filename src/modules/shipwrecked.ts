@@ -49,8 +49,8 @@ export async function doMinUpdate(app: ModifiedApp) {
 }
 function addArray(arr: any[]) {
   let c = 0;
-  for(const i of arr) {
-    c += i.count
+  for (const i of arr) {
+    c += i.count;
   }
   return c;
 }
