@@ -47,7 +47,13 @@ export async function doMinUpdate(app: ModifiedApp) {
     }
   }
 }
-
+function addArray(arr: any[]) {
+  let c = 0;
+  for(const i of arr) {
+    c += i.count
+  }
+  return c;
+}
 export async function majorUpdate(app: ModifiedApp, channel_id: string) {
   // get time for the last 12h
   const last12h = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
@@ -55,7 +61,7 @@ export async function majorUpdate(app: ModifiedApp, channel_id: string) {
   const entries = data.filter(
     (e) => new Date(e.date).getTime() > last12h.getTime(),
   );
-  const count = entries.reduce((a, b) => a + b.count, 0);
+  const count = entries[entries.length - 1].count;
   app.client.chat.postMessage({
     channel: channel_id,
     blocks: [
@@ -63,7 +69,7 @@ export async function majorUpdate(app: ModifiedApp, channel_id: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:shipwrecked:  Shipwreck count is now at \`${data.reduce((a, b) => a + b.count, 0)}\` over the last 12 hours it has gained \`+${count}\` rsvp's :shipwrecked-bottle:`,
+          text: `:shipwrecked:  Shipwreck count is now at \`${data[data.length - 1].count}\` over the last 12 hours it has gained \`+${count}\` rsvp's :shipwrecked-bottle:`,
         },
       },
       {
