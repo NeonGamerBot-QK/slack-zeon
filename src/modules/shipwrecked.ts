@@ -61,7 +61,7 @@ export async function majorUpdate(app: ModifiedApp, channel_id: string) {
   const entries = data.filter(
     (e) => new Date(e.date).getTime() > last12h.getTime(),
   );
-  const count = entries[entries.length - 1].count;
+  const count = entries[0].count;
   app.client.chat.postMessage({
     channel: channel_id,
     blocks: [
