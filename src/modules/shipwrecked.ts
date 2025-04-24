@@ -84,7 +84,7 @@ export function setupShipwrecked(app: ModifiedApp) {
   new Cron("* * * * *", async () => {
     await doMinUpdate(app);
   });
-  new Cron("0 8,20 * * * *", async () => {
+  new Cron("0 8,20 * * *", async () => {
     await majorUpdate(app, "C08N0R86DMJ");
   });
 }
