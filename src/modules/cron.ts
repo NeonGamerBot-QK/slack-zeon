@@ -319,42 +319,50 @@ export function setupOverallCron(app: ModifiedApp) {
   cronTS(app);
   ActualCronForJourney(app);
   setupShipwrecked(app);
-  setInterval(async () => {
-     interface RootInterface {
-      success: boolean;
-      records: Record[];
-    }
-    
-     interface Record {
-      id: string;
-      createdTime: string;
-      fields: Fields;
-    }
-    
-     interface Fields {
-      Task: string;
-    }
-    const data = await fetch('https://tonic.hackclub.com/scraps', {
-      headers: {
-        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
-        'cookie': 'uid=U07L45W79E1'
+  setInterval(
+    async () => {
+      interface RootInterface {
+        success: boolean;
+        records: Record[];
       }
-    }).then(r=>r.json()).then(d=>d as RootInterface)
-    if(data.success) {
-      const storedIds = app.db.get("tonic_scraps") || []
-      const newIds = data.records.filter(r=>!storedIds.includes(r.id)).map(r=>r.id)
-      
-      for(const id of newIds) {
-        if(storedIds.includes(id)) continue
-        app.client.chat.postMessage({
-          text: `:ms_grinning: new tonic scrap! you just completed: ${data.records.find(r=>r.id===id).fields.Task}`,
-          channel: "C07R8DYAZMM"
-        })
-        await new Promise(r=>setTimeout(r, 100))
+
+      interface Record {
+        id: string;
+        createdTime: string;
+        fields: Fields;
       }
-      app.db.set("tonic_scraps", storedIds.concat(newIds))
-    }
-  }, 1000 * 60 * 5)
+
+      interface Fields {
+        Task: string;
+      }
+      const data = await fetch("https://tonic.hackclub.com/scraps", {
+        headers: {
+          "user-agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+          cookie: "uid=U07L45W79E1",
+        },
+      })
+        .then((r) => r.json())
+        .then((d) => d as RootInterface);
+      if (data.success) {
+        const storedIds = app.db.get("tonic_scraps") || [];
+        const newIds = data.records
+          .filter((r) => !storedIds.includes(r.id))
+          .map((r) => r.id);
+
+        for (const id of newIds) {
+          if (storedIds.includes(id)) continue;
+          app.client.chat.postMessage({
+            text: `:ms_grinning: new tonic scrap! you just completed: ${data.records.find((r) => r.id === id).fields.Task}`,
+            channel: "C07R8DYAZMM",
+          });
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        app.db.set("tonic_scraps", storedIds.concat(newIds));
+      }
+    },
+    1000 * 60 * 5,
+  );
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
