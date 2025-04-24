@@ -69,7 +69,7 @@ export async function majorUpdate(app: ModifiedApp, channel_id: string) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:shipwrecked:  Shipwreck count is now at \`${data[data.length - 1].count}\` over the last 12 hours it has gained \`+${count}\` rsvp's :shipwrecked-bottle:`,
+          text: `:shipwrecked:  Shipwreck count is now at \`${data[data.length - 1].count}\` over the last 12 hours it has gained \`+${data[data.length - 1].count - count}\` rsvp's :shipwrecked-bottle:`,
         },
       },
       {
