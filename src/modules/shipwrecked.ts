@@ -8,10 +8,15 @@ export async function doMinUpdate(app: ModifiedApp) {
   const data = await fetch("https://shipwrecked.hackclub.com/api/stats/count")
     .then((r) => r.json())
     .then((e) => e.count);
-    const referralCount = await fetch("https://raffle.a.selfhosted.hackclub.com/referrals", { method: "POST" }).then(r=>r.json()).then(d=>d.totalReferrals)
+  const referralCount = await fetch(
+    "https://raffle.a.selfhosted.hackclub.com/referrals",
+    { method: "POST" },
+  )
+    .then((r) => r.json())
+    .then((d) => d.totalReferrals);
 
   const lastEntry = app.db.get("shipwreck_count") || 0;
-  const lastReferralEntry = app.db.get("shipwreck_ref") || 0
+  const lastReferralEntry = app.db.get("shipwreck_ref") || 0;
   if (lastEntry !== data || lastReferralEntry !== referralCount) {
     const allEntries = app.db.get("ship_wrecks_entries") || [];
     allEntries.push({
@@ -22,7 +27,7 @@ export async function doMinUpdate(app: ModifiedApp) {
     app.db.set("ship_wrecks_entries", allEntries);
 
     if (lastEntry !== data) {
-    app.db.set("shipwreck_count", data);
+      app.db.set("shipwreck_count", data);
 
       app.client.chat.postMessage({
         channel: "C08P152AU94",
@@ -37,7 +42,7 @@ export async function doMinUpdate(app: ModifiedApp) {
           icon_emoji: ":shipwrecked:",
           text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
         });
-  
+
         app.client.chat.postMessage({
           channel: "C08N0R86DMJ",
           username: "Shipwreck counter",
@@ -51,9 +56,9 @@ export async function doMinUpdate(app: ModifiedApp) {
         });
         //@ts-ignore
         app.over = true;
-}
+      }
       if (lastReferralEntry !== referralCount) {
-        app.db.set("shipwreck_ref",referralCount );
+        app.db.set("shipwreck_ref", referralCount);
 
         app.client.chat.postMessage({
           channel: "C08P152AU94",
