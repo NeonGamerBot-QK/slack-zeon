@@ -8,42 +8,60 @@ export async function doMinUpdate(app: ModifiedApp) {
   const data = await fetch("https://shipwrecked.hackclub.com/api/stats/count")
     .then((r) => r.json())
     .then((e) => e.count);
+    const referralCount = await fetch("https://raffle.a.selfhosted.hackclub.com/referrals", { method: "POST" }).then(r=>r.json()).then(d=>d.totalReferrals)
+
   const lastEntry = app.db.get("shipwreck_count") || 0;
-  if (lastEntry !== data) {
-    app.db.set("shipwreck_count", data);
+  const lastReferralEntry = app.db.get("shipwreck_ref") || 0
+  if (lastEntry !== data || lastReferralEntry !== referralCount) {
     const allEntries = app.db.get("ship_wrecks_entries") || [];
     allEntries.push({
       count: data,
+      ref: referralCount,
       date: new Date().toISOString(),
     });
     app.db.set("ship_wrecks_entries", allEntries);
-    app.client.chat.postMessage({
-      channel: "C08P152AU94",
-      username: "Shipwreck counter",
-      icon_emoji: ":shipwrecked:",
-      text: `:shipwrecked:  Shipwreck count is now \`${data}\` (diff of \`${data - lastEntry}\`)`,
-    });
-    if (data >= 5000) {
-      app.client.chat.postMessage({
-        channel: "C08P152AU94",
-        username: "Shipwreck counter",
-        icon_emoji: ":shipwrecked:",
-        text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
-      });
+
+    if (lastEntry !== data) {
+    app.db.set("shipwreck_count", data);
 
       app.client.chat.postMessage({
-        channel: "C08N0R86DMJ",
+        channel: "C08P152AU94",
         username: "Shipwreck counter",
         icon_emoji: ":shipwrecked:",
-        text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
+        text: `:shipwrecked:  Shipwreck count is now \`${data}\` (diff of \`${data - lastEntry}\`)`,
       });
-      // ping @everyone
-      app.client.chat.postMessage({
-        text: `@everyone`,
-        channel: "C08P152AU94",
-      });
-      //@ts-ignore
-      app.over = true;
+      if (data >= 5000) {
+        app.client.chat.postMessage({
+          channel: "C08P152AU94",
+          username: "Shipwreck counter",
+          icon_emoji: ":shipwrecked:",
+          text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
+        });
+  
+        app.client.chat.postMessage({
+          channel: "C08N0R86DMJ",
+          username: "Shipwreck counter",
+          icon_emoji: ":shipwrecked:",
+          text: `:shipwreck: Shipwreck count is now \`${data}\` :fire: I'm going to go to sleep :zzz:`,
+        });
+        // ping @everyone
+        app.client.chat.postMessage({
+          text: `@everyone`,
+          channel: "C08P152AU94",
+        });
+        //@ts-ignore
+        app.over = true;
+}
+      if (lastReferralEntry !== referralCount) {
+        app.db.set("shipwreck_ref",referralCount );
+
+        app.client.chat.postMessage({
+          channel: "C08P152AU94",
+          username: "Shipwreck counter",
+          icon_emoji: ":shipwrecked:",
+          text: `:shipwrecked:  Shipwreck ref count is now \`${referralCount}\` (diff of \`${referralCount - lastReferralEntry}\`)`,
+        });
+      }
     }
   }
 }
