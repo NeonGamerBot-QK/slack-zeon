@@ -311,7 +311,7 @@ export function setupOverallCron(app: ModifiedApp) {
   // temp? nah perm now
   tempcronjob(app);
   // cronJobFor15daysofcode(app);
-  setupSeverCron(app);
+  // setupSeverCron(app);
   // cronJobForRPG(app);
   onLoadForLockIn(app);
   setupFlightlyCron(app);

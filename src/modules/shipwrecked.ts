@@ -123,12 +123,22 @@ function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
   return date.toISOString().split("T")[0];
 }
-
+const width = 1200;
+const height = 600;
+const chartJSNodeCanvas = new ChartJSNodeCanvas({
+  width,
+  height,
+  backgroundColour: "white",
+  chartCallback: (ChartJS) => {
+    ChartJS.defaults.color = "#333";
+    ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
+    ChartJS.defaults.font.size = 14;
+  },
+});
 export async function generateGraph(app: ModifiedApp) {
   // Settings
   const url = "https://slack.mybot.saahild.com/shipwreck-data.json";
-  const width = 1200;
-  const height = 600;
+
   const imagePath = "./count_over_time_from_url.png";
 
   try {
@@ -137,16 +147,16 @@ export async function generateGraph(app: ModifiedApp) {
     const dates = data.map((entry: any) => formatDate(entry.date));
     const counts = data.map((entry: any) => entry.count);
 
-    const chartJSNodeCanvas = new ChartJSNodeCanvas({
-      width,
-      height,
-      backgroundColour: "white",
-      chartCallback: (ChartJS) => {
-        ChartJS.defaults.color = "#333";
-        ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
-        ChartJS.defaults.font.size = 14;
-      },
-    });
+    // const chartJSNodeCanvas = new ChartJSNodeCanvas({
+    //   width,
+    //   height,
+    //   backgroundColour: "white",
+    //   chartCallback: (ChartJS) => {
+    //     ChartJS.defaults.color = "#333";
+    //     ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
+    //     ChartJS.defaults.font.size = 14;
+    //   },
+    // });
 
     const config = {
       type: "line" as const,
@@ -283,16 +293,7 @@ export async function generateGraph12h(app: ModifiedApp) {
     );
 
     // Chart render setup
-    const chartJSNodeCanvas = new ChartJSNodeCanvas({
-      width,
-      height,
-      backgroundColour: "white",
-      chartCallback: (ChartJS) => {
-        ChartJS.defaults.color = "#333";
-        ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
-        ChartJS.defaults.font.size = 14;
-      },
-    });
+
 
     const config = {
       type: "line" as const,
