@@ -294,7 +294,6 @@ export async function generateGraph12h(app: ModifiedApp) {
 
     // Chart render setup
 
-
     const config = {
       type: "line" as const,
       data: {
