@@ -27,6 +27,7 @@ export default class HowWasUrDayMessage implements Command {
       await app.client.chat.update({
         channel: event.channel,
         ts: event.ts,
+        thread_ts: event.thread_ts,
         text: `:label: ${tagContent}`,
         token: process.env.SLACK_USER_TOKEN,
       });
@@ -38,7 +39,7 @@ export default class HowWasUrDayMessage implements Command {
       //   // create ta
       // }
     }
-  }
+    }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
     // console.log(pg, event.text, event.thread_ts);
