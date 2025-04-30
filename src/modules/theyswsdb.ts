@@ -1,4 +1,5 @@
 import { ModifiedApp } from "./slackapp";
+import { Cron } from "croner";
 
 // zach i really dont like ts but at the end of the day ill prob end up using it smh
 const url = "https://api.ships.hackclub.com/";
@@ -69,4 +70,9 @@ export async function execStuff(app: ModifiedApp, channel: string) {
   await app.kdbs.yswsdb.set("all_of_the_entries", alloftheentries);
   await app.kdbs.yswsdb.set("last_entry", data);
   return 1;
+}
+export function cronJobForYSWS(app: ModifiedApp) {
+  new Cron("0 */6 * * *", async () => {
+  await  execStuff(app,`C08QXJ8ASGY`)
+  })
 }
