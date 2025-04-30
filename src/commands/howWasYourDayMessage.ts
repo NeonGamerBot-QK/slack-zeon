@@ -22,7 +22,7 @@ export default class HowWasUrDayMessage implements Command {
     // console.log(tag);
     const tagContent = app.dbs.tags.get(`${event.user}_${tag}`);
 
-  if(tagContent) {
+    if (tagContent) {
       //edit my msg
       await app.client.chat.update({
         channel: event.channel,
@@ -30,14 +30,14 @@ export default class HowWasUrDayMessage implements Command {
         text: `:label: ${tagContent}`,
         token: process.env.SLACK_USER_TOKEN,
       });
-  } else {
-    // TODO: create tag if more text.. otherwise js say 404
-    // if() {
-    //   // create ta
-    // }    // if() {
-    //   // create ta
-    // }
-  }
+    } else {
+      // TODO: create tag if more text.. otherwise js say 404
+      // if() {
+      //   // create ta
+      // }    // if() {
+      //   // create ta
+      // }
+    }
   }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
