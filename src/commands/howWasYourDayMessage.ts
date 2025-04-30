@@ -19,15 +19,25 @@ export default class HowWasUrDayMessage implements Command {
     if (user !== process.env.MY_USER_ID) return;
     if (!event.text.startsWith("!zt")) return;
     const tag = event.text.split(" ")[1];
-    console.log(tag);
-    //edit my msg
-    const tagContent = "test";
-    await app.client.chat.update({
-      channel: event.channel,
-      ts: event.ts,
-      text: `:label: ${tagContent}`,
-      token: process.env.SLACK_USER_TOKEN,
-    });
+    // console.log(tag);
+    const tagContent = app.dbs.tags.get(`${event.user}_${tag}`);
+
+  if(tagContent) {
+      //edit my msg
+      await app.client.chat.update({
+        channel: event.channel,
+        ts: event.ts,
+        text: `:label: ${tagContent}`,
+        token: process.env.SLACK_USER_TOKEN,
+      });
+  } else {
+    // TODO: create tag if more text.. otherwise js say 404
+    // if() {
+    //   // create ta
+    // }    // if() {
+    //   // create ta
+    // }
+  }
   }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
