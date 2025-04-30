@@ -39,7 +39,7 @@ export default class HowWasUrDayMessage implements Command {
       //   // create ta
       // }
     }
-    }
+  }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
     // console.log(pg, event.text, event.thread_ts);
