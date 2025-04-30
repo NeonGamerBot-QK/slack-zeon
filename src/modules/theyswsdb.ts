@@ -55,7 +55,7 @@ export async function execStuff(app: ModifiedApp, channel: string) {
         text: `:ship::shipitparrot: A new ship was approved in the ysws: *${d.ysws}* and the author of this ship was *${d.github_username}* here is some info about the ship:\n> ${d.approved_at ? `Approved on ${date}` : "No approval date"}\n> Description: ${d.description ?? "No description"}\n> ${d.demo_url ? `<${d.demo_url}|Demo>` : "No demo"}\n> ${d.code_url ? `<${d.code_url}|Code>` : "No code"}\n> Heard thru: ${d.heard_through ?? "N/A"}\n> Country: ${d.country ?? "No country"}\n> Hours: ${d.hours ?? "No hours found"}`,
       });
       await app.kdbs.yswsdb.set(d.id, true);
-      await new Promise((r) => setTimeout(r, 5*1000));
+      await new Promise((r) => setTimeout(r, 5 * 1000));
     } catch (e) {
       // // send with no img~
       console.error(e);
