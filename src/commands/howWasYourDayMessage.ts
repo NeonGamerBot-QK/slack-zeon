@@ -13,6 +13,21 @@ export default class HowWasUrDayMessage implements Command {
     this.description = `If message matches 'today' il react & add it to db`;
     this.is_event = true;
   }
+  async userTags(app: ModifiedApp, event) {
+    const user = event.user;
+    if(user !== process.env.MY_USER_ID) return;
+    if(!event.text.startsWith("!zt"))return;
+    const tag = event.text.split(" ")[1];
+    console.log(tag);
+    //edit my msg
+    const tagContent = "test"
+    await app.client.chat.update({
+      channel: event.channel,
+      ts: event.ts,
+      text: `:label: ${tagContent}`,
+      token: process.env.SLACK_USER_TOKEN,
+    })
+  }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
     console.log(pg, event.text, event.thread_ts);
@@ -107,7 +122,11 @@ export default class HowWasUrDayMessage implements Command {
       try {
         this.potatoGame(app, par.event);
       } catch (e) {} //  console.debug(par);
+      try {
+        this.userTags(app, par.event);
+      } catch (e) {} //  console.debug(par)
       //@ts-ignore
+      
 
       if (par.event.channel == "C07ST3FF4S0") return;
       const message = par;
