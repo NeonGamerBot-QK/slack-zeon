@@ -15,6 +15,7 @@ export default class HowWasUrDayMessage implements Command {
   }
   async userTags(app: ModifiedApp, event) {
     const user = event.user;
+    console.log(user, 'zt')
     if (user !== process.env.MY_USER_ID) return;
     if (!event.text.startsWith("!zt")) return;
     const tag = event.text.split(" ")[1];
@@ -30,7 +31,7 @@ export default class HowWasUrDayMessage implements Command {
   }
   async potatoGame(app: ModifiedApp, event) {
     const pg = app.db.get("potato_game");
-    console.log(pg, event.text, event.thread_ts);
+    // console.log(pg, event.text, event.thread_ts);
     if (!pg) return;
     console.log(1);
     let valid_attack = false;
