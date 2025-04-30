@@ -4,7 +4,7 @@ import { getResponse } from "./randomResponseSystem";
 import { getTodaysEvents } from "./hw";
 import { startBdayCron } from "./bday";
 import { getAdventOfCodeLb, setupCronAdventOfCode } from "./adventofcode";
-import { cronJobForYSWS} from "./theyswsdb"
+import { cronJobForYSWS } from "./theyswsdb";
 import { setupCronForShipments } from "./parseShipments";
 import { setupCronForIrl } from "./watchMyIrl";
 import * as Sentry from "@sentry/node";
