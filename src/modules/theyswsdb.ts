@@ -73,6 +73,6 @@ export async function execStuff(app: ModifiedApp, channel: string) {
 }
 export function cronJobForYSWS(app: ModifiedApp) {
   new Cron("0 */6 * * *", async () => {
-  await  execStuff(app,`C08QXJ8ASGY`)
-  })
+    await execStuff(app, `C08QXJ8ASGY`);
+  });
 }
