@@ -16,14 +16,17 @@ import { PrivateDNS } from "./modules/nextdns";
 import { attachDB } from "./modules/projectWaterydo";
 import monitorMemCpu from "./modules/alertcpu";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
-
+import KeyvSqlite from '@keyv/sqlite';
 import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
+import Keyv from "keyv";
 console.log(`Loading db's`);
 console.time(`Loading db's`);
 const db = new JSONdb("data/data.json");
+const keyvSqlite = new KeyvSqlite('sqlite://data/main.db');
 app.dbs = {};
+app.kdbs = {};
 // app.dbs.bday = new JSONdb("data/bday.json");
 // im so sorry this db is going to fill up so fast as each entry is arround 116kb
 // app.dbs.highseas = new JSONdb("data/highseas.json");
@@ -40,6 +43,7 @@ app.dbs.mykcd = new JSONdb("data/mykcd.json");
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
 app.dbs.thething = new JSONdb("data/the-thing-hc.json");
+app.kdbs.yswsdb = new Keyv({ store: keyvSqlite, namespace: 'yswsdb' });
 console.debug(`Dbs loaded`);
 console.timeEnd(`Loading db's`);
 app.db = db;

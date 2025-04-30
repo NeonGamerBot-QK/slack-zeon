@@ -12,11 +12,15 @@ import KeyvSqlite from "@keyv/sqlite";
 import RSS from "rss";
 import { Update } from "./journey";
 import { generateGraph, generateGraph12h } from "./shipwrecked";
+import Keyv from "keyv";
 export interface ModifiedApp extends App<StringIndexed> {
   db: JSONdb;
   dbs: {
-    [k: string]: JSONdb | KeyvSqlite;
+    [k: string]: JSONdb | Keyv;
   };
+  kdbs: {
+    [k: string]: Keyv;
+  }
   nocodb: Api<any>;
   is_at_school: boolean;
   disable_wmi: boolean;
