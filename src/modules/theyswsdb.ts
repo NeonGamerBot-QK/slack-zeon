@@ -49,7 +49,7 @@ export async function execStuff(app: ModifiedApp, channel: string) {
   for (const d of data) {
     if (await app.kdbs.yswsdb.has(d.id)) continue;
     try {
-    const date = d.approved_at ? dayOfYearToDate(d.approved_at) : "Unk Date";
+      const date = d.approved_at ? dayOfYearToDate(d.approved_at) : "Unk Date";
       app.client.chat.postMessage({
         channel,
         text: `:ship::shipitparrot: A new ship was approved in the ysws: *${d.ysws}* and the author of this ship was *${d.github_username}* here is some info about the ship:\n> ${d.approved_at ? `Approved on ${date}` : "No approval date"}\n> Description: ${d.description ?? "No description"}\n> ${d.demo_url ? `<${d.demo_url}|Demo>` : "No demo"}\n> ${d.code_url ? `<${d.code_url}|Code>` : "No code"}\n> Heard thru: ${d.heard_through ?? "N/A"}\n> Country: ${d.country ?? "No country"}\n> Hours: ${d.hours ?? "No hours found"}`,
