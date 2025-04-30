@@ -15,7 +15,7 @@ export default class HowWasUrDayMessage implements Command {
   }
   async userTags(app: ModifiedApp, event) {
     const user = event.user;
-    console.log(user, 'zt')
+    console.log(user, "zt");
     if (user !== process.env.MY_USER_ID) return;
     if (!event.text.startsWith("!zt")) return;
     const tag = event.text.split(" ")[1];
