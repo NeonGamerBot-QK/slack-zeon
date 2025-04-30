@@ -20,7 +20,7 @@ export interface ModifiedApp extends App<StringIndexed> {
   };
   kdbs: {
     [k: string]: Keyv;
-  }
+  };
   nocodb: Api<any>;
   is_at_school: boolean;
   disable_wmi: boolean;
