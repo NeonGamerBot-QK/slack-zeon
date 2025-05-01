@@ -14,7 +14,7 @@ export async function doMinUpdate(app: ModifiedApp) {
   )
     .then((r) => r.json())
     .then((d) => d.totalReferrals);
-if(typeof data !== "number") return;
+  if (typeof data !== "number") return;
   const lastEntry = app.db.get("shipwreck_count") || 0;
   const lastReferralEntry = app.db.get("shipwreck_ref") || 0;
   if (lastEntry !== data || lastReferralEntry !== referralCount) {
