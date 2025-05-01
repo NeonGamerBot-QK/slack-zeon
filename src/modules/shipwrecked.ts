@@ -14,15 +14,19 @@ export async function doMinUpdate(app: ModifiedApp) {
   )
     .then((r) => r.json())
     .then((d) => d.totalReferrals);
-
+if(typeof data !== "number") return;
   const lastEntry = app.db.get("shipwreck_count") || 0;
   const lastReferralEntry = app.db.get("shipwreck_ref") || 0;
   if (lastEntry !== data || lastReferralEntry !== referralCount) {
-    const allEntries = app.db.get("ship_wrecks_entries") || [];
+    let allEntries = app.db.get("ship_wrecks_entries") || [];
+
     allEntries.push({
       count: data,
       ref: referralCount,
       date: new Date().toISOString(),
+    });
+    allEntries = allEntries.filter((e) => {
+      return typeof e.count === "number" && e.count !== 0;
     });
     app.db.set("ship_wrecks_entries", allEntries);
 
@@ -51,7 +55,7 @@ export async function doMinUpdate(app: ModifiedApp) {
         });
         // ping @everyone
         app.client.chat.postMessage({
-          text: `@everyone`,
+          text: `@here`,
           channel: "C08P152AU94",
         });
         //@ts-ignore
