@@ -126,12 +126,12 @@ export function parseRandom(str: string): string {
   //@ts-ignore
   return str.replaceAll("{hour}", new Date().getHours());
 }
-let lastPulls = []
+let lastPulls = [];
 // all odds are out of 100
-function isItMyChance(odds = 10, key = "Key"+Math.random().toFixed(1)) {
-  if(lastPulls.includes(key)) return false;
-  if(lastPulls.length > 10) lastPulls.shift()
-  lastPulls.push(key)
+function isItMyChance(odds = 10, key = "Key" + Math.random().toFixed(1)) {
+  if (lastPulls.includes(key)) return false;
+  if (lastPulls.length > 10) lastPulls.shift();
+  lastPulls.push(key);
   return Math.round(Math.random() * 100) < odds;
 }
 export let last_type = null;
@@ -160,7 +160,7 @@ export async function checkOverSpending(db: JSONdb) {
 }
 function getChannelToShare() {
   const c = channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
-  if(!isItMyChance(101, "channeladvs-"+c)) return getChannelToShare();
+  if (!isItMyChance(101, "channeladvs-" + c)) return getChannelToShare();
   return c;
 }
 export async function getResponse(app: ModifiedApp): Promise<string> {
