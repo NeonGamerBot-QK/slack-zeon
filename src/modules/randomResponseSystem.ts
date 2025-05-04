@@ -126,8 +126,12 @@ export function parseRandom(str: string): string {
   //@ts-ignore
   return str.replaceAll("{hour}", new Date().getHours());
 }
+let lastPulls = []
 // all odds are out of 100
-function isItMyChance(odds = 10) {
+function isItMyChance(odds = 10, key = "Key"+Math.random().toFixed(1)) {
+  if(lastPulls.includes(key)) return false;
+  if(lastPulls.length > 10) lastPulls.shift()
+  lastPulls.push(key)
   return Math.round(Math.random() * 100) < odds;
 }
 export let last_type = null;
@@ -154,10 +158,15 @@ export async function checkOverSpending(db: JSONdb) {
   }
   return false;
 }
+function getChannelToShare() {
+  const c = channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
+  if(!isItMyChance(101, "channeladvs-"+c)) return getChannelToShare();
+  return c;
+}
 export async function getResponse(app: ModifiedApp): Promise<string> {
   const db = app.db;
-  let chanceOfChannelAdvs = isItMyChance(20);
-  const chanceOfPotatoGame = isItMyChance(20);
+  let chanceOfChannelAdvs = isItMyChance(20, "channeladvs");
+  const chanceOfPotatoGame = isItMyChance(20, "potatogame");
   if (chanceOfPotatoGame) {
     potatoGame(app);
     return ":potato:";
@@ -165,9 +174,9 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
   const overSpending = await checkOverSpending(db);
   if (overSpending) return overSpending;
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
-    const chosenChannel =
-      channelsToAdvs[Math.floor(Math.random() * channelsToAdvs.length)];
+    const chosenChannel = getChannelToShare();
     last_type = ResponseTypes.ChannelAdvs;
+
     return `You should join <#${chosenChannel}> as well (${beggingMessage[Math.floor(Math.random() * beggingMessage.length)]})`;
   }
   // add stuff from MY messages (not others)

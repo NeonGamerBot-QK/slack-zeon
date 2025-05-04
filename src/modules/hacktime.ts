@@ -31,8 +31,10 @@ export interface Project {
   digital: string;
 }
 export function getStatusBar() {
+  const today = new Date();
+  if(today.getDate() > 1)   today.setDate(today.getDate() - 1)
   return fetch(
-    `https://hackatime.hackclub.com/api/v1/users/U07L45W79E1/stats?start_date=${new Date().toISOString().split("T")[0]}&features=projects&end_date=${new Date().toISOString().split("T")[0]}`,
+    `https://hackatime.hackclub.com/api/v1/users/U07L45W79E1/stats?start_date=${today.toISOString().split("T")[0]}&features=projects&end_date=${new Date().toISOString().split("T")[0]}`,
     {
       // headers: {
       //   Authorization: `Basic ${process.env.ENC_HACKTIME_TOKEN}`,
