@@ -23,6 +23,7 @@ import { cronJobForAvatar } from "./alaskasavatar";
 import { cronTS } from "./thething";
 import { ActualCronForJourney } from "./journey";
 import { setupShipwrecked } from "./shipwrecked";
+import { whosHackingCron } from "./hacktime";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -364,6 +365,7 @@ export function setupOverallCron(app: ModifiedApp) {
     1000 * 60 * 5,
   );
   cronJobForYSWS(app);
+  whosHackingCron(app);
   return {
     // checkAirtableBoba,
     cronWithCheckIn,

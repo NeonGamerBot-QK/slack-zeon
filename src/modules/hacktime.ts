@@ -1,3 +1,4 @@
+import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
 import ms from "ms";
 export interface RootInterface0 {
@@ -183,3 +184,72 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
     // console.log(userHacktimeDat)
   }, 1000 * 60);
 }
+export interface UserHacking {
+  username: string;
+  avatar: string;
+  slackId?: string;
+  project_name?: string;
+  project_url?: string;
+  code_viewer_link?: string;
+  }
+  
+  export async function whosHacking():Promise<UserHacking[]> {
+    const cheerio = await import("cheerio");
+    const html = await fetch("https://hackatime.hackclub.com/static_pages/currently_hacking").then(r=>r.text())
+    const $ = cheerio.load(html)
+    const results = []
+    let li = 0;
+    let index = 0;
+   const children =  $("ul").children()
+    for(const el of children) {
+      // console.log(index, $(el).text())
+      const $el = $(el)
+      if($el.hasClass("user-info")) {
+        const avatar = $el.children()[0].attribs.src 
+        // console.log(avatar)
+        const linkTag = $el.children()[1]
+        if(!linkTag || $el.text().includes("(email sign-up)")) {
+          const username = $el.text().split("...")[0].trim()
+        li =   results.push({
+            username,
+            avatar
+          })
+        } else {
+          const ID = linkTag.attribs.href.split("https://slack.com/app_redirect?channel=")[1]
+          const username = $(linkTag).text().split("...")[0]
+       li =    results.push({
+            username, 
+            avatar,
+            slackId: ID
+          })
+        }
+      } else if($el.hasClass("super")) {
+        const projectLinkEl = $($el.children()[0])
+        const code_viewer_link = $el.children()[1].attribs.href
+        const project_name = projectLinkEl.text().trim()
+        const project_url = projectLinkEl.attr().href
+        // Modifying index
+        // console.log(index, li, results[li - 1], results.length)
+        results[li - 1] = {
+          ...results[li - 1],
+          code_viewer_link,
+          project_name,
+          project_url
+        }
+      }
+      index++;
+    }
+    return results;
+  }
+
+export  function whosHackingCron(app: ModifiedApp) { 
+new Cron('*/15 * * * * *', async () => {
+  const results = await whosHacking() 
+  const formated_string = results.map(e=>e.project_name?`*${e.username}* is hacking on *<${e.project_url}|<${e.project_name}>* - <${e.code_viewer_link}|🌌>` : `*${e.username}* is hacking away at something!`).join('\n')
+  app.client.chat.postMessage({
+    channel: `C08QNMQCSEA`,
+    text: formated_string
+  })
+})
+}
+
