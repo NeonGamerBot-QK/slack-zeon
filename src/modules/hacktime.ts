@@ -247,7 +247,7 @@ export async function whosHacking(): Promise<UserHacking[]> {
 }
 
 export function whosHackingCron(app: ModifiedApp) {
-  new Cron("*/15 * * * * *", async () => {
+  new Cron("0 * * * *", async () => {
     const results = await whosHacking();
     const formated_string = results
       .map((e) =>
