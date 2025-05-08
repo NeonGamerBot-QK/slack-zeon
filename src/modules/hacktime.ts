@@ -252,7 +252,7 @@ export function whosHackingCron(app: ModifiedApp) {
     const formated_string = results
       .map((e) =>
         e.project_name
-          ? `*${e.username}* is hacking on <${e.project_url}|<${e.project_name}> - <${e.code_viewer_link}|🌌>`
+          ? `*${e.username}* is hacking on ${e.project_url} - <${e.code_viewer_link}|🌌>`
           : `*${e.username}* is hacking away at something!`,
       )
       .join("\n");

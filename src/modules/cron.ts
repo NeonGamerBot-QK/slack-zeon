@@ -314,11 +314,12 @@ export function setupOverallCron(app: ModifiedApp) {
   // cronJobFor15daysofcode(app);
   // setupSeverCron(app);
   // cronJobForRPG(app);
-  onLoadForLockIn(app);
+  // onLoadForLockIn(app);
   setupFlightlyCron(app);
   // cronJobForAvatar();
-  cronTS(app);
-  ActualCronForJourney(app);
+  // cronTS(app);
+  // temp disabled
+  // ActualCronForJourney(app);
   setupShipwrecked(app);
   setInterval(
     async () => {

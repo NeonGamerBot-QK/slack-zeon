@@ -11,9 +11,12 @@ export const banned_users = [
   "U0261EB1EG7",
   // u got deactivated 3 times () = bad
   "U07BMK9NSDB",
+  "U020X4GCWSF",
   // no unless required
   "U07B4QD9F61",
   "U05A3TSL7UY",
+  // other bans w/ no reason below
+  "U079UHJDBRT"
 ];
 export default class JoinNeonschannel implements Command {
   name: string;
