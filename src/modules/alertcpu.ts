@@ -10,26 +10,30 @@ export default function monitorMemCpu(app: ModifiedApp) {
       if (stats.cpu > THRESHOLD_CPU) {
         console.warn(`⚠️ High CPU: ${stats.cpu}%`);
         spike_index++;
-if(spike_index > 3){
-  app.client.chat.postMessage({
-    channel: `C07LEEB50KD`,
-    text: `⚠️ High CPU: ${stats.cpu}%`,
-  });
-}
+        if (spike_index > 3) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `⚠️ High CPU: ${stats.cpu}%`,
+          });
+        }
       }
       if (stats.memory > THRESHOLD_MEM) {
         spike_index++;
         console.warn(
           `⚠️ High Memory: ${(stats.memory / 1024 / 1024).toFixed(2)} MB`,
         );
-       if(spike_index > 3){
-        app.client.chat.postMessage({
-          channel: `C07LEEB50KD`,
-          text: `⚠️ High Memory: ${(stats.memory / 1024 / 1024).toFixed(2)} MB`,
-        });
-       }
+        if (spike_index > 3) {
+          app.client.chat.postMessage({
+            channel: `C07LEEB50KD`,
+            text: `⚠️ High Memory: ${(stats.memory / 1024 / 1024).toFixed(2)} MB`,
+          });
+        }
       }
-      if(stats.memory < THRESHOLD_MEM && stats.cpu < THRESHOLD_CPU && spike_index > 0){
+      if (
+        stats.memory < THRESHOLD_MEM &&
+        stats.cpu < THRESHOLD_CPU &&
+        spike_index > 0
+      ) {
         spike_index--;
       }
     });

@@ -108,21 +108,20 @@ export default class Message implements Command {
             }
           } else if (cmd == "hello") {
             say(`Whats up`);
-          } else if(cmd == "email") {
-const uinfo = await  app.client.users["info"]({user:args[0]})
-if(uinfo.user) {
-await app.client.chat.postMessage({
-  text: `:email: ${uinfo.user.profile.email}`,
-  channel: event.channel,
-});
-} else {
-  await app.client.chat.postMessage({
-    text: `:x: User not found!`,
-    channel: event.channel,
-  });
-}
-          } 
-          else if (cmd == "getuserhash") {
+          } else if (cmd == "email") {
+            const uinfo = await app.client.users["info"]({ user: args[0] });
+            if (uinfo.user) {
+              await app.client.chat.postMessage({
+                text: `:email: ${uinfo.user.profile.email}`,
+                channel: event.channel,
+              });
+            } else {
+              await app.client.chat.postMessage({
+                text: `:x: User not found!`,
+                channel: event.channel,
+              });
+            }
+          } else if (cmd == "getuserhash") {
             const userID = args[0] || event.user;
             const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
               compareSync(userID, e),
