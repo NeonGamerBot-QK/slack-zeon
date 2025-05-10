@@ -204,6 +204,7 @@ export async function whosHacking(): Promise<UserHacking[]> {
   let index = 0;
   const children = $("ul").children();
   for (const el of children) {
+    try {
     // console.log(index, $(el).text())
     const $el = $(el);
     if ($el.hasClass("user-info")) {
@@ -241,6 +242,9 @@ export async function whosHacking(): Promise<UserHacking[]> {
         project_url,
       };
     }
+  } catch (e) {
+    console.error(e);
+  }
     index++;
   }
   return results;
