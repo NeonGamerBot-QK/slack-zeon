@@ -205,46 +205,46 @@ export async function whosHacking(): Promise<UserHacking[]> {
   const children = $("ul").children();
   for (const el of children) {
     try {
-    // console.log(index, $(el).text())
-    const $el = $(el);
-    if ($el.hasClass("user-info")) {
-      const avatar = $el.children()[0].attribs.src;
-      // console.log(avatar)
-      const linkTag = $el.children()[1];
-      if (!linkTag || $el.text().includes("(email sign-up)")) {
-        const username = $el.text().split("...")[0].trim();
-        li = results.push({
-          username,
-          avatar,
-        });
-      } else {
-        const ID = linkTag.attribs.href.split(
-          "https://slack.com/app_redirect?channel=",
-        )[1];
-        const username = $(linkTag).text().split("...")[0];
-        li = results.push({
-          username,
-          avatar,
-          slackId: ID,
-        });
+      // console.log(index, $(el).text())
+      const $el = $(el);
+      if ($el.hasClass("user-info")) {
+        const avatar = $el.children()[0].attribs.src;
+        // console.log(avatar)
+        const linkTag = $el.children()[1];
+        if (!linkTag || $el.text().includes("(email sign-up)")) {
+          const username = $el.text().split("...")[0].trim();
+          li = results.push({
+            username,
+            avatar,
+          });
+        } else {
+          const ID = linkTag.attribs.href.split(
+            "https://slack.com/app_redirect?channel=",
+          )[1];
+          const username = $(linkTag).text().split("...")[0];
+          li = results.push({
+            username,
+            avatar,
+            slackId: ID,
+          });
+        }
+      } else if ($el.hasClass("super")) {
+        const projectLinkEl = $($el.children()[0]);
+        const code_viewer_link = $el.children()[1].attribs.href;
+        const project_name = projectLinkEl.text().trim();
+        const project_url = projectLinkEl.attr().href;
+        // Modifying index
+        // console.log(index, li, results[li - 1], results.length)
+        results[li - 1] = {
+          ...results[li - 1],
+          code_viewer_link,
+          project_name,
+          project_url,
+        };
       }
-    } else if ($el.hasClass("super")) {
-      const projectLinkEl = $($el.children()[0]);
-      const code_viewer_link = $el.children()[1].attribs.href;
-      const project_name = projectLinkEl.text().trim();
-      const project_url = projectLinkEl.attr().href;
-      // Modifying index
-      // console.log(index, li, results[li - 1], results.length)
-      results[li - 1] = {
-        ...results[li - 1],
-        code_viewer_link,
-        project_name,
-        project_url,
-      };
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
-  }
     index++;
   }
   return results;
