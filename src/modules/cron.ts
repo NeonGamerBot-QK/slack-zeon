@@ -319,7 +319,7 @@ export function setupOverallCron(app: ModifiedApp) {
   // cronJobForAvatar();
   // cronTS(app);
   // temp disabled
-  // ActualCronForJourney(app);
+  ActualCronForJourney(app);
   setupShipwrecked(app);
   setInterval(
     async () => {
