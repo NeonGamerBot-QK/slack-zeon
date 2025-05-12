@@ -14,19 +14,23 @@ export default class HowWasUrDayMessage implements Command {
     this.is_event = true;
   }
   async starMessage(app: ModifiedApp, event) {
-const tokens = [process.env.SLACK_USER_TOKEN, process.env.SLACK_BOT_TOKEN, ...(app.db.get('slack_reaction_tokens') || [])];
-for(const t of tokens) {
-  try {
-    await app.client.reactions.add({
-      channel: event.channel,
-      timestamp: event.ts,
-      name: "star",
-      token: t,
-    });
-    await new Promise(r => setTimeout(r, 100));
-  } catch (e) {}
-}  
-}
+    const tokens = [
+      process.env.SLACK_USER_TOKEN,
+      process.env.SLACK_BOT_TOKEN,
+      ...(app.db.get("slack_reaction_tokens") || []),
+    ];
+    for (const t of tokens) {
+      try {
+        await app.client.reactions.add({
+          channel: event.channel,
+          timestamp: event.ts,
+          name: "star",
+          token: t,
+        });
+        await new Promise((r) => setTimeout(r, 100));
+      } catch (e) {}
+    }
+  }
   async userTags(app: ModifiedApp, event) {
     const user = event.user;
     console.log(user, "zt");
@@ -152,7 +156,7 @@ for(const t of tokens) {
         this.userTags(app, par.event);
       } catch (e) {} //  console.debug(par)
       //@ts-ignore
-      if(par.event.channel == "C08RTFMBRPF") this.starMessage(app, par.event);
+      if (par.event.channel == "C08RTFMBRPF") this.starMessage(app, par.event);
 
       //@ts-ignore
 
