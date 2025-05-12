@@ -21,6 +21,7 @@ export default class HowWasUrDayMessage implements Command {
     ];
     for (const t of tokens) {
       try {
+        console.log("star")
         await app.client.reactions.add({
           channel: event.channel,
           timestamp: event.ts,
@@ -28,7 +29,9 @@ export default class HowWasUrDayMessage implements Command {
           token: t,
         });
         await new Promise((r) => setTimeout(r, 100));
-      } catch (e) {}
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
   async userTags(app: ModifiedApp, event) {
