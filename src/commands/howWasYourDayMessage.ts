@@ -160,7 +160,7 @@ export default class HowWasUrDayMessage implements Command {
         this.userTags(app, par.event);
       } catch (e) {} //  console.debug(par)
       //@ts-ignore
-      if (par.event.channel == "C08RTFMBRPF") this.starMessage(app, par.event);
+      if (par.event.channel == "C08RG05HYHM") this.starMessage(app, par.event);
 
       //@ts-ignore
 
