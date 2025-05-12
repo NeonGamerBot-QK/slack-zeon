@@ -14,6 +14,7 @@ export default class HowWasUrDayMessage implements Command {
     this.is_event = true;
   }
   async starMessage(app: ModifiedApp, event) {
+    if(!event.text) return;
     const tokens = [
       process.env.SLACK_USER_TOKEN,
       process.env.SLACK_BOT_TOKEN,
