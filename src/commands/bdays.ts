@@ -22,6 +22,7 @@ export default class Bday implements Command {
           if (
             //@ts-ignore
             //@ts-ignore
+            //@ts-ignore
             (
               await app.nocodb.dbViewRow.findOne(
                 `noco`,
@@ -33,7 +34,6 @@ export default class Bday implements Command {
                   where: `(userID,eq,${command.user_id})`,
                 },
               )
-              //@ts-ignore
             ).userID
           ) {
             await app.client.chat.postEphemeral({
