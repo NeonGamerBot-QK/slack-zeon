@@ -33,6 +33,7 @@ export default class Bday implements Command {
                   where: `(userID,eq,${command.user_id})`,
                 },
               )
+              //@ts-ignore
             ).userID
           ) {
             await app.client.chat.postEphemeral({
