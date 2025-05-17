@@ -64,10 +64,11 @@ export async function execStuff(app: ModifiedApp, channel: string) {
       await new Promise((r) => setTimeout(r, 100));
     }
   }
-  const alloftheentries =
-    (await app.kdbs.yswsdb.get("all_of_the_entries")) || [];
-  alloftheentries.push(data);
-  await app.kdbs.yswsdb.set("all_of_the_entries", alloftheentries);
+  let alloftheentriesIndex =
+    (await app.kdbs.yswsdb.get("all_of_the_entries")) || -1;
+    alloftheentriesIndex++;
+  await app.kdbs.yswsdb.set("all_of_the_entries_"+alloftheentriesIndex, alloftheentriesIndex);
+  // await app.kdbs.yswsdb.set("all_of_the_entries", alloftheentries);
   await app.kdbs.yswsdb.set("last_entry", data);
   return 1;
 }
