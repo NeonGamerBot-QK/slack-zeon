@@ -190,12 +190,12 @@ export async function shipUpdatesCron(app: ModifiedApp) {
   }
 }
 export async function commentsCron(app: ModifiedApp) {
-  console.log(1)
+  console.log(1);
   const comments = await getComments();
-  console.log(0)
+  console.log(0);
   for (const comment of comments) {
     const entryId = app.dbs.journey.get(`update_${comment.update_id}`);
-    console.log(entryId, comment, "debugging hell")
+    console.log(entryId, comment, "debugging hell");
     if (!entryId) continue;
     const entry = app.dbs.journey.get(entryId);
     if (!entry) continue;
@@ -232,7 +232,6 @@ export async function iRunOnCron(app: ModifiedApp) {
   await new Promise((r) => setTimeout(r, 1000));
   await shipUpdatesCron(app);
   await new Promise((r) => setTimeout(r, 750));
-
 }
 export function ActualCronForJourney(app: ModifiedApp) {
   new Cron("*/5 * * * *", async () => {
