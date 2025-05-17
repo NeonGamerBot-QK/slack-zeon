@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
@@ -20,9 +22,6 @@ export default class Bday implements Command {
       if (cmd == "config") {
         try {
           if (
-            //@ts-ignore
-            //@ts-ignore
-            //@ts-ignore
             (
               await app.nocodb.dbViewRow.findOne(
                 `noco`,
