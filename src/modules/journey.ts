@@ -200,19 +200,23 @@ export async function commentsCron(app: ModifiedApp) {
       channel: `C08N1NWKEF4`,
       thread_ts: entry.root_message,
       text: comment.text.slice(0, 3000) || "no comment text huh",
-      blocks: [{
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `:tada: *New Comment!*by <@${comment.slack_id}> \n${comment.text.slice(0, 2900)}`,
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `:tada: *New Comment!*by <@${comment.slack_id}> \n${comment.text.slice(0, 2900)}`,
+          },
         },
-      }]
-    })
-    entry.updates.find(e=>e.meta.id === comment.update_id).comments.push({
-      meta: comment,
-      created_at: Date.now(),
-     ts: msg.ts,
+      ],
     });
+    entry.updates
+      .find((e) => e.meta.id === comment.update_id)
+      .comments.push({
+        meta: comment,
+        created_at: Date.now(),
+        ts: msg.ts,
+      });
     app.dbs.journey.set(entry.id, entry);
     await new Promise((r) => setTimeout(r, 500));
   }
