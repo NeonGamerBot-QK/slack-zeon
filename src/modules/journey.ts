@@ -196,7 +196,7 @@ export async function commentsCron(app: ModifiedApp) {
     if (!entryId) continue;
     const entry = app.dbs.journey.get(entryId);
     if (!entry) continue;
-    console.log("Sending journey comment aaaa", entry)
+    console.log("Sending journey comment aaaa", entry);
     const msg = await app.client.chat.postMessage({
       channel: `C08N1NWKEF4`,
       thread_ts: entry.root_message,
