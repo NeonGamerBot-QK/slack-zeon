@@ -193,6 +193,7 @@ export async function commentsCron(app: ModifiedApp) {
   const comments = await getComments();
   for (const comment of comments) {
     const entryId = app.dbs.journey.get(`update_${comment.update_id}`);
+    console.log(entryId, comment, "debugging hell")
     if (!entryId) continue;
     const entry = app.dbs.journey.get(entryId);
     if (!entry) continue;
