@@ -185,50 +185,56 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   }, 1000 * 60);
 }
 export interface UserHacking {
-  username: string,
-      avatar: string,
-      project?: string,
-      projectLink?: string,
-      slackID?: string,
-       country: {
-        name: string | null,
-        flag: string | null
-      }
+  username: string;
+  avatar: string;
+  project?: string;
+  projectLink?: string;
+  slackID?: string;
+  country: {
+    name: string | null;
+    flag: string | null;
+  };
 }
 
-export async function whosHacking():Promise<UserHacking[]> {
+export async function whosHacking(): Promise<UserHacking[]> {
   const cheerio = await import("cheerio");
-  const html = await fetch("https://hackatime.hackclub.com/static_pages/currently_hacking").then(r=>r.text())
-  const $ = cheerio.load(html)
- const users = [];
+  const html = await fetch(
+    "https://hackatime.hackclub.com/static_pages/currently_hacking",
+  ).then((r) => r.text());
+  const $ = cheerio.load(html);
+  const users = [];
 
-$('.user-info').each(function () {
-  const avatar = $(this).find('img.avatar').attr('src');
-  const username = $(this).find('.user-name-and-links a').text().trim() || $(this).find('.user-name-and-links').text().trim();
+  $(".user-info").each(function () {
+    const avatar = $(this).find("img.avatar").attr("src");
+    const username =
+      $(this).find(".user-name-and-links a").text().trim() ||
+      $(this).find(".user-name-and-links").text().trim();
 
-  // Next element with class 'super' contains the project info
-  const projectContainer = $(this).next('.super');
-  const project = projectContainer.find('a').first().text().trim();
-  const projectLink = projectContainer.find('a').first().attr('href');
-  const countryEmoji = $(this).find('span[title]').text().trim();
-  const countryName = $(this).find('span[title]').attr('title');
-    const userLink = $(this).find('.user-name-and-links a');
-  const slackHref = userLink.attr('href');
- const slackID = slackHref ? new URL(slackHref, 'https://slack.com').searchParams.get('channel') : null;
-  if (username && avatar) {
-    users.push({
-      username,
-      avatar,
-      project,
-      projectLink,
-      slackID,
-       country: {
-        name: countryName || null,
-        flag: countryEmoji || null
-      }
-    });
-  }
-});
+    // Next element with class 'super' contains the project info
+    const projectContainer = $(this).next(".super");
+    const project = projectContainer.find("a").first().text().trim();
+    const projectLink = projectContainer.find("a").first().attr("href");
+    const countryEmoji = $(this).find("span[title]").text().trim();
+    const countryName = $(this).find("span[title]").attr("title");
+    const userLink = $(this).find(".user-name-and-links a");
+    const slackHref = userLink.attr("href");
+    const slackID = slackHref
+      ? new URL(slackHref, "https://slack.com").searchParams.get("channel")
+      : null;
+    if (username && avatar) {
+      users.push({
+        username,
+        avatar,
+        project,
+        projectLink,
+        slackID,
+        country: {
+          name: countryName || null,
+          flag: countryEmoji || null,
+        },
+      });
+    }
+  });
 
   return users;
 }
