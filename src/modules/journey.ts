@@ -199,6 +199,13 @@ export async function commentsCron(app: ModifiedApp) {
     if (!entryId) continue;
     const entry = app.dbs.journey.get(entryId.root_ship_meta.id);
     if (!entry) continue;
+    if (!entry.updates.find((e) => e.meta.id === comment.update_id)) continue;
+    if (
+      entry.updates
+        .find((e) => e.meta.id === comment.update_id)
+        .comments.some((d) => d.meta.created_at == comment.created_at)
+    )
+      continue;
     console.log("Sending journey comment aaaa", entry);
     const msg = await app.client.chat.postMessage({
       channel: `C08N1NWKEF4`,
