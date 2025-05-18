@@ -185,78 +185,60 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
   }, 1000 * 60);
 }
 export interface UserHacking {
-  username: string;
-  avatar: string;
-  slackId?: string;
-  project_name?: string;
-  project_url?: string;
-  code_viewer_link?: string;
-}
-
-export async function whosHacking(): Promise<UserHacking[]> {
-  const cheerio = await import("cheerio");
-  const html = await fetch(
-    "https://hackatime.hackclub.com/static_pages/currently_hacking",
-  ).then((r) => r.text());
-  const $ = cheerio.load(html);
-  const results = [];
-  let li = 0;
-  let index = 0;
-  const children = $("ul").children();
-  for (const el of children) {
-    try {
-      // console.log(index, $(el).text())
-      const $el = $(el);
-      if ($el.hasClass("user-info")) {
-        const avatar = $el.children()[0].attribs.src;
-        // console.log(avatar)
-        const linkTag = $el.children()[1];
-        if (!linkTag || $el.text().includes("(email sign-up)")) {
-          const username = $el.text().split("...")[0].trim();
-          li = results.push({
-            username,
-            avatar,
-          });
-        } else {
-          const ID = linkTag.attribs.href.split(
-            "https://slack.com/app_redirect?channel=",
-          )[1];
-          const username = $(linkTag).text().split("...")[0];
-          li = results.push({
-            username,
-            avatar,
-            slackId: ID,
-          });
-        }
-      } else if ($el.hasClass("super")) {
-        const projectLinkEl = $($el.children()[0]);
-        const code_viewer_link = $el.children()[1].attribs.href;
-        const project_name = projectLinkEl.text().trim();
-        const project_url = projectLinkEl.attr().href;
-        // Modifying index
-        // console.log(index, li, results[li - 1], results.length)
-        results[li - 1] = {
-          ...results[li - 1],
-          code_viewer_link,
-          project_name,
-          project_url,
-        };
+  username: string,
+      avatar: string,
+      project?: string,
+      projectLink?: string,
+      slackID?: string,
+       country: {
+        name: string | null,
+        flag: string | null
       }
-    } catch (e) {
-      console.error(e);
-    }
-    index++;
-  }
-  return results;
 }
 
+export async function whosHacking():Promise<UserHacking[]> {
+  const cheerio = await import("cheerio");
+  const html = await fetch("https://hackatime.hackclub.com/static_pages/currently_hacking").then(r=>r.text())
+  const $ = cheerio.load(html)
+ const users = [];
+
+$('.user-info').each(function () {
+  const avatar = $(this).find('img.avatar').attr('src');
+  const username = $(this).find('.user-name-and-links a').text().trim() || $(this).find('.user-name-and-links').text().trim();
+
+  // Next element with class 'super' contains the project info
+  const projectContainer = $(this).next('.super');
+  const project = projectContainer.find('a').first().text().trim();
+  const projectLink = projectContainer.find('a').first().attr('href');
+  const countryEmoji = $(this).find('span[title]').text().trim();
+  const countryName = $(this).find('span[title]').attr('title');
+    const userLink = $(this).find('.user-name-and-links a');
+  const slackHref = userLink.attr('href');
+ const slackID = slackHref ? new URL(slackHref, 'https://slack.com').searchParams.get('channel') : null;
+  if (username && avatar) {
+    users.push({
+      username,
+      avatar,
+      project,
+      projectLink,
+      slackID,
+       country: {
+        name: countryName || null,
+        flag: countryEmoji || null
+      }
+    });
+  }
+});
+
+  return users;
+}
 export function whosHackingCron(app: ModifiedApp) {
   new Cron("0 * * * *", async () => {
     const results = await whosHacking();
     const formated_string = results
       .map((e) =>
-        e.project_name
-          ? `*${e.username}* is hacking on ${e.project_url} - <${e.code_viewer_link}|🌌>`
+        e.project
+          ? `*${e.username}* is hacking on ${e.projectLink}`
           : `*${e.username}* is hacking away at something!`,
       )
       .join("\n");
