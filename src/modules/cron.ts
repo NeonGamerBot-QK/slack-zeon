@@ -60,6 +60,7 @@ function updateStatus(
 }
 
 export function setupOverallCron(app: ModifiedApp) {
+  const CurrentTimeZone = app.db.get('tz') ? app.db.get('tz').tz : "America/New_York";
   async function sendRandomStuff() {
     Sentry.startSpan(
       {
@@ -126,6 +127,9 @@ export function setupOverallCron(app: ModifiedApp) {
           });
         }
       },
+      {
+        timezone: CurrentTimeZone
+      }
       // { name: "howwasmyday" },
     );
   } catch (e) {
@@ -134,7 +138,7 @@ export function setupOverallCron(app: ModifiedApp) {
       text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
     });
   }
-  cronWithCheckIn.schedule(
+  cron.schedule(
     "1 7 * * 1-5",
     async () => {
       const hw = await getTodaysEvents().then((e: any) => {
@@ -157,10 +161,10 @@ export function setupOverallCron(app: ModifiedApp) {
         text: `Good Morning :D! Wake up <@${process.env.MY_USER_ID}> your ass needs to get ready for school now!.\n> ${hw}`,
       });
     },
-    { name: "morning-weekday" },
+    { name: "morning-weekday", timezone: CurrentTimeZone },
   );
   // special cron
-  cronWithCheckIn.schedule(
+  cron.schedule(
     "1 9 * * 6-7",
     () => {
       const d = new Date();
@@ -172,7 +176,7 @@ export function setupOverallCron(app: ModifiedApp) {
         text: `Good Morning :D! dont wake up since i bet ur ass only went to sleep like 4 hours ago :P.${isSaturday ? "\n> You should be at robotics tho..." : ""}`,
       });
     },
-    { name: "morning-weekend" },
+    { name: "morning-weekend", timezone: CurrentTimeZone },
   );
 
   const moneroJob = new Cron("0 * * * *", async () => {
@@ -224,7 +228,7 @@ export function setupOverallCron(app: ModifiedApp) {
       text: `:npm: Daily noon package check ;p you need to update ${out.length} packages! here is a list:\n${pkgsString}`,
       channel: `C07LEEB50KD`,
     });
-  });
+  }, { timezone:CurrentTimeZone  });
   // const checkAirtableBoba = new Cron("*/15 * * * *", async () => {
   //   try {
   //     // idgaf about the temp creds

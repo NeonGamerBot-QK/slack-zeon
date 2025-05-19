@@ -13,25 +13,8 @@ export default class ZeonShipPkgs implements Command {
   run(app: ModifiedApp) {
     // app.command()
     app.command(this.name, async ({ command, ack, respond }) => {
-      const stamp = Date.now();
-      await ack();
-
-      // respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
-      //   console.debug(`after ping`, d);
-      // });
-      const shipmentURL = command.text;
-      if (!shipmentURL)
-        return respond(`:x: You need to provide a shipment url.`);
-      if (!shipmentURL.startsWith(`https://shipment-viewer.hackclub.com/dyn`))
-        return respond(`:x: You need to provide a shipment url from hackclub.`);
-      const parse = new URLSearchParams(new URL(shipmentURL).search);
-      const properURL = createShipmentURL(
-        parse.get(`signature`),
-        parse.get(`email`),
-      );
-      await app.db.set(`shipment_url_${command.user_id}`, properURL);
       respond(
-        `:white_check_mark: Shipment URL was set! check the app home to see ur packages`,
+        `Use postpuppy!`,
       );
     });
   }

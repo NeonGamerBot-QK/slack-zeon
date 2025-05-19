@@ -244,7 +244,7 @@ export default class AppHome implements Command {
                 //   },
                 // },
                 // ...daysof15_section,
-                ...rpgysws_section,
+                // ...rpgysws_section,
                 ...anon_mail_section,
               ].filter(Boolean),
             };
@@ -329,7 +329,7 @@ export default class AppHome implements Command {
               //   },
               // },
               // ...daysof15_section,
-              ...rpgysws_section,
+              // ...rpgysws_section,
               ...anon_mail_section,
               {
                 type: "divider",

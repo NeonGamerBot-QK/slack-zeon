@@ -42,7 +42,7 @@ app.dbs.anondm = new EncryptedJsonDb("data/anondm.json", {
 app.dbs.mykcd = new JSONdb("data/mykcd.json");
 app.dbs.tags = new JSONdb("data/tags.json");
 app.dbs.stickymessages = new JSONdb("data/stickymessages.json");
-app.dbs.thething = new JSONdb("data/the-thing-hc.json");
+// app.dbs.thething = new JSONdb("data/the-thing-hc.json");
 app.kdbs.yswsdb = new Keyv({ store: keyvSqlite, namespace: "yswsdb" });
 console.debug(`Dbs loaded`);
 console.timeEnd(`Loading db's`);
