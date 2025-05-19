@@ -3,7 +3,7 @@ import { App } from "@slack/bolt";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { banned_users } from "./joinchannel";
 import { ModifiedApp } from "../modules/slackapp";
-const channelsWhichIdiotsTryToMassPing = ["C0266FRGV"]
+const channelsWhichIdiotsTryToMassPing = ["C0266FRGV"];
 export default class UserJoinEvent implements Command {
   name: string;
   description: string;
@@ -26,20 +26,20 @@ export default class UserJoinEvent implements Command {
         });
         return;
       }
-      if(channelsWhichIdiotsTryToMassPing.includes(event.channel)) {
-           const info = await app.client.users.info({
+      if (channelsWhichIdiotsTryToMassPing.includes(event.channel)) {
+        const info = await app.client.users.info({
+          user: event.user,
+        });
+        // check if user is a bot
+        if (info.user.is_bot) {
+          await app.client.conversations.kick({
+            //@ts-ignore
             user: event.user,
-           })
-// check if user is a bot
-            if (info.user.is_bot) {
-              await app.client.conversations.kick({
-              //@ts-ignore
-              user: event.user,
-              //@ts-ignore
-              channel: event.channel,
-            });
-            }
-            return;
+            //@ts-ignore
+            channel: event.channel,
+          });
+        }
+        return;
       }
       //@ts-ignore
       if (event.channel !== "C07R8DYAZMM") return;
