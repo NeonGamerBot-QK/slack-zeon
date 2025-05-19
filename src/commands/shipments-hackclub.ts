@@ -13,9 +13,7 @@ export default class ZeonShipPkgs implements Command {
   run(app: ModifiedApp) {
     // app.command()
     app.command(this.name, async ({ command, ack, respond }) => {
-      respond(
-        `Use postpuppy!`,
-      );
+      respond(`Use postpuppy!`);
     });
   }
 }
