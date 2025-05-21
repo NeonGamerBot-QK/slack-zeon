@@ -29,8 +29,8 @@ app.dbs = {};
 app.kdbs = {};
 // app.dbs.bday = new JSONdb("data/bday.json");
 // im so sorry this db is going to fill up so fast as each entry is arround 116kb
-// app.dbs.highseas = new JSONdb("data/highseas.json");
 app.dbs.ddm = new JSONdb("data/discord-datamining.json");
+app.dbs.channelhoisterdb = new JSONdb("data/channel-hoister.json")
 app.dbs.memdebug = new JSONdb("data/memdb.json");
 app.dbs.seven39 = new JSONdb("data/739.json");
 app.dbs.flightly = new JSONdb("data/flightly.json");

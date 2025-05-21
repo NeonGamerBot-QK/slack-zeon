@@ -12,22 +12,6 @@ export default class CommandLoader {
     // this._commands = new Map();
     this.dir = dir;
   }
-  // private commandsInArray(): Command[] {
-  //   return Array.from(this._commands.values());
-  // }
-  // public getSlackCommandData(): {
-  //   name: string;
-  //   description: string;
-  //   usage?: string;
-  // }[] {
-  //   return this.commandsInArray().map((e) => {
-  //     return {
-  //       name: e.name,
-  //       description: e.description,
-  //       usage: e.usage,
-  //     };
-  //   });
-  // }
   private getFiles(): string[] {
     return readdirSync(this.dir);
   }

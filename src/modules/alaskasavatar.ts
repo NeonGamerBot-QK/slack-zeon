@@ -1,5 +1,4 @@
 import { createCanvas, loadImage } from "@napi-rs/canvas";
-import { cron } from "./juice";
 import { Cron } from "croner";
 // import { writeFileSync } from "fs";
 // const { createCanvas, loadImage } = require('@napi-rs/canvas')
