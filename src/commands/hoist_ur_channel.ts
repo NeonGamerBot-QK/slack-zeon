@@ -46,15 +46,14 @@ export default class Ping implements Command {
           }
 
           try {
-       const info =  await app.client.conversations.info({
-        
+            const info = await app.client.conversations.info({
               channel: command.channel_id,
             });
             app.dbs.channelhoisterdb.set(command.channel_id, {
-            name: info.channel.name!,
-                usersToAdd: await getChannelManagers(command.channel_id),
+              name: info.channel.name!,
+              usersToAdd: await getChannelManagers(command.channel_id),
               lastTriggered: Date.now(),
-              createdChannelIds: []
+              createdChannelIds: [],
             });
             respond({
               text: `Channel being watched! make sure zeon stays in this channel or it could fail to watch it!`,
@@ -108,10 +107,10 @@ export default class Ping implements Command {
       }
     });
     // part 2 message
-    app.event("channel_rename", async ({ event, client, body }) => {  
-      const channelId = event.channel.id
+    app.event("channel_rename", async ({ event, client, body }) => {
+      const channelId = event.channel.id;
       const cdata = await app.dbs.channelhoisterdb.get(channelId);
-      if(!cdata) {
+      if (!cdata) {
         return;
       }
 
@@ -120,16 +119,16 @@ export default class Ping implements Command {
         name: `${cdata.name}`,
         is_private: true,
       });
-     await client.conversations.invite({
-      channel: channel.channel!.id,
-      users: cdata.usersToAdd.join(","),
-     })
-     await app.client.chat.postMessage({
-      channel: channel.channel.id,
-      text: `Channel is hoisting this name.`
-     })
-     cdata.createdChannelIds.push(channel.channel.id);
-     await app.dbs.channelhoisterdb.set(channelId, cdata);
+      await client.conversations.invite({
+        channel: channel.channel!.id,
+        users: cdata.usersToAdd.join(","),
+      });
+      await app.client.chat.postMessage({
+        channel: channel.channel.id,
+        text: `Channel is hoisting this name.`,
+      });
+      cdata.createdChannelIds.push(channel.channel.id);
+      await app.dbs.channelhoisterdb.set(channelId, cdata);
     });
   }
 }
