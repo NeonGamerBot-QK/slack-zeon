@@ -10,8 +10,8 @@ export default class Ping implements Command {
     this.description = `sticky message`;
   }
   run(app: ModifiedApp) {
-     // part 2 message
-    console.log(`PLESE`)
+    // part 2 message
+    console.log(`PLESE`);
     app.event("channel_rename", async ({ event, client, body }) => {
       const channelId = event.channel.id;
       console.debug(`$channelrename`, channelId, event);
@@ -35,7 +35,7 @@ export default class Ping implements Command {
         text: `Channel is hoisting this name.`,
       });
       cdata.createdChannelIds.push(channel.channel.id);
-      cdata.name = event.channel.name
+      cdata.name = event.channel.name;
       await app.dbs.channelhoisterdb.set(channelId, cdata);
     });
     // app.command()
@@ -160,6 +160,5 @@ export default class Ping implements Command {
           break;
       }
     });
-   
   }
 }
