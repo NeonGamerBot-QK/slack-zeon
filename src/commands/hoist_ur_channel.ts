@@ -68,7 +68,7 @@ export default class Ping implements Command {
 
           break;
         case "dehoist-channel":
-if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
@@ -78,18 +78,18 @@ if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
           const dbEntryToRemove2 = app.dbs.channelhoisterdb.get(
             command.channel_id,
           );
-          const channel0 = args[0]
-          if(!channel0) {
+          const channel0 = args[0];
+          if (!channel0) {
             return respond({
               text: `:x: You must provide a channel to dehoist.`,
               response_type: "ephemeral",
-            })
+            });
           }
-          if(!dbEntryToRemove2.createdChannelIds.includes(channel0)) {
+          if (!dbEntryToRemove2.createdChannelIds.includes(channel0)) {
             return respond({
               text: `:x: This channel is not being hoisted.`,
               response_type: "ephemeral",
-            })
+            });
           }
           const currentChannelInfo = await app.client.conversations.info({
             channel: channel0,
@@ -102,8 +102,8 @@ if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
           respond({
             text: `Channel being dehoisted! make sure zeon stays in this channel or it could fail to watch it!`,
             response_type: "ephemeral",
-          })
-        break;
+          });
+          break;
         case "remove":
         case "rm":
           if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
