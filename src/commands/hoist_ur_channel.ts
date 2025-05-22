@@ -6,7 +6,7 @@ export default class Ping implements Command {
   name: string;
   description: string;
   constructor() {
-    this.name = `/stickymessage`;
+    this.name = `/hoistchannel`;
     this.description = `sticky message`;
   }
   run(app: ModifiedApp) {
@@ -67,6 +67,43 @@ export default class Ping implements Command {
           }
 
           break;
+        case "dehoist-channel":
+if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
+            respond({
+              text: `:x: You don't have a sticky message to remove.`,
+              response_type: "ephemeral",
+            });
+            return;
+          }
+          const dbEntryToRemove2 = app.dbs.channelhoisterdb.get(
+            command.channel_id,
+          );
+          const channel0 = args[0]
+          if(!channel0) {
+            return respond({
+              text: `:x: You must provide a channel to dehoist.`,
+              response_type: "ephemeral",
+            })
+          }
+          if(!dbEntryToRemove2.createdChannelIds.includes(channel0)) {
+            return respond({
+              text: `:x: This channel is not being hoisted.`,
+              response_type: "ephemeral",
+            })
+          }
+          const currentChannelInfo = await app.client.conversations.info({
+            channel: channel0,
+          });
+          // rename channel
+          await app.client.conversations.rename({
+            channel: channel0,
+            name: `${currentChannelInfo.channel.name}-${Date.now()}`,
+          });
+          respond({
+            text: `Channel being dehoisted! make sure zeon stays in this channel or it could fail to watch it!`,
+            response_type: "ephemeral",
+          })
+        break;
         case "remove":
         case "rm":
           if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
@@ -80,10 +117,6 @@ export default class Ping implements Command {
             command.channel_id,
           );
           try {
-            await app.client.chat.delete({
-              channel: command.channel_id,
-              ts: dbEntryToRemove.ts,
-            });
             app.dbs.channelhoisterdb.delete(command.channel_id);
             respond({
               text: `Sticky message removed`,
