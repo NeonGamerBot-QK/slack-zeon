@@ -135,8 +135,10 @@ export default class Ping implements Command {
     // part 2 message
     app.event("channel_rename", async ({ event, client, body }) => {
       const channelId = event.channel.id;
+      console.debug(`$channelrename`, channelId, event)
       const cdata = await app.dbs.channelhoisterdb.get(channelId);
       if (!cdata) {
+        console.debug(`No cdata`)
         return;
       }
 
