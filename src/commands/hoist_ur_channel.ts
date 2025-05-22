@@ -30,13 +30,6 @@ export default class Ping implements Command {
 
       switch (subcmd) {
         case "lock":
-          if (args.length === 0) {
-            respond({
-              text: `:x: You must provide a message to create a sticky message.`,
-              response_type: "ephemeral",
-            });
-            return;
-          }
           if (app.dbs.channelhoisterdb.get(command.channel_id)) {
             respond({
               text: `:x: You already have enabled a watcher for this channel.`,
