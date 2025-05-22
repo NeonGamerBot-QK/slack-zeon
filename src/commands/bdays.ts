@@ -57,7 +57,7 @@ export default class Bday implements Command {
           await app.client.chat.postEphemeral({
             channel: command.channel_id,
             user: command.user_id,
-            text: `:white_check_mark: Set your bday to ${formatedDate.toDateString()}, to change it run `,
+            text: `:white_check_mark: Set your bday to ${formatedDate.toDateString()}, to change it run /bday config <new bday>`,
           });
         } catch (e) {
           await app.client.chat.postEphemeral({

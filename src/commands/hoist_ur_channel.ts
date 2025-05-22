@@ -85,7 +85,7 @@ export default class Ping implements Command {
               channel: command.channel_id,
               ts: dbEntryToRemove.ts,
             });
-            app.dbs.stickymessages.delete(command.channel_id);
+            app.dbs.channelhoisterdb.delete(command.channel_id);
             respond({
               text: `Sticky message removed`,
               response_type: "ephemeral",
@@ -94,42 +94,6 @@ export default class Ping implements Command {
           } catch (e) {
             respond({
               text: `:x: Error removing sticky message?\n am i in the channel...`,
-              response_type: "ephemeral",
-            });
-            return;
-          }
-          break;
-        case "edit":
-        case "update":
-          if (!app.dbs.stickymessages.get(command.channel_id)) {
-            respond({
-              text: `:x: You don't have a sticky message to edit.`,
-              response_type: "ephemeral",
-            });
-            return;
-          }
-
-          const dbEntryToEdit = app.dbs.stickymessages.get(command.channel_id);
-          const textToEdit = args.join(" ");
-          try {
-            await app.client.chat.update({
-              channel: command.channel_id,
-              ts: dbEntryToEdit.ts,
-              text: textToEdit,
-            });
-            app.dbs.stickymessages.set(command.channel_id, {
-              message: textToEdit,
-              ts: dbEntryToEdit.ts,
-              lastTriggered: Date.now(),
-            });
-            respond({
-              text: `Sticky message edited`,
-              response_type: "ephemeral",
-            });
-            return;
-          } catch (e) {
-            respond({
-              text: `:x: Error editing sticky message?\n am i in the channel...`,
               response_type: "ephemeral",
             });
             return;
@@ -144,8 +108,28 @@ export default class Ping implements Command {
       }
     });
     // part 2 message
-    app.event("channel_rename", async ({ event, client, body }) => {
-      
+    app.event("channel_rename", async ({ event, client, body }) => {  
+      const channelId = event.channel.id
+      const cdata = await app.dbs.channelhoisterdb.get(channelId);
+      if(!cdata) {
+        return;
+      }
+
+      // create  priv channel and then invite users
+      const channel = await client.conversations.create({
+        name: `${cdata.name}`,
+        is_private: true,
+      });
+     await client.conversations.invite({
+      channel: channel.channel!.id,
+      users: cdata.usersToAdd.join(","),
+     })
+     await app.client.chat.postMessage({
+      channel: channel.channel.id,
+      text: `Channel is hoisting this name.`
+     })
+     cdata.createdChannelIds.push(channel.channel.id);
+     await app.dbs.channelhoisterdb.set(channelId, cdata);
     });
   }
 }
