@@ -55,18 +55,17 @@ export async function doMinUpdate(app: ModifiedApp) {
         });
         // ping @everyone
         app.client.chat.postMessage({
-         
-        text: `<!channel>`,
-        blocks: [
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: `<!channel>`,
+          text: `<!channel>`,
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `<!channel>`,
+              },
             },
-          },
-        ],
-      
+          ],
+
           channel: "C08P152AU94",
         });
         //@ts-ignore
