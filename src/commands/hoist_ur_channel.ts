@@ -10,6 +10,34 @@ export default class Ping implements Command {
     this.description = `sticky message`;
   }
   run(app: ModifiedApp) {
+     // part 2 message
+    console.log(`PLESE`)
+    app.event("channel_rename", async ({ event, client, body }) => {
+      const channelId = event.channel.id;
+      console.debug(`$channelrename`, channelId, event);
+      const cdata = await app.dbs.channelhoisterdb.get(channelId);
+      if (!cdata) {
+        console.debug(`No cdata`);
+        return;
+      }
+
+      // create  priv channel and then invite users
+      const channel = await client.conversations.create({
+        name: `${cdata.name}`,
+        is_private: true,
+      });
+      await client.conversations.invite({
+        channel: channel.channel!.id,
+        users: cdata.usersToAdd.join(","),
+      });
+      await app.client.chat.postMessage({
+        channel: channel.channel.id,
+        text: `Channel is hoisting this name.`,
+      });
+      cdata.createdChannelIds.push(channel.channel.id);
+      cdata.name = event.channel.name
+      await app.dbs.channelhoisterdb.set(channelId, cdata);
+    });
     // app.command()
     app.command(this.name, async ({ command, ack, respond }) => {
       const stamp = Date.now();
@@ -132,31 +160,6 @@ export default class Ping implements Command {
           break;
       }
     });
-    // part 2 message
-    app.event("channel_rename", async ({ event, client, body }) => {
-      const channelId = event.channel.id;
-      console.debug(`$channelrename`, channelId, event);
-      const cdata = await app.dbs.channelhoisterdb.get(channelId);
-      if (!cdata) {
-        console.debug(`No cdata`);
-        return;
-      }
-
-      // create  priv channel and then invite users
-      const channel = await client.conversations.create({
-        name: `${cdata.name}`,
-        is_private: true,
-      });
-      await client.conversations.invite({
-        channel: channel.channel!.id,
-        users: cdata.usersToAdd.join(","),
-      });
-      await app.client.chat.postMessage({
-        channel: channel.channel.id,
-        text: `Channel is hoisting this name.`,
-      });
-      cdata.createdChannelIds.push(channel.channel.id);
-      await app.dbs.channelhoisterdb.set(channelId, cdata);
-    });
+   
   }
 }
