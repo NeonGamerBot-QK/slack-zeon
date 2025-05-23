@@ -321,7 +321,7 @@ export function setupOverallCron(app: ModifiedApp) {
   // cronTS(app);
   // temp disabled
   ActualCronForJourney(app);
-  setupShipwrecked(app);
+  // setupShipwrecked(app);
   setInterval(
     async () => {
       interface RootInterface {
