@@ -21,26 +21,26 @@ export interface Mail {
 }
 function formatNewMailNotification(mail) {
   return `
-📬 **New Mail Received!**
+📬 *New Mail Received!*
 
-**Title**: ${mail.title || "No Title"}
-**ID**: ${mail.id}
-**Type**: ${mail.type}${mail.subtype ? ` (${mail.subtype})` : ""}
-**Status**: ${mail.status}
-**Tags**: ${mail.tags?.join(", ") || "None"}
+*Title*: ${mail.title || "No Title"}
+*ID*: ${mail.id}
+*Type*: ${mail.type}${mail.subtype ? ` (${mail.subtype})` : ""}
+*Status*: ${mail.status}
+*Tags*: ${mail.tags?.join(", ") || "None"}
 
-**Created At**: ${mail.created_at}
-${mail.updated_at ? `**Updated At**: ${mail.updated_at}` : ""}
+*Created At*: ${mail.created_at}
+${mail.updated_at ? `*Updated At*: ${mail.updated_at}` : ""}
 
-**Path**: ${mail.path}
-**Public URL**: ${mail.public_url}
+*Path*: ${mail.path}
+*Public URL*: ${mail.public_url}
 
-${mail.tracking_number ? `**Tracking Number**: ${mail.tracking_number}` : ""}
-${mail.tracking_link ? `**Tracking Link**: ${mail.tracking_link}` : ""}
-${mail.original_id ? `**Original ID**: ${mail.original_id}` : ""}
+${mail.tracking_number ? `*Tracking Number*: ${mail.tracking_number}` : ""}
+${mail.tracking_link ? `*Tracking Link*: ${mail.tracking_link}` : ""}
+${mail.original_id ? `*Original ID*: ${mail.original_id}` : ""}
 
-${mail.description ? `**Description**: ${mail.description}` : ""}
-${mail.contents?.length ? `**Contents**:\n- ${mail.contents.join("\n- ")}` : ""}
+${mail.description ? `*Description*: ${mail.description}` : ""}
+${mail.contents?.length ? `*Contents*:\n- ${mail.contents.join("\n- ")}` : ""}
 
 `.trim();
 }
@@ -50,6 +50,7 @@ function diffMails(oldMail, newMail) {
   const keys = new Set([...Object.keys(oldMail), ...Object.keys(newMail)]);
 
   keys.forEach((key) => {
+    if(key === "status") return;
     const oldValue = JSON.stringify(oldMail[key]);
     const newValue = JSON.stringify(newMail[key]);
 
@@ -67,10 +68,10 @@ function diffMails(oldMail, newMail) {
   }
 
   return (
-    `🔄 **Mail Update Detected**\n\n` +
+    `🔄 *Mail Update Detected*\n\n` +
     changes
       .map((change) => {
-        return `**${change.key}**:\n- Old: ${formatValue(change.old)}\n- New: ${formatValue(change.new)}\n`;
+        return `*${change.key}*:\n- Old: ${formatValue(change.old)}\n- New: ${formatValue(change.new)}\n`;
       })
       .join("\n")
   );
