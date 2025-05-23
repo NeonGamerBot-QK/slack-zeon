@@ -50,7 +50,7 @@ function diffMails(oldMail, newMail) {
   const keys = new Set([...Object.keys(oldMail), ...Object.keys(newMail)]);
 
   keys.forEach((key) => {
-    if(key === "status") return;
+    if (key === "status") return;
     const oldValue = JSON.stringify(oldMail[key]);
     const newValue = JSON.stringify(newMail[key]);
 
