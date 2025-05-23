@@ -89,7 +89,11 @@ function formatValue(value) {
 export async function scrapeStuff(app: ModifiedApp) {
   setInterval(async () => {
     const theMailArray = app.db.get("mymail") || [];
-    const data = await fetch("https://mail.hackclub.com/api/public/v1/mail")
+    const data = await fetch("https://mail.hackclub.com/api/public/v1/mail", {
+        headers: {
+            "Authorization": "Bearer " + process.env.HACKCLUB_MAIL_TOKEN 
+        }
+    })
       .then((d) => d.json())
       .then((d) => d.mail as Mail[]);
     for (const mail of data) {
