@@ -210,7 +210,7 @@ export async function commentsCron(app: ModifiedApp) {
     const msg = await app.client.chat.postMessage({
       channel: `C08N1NWKEF4`,
       thread_ts: entry.root_message,
-      text: comment.text.slice(0, 3000) || "no comment text huh",
+      text: comment.text ? comment.text.slice(0, 3000) : "no comment text huh",
       blocks: [
         {
           type: "section",
