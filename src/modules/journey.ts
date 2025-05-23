@@ -216,7 +216,7 @@ export async function commentsCron(app: ModifiedApp) {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:tada: *New Comment!* by <@${comment.slack_id}> \n${comment.text.slice(0, 2900)}`,
+            text: `:tada: *New Comment!* by <@${comment.slack_id}> \n${comment.text ? comment.text.slice(0, 2900) : "No comment text found"}`,
           },
         },
       ],
