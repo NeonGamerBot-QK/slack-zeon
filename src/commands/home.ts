@@ -80,7 +80,6 @@ export default class AppHome implements Command {
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
-        
           const db_entry2 = app.db.get("rpg_lb");
           const rpgysws_section = [
             {
