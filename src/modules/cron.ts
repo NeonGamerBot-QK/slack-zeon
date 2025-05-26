@@ -305,7 +305,7 @@ export function setupOverallCron(app: ModifiedApp) {
   //     });
   //   }
   // });
-  setupCronForShipments(app);
+  // setupCronForShipments(app);
   startBdayCron(app);
   // setupCronAdventOfCode(app);
   setupCronForIrl(app);

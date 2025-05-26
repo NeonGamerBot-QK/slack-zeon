@@ -80,35 +80,7 @@ export default class AppHome implements Command {
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
-          // const high_seas_section = [
-          //   {
-          //     type: "section",
-          //     text: {
-          //       type: "mrkdwn",
-          //       text: `*High seas lb:*\n${highSeasLb
-          //         .slice(0, 10)
-          //         .map(
-          //           (e, i) =>
-          //             `${i + 1} <@${e.id}> - ${e.current_doubloons} (${e.total_doubloons} overall) :doubloon:`,
-          //         )
-          //         .join("\n")}`,
-          //     },
-          //   },
-          // ];
-          // db entry
-          // const db_entry = app.db.get("15daysofcode");
-          // const daysof15_section = [
-          //   {
-          //     type: "divider",
-          //   },
-          //   {
-          //     type: "section",
-          //     text: {
-          //       type: "mrkdwn",
-          //       text: `*15 days of code:*\n${db_entry.map((e) => `${e.user} has ${e.posts.length}/15 days`).join("\n")}`,
-          //     },
-          //   },
-          // ];
+        
           const db_entry2 = app.db.get("rpg_lb");
           const rpgysws_section = [
             {
@@ -230,21 +202,6 @@ export default class AppHome implements Command {
                       .join("\n")}`,
                   },
                 },
-                // adventOfCodeData && {
-                //   type: "section",
-                //   text: {
-                //     type: "mrkdwn",
-                //     text: `*Advent of Code:*\n${(
-                //       Object.values(adventOfCodeData.members) as any[]
-                //     )
-                //       .slice(0, 10)
-                //       .sort((a, b) => b.local_score - a.local_score)
-                //       .map((e) => `${e.name} has ${e.stars} stars`)
-                //       .join("\n")}`,
-                //   },
-                // },
-                // ...daysof15_section,
-                // ...rpgysws_section,
                 ...anon_mail_section,
               ].filter(Boolean),
             };

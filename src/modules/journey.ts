@@ -57,7 +57,6 @@ export async function shipsCron(app: ModifiedApp) {
           type: "section",
           text: {
             type: "mrkdwn",
-            // TODO add the ping back
             text: `:tada: *New/ project!*\n*${ship.title}*\n_${ship.description}_ by <@${ship.slack_id}>`,
           },
         },
