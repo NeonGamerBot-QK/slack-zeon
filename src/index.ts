@@ -21,6 +21,24 @@ import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
 import Keyv from "keyv";
+// Save original fetch
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async function (...args) {
+  const [url] = args;
+  try {
+    //@ts-ignore
+    const res = await originalFetch(...args);
+    if (!res.ok) {
+      console.warn(`Fetch to ${url} returned status ${res.status}`);
+    }
+    return res;
+  } catch (error) {
+    console.error(`Global fetch failed for URL: ${url}`);
+    error.message += ` (while fetching ${url})`;
+    throw error;
+  }
+};
+
 console.log(`Loading db's`);
 console.time(`Loading db's`);
 const db = new JSONdb("data/data.json");
