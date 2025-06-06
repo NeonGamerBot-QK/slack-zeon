@@ -146,7 +146,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
             text: {
               type: "mrkdwn",
               // TODO add the ping back
-              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
+              text: `:tada: *New Update!* by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
             },
           },
           // add image
@@ -170,7 +170,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
             text: {
               type: "mrkdwn",
               // TODO add the ping back
-              text: `:tada: *New Update!*by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
+              text: `:tada: *New Update!* by <@${update.slack_id}> \n${update.text.slice(0, 2900)}`,
             },
           },
         ].filter(Boolean),
