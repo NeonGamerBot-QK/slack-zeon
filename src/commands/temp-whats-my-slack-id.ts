@@ -60,6 +60,12 @@ export default class HowWasUrDayMessage implements Command {
       );
       for (const i of rids) objectedIds[i.toLowerCase()] = true;
       console.log(objectedIds);
+
+      await app.logsnag.insight.increment({
+        icon: "📜",
+        value: 1,
+        title: "Messages for #whats-my-slack-id",
+      });
       await app.logsnag.track({
         channel: "whats-my-slack-id",
         event: "message",
@@ -69,15 +75,10 @@ export default class HowWasUrDayMessage implements Command {
         notify: ids.length > 10,
         tags: {
           pings: ids.length,
-          pinged_data: rids,
+          pinged_data: rids.join(','),
         },
       });
 
-      await app.logsnag.insight.increment({
-        icon: "📜",
-        value: 1,
-        title: "Messages for #whats-my-slack-id",
-      });
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
     });
