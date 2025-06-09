@@ -363,7 +363,7 @@ export default class AppHome implements Command {
                     },
                     style: "danger",
                     value: "restart-instance",
-                  }
+                  },
                 ],
               },
             ].filter(Boolean),
