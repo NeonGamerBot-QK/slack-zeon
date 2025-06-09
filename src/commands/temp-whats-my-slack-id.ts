@@ -65,10 +65,11 @@ export default class HowWasUrDayMessage implements Command {
         event: "message",
         user_id: event.user,
         icon: "📜",
+        description: "Pinged "+rids.join(', '),
         notify: ids.length > 10,
         tags: {
           pings: ids.length,
-          ...objectedIds,
+          pinged_data: rids,
         },
       });
 
