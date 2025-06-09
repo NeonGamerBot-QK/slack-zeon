@@ -4,7 +4,7 @@ import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import { ModifiedApp } from "../modules/slackapp";
 const id_regex =
- /<@[A-Za-z0-9]+>|<#(?:[A-Za-z]+(?:[0-9]+[A-Za-z]+)+)\|>|<#[A-Za-z0-9]+\|?>/g;
+  /<@[A-Za-z0-9]+>|<#(?:[A-Za-z]+(?:[0-9]+[A-Za-z]+)+)\|>|<#[A-Za-z0-9]+\|?>/g;
 
 export default class HowWasUrDayMessage implements Command {
   name: string;
@@ -44,14 +44,21 @@ export default class HowWasUrDayMessage implements Command {
       const matchedText = event.text.match(id_regex) || [];
       // console.log(cmd, args);
       const ids = [...new Set([...matchedText, `<@${event.user}>`])];
-      let objectedIds = {}
+      let objectedIds = {};
       await app.client.chat.postMessage({
         channel: event.channel,
         text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "").replace("|", "")}`).join("\n")}\n (this will be disabled once radar is back up)\nradar i miss you please come back`,
         thread_ts: event.ts,
       });
-      const rids = ids.map((e) => e.split("<")[1].split(">")[0].replace("@", "").replace("#", "").replace("|", ""));
-      for(const i of rids) objectedIds[i]=true;
+      const rids = ids.map((e) =>
+        e
+          .split("<")[1]
+          .split(">")[0]
+          .replace("@", "")
+          .replace("#", "")
+          .replace("|", ""),
+      );
+      for (const i of rids) objectedIds[i] = true;
       await app.logsnag.track({
         channel: "whats-my-slack-id",
         event: "message",
@@ -60,15 +67,15 @@ export default class HowWasUrDayMessage implements Command {
         notify: ids.length > 10,
         tags: {
           pings: ids.length,
-        ...(objectedIds)  
+          ...objectedIds,
         },
-      })
+      });
 
       await app.logsnag.insight.increment({
         icon: "📜",
         value: 1,
-      title: "Messages for #whats-my-slack-id"   
-      })
+        title: "Messages for #whats-my-slack-id",
+      });
       //@ts-ignore
       //   await say(`Hi there! im a WIP rn but my site is:\n> http://zeon.rocks/`);
     });
