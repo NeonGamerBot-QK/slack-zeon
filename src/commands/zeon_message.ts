@@ -3,6 +3,7 @@ import { App } from "@slack/bolt";
 import util from "util";
 import { Command, onlyForMe } from "../modules/BaseCommand";
 import OpenAI from "openai";
+import { ModifiedApp } from "../modules/slackapp";
 const ai = new OpenAI({
   apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
 });
@@ -27,7 +28,7 @@ export default class Message implements Command {
     this.description = `Handles zeon.`;
     this.is_event = true;
   }
-  run(app: App) {
+  run(app: ModifiedApp) {
     let last_msg_ts = null;
     // app.command()
     app.event(this.name, async (par) => {
@@ -48,11 +49,29 @@ export default class Message implements Command {
       const { event, say } = par;
       if (last_msg_ts == event.ts) return;
       last_msg_ts = event.ts;
+try {
+    await app.logsnag.track({
+        channel: "zeon-ai",
+        event: "message",
+        user_id: event.user,
+        icon: "📜",
+        tags: {
+          content_length: event.text.length,
+          channel: event.channel,
+        },
+      })
 
+      await app.logsnag.insight.increment({
+        icon: "📜",
+        value: 1,
+      title: "Messages for zeon-ai"   
+      })
+} catch (e) {
+  console.error(e, 'erm ai analytics died lol')
+}
       const args = event.text.slice("zeon ".length).trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       // best code fr
-      if (true) {
         if (event.channel == "C07R8DYAZMM") {
           await app.client.chat.postEphemeral({
             channel: event.channel,
@@ -246,88 +265,7 @@ export default class Message implements Command {
             text: `:notcool: ${e.toString()}`,
           });
         }
-      } else {
-        // console.log(cmd, args);
-        const actionVerbs = ["can", "please", "plz"];
-        const uneededVerbsInSomeCases = ["you", "a"];
-        if (actionVerbs.includes(cmd)) {
-          // try to understand
-          if (uneededVerbsInSomeCases.includes(args[0].toLowerCase())) {
-            args.shift(); // get rid of it
-            // timer func
-          }
-          if (args[0] == "ping") {
-            args.shift();
-            // ping func
-            await app.client.chat.postMessage({
-              channel: event.channel,
-              text: `:ping_pong: pong`,
-              thread_ts: event.thread_ts,
-            });
-          } else if (args[0] == "tag") {
-            args.shift();
-            // get them tags /hiutngdfkj
-            const tagName = args[0];
-            // check if the tag exists
-            const tag = app.dbs.tags.get(`${event.user}_${tagName}`);
-            if (tag) {
-              if (event.user == process.env.MY_USER_ID) {
-                app.client.chat.postMessage({
-                  channel: event.channel,
-                  blocks: [
-                    {
-                      type: "section",
-                      text: {
-                        type: "mrkdwn",
-                        text: tag,
-                      },
-                    },
-                    {
-                      // context block
-                      type: "context",
-                      elements: [
-                        {
-                          type: "mrkdwn",
-                          text: `Tag: ${tagName}`,
-                        },
-                      ],
-                    },
-                  ],
-                  token: process.env.MY_SLACK_TOKEN,
-                });
-              } else {
-                await app.client.chat.postMessage({
-                  channel: event.channel,
-                  blocks: [
-                    {
-                      type: "section",
-                      text: {
-                        type: "mrkdwn",
-                        text: tag,
-                      },
-                    },
-                    {
-                      // context block
-                      type: "context",
-                      elements: [
-                        {
-                          type: "mrkdwn",
-                          text: `Tag: ${tagName} - sent by <@${command.user_id}>`,
-                        },
-                      ],
-                    },
-                  ],
-                });
-              }
-            } else {
-              await app.client.chat.postMessage({
-                channel: event.channel,
-                text: `Tag \`${tagName}\` does not exist`,
-              });
-            }
-          }
-        }
-      }
+      
       console.debug(`#message3-`);
 
       //@ts-ignore

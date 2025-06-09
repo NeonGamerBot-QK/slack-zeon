@@ -21,6 +21,7 @@ import { EncryptedJsonDb } from "./modules/encrypted-db";
 import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
 import Keyv from "keyv";
+import { LogSnag } from '@logsnag/node';
 // Save original fetch
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async function (...args) {
@@ -75,6 +76,10 @@ app.nocodb = new Api({
 attachDB(db);
 watchMem(app);
 
+const logsnag = new LogSnag({
+  token: process.env.LOGSNAG_TOKEN!,
+  project: 'slack-zeon'
+});
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear

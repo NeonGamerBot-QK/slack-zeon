@@ -10,6 +10,7 @@
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
     "@keyv/sqlite": "^4.0.1",
+    "@logsnag/node": "^1.0.1",
     "@napi-rs/canvas": "^0.1.69",
     "@sentry/node": "^8.41.0",
     "@sentry/profiling-node": "^8.41.0",
@@ -41,7 +42,6 @@
     "stegcloak": "^1.1.1",
     "ws": "^8.18.0"
   },
-  "optionalDependencies": {},
   "devDependencies": {
     "@types/node": "^22.7.4",
     "canvas": "^2.11.2",
