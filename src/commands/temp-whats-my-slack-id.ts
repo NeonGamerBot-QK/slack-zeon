@@ -59,6 +59,7 @@ export default class HowWasUrDayMessage implements Command {
           .replace("|", ""),
       );
       for (const i of rids) objectedIds[i.toLowerCase()] = true;
+      console.log(objectedIds)
       await app.logsnag.track({
         channel: "whats-my-slack-id",
         event: "message",
