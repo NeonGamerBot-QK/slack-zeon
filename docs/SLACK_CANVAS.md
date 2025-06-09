@@ -151,6 +151,5 @@ outdated!
 - hackatime tracker
 - how was your day
 - code watcher
-- nextdns logs
 - spotify and jellyfin status in slack (personal)
 - irl status

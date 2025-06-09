@@ -107,7 +107,6 @@ Some major features of zeon are:
 - hackatime tracker (personal)
 - how was your day (personal)
 - code watcher (personal)
-- nextdns logs (personal)
 - spotify and jellyfin status in slack (personal)
 - irl status (personal)
 - Many other features which are mostly personal
