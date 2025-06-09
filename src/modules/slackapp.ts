@@ -27,7 +27,7 @@ export interface ModifiedApp extends App<StringIndexed> {
   disable_wmi: boolean;
   ws: null | any;
   utils: typeof import("./index");
-  logsnag: LogSnag
+  logsnag: LogSnag;
 }
 export function buildHtml() {
   // oh yes im writing a whole ass website in ts file with no jsx
