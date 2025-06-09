@@ -75,7 +75,7 @@ export default class HowWasUrDayMessage implements Command {
         notify: ids.length > 10,
         tags: {
           pings: ids.length,
-          pinged_data: rids.join(','),
+          pinged_data: rids.join(","),
         },
       });
 
