@@ -79,7 +79,7 @@ const logsnag = new LogSnag({
   token: process.env.LOGSNAG_TOKEN!,
   project: "slack-zeon",
 });
-app.logsnag = logsnag
+app.logsnag = logsnag;
 // app.client.cha
 const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
 // this is temp i swear
