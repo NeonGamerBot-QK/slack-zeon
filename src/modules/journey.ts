@@ -28,21 +28,15 @@ export interface Comment {
   slack_id: string;
   created_at: string;
 }
-const baseURL = `https://journey.hackclub.com/`
+const baseURL = `https://journey.hackclub.com/`;
 export function getShips(): Promise<Ship[]> {
-  return fetch(`${baseURL}api/v1/projects`).then((r) =>
-    r.json(),
-  );
+  return fetch(`${baseURL}api/v1/projects`).then((r) => r.json());
 }
 export function getUpdates(): Promise<Update[]> {
-  return fetch(`${baseURL}api/v1/devlogs`).then((r) =>
-    r.json(),
-  );
+  return fetch(`${baseURL}api/v1/devlogs`).then((r) => r.json());
 }
 export function getComments(): Promise<Comment[]> {
-  return fetch(`${baseURL}api/v1/comments`).then((r) =>
-    r.json(),
-  );
+  return fetch(`${baseURL}api/v1/comments`).then((r) => r.json());
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
