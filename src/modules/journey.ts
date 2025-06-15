@@ -45,7 +45,7 @@ export async function shipsCron(app: ModifiedApp) {
     if (app.dbs.journey.get(shipId)) continue;
     // construct message :3
     const msg = await app.client.chat.postMessage({
-      channel: `C08N1NWKEF4`,
+      channel: `C091CEEHJ9K`,
       text: `New Project! ${ship.title}`,
       blocks: [
         {
@@ -131,7 +131,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     let msg = null;
     try {
       msg = await app.client.chat.postMessage({
-        channel: `C08N1NWKEF4`,
+        channel: `C091CEEHJ9K`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
         text: update.text.slice(0, 3000) || "no update text huh",
@@ -155,7 +155,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     } catch (e) {
       // please dont use bad img urls smh
       msg = await app.client.chat.postMessage({
-        channel: `C08N1NWKEF4`,
+        channel: `C091CEEHJ9K`,
         thread_ts: entry.root_message,
         reply_broadcast: true,
         text: update.text.slice(0, 3000) || "no update text huh",
@@ -202,7 +202,7 @@ export async function commentsCron(app: ModifiedApp) {
       continue;
     console.log("Sending journey comment aaaa", entry);
     const msg = await app.client.chat.postMessage({
-      channel: `C08N1NWKEF4`,
+      channel: `C091CEEHJ9K`,
       thread_ts: entry.root_message,
       text: comment.text ? comment.text.slice(0, 3000) : "no comment text huh",
       blocks: [
