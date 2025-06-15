@@ -28,7 +28,7 @@ export interface Comment {
   slack_id: string;
   created_at: string;
 }
-const baseURL = `https://journey.hackclub.com/`;
+const baseURL = `https://summer.hackclub.com/`;
 export function getShips(): Promise<Ship[]> {
   return fetch(`${baseURL}api/v1/projects`).then((r) => r.json());
 }
