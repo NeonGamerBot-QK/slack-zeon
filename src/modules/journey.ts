@@ -55,6 +55,7 @@ export async function shipsCron(app: ModifiedApp) {
   for (const ship of ships) {
     const shipId = ship.id.toString();
     if (app.dbs.journey.get(shipId)) continue;
+    try {
     // construct message :3
     const msg = await app.client.chat.postMessage({
       channel: `C091CEEHJ9K`,
@@ -80,7 +81,7 @@ export async function shipsCron(app: ModifiedApp) {
                 text: "View Project",
                 emoji: true,
               },
-              url: `https://journey.hackclub.com/projects/${ship.id}`,
+              url: `https://summer.hackclub.com/projects/${ship.id}`,
             },
           ],
         },
@@ -130,6 +131,9 @@ export async function shipsCron(app: ModifiedApp) {
       created_at: Date.now(),
       root_ship_meta: ship,
     });
+  } catch (e) {
+    console.error("Error sending ship message", e);
+  }
     // app.dbs.journey.set(u)
     await new Promise((r) => setTimeout(r, 1000));
   }
@@ -173,7 +177,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
       msg = await app.client.chat.postMessage({
         channel: `C091CEEHJ9K`,
         thread_ts: entry.root_message,
-          username: 'Explorpheus',
+        username: 'Explorpheus',
         icon_url: 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png',
         reply_broadcast: true,
         text: update.text.slice(0, 3000) || "no update text huh",
