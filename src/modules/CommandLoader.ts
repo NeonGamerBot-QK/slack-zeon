@@ -5,60 +5,62 @@ import path from "path";
 
 export default class CommandLoader {
   private _app: App;
-  // private _commands: Map<string, Command>;
   public readonly dir: string;
+
   public constructor(app: App, dir: string) {
     this._app = app;
-    // this._commands = new Map();
     this.dir = dir;
   }
+
   private getFiles(): string[] {
-    return readdirSync(this.dir);
+    return readdirSync(this.dir).filter(file => file.endsWith(".js") || file.endsWith(".ts"));
   }
+
   public async runQuery() {
     const files = this.getFiles();
-    const cmds = [];
-    let logging_values = [];
+    const cmds: { commandClass: any; file: string }[] = [];
+    const logging_values: any[] = [];
+
     for (const file of files) {
       const stamp = Date.now();
       try {
-        const commandClass = await import(path.join(this.dir, file));
-        // console.log(commandClass)
+        const fullPath = path.resolve(this.dir, file);
+        const commandClass = await import(fullPath);
         cmds.push({ commandClass, file });
-        // const cmd = new commandClass.default();
-        // cmd.run(this._app);
         console.log(`Loaded ${file}`);
         logging_values.push({ file, loaded: true });
       } catch (e) {
-        console.error(e);
-        console.error(`Failed to load ${file}`);
+        console.error(`Failed to load ${file}:`, e);
         logging_values.push({ file, failed: true });
       } finally {
-        console.log(`Finished  reading/dying to ${file}`);
-        logging_values.find((e) => e.file === file).took_read =
-          `${Date.now() - stamp}ms`;
+        const log = logging_values.find((e) => e.file === file);
+        if (log) log.took_read = `${Date.now() - stamp}ms`;
       }
     }
+
     for (const { commandClass, file } of cmds) {
       const stamp = Date.now();
-      const c = commandClass.default
-        ? new commandClass.default()
-        : new commandClass();
       console.log(`Running ${file}`);
       try {
-        c.run(this._app);
+        const instance: Command =
+          commandClass.default
+            ? new commandClass.default()
+            : new commandClass();
+        instance.run(this._app);
         console.log(`Ran ${file}`);
-        logging_values.find((e) => e.file === file).ran = true;
+        const log = logging_values.find((e) => e.file === file);
+        if (log) log.ran = true;
       } catch (e) {
-        console.error(e);
-        console.error(`Failed to run ${file}`);
-        logging_values.find((e) => e.file === file).failed_run = true;
+        console.error(`Failed to run ${file}:`, e);
+        const log = logging_values.find((e) => e.file === file);
+        if (log) log.failed_run = true;
       } finally {
+        const log = logging_values.find((e) => e.file === file);
+        if (log) log.took = `${Date.now() - stamp}ms`;
         console.log(`Finished ${file}`);
-        logging_values.find((e) => e.file === file).took =
-          `${Date.now() - stamp}ms`;
       }
     }
+
     console.table(logging_values);
   }
 }
