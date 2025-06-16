@@ -1,3 +1,5 @@
+console.time(`Loading modules`);
+
 import "dotenv/config";
 import "./modules/sentry";
 import * as Sentry from "@sentry/node";
@@ -21,6 +23,8 @@ import { setupOverallCron } from "./modules/cron";
 import watchMem from "./modules/memwatch";
 import Keyv from "keyv";
 import { LogSnag } from "@logsnag/node";
+console.timeEnd(`Loading modules`);
+
 // Save original fetch
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async function (...args) {
