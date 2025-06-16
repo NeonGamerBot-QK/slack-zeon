@@ -13,7 +13,9 @@ export default class CommandLoader {
   }
 
   private getFiles(): string[] {
-    return readdirSync(this.dir).filter(file => file.endsWith(".js") || file.endsWith(".ts"));
+    return readdirSync(this.dir).filter(
+      (file) => file.endsWith(".js") || file.endsWith(".ts"),
+    );
   }
 
   public async runQuery() {
@@ -42,10 +44,9 @@ export default class CommandLoader {
       const stamp = Date.now();
       console.log(`Running ${file}`);
       try {
-        const instance: Command =
-          commandClass.default
-            ? new commandClass.default()
-            : new commandClass();
+        const instance: Command = commandClass.default
+          ? new commandClass.default()
+          : new commandClass();
         instance.run(this._app);
         console.log(`Ran ${file}`);
         const log = logging_values.find((e) => e.file === file);
