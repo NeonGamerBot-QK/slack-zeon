@@ -32,22 +32,22 @@ const baseURL = `https://summer.hackclub.com/`;
 export function getShips(): Promise<Ship[]> {
   return fetch(`${baseURL}api/v1/projects`, {
     headers: {
-      "Cookie": process.env.SOM_COOKIE
-    }
+      Cookie: process.env.SOM_COOKIE,
+    },
   }).then((r) => r.json());
 }
 export function getUpdates(): Promise<Update[]> {
   return fetch(`${baseURL}api/v1/devlogs`, {
     headers: {
-      "Cookie": process.env.SOM_COOKIE
-    }
+      Cookie: process.env.SOM_COOKIE,
+    },
   }).then((r) => r.json());
 }
 export function getComments(): Promise<Comment[]> {
   return fetch(`${baseURL}api/v1/comments`, {
     headers: {
-      "Cookie": process.env.SOM_COOKIE
-    }
+      Cookie: process.env.SOM_COOKIE,
+    },
   }).then((r) => r.json());
 }
 export async function shipsCron(app: ModifiedApp) {
@@ -242,7 +242,7 @@ export async function commentsCron(app: ModifiedApp) {
 export async function iRunOnCron(app: ModifiedApp) {
   await shipsCron(app);
   try {
-  await commentsCron(app);
+    await commentsCron(app);
   } catch (e) {}
   await new Promise((r) => setTimeout(r, 1000));
   await shipUpdatesCron(app);
