@@ -30,13 +30,25 @@ export interface Comment {
 }
 const baseURL = `https://summer.hackclub.com/`;
 export function getShips(): Promise<Ship[]> {
-  return fetch(`${baseURL}api/v1/projects`).then((r) => r.json());
+  return fetch(`${baseURL}api/v1/projects`, {
+    headers: {
+      "Cookie": process.env.SOM_COOKIE
+    }
+  }).then((r) => r.json());
 }
 export function getUpdates(): Promise<Update[]> {
-  return fetch(`${baseURL}api/v1/devlogs`).then((r) => r.json());
+  return fetch(`${baseURL}api/v1/devlogs`, {
+    headers: {
+      "Cookie": process.env.SOM_COOKIE
+    }
+  }).then((r) => r.json());
 }
 export function getComments(): Promise<Comment[]> {
-  return fetch(`${baseURL}api/v1/comments`).then((r) => r.json());
+  return fetch(`${baseURL}api/v1/comments`, {
+    headers: {
+      "Cookie": process.env.SOM_COOKIE
+    }
+  }).then((r) => r.json());
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
