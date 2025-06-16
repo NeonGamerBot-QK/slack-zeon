@@ -56,85 +56,85 @@ export async function shipsCron(app: ModifiedApp) {
     const shipId = ship.id.toString();
     if (app.dbs.journey.get(shipId)) continue;
     try {
-    // construct message :3
-    const msg = await app.client.chat.postMessage({
-      channel: `C091CEEHJ9K`,
-      text: `New Project! ${ship.title}`,
-      username: "Explorpheus",
-      icon_url:
-        "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `:tada: *New/ project!*\n*${ship.title}*\n_${ship.description}_ by <@${ship.slack_id}>`,
+      // construct message :3
+      const msg = await app.client.chat.postMessage({
+        channel: `C091CEEHJ9K`,
+        text: `New Project! ${ship.title}`,
+        username: "Explorpheus",
+        icon_url:
+          "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `:tada: *New/ project!*\n*${ship.title}*\n_${ship.description}_ by <@${ship.slack_id}>`,
+            },
           },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              action_id: "button-action-" + Math.random(),
-              text: {
-                type: "plain_text",
-                text: "View Project",
-                emoji: true,
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                action_id: "button-action-" + Math.random(),
+                text: {
+                  type: "plain_text",
+                  text: "View Project",
+                  emoji: true,
+                },
+                url: `https://summer.hackclub.com/projects/${ship.id}`,
               },
-              url: `https://summer.hackclub.com/projects/${ship.id}`,
-            },
-          ],
-        },
-        (ship.readme_link || ship.demo_link || ship.repo_link) && {
-          type: "actions",
-          elements: [
-            ship.readme_link && {
-              type: "button",
-              action_id: "button-action-" + Math.random(),
-              text: {
-                type: "plain_text",
-                text: "Readme",
-                emoji: true,
+            ],
+          },
+          (ship.readme_link || ship.demo_link || ship.repo_link) && {
+            type: "actions",
+            elements: [
+              ship.readme_link && {
+                type: "button",
+                action_id: "button-action-" + Math.random(),
+                text: {
+                  type: "plain_text",
+                  text: "Readme",
+                  emoji: true,
+                },
+                url: ship.readme_link,
               },
-              url: ship.readme_link,
-            },
-            ship.demo_link && {
-              type: "button",
-              action_id: "button-action-" + Math.random(),
-              text: {
-                type: "plain_text",
-                text: "Demo",
-                emoji: true,
+              ship.demo_link && {
+                type: "button",
+                action_id: "button-action-" + Math.random(),
+                text: {
+                  type: "plain_text",
+                  text: "Demo",
+                  emoji: true,
+                },
+                url: ship.demo_link,
               },
-              url: ship.demo_link,
-            },
-            ship.repo_link && {
-              type: "button",
-              action_id: "button-action-" + Math.random(),
-              text: {
-                type: "plain_text",
-                text: ":github: Repo",
-                emoji: true,
+              ship.repo_link && {
+                type: "button",
+                action_id: "button-action-" + Math.random(),
+                text: {
+                  type: "plain_text",
+                  text: ":github: Repo",
+                  emoji: true,
+                },
+                url: ship.repo_link,
               },
-              url: ship.repo_link,
-            },
-          ].filter(Boolean),
-        },
-        {
-          type: "divider",
-        },
-      ].filter(Boolean),
-    });
-    app.dbs.journey.set(shipId, {
-      root_message: msg.ts,
-      updates: [],
-      created_at: Date.now(),
-      root_ship_meta: ship,
-    });
-  } catch (e) {
-    console.error("Error sending ship message", e);
-  }
+            ].filter(Boolean),
+          },
+          {
+            type: "divider",
+          },
+        ].filter(Boolean),
+      });
+      app.dbs.journey.set(shipId, {
+        root_message: msg.ts,
+        updates: [],
+        created_at: Date.now(),
+        root_ship_meta: ship,
+      });
+    } catch (e) {
+      console.error("Error sending ship message", e);
+    }
     // app.dbs.journey.set(u)
     await new Promise((r) => setTimeout(r, 1000));
   }
