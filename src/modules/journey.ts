@@ -59,8 +59,9 @@ export async function shipsCron(app: ModifiedApp) {
     const msg = await app.client.chat.postMessage({
       channel: `C091CEEHJ9K`,
       text: `New Project! ${ship.title}`,
-        username: 'Explorpheus',
-        icon_url: 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png',
+      username: "Explorpheus",
+      icon_url:
+        "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
       blocks: [
         {
           type: "section",
@@ -147,8 +148,9 @@ export async function shipUpdatesCron(app: ModifiedApp) {
       msg = await app.client.chat.postMessage({
         channel: `C091CEEHJ9K`,
         thread_ts: entry.root_message,
-          username: 'Explorpheus',
-        icon_url: 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png',
+        username: "Explorpheus",
+        icon_url:
+          "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
         reply_broadcast: true,
         text: update.text.slice(0, 3000) || "no update text huh",
         blocks: [
@@ -173,8 +175,9 @@ export async function shipUpdatesCron(app: ModifiedApp) {
       msg = await app.client.chat.postMessage({
         channel: `C091CEEHJ9K`,
         thread_ts: entry.root_message,
-          username: 'Explorpheus',
-        icon_url: 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png',
+        username: "Explorpheus",
+        icon_url:
+          "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
         reply_broadcast: true,
         text: update.text.slice(0, 3000) || "no update text huh",
         blocks: [
@@ -223,8 +226,9 @@ export async function commentsCron(app: ModifiedApp) {
       channel: `C091CEEHJ9K`,
       thread_ts: entry.root_message,
       text: comment.text ? comment.text.slice(0, 3000) : "no comment text huh",
-        username: 'Explorpheus',
-        icon_url: 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png',
+      username: "Explorpheus",
+      icon_url:
+        "https://hc-cdn.hel1.your-objectstorage.com/s/v3/d6d828d6ba656d09a62add59dc07e2974bfdb38f_image.png",
       blocks: [
         {
           type: "section",
