@@ -5,9 +5,7 @@ export const banned_users = [
   // if i get leave my own channel i WILL be banning myself to remember that im an idiot
   process.env.MY_USER_ID,
   "U07NKS9S8GZ",
-  // no workspace owners lmao :3 (zrl, max)
-  "U0266FRGP",
-  "U0C7B14Q3",
+  // no workspace owners lmao :3 (zrl, max) - anyways they found out
   "U0261EB1EG7",
   // u got deactivated 3 times () = bad
   "U07BMK9NSDB",
