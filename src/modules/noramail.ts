@@ -106,14 +106,14 @@ export async function scrapeStuff(app: ModifiedApp) {
         );
         if (diff !== "✅ No changes detected.") {
           await app.client.chat.postMessage({
-            text: diff,
+            text: diff || "No diff",
             channel: `C08U14VQ1HP`,
           });
         }
       } else {
         // theMailArray.push(mail)
         await app.client.chat.postMessage({
-          text: formatNewMailNotification(mail),
+          text: formatNewMailNotification(mail) || "No new mail",
           channel: `C08U14VQ1HP`,
         });
       }
