@@ -77,6 +77,9 @@ export async function shipsCron(app: ModifiedApp) {
   for (const ship of ships) {
     const shipId = ship.id.toString();
     if (app.dbs.journey.get(shipId)) continue;
+        ship.title = ship.title.replace("<!channel>","" ).replace("@channel", "").replace("@here", "").replace("<!here>", "")
+        ship.description = ship.description.replace("<!channel>","" ).replace("@channel", "").replace("@here", "").replace("<!here>", "")
+
     try {
       // construct message :3
       const msg = await app.client.chat.postMessage({
@@ -170,6 +173,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     if (entry.updates.find((e) => e.meta.created_at === update.created_at))
       continue;
     let msg = null;
+    update.text = update.text.replace("<!channel>","" ).replace("@channel", "").replace("@here", "").replace("<!here>", "")
     try {
       msg = await app.client.chat.postMessage({
         channel: `C091CEEHJ9K`,

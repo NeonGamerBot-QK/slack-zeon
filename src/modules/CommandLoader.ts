@@ -25,6 +25,7 @@ export default class CommandLoader {
 
     for (const file of files) {
       const stamp = Date.now();
+      console.time("Reading " + file);
       try {
         const fullPath = path.resolve(this.dir, file);
         const commandClass = await import(fullPath);
@@ -37,12 +38,14 @@ export default class CommandLoader {
       } finally {
         const log = logging_values.find((e) => e.file === file);
         if (log) log.took_read = `${Date.now() - stamp}ms`;
+        console.timeEnd("Reading " + file);
       }
     }
 
     for (const { commandClass, file } of cmds) {
       const stamp = Date.now();
       console.log(`Running ${file}`);
+      console.time("Running " + file)
       try {
         const instance: Command = commandClass.default
           ? new commandClass.default()
@@ -59,6 +62,7 @@ export default class CommandLoader {
         const log = logging_values.find((e) => e.file === file);
         if (log) log.took = `${Date.now() - stamp}ms`;
         console.log(`Finished ${file}`);
+        console.timeEnd(`Ran ${file}`)
       }
     }
 
