@@ -250,7 +250,9 @@ export function whosHackingCron(app: ModifiedApp) {
       .join("\n");
     app.client.chat.postMessage({
       channel: `C08QNMQCSEA`,
-      text: formated_string  || "IDK i have been broken for 3 weeks and my owner is to lazy to fix me",
+      text:
+        formated_string ||
+        "IDK i have been broken for 3 weeks and my owner is to lazy to fix me",
     });
   });
 }
