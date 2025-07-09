@@ -45,7 +45,7 @@ export default class CommandLoader {
     for (const { commandClass, file } of cmds) {
       const stamp = Date.now();
       console.log(`Running ${file}`);
-      console.time("Running " + file)
+      console.time("Running " + file);
       try {
         const instance: Command = commandClass.default
           ? new commandClass.default()
@@ -62,7 +62,7 @@ export default class CommandLoader {
         const log = logging_values.find((e) => e.file === file);
         if (log) log.took = `${Date.now() - stamp}ms`;
         console.log(`Finished ${file}`);
-        console.timeEnd(`Ran ${file}`)
+        console.timeEnd(`Ran ${file}`);
       }
     }
 
