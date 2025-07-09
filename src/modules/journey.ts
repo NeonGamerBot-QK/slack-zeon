@@ -29,26 +29,29 @@ export interface Comment {
   created_at: string;
 }
 const baseURL = `https://summer.hackclub.com/`;
-export function getShips(): Promise<Ship[]> {
-  return fetch(`${baseURL}api/v1/projects`, {
-    headers: {
-      Cookie: process.env.SOM_COOKIE,
-    },
-  }).then((r) => r.json());
+export function getLastPage(endpoint) {
+  return fetch(`${baseURL}/api/v1/${endpoint}`).then(r=>r.json()).then(d=>d.pagination.pages)
 }
-export function getUpdates(): Promise<Update[]> {
-  return fetch(`${baseURL}api/v1/devlogs`, {
+export async function getShips(): Promise<Ship[]> {
+  return fetch(`${baseURL}api/v1/projects?page=${await getLastPage("projects")}`, {
     headers: {
       Cookie: process.env.SOM_COOKIE,
     },
-  }).then((r) => r.json());
+  }).then((r) => r.json()).then(d=>d.projects)
 }
-export function getComments(): Promise<Comment[]> {
-  return fetch(`${baseURL}api/v1/comments`, {
+export async function getUpdates(): Promise<Update[]> {
+  return fetch(`${baseURL}api/v1/devlogs?page=${await getLastPage("devlogs")}`, {
     headers: {
       Cookie: process.env.SOM_COOKIE,
     },
-  }).then((r) => r.json());
+  }).then((r) => r.json()).then(d=>d.devlogs);
+}
+export async function getComments(): Promise<Comment[]> {
+  return fetch(`${baseURL}api/v1/comments?page=${await getLastPage("comments")}`, {
+    headers: {
+      Cookie: process.env.SOM_COOKIE,
+    },
+  }).then((r) => r.json()).then(d=>d.comments);
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
