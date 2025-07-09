@@ -29,10 +29,12 @@ export interface Comment {
   created_at: string;
 }
 const baseURL = `https://summer.hackclub.com/`;
-export function getLastPage(endpoint) {
-  return fetch(`${baseURL}/api/v1/${endpoint}`)
+export async function getLastPage(endpoint: string) {
+  const v = await fetch(`${baseURL}/api/v1/${endpoint}`)
     .then((r) => r.json())
     .then((d) => d.pagination.pages);
+    console.log(`Pages(${endpoint}): ${v}`)
+    return typeof v == 'number' ? v : 1;
 }
 export async function getShips(): Promise<Ship[]> {
   return fetch(
