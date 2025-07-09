@@ -1,64 +1,64 @@
 console.time(`Loading modules`);
-console.time("Dotenv")
+console.time("Dotenv");
 import "dotenv/config";
-console.timeEnd("Dotenv")
-console.time("Sentry")
+console.timeEnd("Dotenv");
+console.time("Sentry");
 import "./modules/sentry";
 console.timeLog("Sentry", "Sentry loaded");
 import * as Sentry from "@sentry/node";
-console.timeEnd("Sentry")
-console.time("Nocodb")
+console.timeEnd("Sentry");
+console.time("Nocodb");
 import { Api } from "nocodb-sdk";
-console.timeEnd("Nocodb")
-console.time("GitWatcher")
+console.timeEnd("Nocodb");
+console.time("GitWatcher");
 import init from "./modules/watch-git";
-console.timeEnd("GitWatcher")
-console.time("SlackBot")
+console.timeEnd("GitWatcher");
+console.time("SlackBot");
 // import "./modules/smee"
 import app from "./modules/slackapp";
 // import Keyv from "keyv";
 // import { View } from "@slack/bolt";
-console.timeEnd("SlackBot")
-console.time("Loader")
+console.timeEnd("SlackBot");
+console.time("Loader");
 import Loader from "./modules/CommandLoader";
-console.timeEnd("Loader")
-console.time("path")
+console.timeEnd("Loader");
+console.time("path");
 import path from "path";
-console.timeEnd("path")
-console.time("simple-json-db")
+console.timeEnd("path");
+console.time("simple-json-db");
 import JSONdb from "simple-json-db";
-console.timeEnd("simple-json-db")
-console.log(`Suspected cause:`)
-console.time("Utils")
+console.timeEnd("simple-json-db");
+console.log(`Suspected cause:`);
+console.time("Utils");
 import * as utils from "./modules/index";
-console.timeEnd("Utils")
-console.time("Modules-resetSpotifyCache")
+console.timeEnd("Utils");
+console.time("Modules-resetSpotifyCache");
 import { resetSpotifyCache } from "./modules/howWasYourDay";
-console.timeEnd("Modules-resetSpotifyCache")
-console.time("Modules-attachDB")
+console.timeEnd("Modules-resetSpotifyCache");
+console.time("Modules-attachDB");
 import { attachDB } from "./modules/projectWaterydo";
-console.timeEnd("Modules-attachDB")
-console.time("Modules-monitorMemCpu")
+console.timeEnd("Modules-attachDB");
+console.time("Modules-monitorMemCpu");
 import monitorMemCpu from "./modules/alertcpu";
-console.timeEnd("Modules-monitorMemCpu")
-console.time("watchForWhenIUseHacktime")
+console.timeEnd("Modules-monitorMemCpu");
+console.time("watchForWhenIUseHacktime");
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
-console.timeEnd("watchForWhenIUseHacktime")
+console.timeEnd("watchForWhenIUseHacktime");
 // console.timeLog("SqliteKeyv")
 // import KeyvSqlite from "@keyv/sqlite";
 // console.timeEnd("SqliteKeyv")
-console.time("EncJson")
+console.time("EncJson");
 import { EncryptedJsonDb } from "./modules/encrypted-db";
-console.timeEnd("EncJson")
-console.time("Cron")
+console.timeEnd("EncJson");
+console.time("Cron");
 import { setupOverallCron } from "./modules/cron";
-console.timeEnd("Cron")
-console.time("WatchMem")
+console.timeEnd("Cron");
+console.time("WatchMem");
 import watchMem from "./modules/memwatch";
-console.timeEnd("WatchMem")
-console.time("logsnag")
+console.timeEnd("WatchMem");
+console.time("logsnag");
 import { LogSnag } from "@logsnag/node";
-console.timeEnd("logsnag")
+console.timeEnd("logsnag");
 
 console.timeEnd(`Loading modules`);
 
