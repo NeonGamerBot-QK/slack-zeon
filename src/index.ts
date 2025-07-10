@@ -88,8 +88,9 @@ console.time("App Boot");
   cmdLoader.runQuery();
 
   setInterval(() => {
-    fetch("https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK")
-      .catch(() => setTimeout(() => {}, 5000));
+    fetch(
+      "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK",
+    ).catch(() => setTimeout(() => {}, 5000));
   }, 60_000);
 
   app.client.chat.postMessage({
