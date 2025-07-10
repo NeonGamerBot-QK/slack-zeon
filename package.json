@@ -22,6 +22,7 @@
     "cheerio": "latest",
     "cors": "latest",
     "croner": "^9.0.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "eventsource": "latest",
     "form-data": "^4.0.1",
