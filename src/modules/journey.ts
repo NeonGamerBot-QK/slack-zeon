@@ -30,6 +30,7 @@ export interface Comment {
 }
 const baseURL = `https://summer.hackclub.com/`;
 export async function getLastPage(endpoint: string) {
+  return 200;
   const v = await fetch(`${baseURL}api/v1/${endpoint}`)
     .then((r) => r.json())
     .then((d) => d.pagination.pages);
