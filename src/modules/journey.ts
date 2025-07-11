@@ -320,10 +320,10 @@ export async function commentsCron(app: ModifiedApp) {
 }
 
 export async function iRunOnCron(app: ModifiedApp) {
-  app.client.chat.postMessage({
-    text: `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
-    channel: `D07LBMXD9FF`,
-  });
+  // app.client.chat.postMessage({
+  //   text: `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
+  //   channel: `D07LBMXD9FF`,
+  // });
   await shipsCron(app);
   try {
     await commentsCron(app);
