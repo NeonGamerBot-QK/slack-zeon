@@ -200,7 +200,7 @@ export async function shipsCron(app: ModifiedApp) {
     // app.dbs.journey.set(u)
     await new Promise((r) => setTimeout(r, 1000));
   }
-  if(change_count == 0) {
+  if (change_count == 0) {
     lastPageIndicators.projects++;
   }
 }
@@ -214,7 +214,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     if (!entry) continue;
     if (entry.updates.find((e) => e.meta.created_at === update.created_at))
       continue;
-    change_count++
+    change_count++;
     let msg = null;
     update.text = update.text
       .replace("<!channel>", "")
@@ -280,7 +280,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
 
     await new Promise((r) => setTimeout(r, 500));
   }
-  if(change_count == 0) {
+  if (change_count == 0) {
     lastPageIndicators.devlogs++;
   }
 }
