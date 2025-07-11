@@ -30,12 +30,12 @@ export interface Comment {
 }
 const baseURL = `https://summer.hackclub.com/`;
 let lastPageIndicators = {
-  projects: 0,
-  devlogs: 0,
-  comments: 0,
+  projects: 1,
+  devlogs: 1,
+  comments: 1,
 };
 export async function getLastPage(endpoint: string) {
-  return lastPageIndicators[endpoint] || 0;
+  return lastPageIndicators[endpoint] || 1;
   const v = await fetch(`${baseURL}api/v1/${endpoint}`)
     .then((r) => r.json())
     .then((d) => d.pagination.pages);
@@ -43,6 +43,7 @@ export async function getLastPage(endpoint: string) {
   return typeof v == "number" ? v : 1;
 }
 export async function getShips(): Promise<Ship[]> {
+  
   return fetch(
     `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
     {
@@ -96,6 +97,10 @@ export async function getComments(): Promise<Comment[]> {
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
+  if (!ships || ships.length === 0) {
+    console.log("No ships found");
+    return;
+  }
   for (const ship of ships) {
     const shipId = ship.id.toString();
     if (app.dbs.journey.get(shipId)) continue;
@@ -316,6 +321,11 @@ export async function commentsCron(app: ModifiedApp) {
 }
 
 export async function iRunOnCron(app: ModifiedApp) {
+  app.client.chat.postMessage({
+    text: 
+    `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
+    channel: `D07LBMXD9FF`
+  })
   await shipsCron(app);
   try {
     await commentsCron(app);
