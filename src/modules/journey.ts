@@ -43,7 +43,6 @@ export async function getLastPage(endpoint: string) {
   return typeof v == "number" ? v : 1;
 }
 export async function getShips(): Promise<Ship[]> {
-  
   return fetch(
     `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
     {
@@ -322,10 +321,9 @@ export async function commentsCron(app: ModifiedApp) {
 
 export async function iRunOnCron(app: ModifiedApp) {
   app.client.chat.postMessage({
-    text: 
-    `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
-    channel: `D07LBMXD9FF`
-  })
+    text: `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
+    channel: `D07LBMXD9FF`,
+  });
   await shipsCron(app);
   try {
     await commentsCron(app);
