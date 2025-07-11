@@ -35,7 +35,7 @@ let lastPageIndicators = {
   comments: 0,
 };
 export async function getLastPage(endpoint: string) {
-  return lastPageIndicators[endpoint];
+  return lastPageIndicators[endpoint]||0;
   const v = await fetch(`${baseURL}api/v1/${endpoint}`)
     .then((r) => r.json())
     .then((d) => d.pagination.pages);
