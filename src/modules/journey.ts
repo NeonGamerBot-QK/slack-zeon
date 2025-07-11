@@ -29,8 +29,13 @@ export interface Comment {
   created_at: string;
 }
 const baseURL = `https://summer.hackclub.com/`;
+let lastPageIndicators = {
+  projects: 0,
+  devlogs: 0,
+  comments: 0,
+}
 export async function getLastPage(endpoint: string) {
-  return 200;
+  return lastPageIndicators[endpoint];
   const v = await fetch(`${baseURL}api/v1/${endpoint}`)
     .then((r) => r.json())
     .then((d) => d.pagination.pages);
@@ -43,11 +48,16 @@ export async function getShips(): Promise<Ship[]> {
     {
       headers: {
         Cookie: process.env.SOM_COOKIE,
+        // rowan i hate u
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
       },
     },
   )
     .then((r) => r.json())
-    .then((d) => d.projects);
+    .then((d) => {
+      lastPageIndicators.projects = d.pagination.pages;
+      return d.projects
+    });
 }
 export async function getUpdates(): Promise<Update[]> {
   return fetch(
@@ -55,11 +65,15 @@ export async function getUpdates(): Promise<Update[]> {
     {
       headers: {
         Cookie: process.env.SOM_COOKIE,
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
       },
     },
   )
     .then((r) => r.json())
-    .then((d) => d.devlogs);
+     .then((d) => {
+      lastPageIndicators.devlogs = d.pagination.pages;
+      return d.devlogs
+    });
 }
 export async function getComments(): Promise<Comment[]> {
   return fetch(
@@ -67,11 +81,15 @@ export async function getComments(): Promise<Comment[]> {
     {
       headers: {
         Cookie: process.env.SOM_COOKIE,
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
       },
     },
   )
     .then((r) => r.json())
-    .then((d) => d.comments);
+    .then((d) => {
+      lastPageIndicators.comments = d.pagination.pages;
+      return d.comments
+    });
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
