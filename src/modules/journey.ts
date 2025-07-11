@@ -30,9 +30,10 @@ export interface Comment {
 }
 const baseURL = `https://summer.hackclub.com/`;
 let lastPageIndicators = {
-  projects: 1,
-  devlogs: 1,
-  comments: 1,
+  // starting here cuz db last point
+  projects: 200,
+  devlogs: 200,
+  comments: 200,
 };
 export async function getLastPage(endpoint: string) {
   return lastPageIndicators[endpoint] || 1;
@@ -56,7 +57,7 @@ export async function getShips(): Promise<Ship[]> {
   )
     .then((r) => r.json())
     .then((d) => {
-      lastPageIndicators.projects = d.pagination.pages;
+      // lastPageIndicators.projects = d.pagination.pages;
       return d.projects;
     });
 }
@@ -73,7 +74,7 @@ export async function getUpdates(): Promise<Update[]> {
   )
     .then((r) => r.json())
     .then((d) => {
-      lastPageIndicators.devlogs = d.pagination.pages;
+      // lastPageIndicators.devlogs = d.pagination.pages;
       return d.devlogs;
     });
 }
@@ -90,12 +91,13 @@ export async function getComments(): Promise<Comment[]> {
   )
     .then((r) => r.json())
     .then((d) => {
-      lastPageIndicators.comments = d.pagination.pages;
+      // lastPageIndicators.comments = d.pagination.pages;
       return d.comments;
     });
 }
 export async function shipsCron(app: ModifiedApp) {
   const ships = await getShips();
+  let change_count = 0;
   if (!ships || ships.length === 0) {
     console.log("No ships found");
     return;
@@ -103,6 +105,7 @@ export async function shipsCron(app: ModifiedApp) {
   for (const ship of ships) {
     const shipId = ship.id.toString();
     if (app.dbs.journey.get(shipId)) continue;
+    change_count++;
     ship.title = ship.title
       .replace("<!channel>", "")
       .replace("@channel", "")
@@ -197,15 +200,21 @@ export async function shipsCron(app: ModifiedApp) {
     // app.dbs.journey.set(u)
     await new Promise((r) => setTimeout(r, 1000));
   }
+  if(change_count == 0) {
+    lastPageIndicators.projects++;
+  }
 }
 
 export async function shipUpdatesCron(app: ModifiedApp) {
   const updates = await getUpdates();
+  let change_count = 0;
+
   for (const update of updates) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
     if (entry.updates.find((e) => e.meta.created_at === update.created_at))
       continue;
+    change_count++
     let msg = null;
     update.text = update.text
       .replace("<!channel>", "")
@@ -271,6 +280,9 @@ export async function shipUpdatesCron(app: ModifiedApp) {
 
     await new Promise((r) => setTimeout(r, 500));
   }
+  if(change_count == 0) {
+    lastPageIndicators.devlogs++;
+  }
 }
 export async function commentsCron(app: ModifiedApp) {
   console.log(1);
@@ -333,7 +345,7 @@ export async function iRunOnCron(app: ModifiedApp) {
   await new Promise((r) => setTimeout(r, 750));
 }
 export function ActualCronForJourney(app: ModifiedApp) {
-  new Cron("*/5 * * * *", async () => {
+  new Cron("* * * * *", async () => {
     await iRunOnCron(app);
   });
 }
