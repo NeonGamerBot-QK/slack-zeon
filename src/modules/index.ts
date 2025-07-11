@@ -15,7 +15,7 @@ export * as bdayutils from "./bday";
 export * as tempmail from "./TempHackclubEmail";
 export * as irl from "./watchMyIrl";
 export * as hangman from "./hangman";
-export * as highseas from "./highseas";
+//export * as highseas from "./highseas";
 export * as school from "./school";
 export * as daysofcode15 from "./15daysofcode";
 export * as shipwrecked from "./shipwrecked";
