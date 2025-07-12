@@ -31,9 +31,9 @@ export interface Comment {
 const baseURL = `https://summer.hackclub.com/`;
 let lastPageIndicators = {
   // starting here cuz db last point
-  projects: 200,
-  devlogs: 200,
-  comments: 200,
+  projects: 250,
+  devlogs: 250,
+  comments: 250,
 };
 export async function getLastPage(endpoint: string) {
   return lastPageIndicators[endpoint] || 1;
@@ -206,9 +206,16 @@ export async function shipsCron(app: ModifiedApp) {
 }
 
 export async function shipUpdatesCron(app: ModifiedApp) {
-  const updates = await getUpdates();
+  let updates;
   let change_count = 0;
-
+  try {
+  updates = await getUpdates();
+  } catch (e) {
+    // aaa
+    lastPageIndicators.devlogs--;
+    console.error("Error fetching updates", e);
+    return;
+  }
   for (const update of updates) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
