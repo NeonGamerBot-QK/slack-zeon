@@ -212,7 +212,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
   let updates;
   let change_count = 0;
   try {
-  updates = await getUpdates();
+    updates = await getUpdates();
   } catch (e) {
     // aaa
     lastPageIndicators.devlogs--;
