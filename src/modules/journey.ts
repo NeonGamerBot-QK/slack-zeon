@@ -99,7 +99,13 @@ export async function getComments(): Promise<Comment[]> {
     });
 }
 export async function shipsCron(app: ModifiedApp) {
-  const ships = await getShips();
+  let ships;
+  try {
+    ships = await getShips();
+  } catch (e) {
+    lastPageIndicators.projects--;
+    return;
+  }
   let change_count = 0;
   if (!ships || ships.length === 0) {
     console.log("No ships found");
@@ -348,8 +354,8 @@ export async function iRunOnCron(app: ModifiedApp) {
   // });
   await shipsCron(app);
   try {
-    await commentsCron(app);
-  } catch (e) {}
+    // await commentsCron(app);
+  } catch (e) { }
   await new Promise((r) => setTimeout(r, 1000));
   await shipUpdatesCron(app);
   await new Promise((r) => setTimeout(r, 750));
