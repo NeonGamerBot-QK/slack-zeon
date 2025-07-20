@@ -43,61 +43,60 @@ export async function getLastPage(endpoint: string) {
   console.log(`Pages(${endpoint}): ${v}`);
   return typeof v == "number" ? v : 1;
 }
-export async function getShips(): Promise<Ship[]> {
-  return fetch(
-    `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
-    {
-      headers: {
-        Cookie: process.env.SOM_COOKIE,
-        // rowan i hate u
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-        "X-Zeon": "rowan please let us use normal user agents",
-      },
-    },
-  )
-    .then((r) => r.json())
-    .then((d) => {
-      // lastPageIndicators.projects = d.pagination.pages;
-      return d.projects;
-    });
+type PagedResponse<T> = {
+  //@ts-ignore
+  pagination: { pages: number };
+  [key: string]: T[]; // e.g., projects, devlogs, comments
+};
+
+const headers = {
+  Cookie: process.env.SOM_COOKIE!,
+  "user-agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+  "X-Zeon": "rowan please let us use normal user agents",
+};
+
+async function fetchAllPages<T>(endpoint: string, key: string): Promise<T[]> {
+  const firstPageRes = await fetch(`${baseURL}api/v1/${endpoint}?page=1`, {
+    headers,
+  });
+  const firstPageData: PagedResponse<T> = await firstPageRes.json();
+
+  const totalPages = firstPageData.pagination.pages;
+  const results = [...firstPageData[key]];
+
+  if (totalPages > 1) {
+    const pagePromises = [];
+    for (let i = 2; i <= totalPages; i++) {
+      pagePromises.push(
+        fetch(`${baseURL}api/v1/${endpoint}?page=${i}`, {
+          headers,
+        }).then((r) => r.json()),
+      );
+    }
+
+    const remainingPages = await Promise.all(pagePromises);
+    for (const page of remainingPages) {
+      results.push(...page[key]);
+    }
+  }
+
+  return results;
 }
-export async function getUpdates(): Promise<Update[]> {
-  return fetch(
-    `${baseURL}api/v1/devlogs?page=${await getLastPage("devlogs")}`,
-    {
-      headers: {
-        Cookie: process.env.SOM_COOKIE,
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-        "X-Zeon": "rowan please let us use normal user agents",
-      },
-    },
-  )
-    .then((r) => r.json())
-    .then((d) => {
-      // lastPageIndicators.devlogs = d.pagination.pages;
-      return d.devlogs;
-    });
+
+// Usage
+export function getShips(): Promise<Ship[]> {
+  return fetchAllPages<Ship>("projects", "projects");
 }
-export async function getComments(): Promise<Comment[]> {
-  return fetch(
-    `${baseURL}api/v1/comments?page=${await getLastPage("comments")}`,
-    {
-      headers: {
-        Cookie: process.env.SOM_COOKIE,
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-        "X-Zeon": "rowan please let us use normal user agents",
-      },
-    },
-  )
-    .then((r) => r.json())
-    .then((d) => {
-      // lastPageIndicators.comments = d.pagination.pages;
-      return d.comments;
-    });
+
+export function getUpdates(): Promise<Update[]> {
+  return fetchAllPages<Update>("devlogs", "devlogs");
 }
+
+export function getComments(): Promise<Comment[]> {
+  return fetchAllPages<Comment>("comments", "comments");
+}
+
 export async function shipsCron(app: ModifiedApp) {
   let ships;
   try {

@@ -9,6 +9,7 @@ import ms from "ms";
 import { hacktime } from ".";
 import { writeFileSync } from "fs";
 import path from "path";
+import { scrubPIIAuto } from "./randomResponseSystem";
 export let cached_spotify_songs = [];
 export function resetSpotifyCache(app: ModifiedApp) {
   cached_spotify_songs = app.db.get("spotify_songs") || [];
@@ -138,7 +139,7 @@ export async function getMessageCount(db: JSONdb) {
   return message;
 }
 function getMoneyEmoji(card: string) {
-  switch (card) {
+  switch (card.toLowerCase()) {
     case "chase":
       return ":rocket_chase_bank:";
       break;
@@ -179,7 +180,7 @@ export async function getWalletBalance(app: ModifiedApp) {
         );
       }),
     );
-  return `${walletData.map((d) => `-${d.type == "rocket" ? getMoneyEmoji(d.card) : ":appleinc:"} - *${d.amount}* @ _${d.name}_`).join("\n")}`;
+  return `${walletData.map((d) => `-${d.type == "rocket" ? getMoneyEmoji(d.card.toLowerCase()) : ":appleinc:"} - *${d.amount}* @ _${scrubPIIAuto(d.name)}_`).join("\n")}`;
 }
 export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   const db = app.db;

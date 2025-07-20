@@ -95,6 +95,45 @@ export const channelsToAdvs = [
     "C07V6F1A5FH", // web bridge slack
   ]),
 ];
+const piiPatterns: { type: string; regex: RegExp }[] = [
+  { type: "email", regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/i },
+  { type: "phone", regex: /\b(\+?\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/ },
+  { type: "ssn", regex: /\b\d{3}-\d{2}-\d{4}\b/ },
+  { type: "zip", regex: /\b\d{5}(-\d{4})?\b/ },
+  { type: "credit_card", regex: /\b(?:\d[ -]*?){13,16}\b/ },
+  // Add more patterns as needed
+];
+
+function maskPIIString(value: string): string {
+  let result = value;
+  for (const { regex } of piiPatterns) {
+    result = result.replace(regex, "[REDACTED]");
+  }
+  return result;
+}
+
+/**
+ * Recursively scrub all strings in an object that match PII patterns
+ */
+export function scrubPIIAuto(input: any): any {
+  if (Array.isArray(input)) {
+    return input.map(scrubPIIAuto);
+  }
+
+  if (input !== null && typeof input === "object") {
+    const result: Record<string, any> = {};
+    for (const [key, value] of Object.entries(input)) {
+      result[key] = scrubPIIAuto(value);
+    }
+    return result;
+  }
+
+  if (typeof input === "string") {
+    return maskPIIString(input);
+  }
+
+  return input;
+}
 export async function potatoGame(app: ModifiedApp) {
   const potato = await app.client.chat.postMessage({
     text: "Respond in the thread with 'DEFEND AGAINST THE ROUGE POTATOE'!!",
@@ -137,6 +176,8 @@ function isItMyChance(odds = 10, key = "Key" + Math.random().toFixed(1)) {
 export let last_type = null;
 enum ResponseTypes {
   ChannelAdvs,
+  WalletTransaction,
+  Random
 }
 export async function checkOverSpending(db: JSONdb) {
   let currentTransactions = await fetch(
@@ -154,7 +195,11 @@ export async function checkOverSpending(db: JSONdb) {
   if (currentTransactions.length > 0) {
     const firstTransaction = currentTransactions[0];
     db.set("overspending_index", sliceIndex + 1);
-    return `Wow, you have spent so much money today, (${firstTransaction.amount}) (${Math.round(Math.random()) ? "fatass" : "bigback"}-)`;
+    if (firstTransaction.type !== "rocket") {
+      return `Wow, you have spent so much money today, (${firstTransaction.amount})@ ${scrubPIIAuto(firstTransaction.name)} (${Math.round(Math.random()) ? "fatass" : "bigback"}-)`;
+    } else {
+      return `${firstTransaction.node.category.icon} Wow, you have spent so much money today on ${firstTransaction.node.category.name}, (${firstTransaction.amount})@ ${scrubPIIAuto(firstTransaction.name)} ${firstTransaction.node.category.name == "Restaurants & Bars" ? (Math.round(Math.random()) ? "fatass" : "bigback") : ""}`;
+    }
   }
   return false;
 }
@@ -172,7 +217,10 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
     return ":potato:";
   }
   const overSpending = await checkOverSpending(db);
-  if (overSpending) return overSpending;
+  if (overSpending && last_type !== ResponseTypes.WalletTransaction) {
+    last_type = ResponseTypes.WalletTransaction;
+    return overSpending;
+  }
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
     const chosenChannel = getChannelToShare();
     last_type = ResponseTypes.ChannelAdvs;
@@ -182,5 +230,6 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
   // add stuff from MY messages (not others)
   // then decrypt what im saying
   // if unrelevent this should be last fyi, send random stuff
+  last_type = ResponseTypes.Random
   return actualRandomResponse();
 }
