@@ -345,22 +345,32 @@ export async function commentsCron(app: ModifiedApp) {
     await new Promise((r) => setTimeout(r, 500));
   }
 }
-
+let alreadyRunning = false;
 export async function iRunOnCron(app: ModifiedApp) {
-  // app.client.chat.postMessage({
-  //   text: `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
-  //   channel: `D07LBMXD9FF`,
-  // });
-  await shipsCron(app);
+  if (alreadyRunning) return;
+  alreadyRunning = true;
   try {
-    // await commentsCron(app);
-  } catch (e) {}
-  await new Promise((r) => setTimeout(r, 1000));
-  await shipUpdatesCron(app);
-  await new Promise((r) => setTimeout(r, 750));
+    // app.client.chat.postMessage({
+    //   text: `${baseURL}api/v1/projects?page=${await getLastPage("projects")}`,
+    //   channel: `D07LBMXD9FF`,
+    // });
+    await shipsCron(app);
+    try {
+      // await commentsCron(app);
+    } catch (e) { }
+    await new Promise((r) => setTimeout(r, 1000));
+    await shipUpdatesCron(app);
+    await new Promise((r) => setTimeout(r, 750));
+
+  } catch (e) {
+    console.error(e)
+  } finally {
+    alreadyRunning = false;
+    console.log("Journey cron finished");
+  }
 }
 export function ActualCronForJourney(app: ModifiedApp) {
-  new Cron("* * * * *", async () => {
+  new Cron("*/15 * * * *", async () => {
     await iRunOnCron(app);
   });
 }
