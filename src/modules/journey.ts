@@ -357,13 +357,12 @@ export async function iRunOnCron(app: ModifiedApp) {
     await shipsCron(app);
     try {
       // await commentsCron(app);
-    } catch (e) { }
+    } catch (e) {}
     await new Promise((r) => setTimeout(r, 1000));
     await shipUpdatesCron(app);
     await new Promise((r) => setTimeout(r, 750));
-
   } catch (e) {
-    console.error(e)
+    console.error(e);
   } finally {
     alreadyRunning = false;
     console.log("Journey cron finished");
