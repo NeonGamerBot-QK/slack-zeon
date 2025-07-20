@@ -224,7 +224,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     console.error("Error fetching updates", e);
     return;
   }
-  for (const update of (updates || [])) {
+  for (const update of updates || []) {
     const entry = app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
     if (entry.updates.find((e) => e.meta.created_at === update.created_at))
@@ -354,7 +354,7 @@ export async function iRunOnCron(app: ModifiedApp) {
   await shipsCron(app);
   try {
     // await commentsCron(app);
-  } catch (e) { }
+  } catch (e) {}
   await new Promise((r) => setTimeout(r, 1000));
   await shipUpdatesCron(app);
   await new Promise((r) => setTimeout(r, 750));
