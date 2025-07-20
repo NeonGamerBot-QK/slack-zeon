@@ -97,7 +97,10 @@ export const channelsToAdvs = [
 ];
 const piiPatterns: { type: string; regex: RegExp }[] = [
   { type: "email", regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/i },
-  { type: "phone", regex: /\b(\+?\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/ },
+  {
+    type: "phone",
+    regex: /\b(\+?\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/,
+  },
   { type: "ssn", regex: /\b\d{3}-\d{2}-\d{4}\b/ },
   { type: "zip", regex: /\b\d{5}(-\d{4})?\b/ },
   { type: "credit_card", regex: /\b(?:\d[ -]*?){13,16}\b/ },
@@ -177,7 +180,7 @@ export let last_type = null;
 enum ResponseTypes {
   ChannelAdvs,
   WalletTransaction,
-  Random
+  Random,
 }
 export async function checkOverSpending(db: JSONdb) {
   let currentTransactions = await fetch(
@@ -230,6 +233,6 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
   // add stuff from MY messages (not others)
   // then decrypt what im saying
   // if unrelevent this should be last fyi, send random stuff
-  last_type = ResponseTypes.Random
+  last_type = ResponseTypes.Random;
   return actualRandomResponse();
 }
