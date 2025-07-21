@@ -79,7 +79,7 @@ export default class Message implements Command {
           text: `Hey Please use <#C07LEEB50KD> for zeon ai if ur going to play with it a lot.`,
         });
       }
-      if (event.channel == "C0159TSJVH8") {
+      if (event.channel == "C0159TSJVH8" || event.channel == "C015M4L9AHW") {
         await app.client.chat.postEphemeral({
           channel: event.channel,
           user: event.user,
