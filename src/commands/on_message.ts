@@ -123,8 +123,8 @@ export default class Message implements Command {
             }
           } else if (cmd == "slackid") {
             const slackId = await app.client.users.lookupByEmail({
-              email: args[0],
-            });
+              email: args[0].split(']').length > 1 ? args[0].split(']')[0].split('[')[1] : args[0],
+            }).catch(e => { });
             if (slackId.user) {
               await say(
                 `\`\`\`\n${slackId.user.id}\`\`\`, <@${slackId.user.id}>`,
