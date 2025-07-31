@@ -124,7 +124,7 @@ export default class Message implements Command {
           } else if (cmd == "slackid") {
             console.log(
               `emaiil escaped: \`${args[0].split("]").length > 1 ? args[0].split("]")[0].split("[")[1] : args[0]}\`, args0 : \`${args[0]}\``,
-            )
+            );
             say(
               `emaiil escaped: \`${args[0].split("]").length > 1 ? args[0].split("]")[0].split("[")[1] : args[0]}\`, args0 : \`${args[0]}\``,
             );
