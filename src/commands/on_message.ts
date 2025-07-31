@@ -124,15 +124,15 @@ export default class Message implements Command {
           } else if (cmd == "slackid") {
             const slackId = await app.client.users.lookupByEmail({
               email: args[0],
-
-            })
+            });
             if (slackId.user) {
-              await say(`\`\`\`\n${slackId.user.id}\`\`\`, <@${slackId.user.id}>`);
+              await say(
+                `\`\`\`\n${slackId.user.id}\`\`\`, <@${slackId.user.id}>`,
+              );
             } else {
               await say(`:x: User not found!`);
             }
-          }
-          else if (cmd == "getuserhash") {
+          } else if (cmd == "getuserhash") {
             const userID = args[0] || event.user;
             const userHash = Object.keys(app.dbs.anondm.storage).find((e) =>
               compareSync(userID, e),
