@@ -132,8 +132,8 @@ export default class Message implements Command {
             const slackId = await app.client.users
               .lookupByEmail({
                 email:
-                  args[0].split("]").length > 1
-                    ? args[0].split("]")[0].split("[")[1]
+                  args[0].split("|").length > 1
+                    ? args[0].split("|")[1].split(">")[0]
                     : args[0],
               })
               .catch((e) => {
