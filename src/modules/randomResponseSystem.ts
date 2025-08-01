@@ -219,10 +219,12 @@ export async function getResponse(app: ModifiedApp): Promise<string> {
     potatoGame(app);
     return ":potato:";
   }
-  const overSpending = await checkOverSpending(db);
-  if (overSpending && last_type !== ResponseTypes.WalletTransaction) {
-    last_type = ResponseTypes.WalletTransaction;
-    return overSpending;
+  if (last_type !== ResponseTypes.WalletTransaction) {
+    const overSpending = await checkOverSpending(db);
+    if (overSpending) {
+      last_type = ResponseTypes.WalletTransaction;
+      return overSpending;
+    }
   }
   if (chanceOfChannelAdvs && last_type !== ResponseTypes.ChannelAdvs) {
     const chosenChannel = getChannelToShare();
