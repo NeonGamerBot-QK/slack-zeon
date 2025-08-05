@@ -33,7 +33,16 @@ export default class JoinNeonschannel implements Command {
           text: `<@${command.user_id}> is trying to join <#C07R8DYAZMM>...`,
           channel: "C07LGLUTNH2",
         });
-      } catch (e) {}
+      } catch (e) { }
+      await fetch(`https://hackatime.hackclub.com/api/v1/users/${command.user_id}/stats?start_date=2025-04-22&features=&end_date=2025-04-22`).then(d => {
+        return d.json()
+      }).then(d => {
+        console.log(d.trust_factor)
+        if (!d.trust_factor) return;
+        if (d.trust_factor.trust_level == "red") {
+          banned_users.push(command.user_id);
+        }
+      })
       // if (onlyForMe(command.user_id))
       //   return respond(`:x: you are the channel owner.`);
       try {
