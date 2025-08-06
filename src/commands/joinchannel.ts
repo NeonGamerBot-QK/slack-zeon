@@ -15,6 +15,7 @@ export const banned_users = [
   "U05A3TSL7UY",
   // other bans w/ no reason below
   "U079UHJDBRT",
+  "U05MKEZUY67",
 ];
 export default class JoinNeonschannel implements Command {
   name: string;
