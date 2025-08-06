@@ -97,7 +97,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "fuck",
           });
-        } catch (e) { }
+        } catch (e) {}
       } else if (
         event.text.toLowerCase().trim() == "no! i love the potatos!!"
       ) {
@@ -107,7 +107,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "no",
           });
-        } catch (e) { }
+        } catch (e) {}
         app.client.chat.postMessage({
           text: `No!! i will go against the potatoes!!`,
           channel: event.channel,
@@ -150,14 +150,14 @@ export default class HowWasUrDayMessage implements Command {
     }
   }
   async handleAfk(app: ModifiedApp, event) {
-    const send_to_channel = [`C07LEEB50KD`, `C07R8DYAZMM`]
-    const amIAfkRn = app.db.get('neon_afk')
+    const send_to_channel = [`C07LEEB50KD`, `C07R8DYAZMM`];
+    const amIAfkRn = app.db.get("neon_afk");
     if (amIAfkRn && event.user == process.env.MY_USER_ID) {
-      app.db.delete('neon_afk');
+      app.db.delete("neon_afk");
       app.client.chat.postMessage({
         channel: event.user,
         text: `Welcome back from being afk from: ${amIAfkRn} - you can now be pinged again!`,
-      })
+      });
       return;
     }
     if (!event.text.includes("<@U07L45W79E1>")) return;
@@ -165,9 +165,11 @@ export default class HowWasUrDayMessage implements Command {
     if (!amIAfkRn) return;
     // send the a pm from zeons side unless this is my channel lmao
     app.client.chat.postMessage({
-      channel: send_to_channel.includes(event.channel) ? event.channel : event.user,
+      channel: send_to_channel.includes(event.channel)
+        ? event.channel
+        : event.user,
       text: `Hey there <@${event.user}>, @Neon is currently afk for: ${amIAfkRn}, please do not ping them in the meantime - they will get back to you!`,
-    })
+    });
   }
   run(app: ModifiedApp) {
     console.debug(`#message-hwowasurday`);
@@ -175,15 +177,15 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       try {
         this.potatoGame(app, par.event);
-      } catch (e) { } //  console.debug(par);
+      } catch (e) {} //  console.debug(par);
       try {
         this.userTags(app, par.event);
-      } catch (e) { } //  console.debug(par)
+      } catch (e) {} //  console.debug(par)
       //@ts-ignore
       if (par.event.channel == "C08RG05HYHM") this.starMessage(app, par.event);
       try {
         this.handleAfk(app, par.event);
-      } catch (e) { }
+      } catch (e) {}
       //@ts-ignore
 
       if (par.event.channel == "C07ST3FF4S0") return;
@@ -213,7 +215,10 @@ export default class HowWasUrDayMessage implements Command {
       const cmd = args.shift().toLowerCase();
       // console.log(cmd, args);
       //@ts-ignore
-      if (par.event.text.toLowerCase().includes("today i") && par.event.channel == "C07R8DYAZMM") {
+      if (
+        par.event.text.toLowerCase().includes("today i") &&
+        par.event.channel == "C07R8DYAZMM"
+      ) {
         const link = await app.client.chat
           .getPermalink({
             //@ts-ignore
@@ -248,7 +253,7 @@ export default class HowWasUrDayMessage implements Command {
 
                 name: e.emoji,
               });
-            } catch (e) { }
+            } catch (e) {}
           }
         }
       }
