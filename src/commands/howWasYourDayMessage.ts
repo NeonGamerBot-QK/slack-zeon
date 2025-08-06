@@ -97,7 +97,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "fuck",
           });
-        } catch (e) {}
+        } catch (e) { }
       } else if (
         event.text.toLowerCase().trim() == "no! i love the potatos!!"
       ) {
@@ -107,7 +107,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "no",
           });
-        } catch (e) {}
+        } catch (e) { }
         app.client.chat.postMessage({
           text: `No!! i will go against the potatoes!!`,
           channel: event.channel,
@@ -177,15 +177,18 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       try {
         this.potatoGame(app, par.event);
-      } catch (e) {} //  console.debug(par);
+      } catch (e) { } //  console.debug(par);
       try {
         this.userTags(app, par.event);
-      } catch (e) {} //  console.debug(par)
-      //@ts-ignore
-      if (par.event.channel == "C08RG05HYHM") this.starMessage(app, par.event);
+      } catch (e) { } //  console.debug(par)
       try {
         this.handleAfk(app, par.event);
-      } catch (e) {}
+      } catch (e) {
+        console.error(e, 'afk')
+      }
+      //@ts-ignore
+      if (par.event.channel == "C08RG05HYHM") this.starMessage(app, par.event);
+
       //@ts-ignore
 
       if (par.event.channel == "C07ST3FF4S0") return;
@@ -214,9 +217,10 @@ export default class HowWasUrDayMessage implements Command {
       const args = event.text.trim().split(/ +/);
       const cmd = args.shift().toLowerCase();
       // console.log(cmd, args);
-      //@ts-ignore
       if (
+        //@ts-ignore
         par.event.text.toLowerCase().includes("today i") &&
+        //@ts-ignore
         par.event.channel == "C07R8DYAZMM"
       ) {
         const link = await app.client.chat
@@ -253,7 +257,7 @@ export default class HowWasUrDayMessage implements Command {
 
                 name: e.emoji,
               });
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       }
