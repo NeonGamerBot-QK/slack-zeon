@@ -106,7 +106,25 @@ export default class Message implements Command {
             } catch (e) {
               await say(`ERROR:\n\`\`\`${await clean(e.stack)}\`\`\``);
             }
-          } else if (cmd == "hello") {
+          } else if (cmd == "afk") {
+            const amIAfkRn = app.db.get('neon_afk')
+            if (amIAfkRn) {
+              app.db.delete('neon_afk');
+              app.client.chat.postMessage({
+                channel: event.user,
+                text: `Welcome back from being afk from: ${amIAfkRn} - you can now be pinged again!`,
+              });
+              return;
+            } else {
+              const reason = args.join(" ") || "No reason provided";
+              app.db.set('neon_afk', reason);
+              app.client.chat.postMessage({
+                channel: event.user,
+                text: `You are now afk for: ${reason} - you will not be pinged in the meantime!`,
+              });
+            }
+          }
+          else if (cmd == "hello") {
             say(`Whats up`);
           } else if (cmd == "email") {
             const uinfo = await app.client.users["info"]({ user: args[0] });
