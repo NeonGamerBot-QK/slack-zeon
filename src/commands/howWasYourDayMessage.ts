@@ -160,11 +160,11 @@ export default class HowWasUrDayMessage implements Command {
       });
       return;
     }
-    console.log(`IS AFK ${event.text} -- ${event.user} -- why`, event, event.text.includes("<@U07L45W79E1>"))
+    if (!amIAfkRn) return;
+    console.log(`IS AFK ${event.text} -- ${event.user} -- why`, event, event.text ? event.text.includes("<@U07L45W79E1>") : false)
     if (!event.text) return;
     if (!event.text.includes("<@U07L45W79E1>")) return;
 
-    if (!amIAfkRn) return;
     // send the a pm from zeons side unless this is my channel lmao
     app.client.chat.postMessage({
       channel: send_to_channel.includes(event.channel)
