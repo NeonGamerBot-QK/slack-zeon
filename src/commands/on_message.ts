@@ -109,11 +109,11 @@ export default class Message implements Command {
           } else if (cmd == "afk") {
             const amIAfkRn = app.db.get("neon_afk");
             if (amIAfkRn) {
-              app.db.delete("neon_afk");
-              app.client.chat.postMessage({
-                channel: event.user,
-                text: `Welcome back from being afk from: ${amIAfkRn} - you can now be pinged again!`,
-              });
+              // app.db.delete("neon_afk");
+              // app.client.chat.postMessage({
+              // channel: event.user,
+              // text: `Welcome back from being afk from: ${amIAfkRn} - you can now be pinged again!`,
+              // });
               return;
             } else {
               const reason = args.join(" ") || "No reason provided";
