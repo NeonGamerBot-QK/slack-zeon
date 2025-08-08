@@ -5,7 +5,7 @@
   "author": "Saahil <neon@saahild.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_DEBUG=undici NODE_OPTIONS=\"--max-old-space-size=4096\" ts-node   --files --compiler-options '{\"sourceMap\":true}' --unhandled-rejections=strict src/index.ts"
+    "start": "NODE_DEBUG=undici NODE_OPTIONS=\"--max-old-space-size=4096\" ts-node   --files --compiler-options '{\"sourceMap\":true}' src/index.ts"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
