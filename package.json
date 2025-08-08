@@ -25,7 +25,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "eventsource": "latest",
-    "form-data": "^4.0.1",
+    "form-data": "^4.0.4",
     "geo-tz": "^8.1.2",
     "keyv": "^5.2.3",
     "ms": "^2.1.3",
