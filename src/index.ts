@@ -91,7 +91,7 @@ console.time("App Boot");
   setInterval(() => {
     fetch(
       "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK",
-    ).catch(() => setTimeout(() => { }, 5000));
+    ).catch(() => setTimeout(() => {}, 5000));
   }, 60_000);
 
   app.client.chat.postMessage({
@@ -133,7 +133,7 @@ console.time("App Boot");
         channel: `D07LBMXD9FF`,
         text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
       });
-    } catch { }
+    } catch {}
   }
 })();
 console.timeEnd("App Boot");
