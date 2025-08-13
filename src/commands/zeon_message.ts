@@ -151,42 +151,59 @@ export default class Message implements Command {
           aiReq0 = aiReq00;
         }
         function ultraCursedUwuify(text) {
-  const faces = ["owo", "UwU", ">w<", "^w^", "rawr~", "nya~", "uwu *blushes*", "x3", "*pounces on u*"];
-  const actions = [
-    "*notices bulge*",
-    "*nuzzles*",
-    "*purrs*",
-    "*giggles*",
-    "*licks you*",
-    "*blushes*",
-    "*tail swishes*",
-    "*whimpers*",
-    "*glomps*",
-    "*snuggles u*"
-  ];
+          const faces = [
+            "owo",
+            "UwU",
+            ">w<",
+            "^w^",
+            "rawr~",
+            "nya~",
+            "uwu *blushes*",
+            "x3",
+            "*pounces on u*",
+          ];
+          const actions = [
+            "*notices bulge*",
+            "*nuzzles*",
+            "*purrs*",
+            "*giggles*",
+            "*licks you*",
+            "*blushes*",
+            "*tail swishes*",
+            "*whimpers*",
+            "*glomps*",
+            "*snuggles u*",
+          ];
 
-  return text
-    // Letter swaps
-    .replace(/[rl]/g, "w")
-    .replace(/[RL]/g, "W")
-    .replace(/th/g, "d")
-    .replace(/Th/g, "D")
-    // Random stutter
-    .replace(/\b(\w)/g, (match) => (Math.random() < 0.3 ? `${match}-${match}` : match))
-    // Add random faces at sentence end
-    .replace(/([.!?])\s*/g, () => {
-      let face = faces[Math.floor(Math.random() * faces.length)];
-      let action = Math.random() < 0.3 ? " " + actions[Math.floor(Math.random() * actions.length)] : "";
-      return ` ${face}${action} `;
-    })
-    // Random insertions in long text
-    .replace(/\s+/g, (space) => {
-      if (Math.random() < 0.1) {
-        return ` ${actions[Math.floor(Math.random() * actions.length)]} `;
-      }
-      return space;
-    });
-}
+          return (
+            text
+              // Letter swaps
+              .replace(/[rl]/g, "w")
+              .replace(/[RL]/g, "W")
+              .replace(/th/g, "d")
+              .replace(/Th/g, "D")
+              // Random stutter
+              .replace(/\b(\w)/g, (match) =>
+                Math.random() < 0.3 ? `${match}-${match}` : match,
+              )
+              // Add random faces at sentence end
+              .replace(/([.!?])\s*/g, () => {
+                let face = faces[Math.floor(Math.random() * faces.length)];
+                let action =
+                  Math.random() < 0.3
+                    ? " " + actions[Math.floor(Math.random() * actions.length)]
+                    : "";
+                return ` ${face}${action} `;
+              })
+              // Random insertions in long text
+              .replace(/\s+/g, (space) => {
+                if (Math.random() < 0.1) {
+                  return ` ${actions[Math.floor(Math.random() * actions.length)]} `;
+                }
+                return space;
+              })
+          );
+        }
         // .then((r) =>
         //   r.choices[0].message.content
         //     .replace("```json", "")
@@ -198,9 +215,9 @@ export default class Message implements Command {
         //   text: aiReq0,
         // });
         let aiReq;
-        thonk = aiReq0.split('<think>')[1].split("</think>")[0]
+        thonk = aiReq0.split("<think>")[1].split("</think>")[0];
         try {
-          aiReq = JSON.parse(aiReq0.split('</think>')[1].trim());
+          aiReq = JSON.parse(aiReq0.split("</think>")[1].trim());
         } catch (e) {
           aiReq = { message: `Error:\n` + aiReq0 };
         }
