@@ -142,7 +142,7 @@ export default class Message implements Command {
         ).then((r) => r.text());
         let aiReq0 = null;
         clearTimeout(timeout);
-
+        let thonk = null;
         try {
           aiReq0 = JSON.parse(aiReq00)
             .choices[0].message.content.replace("```json", "")
@@ -150,6 +150,43 @@ export default class Message implements Command {
         } catch (e) {
           aiReq0 = aiReq00;
         }
+        function ultraCursedUwuify(text) {
+  const faces = ["owo", "UwU", ">w<", "^w^", "rawr~", "nya~", "uwu *blushes*", "x3", "*pounces on u*"];
+  const actions = [
+    "*notices bulge*",
+    "*nuzzles*",
+    "*purrs*",
+    "*giggles*",
+    "*licks you*",
+    "*blushes*",
+    "*tail swishes*",
+    "*whimpers*",
+    "*glomps*",
+    "*snuggles u*"
+  ];
+
+  return text
+    // Letter swaps
+    .replace(/[rl]/g, "w")
+    .replace(/[RL]/g, "W")
+    .replace(/th/g, "d")
+    .replace(/Th/g, "D")
+    // Random stutter
+    .replace(/\b(\w)/g, (match) => (Math.random() < 0.3 ? `${match}-${match}` : match))
+    // Add random faces at sentence end
+    .replace(/([.!?])\s*/g, () => {
+      let face = faces[Math.floor(Math.random() * faces.length)];
+      let action = Math.random() < 0.3 ? " " + actions[Math.floor(Math.random() * actions.length)] : "";
+      return ` ${face}${action} `;
+    })
+    // Random insertions in long text
+    .replace(/\s+/g, (space) => {
+      if (Math.random() < 0.1) {
+        return ` ${actions[Math.floor(Math.random() * actions.length)]} `;
+      }
+      return space;
+    });
+}
         // .then((r) =>
         //   r.choices[0].message.content
         //     .replace("```json", "")
@@ -161,9 +198,9 @@ export default class Message implements Command {
         //   text: aiReq0,
         // });
         let aiReq;
-
+        thonk = aiReq0.split('<think>')[1].split("</think>")[0]
         try {
-          aiReq = JSON.parse(aiReq0);
+          aiReq = JSON.parse(aiReq0.split('</think>')[1].trim());
         } catch (e) {
           aiReq = { message: `Error:\n` + aiReq0 };
         }
@@ -172,7 +209,7 @@ export default class Message implements Command {
           thread_ts:
             event.channel == "C07R8DYAZMM" ? event.ts : event.thread_ts,
           text:
-            `${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
+            `_${ultraCursedUwuify(thonk || "No thinking")}_ \n\n${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
             (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
             ":notcool: i didnt get a message/error im very scared... >> " +
               JSON.stringify(aiReq),

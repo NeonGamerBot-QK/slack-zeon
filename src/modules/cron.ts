@@ -320,8 +320,8 @@ export function setupOverallCron(app: ModifiedApp) {
   setupFlightlyCron(app);
   // cronJobForAvatar();
   // cronTS(app);
-  // temp disabled
-  ActualCronForJourney(app);
+  // perm disabled
+//  ActualCronForJourney(app);
   // setupShipwrecked(app);
   scrapeStuff(app);
   // setInterval(
@@ -369,7 +369,7 @@ export function setupOverallCron(app: ModifiedApp) {
   //   1000 * 60 * 5,
   // );
   // cronJobForYSWS(app);
-  whosHackingCron(app);
+//  whosHackingCron(app);
   return {
     // checkAirtableBoba,
     cronWithCheckIn,
