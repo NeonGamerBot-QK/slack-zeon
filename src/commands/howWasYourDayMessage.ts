@@ -97,7 +97,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "fuck",
           });
-        } catch (e) {}
+        } catch (e) { }
       } else if (
         event.text.toLowerCase().trim() == "no! i love the potatos!!"
       ) {
@@ -107,7 +107,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "no",
           });
-        } catch (e) {}
+        } catch (e) { }
         app.client.chat.postMessage({
           text: `No!! i will go against the potatoes!!`,
           channel: event.channel,
@@ -163,12 +163,15 @@ export default class HowWasUrDayMessage implements Command {
     }
     if (!amIAfkRn) return;
     if (!event.text) return;
-    if (
-      (!event.text.includes("<@U07L45W79E1>") &&
-        !event.text.toLowerCase().includes(" neon ")) ||
-      !event.channel.startsWith("D")
-    )
+    const mentioned =
+      event.text.includes("<@U07L45W79E1>") ||
+      event.text.toLowerCase().includes(" neon ");
+
+    const isDM = event.channel.startsWith("D");
+
+    if (!mentioned || !isDM) {
       return;
+    }
     // try to react as zeon
     try {
       await app.client.reactions.add({
@@ -177,7 +180,7 @@ export default class HowWasUrDayMessage implements Command {
         name: "afk",
         // token: process.env.SLACK_USER_TOKEN,
       });
-    } catch (e) {}
+    } catch (e) { }
     // send the a pm from zeons side unless this is my channel lmao
     app.client.chat.postMessage({
       channel: send_to_channel.includes(event.channel)
@@ -202,10 +205,10 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       try {
         this.potatoGame(app, par.event);
-      } catch (e) {} //  console.debug(par);
+      } catch (e) { } //  console.debug(par);
       try {
         this.userTags(app, par.event);
-      } catch (e) {} //  console.debug(par)
+      } catch (e) { } //  console.debug(par)
       try {
         this.handleAfk(app, par.event);
       } catch (e) {
@@ -282,7 +285,7 @@ export default class HowWasUrDayMessage implements Command {
 
                 name: e.emoji,
               });
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       }
