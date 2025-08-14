@@ -393,6 +393,13 @@ export default class HowWasUrDayMessage implements Command {
           name: "zeon",
         });
       }
+      if (par.event.text.includes(" ts") || par.event.text.includes("ts ")) {
+        await app.client.reactions.add({
+          channel: par.event.channel,
+          timestamp: par.event.ts,
+          name: "ts",
+        });
+      }
       if (
         par.event.text &&
         par.event.text
