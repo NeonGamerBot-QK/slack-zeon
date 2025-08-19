@@ -180,6 +180,7 @@ export function tempcronjob(app: ModifiedApp) {
   setInterval(() => {
     try {
       fetchHomePage().then((data) => {
+        if (!data) return;
         // app.db.set(`temp_mykcd_grades`, data);
         data
           .map((d) => ({
