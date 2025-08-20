@@ -181,6 +181,7 @@ export function tempcronjob(app: ModifiedApp) {
     try {
       fetchHomePage().then((data) => {
         if (!data) return;
+        if (!data.map) return;
         // app.db.set(`temp_mykcd_grades`, data);
         data
           .map((d) => ({
