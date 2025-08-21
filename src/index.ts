@@ -130,8 +130,8 @@ console.time("App Boot");
 
     try {
       app.client.chat.postMessage({
-        channel: `D07LBMXD9FF`,
-        text: `**Error:**\n\`\`\`${e.stack}\`\`\``,
+        channel: e.message == "TypeError: fetch failed" ? `C07LGLUTNH2` : `D07LBMXD9FF`,
+        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${JSON.stringify(e)}\`\`\``,
       });
     } catch {}
   }
