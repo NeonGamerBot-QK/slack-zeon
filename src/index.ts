@@ -17,6 +17,7 @@ import monitorMemCpu from "./modules/alertcpu";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import initGitWatcher from "./modules/watch-git";
+import util from "util";
 console.timeEnd("Essential Imports");
 //@ts-ignore
 Error.stackTraceLimit = 50;
@@ -134,7 +135,12 @@ console.time("App Boot");
           e.message == "TypeError: fetch failed"
             ? `C07LGLUTNH2`
             : `D07LBMXD9FF`,
-        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${JSON.stringify(e)}\`\`\``,
+        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${util.inspect(e, {
+      showHidden: true, // include non-enumerable properties
+      depth: null,      // no limit on recursion
+      colors: false,    // disable ANSI colors (Slack-safe)
+      breakLength: 120, // nicer formatting
+    })}\`\`\``,
       });
     } catch {}
   }

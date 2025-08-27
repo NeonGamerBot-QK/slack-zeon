@@ -7,6 +7,7 @@ let spike_index = 0;
 export default function monitorMemCpu(app: ModifiedApp) {
   setInterval(() => {
     pidusage(process.pid, (err, stats) => {
+      if (!stats) return;
       if (stats.cpu > THRESHOLD_CPU) {
         console.warn(`⚠️ High CPU: ${stats.cpu}%`);
         spike_index++;
