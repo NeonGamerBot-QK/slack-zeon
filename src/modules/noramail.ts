@@ -94,9 +94,10 @@ export async function scrapeStuff(app: ModifiedApp) {
       headers: {
         Authorization: "Bearer " + process.env.HACKCLUB_MAIL_TOKEN,
       },
-    })
+    }).catch(e=>{})
       .then((d) => d.json())
       .then((d) => d.mail as Mail[]);
+    if(!data) return;
     for (const mail of data) {
       if (theMailArray.some((m) => m.id == mail.id)) {
         // run diff on each key
