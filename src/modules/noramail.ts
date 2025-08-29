@@ -97,7 +97,9 @@ export async function scrapeStuff(app: ModifiedApp) {
         Authorization: "Bearer " + process.env.HACKCLUB_MAIL_TOKEN,
       },
     })
-      .catch((e) => { json: () => new Promise(r=>r({ mail: null }))})
+      .catch((e) => {
+        json: () => new Promise((r) => r({ mail: null }));
+      })
       .then((d) => d.json())
       .then((d) => d?.mail as Mail[]);
     if (!data) return;
