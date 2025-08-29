@@ -1,3 +1,5 @@
+//@ts-nocheck
+/// tst tsh suysttstststtstststststst
 // mail.hackclub.com
 
 import { ModifiedApp } from "./slackapp";
