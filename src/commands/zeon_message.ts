@@ -160,18 +160,14 @@ export default class Message implements Command {
             "nya~",
             "uwu *blushes*",
             "x3",
-            "*pounces on u*",
           ];
           const actions = [
-            "*notices bulge*",
             "*nuzzles*",
             "*purrs*",
             "*giggles*",
             "*licks you*",
             "*blushes*",
             "*tail swishes*",
-            "*whimpers*",
-            "*glomps*",
             "*snuggles u*",
           ];
 
@@ -226,7 +222,7 @@ export default class Message implements Command {
           thread_ts:
             event.channel == "C07R8DYAZMM" ? event.ts : event.thread_ts,
           text:
-            `_${ultraCursedUwuify(thonk || "No thinking")}_ \n\n${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
+            `${ultraCursedUwuify(thonk || "No thinking").slice(0,200)}... \n\n${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
             (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
             ":notcool: i didnt get a message/error im very scared... >> " +
               JSON.stringify(aiReq),
