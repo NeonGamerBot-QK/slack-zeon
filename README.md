@@ -33,7 +33,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/NeonGamerBot-QK/slack-zeon">
-    <img src="https://saahild.com/zeon/static/media/logo.496b486aab466e923154.png" alt="Logo" width="80" height="80">
+    <img src="https://saahild.com/zeon/zeonspfp.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Slack Zeon</h3>
