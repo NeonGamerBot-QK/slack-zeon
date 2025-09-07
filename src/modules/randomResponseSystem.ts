@@ -194,7 +194,7 @@ export async function checkOverSpending(db: Keyv) {
   )
     .then((r) => r.json())
     .then((json) => json.currentTransactions);
-  let sliceIndex = await db.get("overspending_index") || 0;
+  let sliceIndex = (await db.get("overspending_index")) || 0;
   currentTransactions = currentTransactions.slice(sliceIndex);
   if (currentTransactions.length > 0) {
     const firstTransaction = currentTransactions[0];
