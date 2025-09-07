@@ -53,7 +53,7 @@ export default class Ping implements Command {
       }
 
       // get users ctf data
-      let userD = await app.db.get("ctf_" + command.user_id) || {};
+      let userD = (await app.db.get("ctf_" + command.user_id)) || {};
 
       // respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
       //   console.debug(`after ping`, d);
@@ -93,7 +93,7 @@ export default class Ping implements Command {
         } else if (command.text.trim() == process.env.FAKE_KEY) {
           respond(Buffer.from(process.env.FM_CTF!, "hex").toString());
           // update userd
-          const userD = await app.db.get("ctf_" + command.user_id) || {};
+          const userD = (await app.db.get("ctf_" + command.user_id)) || {};
           userD.not_allowed_to_use_second = true;
           await app.db.set("ctf_" + command.user_id, userD);
         } else {
