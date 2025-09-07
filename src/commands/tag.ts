@@ -54,7 +54,7 @@ export default class TagSystem implements Command {
       if (cmd == "use") {
         const tagName = args[0];
         // check if the tag exists
-        const tag = app.dbs.tags.get(`${command.user_id}_${tagName}`);
+        const tag = await app.dbs.tags.get(`${command.user_id}_${tagName}`);
         if (tag) {
           if (command.user_id == process.env.MY_USER_ID) {
             app.client.chat.postMessage({
@@ -162,24 +162,30 @@ export default class TagSystem implements Command {
         });
       } else if (cmd == "list") {
         //@ts-ignore
-        const tags = Object.keys(app.dbs.tags.JSON())
-          .filter((e) => e.startsWith(command.user_id))
-          .map((e) => {
-            return {
-              name: e.split("_").slice(1).join("_"),
-              value: app.dbs.tags.get(e),
-            };
-          });
+        //TODO: fix this
+        // FIXME
+        // const tags = Object.keys(app.dbs.tags.JSON())
+        //   .filter((e) => e.startsWith(command.user_id))
+        //   .map((e) => {
+        //     return {
+        //       name: e.split("_").slice(1).join("_"),
+        //       value: await app.dbs.tags.get(e),
+        //     };
+        //   });
+        // await respond({
+        //   response_type: "ephemeral",
+        //   text: `Tags:\n${tags.map((e, i) => `${i + 1}. ${e.name}`).join("\n")}`,
+        // });
         await respond({
           response_type: "ephemeral",
-          text: `Tags:\n${tags.map((e, i) => `${i + 1}. ${e.name}`).join("\n")}`,
+          text: `neon broke this cmd`,
         });
       } else if (cmd == "rm") {
         const tagName = args[0];
         // check if the tag exists
-        const tag = app.dbs.tags.get(`${command.user_id}_${tagName}`);
+        const tag = await app.dbs.tags.get(`${command.user_id}_${tagName}`);
         if (tag) {
-          app.dbs.tags.delete(`${command.user_id}_${tagName}`);
+          await app.dbs.tags.delete(`${command.user_id}_${tagName}`);
           respond({
             response_type: "ephemeral",
             text: `Tag ${tagName} removed`,
@@ -250,7 +256,7 @@ export default class TagSystem implements Command {
       // @ts-ignore
       const tag = body.view.state.values.tag_output.tag_input.value;
 
-      app.dbs.tags.set(`${body.user.id}_${name}`, tag);
+      await app.dbs.tags.set(`${body.user.id}_${name}`, tag);
       // save it
       // app.dbs.tags.set(`${command.user_id}_${name}`, tag);
       await app.client.chat.postEphemeral({

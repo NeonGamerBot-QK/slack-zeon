@@ -153,3 +153,4 @@ src/commands/uttered-oyster-ledge-lumber-velvet-using-coffee-injury-inline-ahead
 t6.ts
 count_over_time_from_url.png
 .env.keys
+migrate-to-sql/data

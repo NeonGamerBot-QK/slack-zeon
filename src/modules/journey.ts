@@ -112,7 +112,7 @@ export async function shipsCron(app: ModifiedApp) {
   }
   for (const ship of ships) {
     const shipId = ship.id.toString();
-    if (app.dbs.journey.get(shipId)) continue;
+    if (await app.dbs.journey.get(shipId)) continue;
     change_count++;
     ship.title = ship.title
       .replace("<!channel>", "")
@@ -196,7 +196,7 @@ export async function shipsCron(app: ModifiedApp) {
           },
         ].filter(Boolean),
       });
-      app.dbs.journey.set(shipId, {
+      await app.dbs.journey.set(shipId, {
         root_message: msg.ts,
         updates: [],
         created_at: Date.now(),
@@ -225,7 +225,7 @@ export async function shipUpdatesCron(app: ModifiedApp) {
     return;
   }
   for (const update of updates || []) {
-    const entry = app.dbs.journey.get(update.project_id.toString());
+    const entry = await app.dbs.journey.get(update.project_id.toString());
     if (!entry) continue;
     if (entry.updates.find((e) => e.meta.created_at === update.created_at))
       continue;
@@ -290,8 +290,8 @@ export async function shipUpdatesCron(app: ModifiedApp) {
       ts: msg.ts,
       comments: [],
     });
-    app.dbs.journey.set(`update_${update.id}`, entry);
-    app.dbs.journey.set(entry.id, entry);
+    await app.dbs.journey.set(`update_${update.id}`, entry);
+    await app.dbs.journey.set(entry.id, entry);
 
     await new Promise((r) => setTimeout(r, 500));
   }
@@ -304,10 +304,10 @@ export async function commentsCron(app: ModifiedApp) {
   const comments = await getComments();
   console.log(0);
   for (const comment of comments) {
-    const entryId = app.dbs.journey.get(`update_${comment.update_id}`);
+    const entryId = await app.dbs.journey.get(`update_${comment.update_id}`);
     console.log(entryId, comment, "debugging hell");
     if (!entryId) continue;
-    const entry = app.dbs.journey.get(entryId.root_ship_meta.id);
+    const entry = await app.dbs.journey.get(entryId.root_ship_meta.id);
     if (!entry) continue;
     if (!entry.updates.find((e) => e.meta.id === comment.update_id)) continue;
     if (
@@ -341,7 +341,7 @@ export async function commentsCron(app: ModifiedApp) {
         created_at: Date.now(),
         ts: msg.ts,
       });
-    app.dbs.journey.set(entry.id, entry);
+    await app.dbs.journey.set(entry.id, entry);
     await new Promise((r) => setTimeout(r, 500));
   }
 }
@@ -357,7 +357,7 @@ export async function iRunOnCron(app: ModifiedApp) {
     await shipsCron(app);
     try {
       // await commentsCron(app);
-    } catch (e) {}
+    } catch (e) { }
     await new Promise((r) => setTimeout(r, 1000));
     await shipUpdatesCron(app);
     await new Promise((r) => setTimeout(r, 750));

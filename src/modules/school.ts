@@ -190,7 +190,7 @@ export function tempcronjob(app: ModifiedApp) {
             id: d.sectionid,
           }))
           .forEach(async (d) => {
-            const instance = app.dbs.mykcd.get(`class_` + d.id);
+            const instance = await app.dbs.mykcd.get(`class_` + d.id);
             if (!instance) {
               // shout its been discovered
               await app.client.chat.postMessage({
@@ -216,7 +216,7 @@ export function tempcronjob(app: ModifiedApp) {
                 });
               }
             }
-            app.dbs.mykcd.set(`class_` + d.id, d);
+            await app.dbs.mykcd.set(`class_` + d.id, d);
           });
       });
 

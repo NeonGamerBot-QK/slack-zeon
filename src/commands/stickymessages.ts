@@ -41,7 +41,7 @@ export default class Ping implements Command {
           // yes im making you have to fit it in the command text
           // #nomodalsforme
           const textToStickyCreate = args.join(" ");
-          if (app.dbs.stickymessages.get(command.channel_id)) {
+          if (await app.dbs.stickymessages.get(command.channel_id)) {
             respond({
               text: `:x: You already have a sticky message.\nto update it run \`/stickymessage edit ${textToStickyCreate}\``,
               response_type: "ephemeral",
@@ -54,7 +54,7 @@ export default class Ping implements Command {
               channel: command.channel_id,
               text: `:sticky-note: ${textToStickyCreate}`,
             });
-            app.dbs.stickymessages.set(command.channel_id, {
+            await app.dbs.stickymessages.set(command.channel_id, {
               message: textToStickyCreate,
               ts: msg.ts,
               lastTriggered: Date.now(),
@@ -73,14 +73,14 @@ export default class Ping implements Command {
           break;
         case "remove":
         case "rm":
-          if (!app.dbs.stickymessages.get(command.channel_id)) {
+          if (!await app.dbs.stickymessages.get(command.channel_id)) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
             });
             return;
           }
-          const dbEntryToRemove = app.dbs.stickymessages.get(
+          const dbEntryToRemove = await app.dbs.stickymessages.get(
             command.channel_id,
           );
           try {
@@ -88,7 +88,7 @@ export default class Ping implements Command {
               channel: command.channel_id,
               ts: dbEntryToRemove.ts,
             });
-            app.dbs.stickymessages.delete(command.channel_id);
+            await app.dbs.stickymessages.delete(command.channel_id);
             respond({
               text: `Sticky message removed`,
               response_type: "ephemeral",
@@ -104,7 +104,7 @@ export default class Ping implements Command {
           break;
         case "edit":
         case "update":
-          if (!app.dbs.stickymessages.get(command.channel_id)) {
+          if (!await app.dbs.stickymessages.get(command.channel_id)) {
             respond({
               text: `:x: You don't have a sticky message to edit.`,
               response_type: "ephemeral",
@@ -112,7 +112,7 @@ export default class Ping implements Command {
             return;
           }
 
-          const dbEntryToEdit = app.dbs.stickymessages.get(command.channel_id);
+          const dbEntryToEdit = await app.dbs.stickymessages.get(command.channel_id);
           const textToEdit = args.join(" ");
           try {
             await app.client.chat.update({
@@ -120,7 +120,7 @@ export default class Ping implements Command {
               ts: dbEntryToEdit.ts,
               text: textToEdit,
             });
-            app.dbs.stickymessages.set(command.channel_id, {
+            await app.dbs.stickymessages.set(command.channel_id, {
               message: textToEdit,
               ts: dbEntryToEdit.ts,
               lastTriggered: Date.now(),
@@ -165,7 +165,7 @@ export default class Ping implements Command {
           channel: event.channel,
           ts: dbEntry.ts,
         });
-      } catch (e) {}
+      } catch (e) { }
       await new Promise((r) => setTimeout(r, 50));
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
@@ -174,20 +174,20 @@ export default class Ping implements Command {
           channel: event.channel,
           text: `:sticky-note: ${dbEntry.message}`,
         });
-        app.dbs.stickymessages.set(event.channel, {
+        await app.dbs.stickymessages.set(event.channel, {
           ts: m.ts,
           message: dbEntry.message,
           lastTriggered: Date.now(),
         });
         await new Promise((r) => setTimeout(r, 1000));
-        const newDbInstanceThingy = app.dbs.stickymessages.get(event.channel);
+        const newDbInstanceThingy = await app.dbs.stickymessages.get(event.channel);
         if (newDbInstanceThingy.ts !== m.ts) {
           try {
             await app.client.chat.delete({
               channel: event.channel,
               ts: newDbInstanceThingy.ts,
             });
-          } catch (e) {}
+          } catch (e) { }
         }
       } catch (e) {
         console.error(e);

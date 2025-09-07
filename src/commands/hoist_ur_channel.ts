@@ -58,7 +58,7 @@ export default class Ping implements Command {
 
       switch (subcmd) {
         case "lock":
-          if (app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (await app.dbs.channelhoisterdb.get(command.channel_id)) {
             respond({
               text: `:x: You already have enabled a watcher for this channel.`,
               response_type: "ephemeral",
@@ -70,7 +70,7 @@ export default class Ping implements Command {
             const info = await app.client.conversations.info({
               channel: command.channel_id,
             });
-            app.dbs.channelhoisterdb.set(command.channel_id, {
+            await app.dbs.channelhoisterdb.set(command.channel_id, {
               name: info.channel.name!,
               usersToAdd: await getChannelManagers(command.channel_id),
               lastTriggered: Date.now(),
@@ -89,14 +89,14 @@ export default class Ping implements Command {
 
           break;
         case "dehoist-channel":
-          if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (!await app.dbs.channelhoisterdb.get(command.channel_id)) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
             });
             return;
           }
-          const dbEntryToRemove2 = app.dbs.channelhoisterdb.get(
+          const dbEntryToRemove2 = await app.dbs.channelhoisterdb.get(
             command.channel_id,
           );
           const channel0 = args[0];
@@ -127,18 +127,18 @@ export default class Ping implements Command {
           break;
         case "remove":
         case "rm":
-          if (!app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (!await app.dbs.channelhoisterdb.get(command.channel_id)) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
             });
             return;
           }
-          const dbEntryToRemove = app.dbs.channelhoisterdb.get(
+          const dbEntryToRemove = await app.dbs.channelhoisterdb.get(
             command.channel_id,
           );
           try {
-            app.dbs.channelhoisterdb.delete(command.channel_id);
+            await app.dbs.channelhoisterdb.delete(command.channel_id);
             respond({
               text: `Sticky message removed`,
               response_type: "ephemeral",

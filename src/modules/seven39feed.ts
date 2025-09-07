@@ -107,7 +107,7 @@ export function setupSeverCron(app: ModifiedApp) {
       //  writeFileSync('data.json', JSON.stringify(dataa, null, 2))
       for (const post of dataa.posts) {
         await new Promise((r) => setTimeout(r, 10));
-        if (app.dbs.seven39.get(post.id)) continue;
+        if (await app.dbs.seven39.get(post.id)) continue;
         const str = `${post.content}${post.imageUrl ? "\n" + post.imageUrl : ""}\nLikes: ${post.likeCount} - Author: ${post.author.username} - ${post.replies.length} - Created at: ${post.createdAt}`;
         await app.client.chat.postMessage({
           text: str,
@@ -115,7 +115,7 @@ export function setupSeverCron(app: ModifiedApp) {
         });
         // post.content)
         // console.log(`Likes: ${post.likeCount} - Author: ${post.author.username} - ${post.replies.length}`)
-        app.dbs.seven39.set(post.id, true);
+        await app.dbs.seven39.set(post.id, true);
         await new Promise((r) => setTimeout(r, 100));
       }
     } catch (e) {

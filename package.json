@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
+    "@keyv/postgres": "^2.1.7",
     "@keyv/sqlite": "^4.0.1",
     "@logsnag/node": "^1.0.1",
     "@napi-rs/canvas": "^0.1.69",
@@ -35,6 +36,7 @@
     "node-memwatch-new": "0.0.1",
     "octokit": "^4.0.2",
     "openai": "latest",
+    "pg": "^8.16.3",
     "pidusage": "latest",
     "rss": "^1.2.2",
     "simple-json-db": "^2.0.0",

@@ -8,15 +8,16 @@ export default function watchMem(app: ModifiedApp) {
       channel: `C07LGLUTNH2`,
     });
   });
-  memwatch.on("stats", function (stats) {
+  memwatch.on("stats", async function (stats) {
     // app.client.chat.postMessage({
     //   text: `debug: mem stats ;3 \n\`\`\`\n${JSON.stringify(stats, null, 2)}\n\`\`\``,
     //   channel: `C07LGLUTNH2`,
     // });
     // save in db for graph ;p
-    const old = app.dbs.memdebug.get(`memwatch`) || [];
-    old.push(stats);
+    // const old = await app.dbs.memdebug.get(`memwatch`) || [];
+    // old.push(stats);
     // if (old.length > 100) old.shift();
-    app.dbs.memdebug.set(`memwatch`, old);
+    // app.dbs.memdebug.set(`memwatch`, old);
+    await app.dbs.memdebug.set(new Date().toISOString(), stats)
   });
 }
