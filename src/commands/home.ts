@@ -31,7 +31,7 @@ export default class AppHome implements Command {
         const spotifyStr = await getSpotifyStatus();
         //@ts-ignore
         const shipmentData = await app.db.get(`shipments_${event.user}`);
-        const ctfData = await app.db.get("ctf") || [];
+        const ctfData = (await app.db.get("ctf")) || [];
         const adventOfCodeData = await app.db.get("adventofcode_lb");
         // const highSeasLb = app.db.get("highseas_lb") || [];
         console.log(
