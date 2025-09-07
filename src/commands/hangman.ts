@@ -35,7 +35,7 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-      if (!await app.db.get("hangman")) {
+      if (!(await app.db.get("hangman"))) {
         // lets create a hangman game!
         await app.db.set("hangman", {
           word: getRandomWord(),
