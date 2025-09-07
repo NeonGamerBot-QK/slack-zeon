@@ -13,7 +13,7 @@ import { scrubPIIAuto } from "./randomResponseSystem";
 import Keyv from "keyv";
 export let cached_spotify_songs = [];
 export async function resetSpotifyCache(app: ModifiedApp) {
-  cached_spotify_songs = await app.db.get("spotify_songs") || [];
+  cached_spotify_songs = (await app.db.get("spotify_songs")) || [];
 }
 export function diceDups(arr) {
   const r = [];
@@ -209,7 +209,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   }
   const today = new Date();
   const codewatcherForToday = (
-    (await app.db.get("git_session") || []) as GitSession[]
+    ((await app.db.get("git_session")) || []) as GitSession[]
   ).filter((d) => {
     const f = new Date(d.started_at);
     // check if less then 24h
@@ -293,7 +293,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   }
   await app.db.delete("git_commits_today");
   if (
-    await app.db.get("messages_total") &&
+    (await app.db.get("messages_total")) &&
     (await app.db.get("messages_total")).length >= 7
   ) {
     // send weekly graph to channel
