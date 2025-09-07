@@ -235,7 +235,7 @@ export function tempcronjob(app: ModifiedApp) {
         d.DueToday ||
         d.NewAssessmentInd
       ) {
-        if (!await app.db.get("mykcd_check")) {
+        if (!(await app.db.get("mykcd_check"))) {
           app.client.chat.postMessage({
             channel: `C07LEEB50KD`,
             text: `Hey neon! mykcd api is working and has a working cookie and its not broken!!... writting down the timestamp`,
@@ -245,10 +245,10 @@ export function tempcronjob(app: ModifiedApp) {
         tellMeMissing(d, app, `C07R8DYAZMM`);
         WowYouDidAnAssignment(app, `C07R8DYAZMM`, d);
       } else {
-        if (!await app.db.get("mykcd_fail")) {
+        if (!(await app.db.get("mykcd_fail"))) {
           app.client.chat.postMessage({
             channel: `C07LEEB50KD`,
-            text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - await app.db.get("mykcd_check")}ms\n${JSON.stringify(d)}`,
+            text: `Hey neon! mykcd api is not working and has a broken cookie... it worked for ${Date.now() - (await app.db.get("mykcd_check"))}ms\n${JSON.stringify(d)}`,
           });
           await app.db.set("mykcd_fail", Date.now());
         }
