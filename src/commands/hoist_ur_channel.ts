@@ -89,7 +89,7 @@ export default class Ping implements Command {
 
           break;
         case "dehoist-channel":
-          if (!await app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (!(await app.dbs.channelhoisterdb.get(command.channel_id))) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
@@ -127,7 +127,7 @@ export default class Ping implements Command {
           break;
         case "remove":
         case "rm":
-          if (!await app.dbs.channelhoisterdb.get(command.channel_id)) {
+          if (!(await app.dbs.channelhoisterdb.get(command.channel_id))) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
