@@ -36,14 +36,14 @@ function updateStatus(
         //@ts-ignore
         profile: clearStats
           ? {
-            status_emoji: "",
-            status_text: "",
-          }
+              status_emoji: "",
+              status_text: "",
+            }
           : {
-            status_emoji: emoji,
-            status_expiration: 0,
-            status_text: str.slice(0, 100),
-          },
+              status_emoji: emoji,
+              status_expiration: 0,
+              status_text: str.slice(0, 100),
+            },
         token: process.env.MY_SLACK_TOKEN,
       });
     },
@@ -52,7 +52,7 @@ function updateStatus(
 }
 
 export async function setupOverallCron(app: ModifiedApp) {
-  const CurrentTimeZone = await app.db.get("tz")
+  const CurrentTimeZone = (await app.db.get("tz"))
     ? (await app.db.get("tz")).tz
     : "America/New_York";
   async function sendRandomStuff() {
@@ -179,7 +179,7 @@ export async function setupOverallCron(app: ModifiedApp) {
       .then(async (d) => {
         console.log(d.USD);
         const newMoneroPrice = d.USD;
-        const oldMoneroPrice = await app.db.get(`monero_price`) || 0;
+        const oldMoneroPrice = (await app.db.get(`monero_price`)) || 0;
         if (newMoneroPrice !== oldMoneroPrice) {
           await app.db.set(`monero_price`, newMoneroPrice);
           //@ts-ignore
