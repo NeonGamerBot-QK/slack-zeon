@@ -25,10 +25,7 @@ export interface IrlData {
 const mainTimezone = ["America/Kentucky/Louisville", `America/New_York`];
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
-  const tz = findTz(
-    data.latest_entry.lat,
-    data.latest_entry.long,
-  )[0];
+  const tz = findTz(data.latest_entry.lat, data.latest_entry.long)[0];
   if (!mainTimezone.includes(tz) && !(await app.db.get(`tz`))) {
     const m = await app.client.chat.postMessage({
       text: `Hello yall! Neon's tz has changed to *${tz}*\n_replies from neon may now differ..._`,
