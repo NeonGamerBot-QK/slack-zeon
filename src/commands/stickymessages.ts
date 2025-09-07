@@ -169,7 +169,7 @@ export default class Ping implements Command {
           channel: event.channel,
           ts: dbEntry.ts,
         });
-      } catch (e) { }
+      } catch (e) {}
       await new Promise((r) => setTimeout(r, 50));
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
@@ -194,7 +194,7 @@ export default class Ping implements Command {
               channel: event.channel,
               ts: newDbInstanceThingy.ts,
             });
-          } catch (e) { }
+          } catch (e) {}
         }
       } catch (e) {
         console.error(e);
