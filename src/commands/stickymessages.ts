@@ -50,6 +50,8 @@ export default class Ping implements Command {
           }
 
           try {
+            if (!textToStickyCreate) return;
+
             const msg = await app.client.chat.postMessage({
               channel: command.channel_id,
               text: `:sticky-note: ${textToStickyCreate}`,
@@ -172,6 +174,7 @@ export default class Ping implements Command {
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
       try {
+        if (!dbEntry.message) return;
         const m = await client.chat.postMessage({
           channel: event.channel,
           text: `:sticky-note: ${dbEntry.message}`,
