@@ -150,7 +150,7 @@ export default class Ping implements Command {
     });
     // part 2 message
     app.event("message", async ({ event, client, body }) => {
-      const dbEntry = app.dbs.stickymessages.get(event.channel);
+      const dbEntry = await app.dbs.stickymessages.get(event.channel);
       if (event.subtype) return;
       //@ts-ignore
       if (event.thread_ts) return;
@@ -167,7 +167,7 @@ export default class Ping implements Command {
           channel: event.channel,
           ts: dbEntry.ts,
         });
-      } catch (e) {}
+      } catch (e) { }
       await new Promise((r) => setTimeout(r, 50));
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
@@ -191,7 +191,7 @@ export default class Ping implements Command {
               channel: event.channel,
               ts: newDbInstanceThingy.ts,
             });
-          } catch (e) {}
+          } catch (e) { }
         }
       } catch (e) {
         console.error(e);
