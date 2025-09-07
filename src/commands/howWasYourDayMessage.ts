@@ -19,7 +19,7 @@ export default class HowWasUrDayMessage implements Command {
     const tokens = [
       process.env.SLACK_USER_TOKEN,
       process.env.SLACK_BOT_TOKEN,
-      ...(app.db.get("slack_reaction_tokens") || []),
+      ...(await app.db.get("slack_reaction_tokens") || []),
     ];
     for (const t of tokens) {
       try {
@@ -64,7 +64,7 @@ export default class HowWasUrDayMessage implements Command {
     }
   }
   async potatoGame(app: ModifiedApp, event) {
-    const pg = app.db.get("potato_game");
+    const pg = await app.db.get("potato_game");
     // console.log(pg, event.text, event.thread_ts);
     if (!pg) return;
     console.log(1);
@@ -98,7 +98,7 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "fuck",
           });
-        } catch (e) {}
+        } catch (e) { }
       } else if (
         event.text.toLowerCase().trim() == "no! i love the potatos!!"
       ) {
@@ -108,14 +108,14 @@ export default class HowWasUrDayMessage implements Command {
             timestamp: event.ts,
             name: "no",
           });
-        } catch (e) {}
+        } catch (e) { }
         app.client.chat.postMessage({
           text: `No!! i will go against the potatoes!!`,
           channel: event.channel,
           thread_ts: event.ts,
         });
       }
-      app.db.set("potato_game", {
+      await app.db.set("potato_game", {
         ...pg,
         total_cmd_count: pg.total_cmd_count + 1,
         last_cmd: event.ts,
@@ -146,16 +146,16 @@ export default class HowWasUrDayMessage implements Command {
           users: randomUser,
         });
         //delete it all now
-        app.db.delete("potato_game");
+        await app.db.delete("potato_game");
       }
     }
   }
   async handleAfk(app: ModifiedApp, event) {
     if (event.channel == "D07LBMXD9FF") return;
     const send_to_channel = [`C07LEEB50KD`, `C07R8DYAZMM`];
-    const amIAfkRn = app.db.get("neon_afk");
+    const amIAfkRn = await app.db.get("neon_afk");
     if (amIAfkRn && event.user == process.env.MY_USER_ID) {
-      app.db.delete("neon_afk");
+      await app.db.delete("neon_afk");
       app.client.chat.postMessage({
         channel: event.user,
         text: `Welcome back from being afk from: ${amIAfkRn} - you can now be pinged again!`,
@@ -193,7 +193,7 @@ export default class HowWasUrDayMessage implements Command {
         name: "afk",
         // token: process.env.SLACK_USER_TOKEN,
       });
-    } catch (e) {}
+    } catch (e) { }
     // send the a pm from zeons side unless this is my channel lmao
     app.client.chat.postMessage({
       channel: send_to_channel.includes(event.channel)
@@ -218,10 +218,10 @@ export default class HowWasUrDayMessage implements Command {
     app.event(this.name, async (par) => {
       try {
         this.potatoGame(app, par.event);
-      } catch (e) {} //  console.debug(par);
+      } catch (e) { } //  console.debug(par);
       try {
         this.userTags(app, par.event);
-      } catch (e) {} //  console.debug(par)
+      } catch (e) { } //  console.debug(par)
       try {
         this.handleAfk(app, par.event);
       } catch (e) {
@@ -274,7 +274,7 @@ export default class HowWasUrDayMessage implements Command {
             channel: message.event.channel,
           })
           .then((d) => d.permalink);
-        app.db.set("howday_last_message_link", link);
+        await app.db.set("howday_last_message_link", link);
         app.client.reactions.add({
           //@ts-ignore
 
@@ -298,7 +298,7 @@ export default class HowWasUrDayMessage implements Command {
 
                 name: e.emoji,
               });
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       }

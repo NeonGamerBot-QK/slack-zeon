@@ -108,7 +108,7 @@ export default class AnonDM implements Command {
         });
         //@ts-ignore
         if (userProfile.profile.bot_id) continue;
-        if (app.db.get(`optout_anondm_${user}`)) continue;
+        if (await app.db.get(`optout_anondm_${user}`)) continue;
         if (usersInDb.find((e) => bcrypt.compareSync(user, e))) {
           if (
             app.dbs.anondm

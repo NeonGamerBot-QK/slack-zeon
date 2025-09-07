@@ -30,9 +30,9 @@ export default class AppHome implements Command {
       try {
         const spotifyStr = await getSpotifyStatus();
         //@ts-ignore
-        const shipmentData = app.db.get(`shipments_${event.user}`);
-        const ctfData = app.db.get("ctf") || [];
-        const adventOfCodeData = app.db.get("adventofcode_lb");
+        const shipmentData = await app.db.get(`shipments_${event.user}`);
+        const ctfData = await app.db.get("ctf") || [];
+        const adventOfCodeData = await app.db.get("adventofcode_lb");
         // const highSeasLb = app.db.get("highseas_lb") || [];
         console.log(
           Boolean(shipmentData),
@@ -80,7 +80,7 @@ export default class AppHome implements Command {
         //@ts-ignore
         console.log(`USER: ${event.user}`);
         function genView(): View {
-          const db_entry2 = app.db.get("rpg_lb");
+          const db_entry2 = await app.db.get("rpg_lb");
           const rpgysws_section = [
             {
               type: "divider",

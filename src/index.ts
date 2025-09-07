@@ -18,6 +18,8 @@ import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import initGitWatcher from "./modules/watch-git";
 import util from "util";
+import KeyvPostgres from "@keyv/postgres";
+import Keyv from "keyv";
 console.timeEnd("Essential Imports");
 //@ts-ignore
 Error.stackTraceLimit = 50;
@@ -26,20 +28,48 @@ console.time("App Boot");
   const { default: app } = await import("./modules/slackapp");
 
   console.time("DB Load");
-  const db = new JSONdb("data/data.json");
+  // const db = new JSONdb("data/data.json");
+  const db = new Keyv(
+    new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "data" }),
+  );
   app.db = db;
+  // app.dbs = {
+  //   ddm: new JSONdb("data/discord-datamining.json"),
+  //   channelhoisterdb: new JSONdb("data/channel-hoister.json"),
+  //   memdebug: new JSONdb("data/memdb.json"),
+  //   flightly: new JSONdb("data/flightly.json"),
+  //   journey: new JSONdb("data/journey.json"),
+  //   anondm: new EncryptedJsonDb("data/anondm.json", {
+  //     password: process.env.ANONDM_PASSWORD,
+  //   }),
+  //   mykcd: new JSONdb("data/mykcd.json"),
+  //   tags: new JSONdb("data/tags.json"),
+  //   stickymessages: new JSONdb("data/stickymessages.json"),
+  // };
   app.dbs = {
     ddm: new JSONdb("data/discord-datamining.json"),
-    channelhoisterdb: new JSONdb("data/channel-hoister.json"),
-    memdebug: new JSONdb("data/memdb.json"),
-    flightly: new JSONdb("data/flightly.json"),
-    journey: new JSONdb("data/journey.json"),
+    channelhoisterdb: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "channelhoister" }),
+    ),
+    memdebug: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "memdb" }),
+    ),
+    flightly: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "flightly" }),
+    ),
+    // journey: new JSONdb("data/journey.json"),
     anondm: new EncryptedJsonDb("data/anondm.json", {
       password: process.env.ANONDM_PASSWORD,
     }),
-    mykcd: new JSONdb("data/mykcd.json"),
-    tags: new JSONdb("data/tags.json"),
-    stickymessages: new JSONdb("data/stickymessages.json"),
+    mykcd: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "mykcd" }),
+    ),
+    tags: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "tags" }),
+    ),
+    stickymessages: new Keyv(
+      new KeyvPostgres({ uri: process.env.PSQL_URL!, table: "stickymessages" }),
+    ),
   };
   app.kdbs = {};
   console.timeEnd("DB Load");
@@ -74,9 +104,9 @@ console.time("App Boot");
     }),
   ]).catch((err) => console.error("Deferred module error:", err));
 
-  setupOverallCron(app);
+  await setupOverallCron(app);
   monitorMemCpu(app);
-  resetSpotifyCache(app);
+  await resetSpotifyCache(app);
   watchForWhenIUseHacktime(app);
 
   app.client.chat.postMessage({
@@ -92,7 +122,7 @@ console.time("App Boot");
   setInterval(() => {
     fetch(
       "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK",
-    ).catch(() => setTimeout(() => {}, 5000));
+    ).catch(() => setTimeout(() => { }, 5000));
   }, 60_000);
 
   app.client.chat.postMessage({
@@ -136,13 +166,13 @@ console.time("App Boot");
             ? `C07LGLUTNH2`
             : `D07LBMXD9FF`,
         text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${util.inspect(e, {
-      showHidden: true, // include non-enumerable properties
-      depth: null,      // no limit on recursion
-      colors: false,    // disable ANSI colors (Slack-safe)
-      breakLength: 120, // nicer formatting
-    })}\`\`\``,
+          showHidden: true, // include non-enumerable properties
+          depth: null,      // no limit on recursion
+          colors: false,    // disable ANSI colors (Slack-safe)
+          breakLength: 120, // nicer formatting
+        })}\`\`\``,
       });
-    } catch {}
+    } catch { }
   }
 })();
 console.timeEnd("App Boot");

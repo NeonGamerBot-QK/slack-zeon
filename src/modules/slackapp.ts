@@ -15,7 +15,7 @@ import { generateGraph, generateGraph12h } from "./shipwrecked";
 import Keyv from "keyv";
 import { LogSnag } from "@logsnag/node";
 export interface ModifiedApp extends App<StringIndexed> {
-  db: JSONdb;
+  db: Keyv;
   dbs: {
     [k: string]: JSONdb | Keyv;
   };
@@ -184,7 +184,7 @@ export const app = new App({
           return;
         }
         //@ts-ignore
-        res.writeHead(200).end(JSON.stringify(app.db.get(`ai_keys`)));
+        res.writeHead(200).end(JSON.stringify(await app.db.get(`ai_keys`)));
       },
     },
     {
@@ -261,7 +261,7 @@ export const app = new App({
               return;
             }
             //@ts-ignore
-            handleGitRequest(req.body, app);
+            await handleGitRequest(req.body, app);
             res.writeHead(200).end();
           }),
         );

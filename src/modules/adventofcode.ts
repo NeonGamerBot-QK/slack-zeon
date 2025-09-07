@@ -23,7 +23,7 @@ export function setupCronAdventOfCode(app: ModifiedApp) {
   });
   cron.schedule(`0 * * * *`, async () => {
     const lb = await getAdventOfCodeLb();
-    app.db.set(`adventofcode_lb`, lb);
+    await app.db.set(`adventofcode_lb`, lb);
   });
 }
 export default async function adventOfCode(app: ModifiedApp, channel: string) {

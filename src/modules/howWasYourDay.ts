@@ -10,9 +10,10 @@ import { hacktime } from ".";
 import { writeFileSync } from "fs";
 import path from "path";
 import { scrubPIIAuto } from "./randomResponseSystem";
+import Keyv from "keyv";
 export let cached_spotify_songs = [];
-export function resetSpotifyCache(app: ModifiedApp) {
-  cached_spotify_songs = app.db.get("spotify_songs") || [];
+export async function resetSpotifyCache(app: ModifiedApp) {
+  cached_spotify_songs = await app.db.get("spotify_songs") || [];
 }
 export function diceDups(arr) {
   const r = [];
@@ -33,7 +34,7 @@ export function diceDups(arr) {
   return r;
 }
 
-export async function getDayResponse(db: JSONdb) {
+export async function getDayResponse(db: Keyv) {
   const hw = await getTodaysEvents().then((e: any) => {
     const start = [];
     const end = [];
@@ -73,7 +74,7 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
           channel: message.event.channel,
         })
         .then((d) => d.permalink);
-      app.db.set("howday_last_message_link", link);
+      await app.db.set("howday_last_message_link", link);
       app.client.reactions.add({
         channel: message.event.channel,
         timestamp: message.event.ts,
@@ -87,7 +88,7 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
 /**
  * @see https://github.com/SkyfallWasTaken/slack-activity-webhook/blob/main/index.ts
  */
-export async function getMessageCount(db: JSONdb) {
+export async function getMessageCount(db: Keyv) {
   // js use the .env lmao
 
   const formData = new FormData();
@@ -208,7 +209,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   }
   const today = new Date();
   const codewatcherForToday = (
-    (app.db.get("git_session") || []) as GitSession[]
+    (await app.db.get("git_session") || []) as GitSession[]
   ).filter((d) => {
     const f = new Date(d.started_at);
     // check if less then 24h
@@ -247,7 +248,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       ),
     });
     cached_spotify_songs = [];
-    app.db.delete("spotify_songs");
+    await app.db.delete("spotify_songs");
   } else {
     app.client.chat.postMessage({
       channel,
@@ -290,10 +291,10 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       text: `No github commits found... like this is concerning /gen`,
     });
   }
-  app.db.delete("git_commits_today");
+  await app.db.delete("git_commits_today");
   if (
-    app.db.get("messages_total") &&
-    app.db.get("messages_total").length >= 7
+    await app.db.get("messages_total") &&
+    (await app.db.get("messages_total")).length >= 7
   ) {
     // send weekly graph to channel
     sendWeeklyGraph(app, channel);
@@ -301,7 +302,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
 }
 
 export async function sendWeeklyGraph(app: ModifiedApp, channel: string) {
-  const messagesTotal = app.db.get("messages_total").slice(0, 7);
+  const messagesTotal = (await app.db.get("messages_total")).slice(0, 7);
   const graphUrl = `https://api.saahild.com/api/graph/line/simple?labels=Monday,Tuesday,Wensday,Thursday,Friday,Saturday,Sunday&y=${messagesTotal.join(",")}`;
   // attach as file or something
   await fetch(graphUrl)

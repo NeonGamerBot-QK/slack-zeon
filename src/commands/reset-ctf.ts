@@ -72,12 +72,12 @@ export default class Ping implements Command {
         channel: command.channel_id,
       });
       // app.db.delete("ctf")
-      const currentDbInstance = app.db.get("ctf");
+      const currentDbInstance = await app.db.get("ctf");
       if (!currentDbInstance) {
         console.log(`First run! hopefully i dont fuck it up`);
         let compiledJSON: any = await parseTheSecrets();
         // insert this into the db? why: A: easier to add stuff, B: wawa idc about the db having unencrypted data
-        app.db.set("ctf", compiledJSON);
+        await app.db.set("ctf", compiledJSON);
 
         for (let j of compiledJSON) {
           if (j.bin_content) {
@@ -114,7 +114,7 @@ export default class Ping implements Command {
           }
           await new Promise((res) => setTimeout(res, 100));
         }
-        app.db.set("ctf", compiledJSON);
+        await app.db.set("ctf", compiledJSON);
         await app.client.chat.update({
           ts: msg.ts,
           channel: command.channel_id,
@@ -143,7 +143,7 @@ export default class Ping implements Command {
           // keep old bin links idgaf
         }
         // now delete the DB entry
-        app.db.delete("ctf");
+        await app.db.delete("ctf");
         already_reset_this_instance = true;
         app.client.chat.update({
           ts: msg.ts,

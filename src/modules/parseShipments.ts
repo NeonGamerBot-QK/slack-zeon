@@ -212,47 +212,49 @@ export function getShipmentDiff(
 }
 
 export function setupCronForShipments(app: ModifiedApp) {
-  new Cron("*/10 * * * *", async () => {
-    //@ts-ignore
-    const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
-      e.startsWith(`shipment_url_`),
-    );
-    if (allUsersWithAShipmentURL.length > 0) {
-      for (const userURLID of allUsersWithAShipmentURL) {
-        try {
-          const shipments = await app.utils.hcshipments
-            .parseShipments(app.db.get(userURLID))
-            .then((e) => e.flat());
-          const oldShipments = app.db.get(
-            `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
-          );
-          //
-          if (oldShipments !== shipments && oldShipments) {
-            try {
-              // run diff and uhh send stuff
-              const blocks = getShipmentDiff(oldShipments.flat(), shipments);
-              for (const b of blocks) {
-                await app.client.chat.postMessage({
-                  channel: userURLID.replace(`shipment_url_`, ``),
-                  blocks: [b],
-                });
-              }
-            } catch (e) {
-              app.client.chat.postMessage({
-                channel: `C07LGLUTNH2`,
-                text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\`\n\n\`\`\`${e.stack}\`\`\``,
-              });
-            }
-          }
-          await app.db.set(
-            `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
-            shipments,
-          );
-        } catch (e) {
-          // coulda failed parsing or diff..
-          console.error(e, `shipment viewer`, userURLID);
-        }
-      }
-    }
-  });
+  // new Cron("*/10 * * * *", async () => {
+  //   // FIXME
+  //   // TODO: FIX OR DELETE
+  //   //@ts-ignore
+  //   const allUsersWithAShipmentURL = Object.keys(app.db.JSON()).filter((e) =>
+  //     e.startsWith(`shipment_url_`),
+  //   );
+  //   if (allUsersWithAShipmentURL.length > 0) {
+  //     for (const userURLID of allUsersWithAShipmentURL) {
+  //       try {
+  //         const shipments = await app.utils.hcshipments
+  //           .parseShipments(app.db.get(userURLID))
+  //           .then((e) => e.flat());
+  //         const oldShipments = app.db.get(
+  //           `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
+  //         );
+  //         //
+  //         if (oldShipments !== shipments && oldShipments) {
+  //           try {
+  //             // run diff and uhh send stuff
+  //             const blocks = getShipmentDiff(oldShipments.flat(), shipments);
+  //             for (const b of blocks) {
+  //               await app.client.chat.postMessage({
+  //                 channel: userURLID.replace(`shipment_url_`, ``),
+  //                 blocks: [b],
+  //               });
+  //             }
+  //           } catch (e) {
+  //             app.client.chat.postMessage({
+  //               channel: `C07LGLUTNH2`,
+  //               text: `sorry, i cant read the diff for \`\`\`${JSON.stringify(shipments)}\`\`\`\n\n\`\`\`${e.stack}\`\`\``,
+  //             });
+  //           }
+  //         }
+  //         await app.db.set(
+  //           `shipments_${userURLID.replace(`shipment_url_`, ``)}`,
+  //           shipments,
+  //         );
+  //       } catch (e) {
+  //         // coulda failed parsing or diff..
+  //         console.error(e, `shipment viewer`, userURLID);
+  //       }
+  //     }
+  //   }
+  // });
 }

@@ -15,10 +15,10 @@ export async function doMinUpdate(app: ModifiedApp) {
     .then((r) => r.json())
     .then((d) => d.totalReferrals);
   if (typeof data !== "number") return;
-  const lastEntry = app.db.get("shipwreck_count") || 0;
-  const lastReferralEntry = app.db.get("shipwreck_ref") || 0;
+  const lastEntry = await app.db.get("shipwreck_count") || 0;
+  const lastReferralEntry = await app.db.get("shipwreck_ref") || 0;
   if (lastEntry !== data || lastReferralEntry !== referralCount) {
-    let allEntries = app.db.get("ship_wrecks_entries") || [];
+    let allEntries = await app.db.get("ship_wrecks_entries") || [];
 
     allEntries.push({
       count: data,
@@ -28,10 +28,10 @@ export async function doMinUpdate(app: ModifiedApp) {
     allEntries = allEntries.filter((e) => {
       return typeof e.count === "number" && e.count !== 0;
     });
-    app.db.set("ship_wrecks_entries", allEntries);
+    await app.db.set("ship_wrecks_entries", allEntries);
 
     if (lastEntry !== data) {
-      app.db.set("shipwreck_count", data);
+      await app.db.set("shipwreck_count", data);
 
       app.client.chat.postMessage({
         channel: "C08P152AU94",
@@ -72,7 +72,7 @@ export async function doMinUpdate(app: ModifiedApp) {
         app.over = true;
       }
       if (lastReferralEntry !== referralCount) {
-        app.db.set("shipwreck_ref", referralCount);
+        await app.db.set("shipwreck_ref", referralCount);
 
         app.client.chat.postMessage({
           channel: "C08P152AU94",
@@ -94,7 +94,7 @@ function addArray(arr: any[]) {
 export async function majorUpdate(app: ModifiedApp, channel_id: string) {
   // get time for the last 12h
   const last12h = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
-  const data = app.db.get("ship_wrecks_entries") || [];
+  const data = await app.db.get("ship_wrecks_entries") || [];
   const entries = data.filter(
     (e) => new Date(e.date).getTime() > last12h.getTime(),
   );
@@ -156,7 +156,7 @@ export async function generateGraph(app: ModifiedApp) {
   const imagePath = "./count_over_time_from_url.png";
 
   try {
-    const data = app.db.get("ship_wrecks_entries").filter((_, i) => i % 2 == 0);
+    const data = (await app.db.get("ship_wrecks_entries")).filter((_, i) => i % 2 == 0);
 
     const dates = data.map((entry: any) => formatDate(entry.date));
     const counts = data.map((entry: any) => entry.count);
@@ -282,8 +282,8 @@ export async function generateGraph12h(app: ModifiedApp) {
     // If `highlightLast12Hours` is true, highlight data within the last 12 hours
     const highlightData = highlightLast12Hours
       ? counts.map((count: number, i: number) =>
-          rawDates[i] >= twelveHoursAgo ? count : null,
-        )
+        rawDates[i] >= twelveHoursAgo ? count : null,
+      )
       : new Array(counts.length).fill(null); // Empty array if no highlighting
 
     // Estimate progress toward goal

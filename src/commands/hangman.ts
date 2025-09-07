@@ -35,9 +35,9 @@ export default class HowWasUrDayMessage implements Command {
       //   if (!par.event.text.startsWith("!")) return;
       console.debug(`cmd`);
       const { event, say } = par;
-      if (!app.db.get("hangman")) {
+      if (!await app.db.get("hangman")) {
         // lets create a hangman game!
-        app.db.set("hangman", {
+        await app.db.set("hangman", {
           word: getRandomWord(),
           guesses: [],
           guessed: false,
@@ -48,7 +48,7 @@ export default class HowWasUrDayMessage implements Command {
           text: `:hangman: hangman starting...........\n all messages below are guesses fyi!\n${buildBoard(0)}`,
         });
       } else {
-        const gameData = app.db.get("hangman");
+        const gameData = await app.db.get("hangman");
         const guess = event.text.trim().toLowerCase();
         const response = onGuess(
           guess,
@@ -56,7 +56,7 @@ export default class HowWasUrDayMessage implements Command {
           gameData.guesses,
           gameData.stage,
         );
-        app.db.set("hangman", {
+        await app.db.set("hangman", {
           ...gameData,
           guesses: response.guessedLetters,
           stage: response.stage,

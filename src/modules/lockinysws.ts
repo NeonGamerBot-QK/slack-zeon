@@ -34,8 +34,8 @@ export async function onLoadForLockIn(app: ModifiedApp) {
       // data
       const data = await parseHomepage();
       for (const entry of data) {
-        if (app.db.get(entry.datetime)) continue;
-        app.db.set(entry.datetime, true);
+        if (await app.db.get(entry.datetime)) continue;
+        await app.db.set(entry.datetime, true);
         if (entry.users.length == 1) {
           app.client.chat.postMessage({
             channel: "C07LEEB50KD",

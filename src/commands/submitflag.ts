@@ -53,19 +53,19 @@ export default class Ping implements Command {
       }
 
       // get users ctf data
-      let userD = app.db.get("ctf_" + command.user_id) || {};
+      let userD = await app.db.get("ctf_" + command.user_id) || {};
 
       // respond(`Pong took: \`${Date.now() - stamp}ms\``).then((d) => {
       //   console.debug(`after ping`, d);
       // });
-      const secrets = app.db.get("ctf");
+      const secrets = await app.db.get("ctf");
       const validKey = secrets.find((e) => e.matches == command.text) as any;
       if (validKey) {
         userD.last_flag = command.text;
         userD.last_submit = Date.now();
         console.log(validKey);
         userD.current_flag = validKey.to_next;
-        app.db.set("ctf_" + command.user_id, userD);
+        await app.db.set("ctf_" + command.user_id, userD);
         // add user to next channel
         if (validKey.ch_id) {
           try {
@@ -93,9 +93,9 @@ export default class Ping implements Command {
         } else if (command.text.trim() == process.env.FAKE_KEY) {
           respond(Buffer.from(process.env.FM_CTF!, "hex").toString());
           // update userd
-          const userD = app.db.get("ctf_" + command.user_id) || {};
+          const userD = await app.db.get("ctf_" + command.user_id) || {};
           userD.not_allowed_to_use_second = true;
-          app.db.set("ctf_" + command.user_id, userD);
+          await app.db.set("ctf_" + command.user_id, userD);
         } else {
           respond(`:x: Invalid flag.`);
         }

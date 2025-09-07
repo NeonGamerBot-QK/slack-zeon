@@ -107,7 +107,7 @@ export default class Message implements Command {
               await say(`ERROR:\n\`\`\`${await clean(e.stack)}\`\`\``);
             }
           } else if (cmd == "afk") {
-            const amIAfkRn = app.db.get("neon_afk");
+            const amIAfkRn = await app.db.get("neon_afk");
             if (amIAfkRn) {
               // app.db.delete("neon_afk");
               // app.client.chat.postMessage({
@@ -117,7 +117,7 @@ export default class Message implements Command {
               return;
             } else {
               const reason = args.join(" ") || "No reason provided";
-              app.db.set("neon_afk", reason);
+              await app.db.set("neon_afk", reason);
               app.client.chat.postMessage({
                 channel: event.user,
                 text: `You are now afk for: ${reason} - you will not be pinged in the meantime!`,

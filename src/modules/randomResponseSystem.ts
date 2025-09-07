@@ -1,5 +1,6 @@
 import JSONdb from "simple-json-db";
 import { ModifiedApp } from "./slackapp";
+import Keyv from "keyv";
 
 export const acRandom = () => [
   "It might be {hour} but i COULD be tweaking",
@@ -142,7 +143,7 @@ export async function potatoGame(app: ModifiedApp) {
     text: "Respond in the thread with 'DEFEND AGAINST THE ROUGE POTATOE'!!",
     channel: "C07R8DYAZMM",
   });
-  app.db.set("potato_game", {
+  await app.db.set("potato_game", {
     ts: potato.ts,
     created_at: Date.now(),
     total_cmd_count: 0,
@@ -182,7 +183,7 @@ enum ResponseTypes {
   WalletTransaction,
   Random,
 }
-export async function checkOverSpending(db: JSONdb) {
+export async function checkOverSpending(db: Keyv) {
   let currentTransactions = await fetch(
     process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions",
     {
@@ -193,7 +194,7 @@ export async function checkOverSpending(db: JSONdb) {
   )
     .then((r) => r.json())
     .then((json) => json.currentTransactions);
-  let sliceIndex = db.get("overspending_index") || 0;
+  let sliceIndex = await db.get("overspending_index") || 0;
   currentTransactions = currentTransactions.slice(sliceIndex);
   if (currentTransactions.length > 0) {
     const firstTransaction = currentTransactions[0];

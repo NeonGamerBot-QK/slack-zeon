@@ -1,4 +1,5 @@
 import { App } from "@slack/bolt";
+import Keyv from "keyv";
 import ms from "ms";
 import JSONdb from "simple-json-db";
 export interface GitBody {
@@ -32,7 +33,7 @@ function getTimeOfDay() {
   }
 }
 
-export function handleGitRequest(body: GitBody, app: App) {
+export async function handleGitRequest(body: GitBody, app: App) {
   const funny_words = [
     "Mom! look i did something!",
     "This is a working moment",
@@ -47,9 +48,9 @@ export function handleGitRequest(body: GitBody, app: App) {
   ];
   if (!db) return;
   if (!body.is_zeon) {
-    const oldEntries = db.get("git_commits_today") || [];
+    const oldEntries = await db.get("git_commits_today") || [];
     oldEntries.push(body);
-    db.set("git_commits_today", oldEntries);
+    await db.set("git_commits_today", oldEntries);
   }
   if (body.is_zeon) {
     app.client.chat.postMessage({
@@ -58,7 +59,7 @@ export function handleGitRequest(body: GitBody, app: App) {
     });
   }
   if (!db.get("git_session")) return;
-  const session = (db.get("git_session") || []).find(
+  const session = (await db.get("git_session") || []).find(
     (e) => e.active,
   ) as GitSession;
   if (!session) return;
@@ -70,7 +71,7 @@ export function handleGitRequest(body: GitBody, app: App) {
   });
 }
 
-export let db: null | JSONdb = null;
-export function attachDB(d: JSONdb) {
+export let db: null | Keyv = null;
+export function attachDB(d: Keyv) {
   db = d;
 }

@@ -102,7 +102,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
       )
         .then((r) => r.json())
         .then((r) => r.data);
-      const currentSession = app.db.get(`hackedhearts`);
+      const currentSession = await app.db.get(`hackedhearts`);
       if (userHacktimeDat.length > 0) {
         const d = userHacktimeDat
           .filter((e) => e.category === "coding" && e.project !== "Terminal")
@@ -119,20 +119,20 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
                 channel: `C07R8DYAZMM`,
                 text: getMessage("new", { d, currentSession }),
               })
-              .then((d) => {
+              .then(async (d) => {
                 //  heartStore.set(user.user, {
                 //      active: true,
                 //      m_ts: d.ts,
                 //      created_at: Date.now()
                 //  })
-                app.db.set(`hackedhearts`, {
+                await app.db.set(`hackedhearts`, {
                   active_index: 0,
                   m_ts: d.ts,
                   created_at: Date.now(),
                 });
               });
           } else {
-            app.db.set("hackedhearts", {
+            await app.db.set("hackedhearts", {
               ...currentSession,
               active_index: -1,
               // ...currentSession,
@@ -149,7 +149,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
               // set to not be active
               // pretty much this is a warning: if there is no new heartbeat im nuking it.
               console.log("hmmm");
-              app.db.set("hackedhearts", {
+              await app.db.set("hackedhearts", {
                 ...currentSession,
                 active_index: currentSession.active_index - 1,
                 // ...currentSession,
@@ -173,7 +173,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
               });
               // delete it
               //  heartStore.delete(user.user)
-              app.db.delete(`hackedhearts`);
+              await app.db.delete(`hackedhearts`);
             }
           }
         }

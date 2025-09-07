@@ -62,8 +62,8 @@ export function getLB() {
 
 export function cronJobForRPG(app: ModifiedApp) {
   new Cron("0 0 * * *", async () => {
-    getLB().then((d) => {
-      app.db.set("rpg_lb", d);
+    getLB().then(async (d) => {
+      await app.db.set("rpg_lb", d);
     });
   });
 }

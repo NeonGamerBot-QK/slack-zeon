@@ -18,7 +18,7 @@ export default class codewatcher implements Command {
         return respond(`:x: You cannot use this command.`);
       const args = command.text.split(" ");
       const subcmd = args.shift();
-      let d = app.db.get("git_session") || [];
+      let d = await app.db.get("git_session") || [];
       switch (subcmd) {
         case "start":
           const reponame = args[0];
@@ -56,7 +56,7 @@ export default class codewatcher implements Command {
                 })
                 .then((d) => d.permalink);
               d.push(session);
-              app.db.set("git_session", d);
+              await app.db.set("git_session", d);
             });
           break;
         case "stop":
@@ -77,7 +77,7 @@ export default class codewatcher implements Command {
             text: `Stopping Code Watcher, Took ${ms(d[d.indexOf(d.find((e) => e.active))].ended_at - d[d.indexOf(d.find((e) => e.active))].started_at)}`,
           });
           d[d.indexOf(d.find((e) => e.active))].active = false;
-          app.db.set("git_session", d);
+          await app.db.set("git_session", d);
           app.client.chat.postEphemeral({
             channel: command.channel_id,
             user: command.user_id,
