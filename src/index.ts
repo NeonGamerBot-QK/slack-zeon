@@ -122,7 +122,7 @@ console.time("App Boot");
   setInterval(() => {
     fetch(
       "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK",
-    ).catch(() => setTimeout(() => { }, 5000));
+    ).catch(() => setTimeout(() => {}, 5000));
   }, 60_000);
 
   app.client.chat.postMessage({
@@ -165,14 +165,17 @@ console.time("App Boot");
           e.message == "TypeError: fetch failed"
             ? `C07LGLUTNH2`
             : `D07LBMXD9FF`,
-        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${util.inspect(e, {
-          showHidden: true, // include non-enumerable properties
-          depth: null,      // no limit on recursion
-          colors: false,    // disable ANSI colors (Slack-safe)
-          breakLength: 120, // nicer formatting
-        })}\`\`\``,
+        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${util.inspect(
+          e,
+          {
+            showHidden: true, // include non-enumerable properties
+            depth: null, // no limit on recursion
+            colors: false, // disable ANSI colors (Slack-safe)
+            breakLength: 120, // nicer formatting
+          },
+        )}\`\`\``,
       });
-    } catch { }
+    } catch {}
   }
 })();
 console.timeEnd("App Boot");
