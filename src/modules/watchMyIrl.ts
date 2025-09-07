@@ -6,17 +6,18 @@ export default function watchLocation() {
   // todo
 }
 export interface ShortcutUpdate {
-  battery: number;
+  id: number;
+  lat: number;
+  long: number;
+  addr: string;
+  city: string;
+  name: string;
   clipboard: string;
   focus: string;
-  "weather ": string;
-  location: {
-    lat: number;
-    long: number;
-    city: string;
-    addr: string;
-    name: string;
-  };
+  battery: number;
+  weather: string;
+  created_at: string;
+  type?: any;
 }
 export interface IrlData {
   latest_entry: ShortcutUpdate;
@@ -25,8 +26,8 @@ const mainTimezone = ["America/Kentucky/Louisville", `America/New_York`];
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
   const tz = findTz(
-    data.latest_entry.location.lat,
-    data.latest_entry.location.long,
+    data.latest_entry.lat,
+    data.latest_entry.long,
   )[0];
   if (!mainTimezone.includes(tz) && !(await app.db.get(`tz`))) {
     const m = await app.client.chat.postMessage({
