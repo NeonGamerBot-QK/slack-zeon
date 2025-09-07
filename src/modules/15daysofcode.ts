@@ -70,7 +70,7 @@ export function diffStrings(oldArray: Leaderboard[], newArray: Leaderboard[]) {
   return strings;
 }
 export async function cronMoment(app: ModifiedApp) {
-  const oldData = await app.db.get("15daysofcode") || [];
+  const oldData = (await app.db.get("15daysofcode")) || [];
   const data = await getUsers();
   const strings = diffStrings(oldData, data);
   await app.db.set("15daysofcode", data);
