@@ -48,7 +48,7 @@ export async function handleGitRequest(body: GitBody, app: App) {
   ];
   if (!db) return;
   if (!body.is_zeon) {
-    const oldEntries = await db.get("git_commits_today") || [];
+    const oldEntries = (await db.get("git_commits_today")) || [];
     oldEntries.push(body);
     await db.set("git_commits_today", oldEntries);
   }
@@ -59,7 +59,7 @@ export async function handleGitRequest(body: GitBody, app: App) {
     });
   }
   if (!db.get("git_session")) return;
-  const session = (await db.get("git_session") || []).find(
+  const session = ((await db.get("git_session")) || []).find(
     (e) => e.active,
   ) as GitSession;
   if (!session) return;
