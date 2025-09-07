@@ -28,7 +28,7 @@ export async function watchTimezone(app: ModifiedApp, data: IrlData) {
     data.latest_entry.location.lat,
     data.latest_entry.location.long,
   )[0];
-  if (!mainTimezone.includes(tz) && !await app.db.get(`tz`)) {
+  if (!mainTimezone.includes(tz) && !(await app.db.get(`tz`))) {
     const m = await app.client.chat.postMessage({
       text: `Hello yall! Neon's tz has changed to *${tz}*\n_replies from neon may now differ..._`,
       channel: `C07R8DYAZMM`,
@@ -39,7 +39,7 @@ export async function watchTimezone(app: ModifiedApp, data: IrlData) {
     });
   } else {
     if (
-      await app.db.get(`tz`) &&
+      (await app.db.get(`tz`)) &&
       !mainTimezone.includes(await app.db.get("tz")) &&
       mainTimezone.includes(tz)
     ) {
@@ -64,7 +64,7 @@ export async function watchBattery(app: ModifiedApp, data: IrlData) {
   }
   if (
     newBattery < 20 &&
-    (await app.db.get(`phone_bat_noti`) || 0) - Date.now() > 1000 * 60 * 10
+    ((await app.db.get(`phone_bat_noti`)) || 0) - Date.now() > 1000 * 60 * 10
   ) {
     app.client.chat.postMessage({
       channel: `C07R8DYAZMM`,
