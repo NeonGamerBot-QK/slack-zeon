@@ -73,7 +73,7 @@ export default class Ping implements Command {
           break;
         case "remove":
         case "rm":
-          if (!await app.dbs.stickymessages.get(command.channel_id)) {
+          if (!(await app.dbs.stickymessages.get(command.channel_id))) {
             respond({
               text: `:x: You don't have a sticky message to remove.`,
               response_type: "ephemeral",
@@ -104,7 +104,7 @@ export default class Ping implements Command {
           break;
         case "edit":
         case "update":
-          if (!await app.dbs.stickymessages.get(command.channel_id)) {
+          if (!(await app.dbs.stickymessages.get(command.channel_id))) {
             respond({
               text: `:x: You don't have a sticky message to edit.`,
               response_type: "ephemeral",
@@ -112,7 +112,9 @@ export default class Ping implements Command {
             return;
           }
 
-          const dbEntryToEdit = await app.dbs.stickymessages.get(command.channel_id);
+          const dbEntryToEdit = await app.dbs.stickymessages.get(
+            command.channel_id,
+          );
           const textToEdit = args.join(" ");
           try {
             await app.client.chat.update({
@@ -165,7 +167,7 @@ export default class Ping implements Command {
           channel: event.channel,
           ts: dbEntry.ts,
         });
-      } catch (e) { }
+      } catch (e) {}
       await new Promise((r) => setTimeout(r, 50));
       if (dbEntry.lastTriggered && Date.now() - dbEntry.lastTriggered < 1000)
         return;
@@ -180,14 +182,16 @@ export default class Ping implements Command {
           lastTriggered: Date.now(),
         });
         await new Promise((r) => setTimeout(r, 1000));
-        const newDbInstanceThingy = await app.dbs.stickymessages.get(event.channel);
+        const newDbInstanceThingy = await app.dbs.stickymessages.get(
+          event.channel,
+        );
         if (newDbInstanceThingy.ts !== m.ts) {
           try {
             await app.client.chat.delete({
               channel: event.channel,
               ts: newDbInstanceThingy.ts,
             });
-          } catch (e) { }
+          } catch (e) {}
         }
       } catch (e) {
         console.error(e);
