@@ -15,10 +15,10 @@ export async function doMinUpdate(app: ModifiedApp) {
     .then((r) => r.json())
     .then((d) => d.totalReferrals);
   if (typeof data !== "number") return;
-  const lastEntry = await app.db.get("shipwreck_count") || 0;
-  const lastReferralEntry = await app.db.get("shipwreck_ref") || 0;
+  const lastEntry = (await app.db.get("shipwreck_count")) || 0;
+  const lastReferralEntry = (await app.db.get("shipwreck_ref")) || 0;
   if (lastEntry !== data || lastReferralEntry !== referralCount) {
-    let allEntries = await app.db.get("ship_wrecks_entries") || [];
+    let allEntries = (await app.db.get("ship_wrecks_entries")) || [];
 
     allEntries.push({
       count: data,
@@ -94,7 +94,7 @@ function addArray(arr: any[]) {
 export async function majorUpdate(app: ModifiedApp, channel_id: string) {
   // get time for the last 12h
   const last12h = new Date(new Date().getTime() - 12 * 60 * 60 * 1000);
-  const data = await app.db.get("ship_wrecks_entries") || [];
+  const data = (await app.db.get("ship_wrecks_entries")) || [];
   const entries = data.filter(
     (e) => new Date(e.date).getTime() > last12h.getTime(),
   );
@@ -156,7 +156,9 @@ export async function generateGraph(app: ModifiedApp) {
   const imagePath = "./count_over_time_from_url.png";
 
   try {
-    const data = (await app.db.get("ship_wrecks_entries")).filter((_, i) => i % 2 == 0);
+    const data = (await app.db.get("ship_wrecks_entries")).filter(
+      (_, i) => i % 2 == 0,
+    );
 
     const dates = data.map((entry: any) => formatDate(entry.date));
     const counts = data.map((entry: any) => entry.count);
@@ -282,8 +284,8 @@ export async function generateGraph12h(app: ModifiedApp) {
     // If `highlightLast12Hours` is true, highlight data within the last 12 hours
     const highlightData = highlightLast12Hours
       ? counts.map((count: number, i: number) =>
-        rawDates[i] >= twelveHoursAgo ? count : null,
-      )
+          rawDates[i] >= twelveHoursAgo ? count : null,
+        )
       : new Array(counts.length).fill(null); // Empty array if no highlighting
 
     // Estimate progress toward goal
