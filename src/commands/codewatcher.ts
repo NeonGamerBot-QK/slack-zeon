@@ -18,7 +18,7 @@ export default class codewatcher implements Command {
         return respond(`:x: You cannot use this command.`);
       const args = command.text.split(" ");
       const subcmd = args.shift();
-      let d = await app.db.get("git_session") || [];
+      let d = (await app.db.get("git_session")) || [];
       switch (subcmd) {
         case "start":
           const reponame = args[0];
