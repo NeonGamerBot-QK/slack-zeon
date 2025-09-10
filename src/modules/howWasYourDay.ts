@@ -50,7 +50,7 @@ export async function getDayResponse(db: Keyv) {
     }
   });
   const lastMessageLink =
-    db.get("howday_last_message_link") ||
+   await  db.get("howday_last_message_link") ||
     "Wow this is the first one or i have not finished the code.";
   return `Well well <@${process.env.MY_USER_ID}> <${lastMessageLink}|how was your day>. either way heres some stuff about today.\n> Your hw:\n${hw}\n> Your todo list you want to share here\n> ${await fetch("https://raw.githubusercontent.com/NeonGamerBot-QK/public-my-notes/refs/heads/main/slack_channel/todo.md").then((r) => r.text())} `;
 }
