@@ -37,14 +37,14 @@ function updateStatus(
         //@ts-ignore
         profile: clearStats
           ? {
-            status_emoji: "",
-            status_text: "",
-          }
+              status_emoji: "",
+              status_text: "",
+            }
           : {
-            status_emoji: emoji,
-            status_expiration: 0,
-            status_text: str.slice(0, 100),
-          },
+              status_emoji: emoji,
+              status_expiration: 0,
+              status_text: str.slice(0, 100),
+            },
         token: process.env.MY_SLACK_TOKEN,
       });
     },
