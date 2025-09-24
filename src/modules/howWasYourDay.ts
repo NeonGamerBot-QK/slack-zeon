@@ -294,13 +294,15 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   }
 
   if (await app.db.get("afk_sessions")) {
-    const sessions = ((await app.db.get("afk_sessions")) || []).filter(d => d.created_at > Date.now() - 1000 * 60 * 60 * 24)
+    const sessions = ((await app.db.get("afk_sessions")) || []).filter(
+      (d) => d.created_at > Date.now() - 1000 * 60 * 60 * 24,
+    );
     if (sessions.length > 0) {
       await app.client.chat.postMessage({
         channel,
         thread_ts: mobj.ts,
-        text: `Also you had *${sessions.length}* AFK sessions today, totalling to *${ms(sessions.map(d => d.ended_at - d.created_at).reduce((a, b) => a + b, 0))}* of AFK time :eyes:\n${sessions.map(d => `- afk for *${ms(d.ended_at - d.created_at)}* because ${d.reason}`).join("\n")}`,
-      })
+        text: `Also you had *${sessions.length}* AFK sessions today, totalling to *${ms(sessions.map((d) => d.ended_at - d.created_at).reduce((a, b) => a + b, 0))}* of AFK time :eyes:\n${sessions.map((d) => `- afk for *${ms(d.ended_at - d.created_at)}* because ${d.reason}`).join("\n")}`,
+      });
     }
   }
 
