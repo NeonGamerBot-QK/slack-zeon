@@ -87,3 +87,36 @@ export function setupCronForIrl(app: ModifiedApp) {
     watchTimezone(app, data);
   });
 }
+
+function generateMovementGraph(updates) {
+  const now = Date.now();
+  const oneDayAgo = now - 24 * 60 * 60 * 1000;
+
+  // Filter updates from the last 24 hours
+  const last24h = updates
+    .filter(u => u.created_at >= oneDayAgo)
+    .sort((a, b) => a.created_at - b.created_at);
+
+  if (last24h.length === 0) return 'No updates in the last 24 hours.';
+
+  // Bucket lat/lon to anonymize locations
+  function bucketLocation(lat, lon, precision = 5) {
+    return `${lat.toFixed(precision)},${lon.toFixed(precision)}`;
+  }
+
+  const timeline = last24h.map(u => bucketLocation(u.lat, u.long));
+
+  // Remove consecutive duplicates
+  const condensed = timeline.filter((loc, i, arr) => i === 0 || loc !== arr[i - 1]);
+
+  // Assign anonymized names to each unique location
+  const locationMap = {};
+  let counter = 1;
+  const namedTimeline = condensed.map(loc => {
+    if (!locationMap[loc]) locationMap[loc] = `Location ${counter++}`;
+    return locationMap[loc];
+  });
+
+  // Build the string graph
+  return namedTimeline.join(' -> ');
+}

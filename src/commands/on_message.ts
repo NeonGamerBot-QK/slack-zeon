@@ -118,6 +118,24 @@ export default class Message implements Command {
             } else {
               const reason = args.join(" ") || "No reason provided";
               await app.db.set("neon_afk", reason);
+              // push to afk sessions
+              const current_sessions = await app.db.get("afk_sessions");
+              if (current_sessions && Array.isArray(current_sessions)) {
+                current_sessions.push({
+                  reason,
+                  ended_at: null,
+                  created_at: Date.now(),
+                });
+                await app.db.set("afk_sessions", current_sessions);
+              } else {
+                await app.db.set("afk_sessions", [
+                  {
+                    reason,
+                    ended_at: null,
+                    created_at: Date.now(),
+                  },
+                ]);
+              }
               app.client.chat.postMessage({
                 channel: event.user,
                 text: `You are now afk for: ${reason} - you will not be pinged in the meantime!`,
