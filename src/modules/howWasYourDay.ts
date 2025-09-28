@@ -85,6 +85,42 @@ export function listenForResponse(app: ModifiedApp, filter: any) {
   // TODO: find a way to stop the event after xyz time
   app.event("message", messageListener);
 }
+
+export async function getRecentGames() {
+  const url = `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/?key=${process.env.STEAM_API_KEY}&steamid=${process.env.STEAM_ID}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.response.games || [];
+}
+export async function getSteamString(db) {
+  const state = await db.get("steam_state") || {};
+  return await getRecentGames().then(games => {
+    let string = "";
+    // console.log(JSON.stringify(games))
+    // const state = { "105600": { "appid": 105600, "name": "Terraria", "playtime_2weeks": 9, "playtime_forever": 6634, "img_icon_url": "858961e95fbf869f136e1770d586e0caefd4cfac", "playtime_windows_forever": 4816, "playtime_mac_forever": 106, "playtime_linux_forever": 1711, "playtime_deck_forever": 9 }, "420530": { "appid": 420530, "name": "OneShot", "playtime_2weeks": 1, "playtime_forever": 60, "img_icon_url": "b5f932179c1e35da8651b4cc05b2cd96d0e6540b", "playtime_windows_forever": 36, "playtime_mac_forever": 24, "playtime_linux_forever": 1, "playtime_deck_forever": 1 }, "2073850": { "appid": 2073850, "name": "THE FINALS", "playtime_2weeks": 35, "playtime_forever": 61, "img_icon_url": "9532db560dca3b4982f4af3f5981b6b2ce2a6909", "playtime_windows_forever": 1, "playtime_mac_forever": 0, "playtime_linux_forever": 60, "playtime_deck_forever": 35 }, "2524890": { "appid": 2524890, "name": "Pixel Gun 3D: PC Edition", "playtime_2weeks": 30, "playtime_forever": 3411, "img_icon_url": "74fa3fd8d35a1b1cce00dc7831078c5cfedb1a6c", "playtime_windows_forever": 3311, "playtime_mac_forever": 0, "playtime_linux_forever": 100, "playtime_deck_forever": 30 }, "3410660": { "appid": 3410660, "name": "Glowkeeper", "playtime_2weeks": 1, "playtime_forever": 28, "img_icon_url": "a4098c76fdf7798a98eb0ef857e9598c43434cc6", "playtime_windows_forever": 0, "playtime_mac_forever": 0, "playtime_linux_forever": 28, "playtime_deck_forever": 1 } }
+    const new_state = {};
+    games.forEach(g => {
+      const prev = state[g.appid]
+      if (!prev) {
+        state[g.appid] = g
+      }
+      new_state[g.appid] = g;
+      string += (`For ${g.name}:\n`)
+      Object.keys(g).forEach(key => {
+        if (key.startsWith("playtime_") && key.endsWith("_forever")) {
+          const minutes = g[key];
+          const mss = ms((minutes - state[g.appid][key]) * 60 * 1000);
+          string += (` - ${key.replace("playtime_", "").replace("_forever", "")}: ${minutes} minutes,  total =  ${mss}\n`);
+        }
+      });
+    });
+    db.set("steam_state", new_state);
+    // console.log(string)
+    return string;
+  });
+}
+
+
 /**
  * @see https://github.com/SkyfallWasTaken/slack-activity-webhook/blob/main/index.ts
  */
@@ -306,6 +342,20 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     }
   }
 
+  const steamstring = await getSteamString(app.db);
+  if (steamstring.length > 5) {
+    await app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `You also played some games on steam today :steam:\n${steamstring}`,
+    });
+  } else {
+    await app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `No steam activity for today found...`,
+    });
+  }
   await app.db.delete("git_commits_today");
   if (
     (await app.db.get("messages_total")) &&
