@@ -356,7 +356,9 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     });
   }
   try {
-    const trustChanges = await fetchHackatimeTrustLogs().then(summarizeTrustChanges);
+    const trustChanges = await fetchHackatimeTrustLogs().then(
+      summarizeTrustChanges,
+    );
     if (trustChanges.length > 5) {
       await app.client.chat.postMessage({
         channel,
@@ -411,19 +413,22 @@ export async function sendWeeklyGraph(app: ModifiedApp, channel: string) {
   app.db.set("messages_total", []);
 }
 function fetchHackatimeTrustLogs() {
-  return fetch('https://hackatime.hackclub.com/api/admin/v1/execute', {
-    method: 'POST',
+  return fetch("https://hackatime.hackclub.com/api/admin/v1/execute", {
+    method: "POST",
     headers: {
-      'Authorization': 'Bearer ' + process.env.HACKATIME_API_KEY,
-      'Content-Type': 'application/json'
+      Authorization: "Bearer " + process.env.HACKATIME_API_KEY,
+      "Content-Type": "application/json",
     },
     // body: '{"query": "SELECT tla.*, u1.slack_uid  AS user_slack_uid, u2.slack_uid  AS changed_by_slack_uid FROM trust_level_audit_logs AS tla JOIN users AS u1 ON u1.id = tla.user_id JOIN users AS u2 ON u2.id = tla.changed_by_id LIMIT 1;"}',
     body: JSON.stringify({
-      'query': 'SELECT id, previous_trust_level, new_trust_level, created_at FROM trust_level_audit_logs WHERE changed_by_id = 41 AND created_at >= NOW() - INTERVAL \'24 hours\' ORDER BY id DESC'
-    })
-  }).then(d => d.json()).then(async data => {
-    return data.rows
+      query:
+        "SELECT id, previous_trust_level, new_trust_level, created_at FROM trust_level_audit_logs WHERE changed_by_id = 41 AND created_at >= NOW() - INTERVAL '24 hours' ORDER BY id DESC",
+    }),
   })
+    .then((d) => d.json())
+    .then(async (data) => {
+      return data.rows;
+    });
 }
 
 export function summarizeTrustChanges(data) {
