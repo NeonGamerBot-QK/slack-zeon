@@ -136,12 +136,12 @@ export default class UserJoinEvent implements Command {
             ...[
               event.inviter
                 ? {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: `And thank you <@${event.inviter}> for inviting this wonderful soul to this ~shithole~ channel`,
-                  },
-                }
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: `And thank you <@${event.inviter}> for inviting this wonderful soul to this ~shithole~ channel`,
+                    },
+                  }
                 : null,
             ].filter(Boolean),
           ].map((e) => {
