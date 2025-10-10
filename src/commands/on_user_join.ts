@@ -52,6 +52,12 @@ export default class UserJoinEvent implements Command {
           channel: event.channel,
           token: process.env.ZEON_SLACK_USER_TOKEN,
         });
+      if (onlyForMe(event.user))
+        return app.client.chat.postMessage({
+          text: `*Kicking Neon also does not make you cool.*`,
+          channel: event.channel,
+          token: process.env.ZEON_SLACK_USER_TOKEN,
+        });
       const follow_up = [
         {
           text: "This channel is neons one and only personal channel :3\n this channel is for the shiggles and just mostly Neon shitposting",
@@ -130,12 +136,12 @@ export default class UserJoinEvent implements Command {
             ...[
               event.inviter
                 ? {
-                    type: "section",
-                    text: {
-                      type: "mrkdwn",
-                      text: `And thank you <@${event.inviter}> for inviting this wonderful soul to this ~shithole~ channel`,
-                    },
-                  }
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `And thank you <@${event.inviter}> for inviting this wonderful soul to this ~shithole~ channel`,
+                  },
+                }
                 : null,
             ].filter(Boolean),
           ].map((e) => {

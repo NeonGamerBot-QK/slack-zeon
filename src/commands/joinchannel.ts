@@ -3,7 +3,7 @@ import { Command, onlyForMe } from "../modules/BaseCommand";
 // i might provide reasons if i dont, i prob wont tell you
 export const banned_users = [
   // if i get leave my own channel i WILL be banning myself to remember that im an idiot
-  process.env.MY_USER_ID,
+  // process.env.MY_USER_ID, so this was a bad idea
   "U07NKS9S8GZ",
   // no workspace owners lmao :3 (zrl, max) - anyways they found out
   "U0261EB1EG7",
@@ -37,7 +37,7 @@ export default class JoinNeonschannel implements Command {
           text: `<@${command.user_id}> is trying to join <#C07R8DYAZMM>...`,
           channel: "C07LGLUTNH2",
         });
-      } catch (e) {}
+      } catch (e) { }
       await fetch(
         `https://hackatime.hackclub.com/api/v1/users/${command.user_id}/stats?start_date=2025-04-22&features=&end_date=2025-04-22`,
       )
