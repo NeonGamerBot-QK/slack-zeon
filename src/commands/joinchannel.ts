@@ -37,7 +37,7 @@ export default class JoinNeonschannel implements Command {
           text: `<@${command.user_id}> is trying to join <#C07R8DYAZMM>...`,
           channel: "C07LGLUTNH2",
         });
-      } catch (e) { }
+      } catch (e) {}
       await fetch(
         `https://hackatime.hackclub.com/api/v1/users/${command.user_id}/stats?start_date=2025-04-22&features=&end_date=2025-04-22`,
       )
