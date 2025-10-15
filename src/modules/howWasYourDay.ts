@@ -280,15 +280,17 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
           Authorization: process.env.IRL_AUTH,
         },
       },
-    ).then(r => r.json()).then(d => d.missing_receipts.count)
+    )
+      .then((r) => r.json())
+      .then((d) => d.missing_receipts.count);
     if (missing_receipts > 0) {
       const adjectives = [
-        "tiny",       // 1–2
-        "mild",       // 3–4
+        "tiny", // 1–2
+        "mild", // 3–4
         "concerning", // 5–6
-        "damn",       // 7–9
-        "brutal",     // 10–14
-        "insane",     // 15–19
+        "damn", // 7–9
+        "brutal", // 10–14
+        "insane", // 15–19
         "utterly ridiculous", // 20+
       ];
 
