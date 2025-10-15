@@ -272,6 +272,54 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       text: `No wallet activity for today found...`,
     });
   }
+  try {
+    const missing_receipts = await fetch(
+      process.env.ZEON_DISCORD_INSTANCE + "/irl/slack/end_of_day_stats",
+      {
+        headers: {
+          Authorization: process.env.IRL_AUTH,
+        },
+      },
+    ).then(r => r.json()).then(d => d.missing_receipts.count)
+    if (missing_receipts > 0) {
+      const adjectives = [
+        "tiny",       // 1–2
+        "mild",       // 3–4
+        "concerning", // 5–6
+        "damn",       // 7–9
+        "brutal",     // 10–14
+        "insane",     // 15–19
+        "utterly ridiculous", // 20+
+      ];
+
+      let adj;
+      if (missing_receipts < 3) adj = adjectives[0];
+      else if (missing_receipts < 5) adj = adjectives[1];
+      else if (missing_receipts < 7) adj = adjectives[2];
+      else if (missing_receipts < 10) adj = adjectives[3];
+      else if (missing_receipts < 15) adj = adjectives[4];
+      else if (missing_receipts < 20) adj = adjectives[5];
+      else adj = adjectives[6];
+
+      await app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `You have a *${adj}* ${missing_receipts} missing receipts (aka not marked as lost / no receipt URL found)! Please upload them when you can!`,
+      });
+    } else {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `No missing receipts for today :yay:`,
+      });
+    }
+  } catch (e) {
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `Oopsies i cant get ur missing receipts amount.`,
+    });
+  }
   if (cached_spotify_songs.length > 0) {
     app.client.chat.postMessage({
       channel,
