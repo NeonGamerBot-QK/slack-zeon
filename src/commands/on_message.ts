@@ -147,6 +147,7 @@ export default class Message implements Command {
             const stamp = Date.now();
             await say(`:wave: Kicking banned users...`);
             const users = [];
+            let cursor;
             // Keep fetching until no next_cursor
             do {
               const result = await app.client.conversations.members({
