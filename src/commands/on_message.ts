@@ -166,14 +166,14 @@ export default class Message implements Command {
                 const is_banned = banned_users.includes(user)
                   ? true
                   : await fetch(
-                    `https://hackatime.hackclub.com/api/v1/users/${user}/stats?features=projects&start_date=2025-07-01`,
-                  )
-                    .then((r) => r.json())
-                    .then((d) =>
-                      d.trust_factor
-                        ? d.trust_factor.trust_level == "red"
-                        : false,
-                    );
+                      `https://hackatime.hackclub.com/api/v1/users/${user}/stats?features=projects&start_date=2025-07-01`,
+                    )
+                      .then((r) => r.json())
+                      .then((d) =>
+                        d.trust_factor
+                          ? d.trust_factor.trust_level == "red"
+                          : false,
+                      );
                 console.log(`Checking ${user}`);
                 if (!is_banned) continue;
                 say(`Removing ${user}`);
