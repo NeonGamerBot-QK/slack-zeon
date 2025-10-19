@@ -37,14 +37,14 @@ function updateStatus(
         //@ts-ignore
         profile: clearStats
           ? {
-              status_emoji: "",
-              status_text: "",
-            }
+            status_emoji: "",
+            status_text: "",
+          }
           : {
-              status_emoji: emoji,
-              status_expiration: 0,
-              status_text: str.slice(0, 100),
-            },
+            status_emoji: emoji,
+            status_expiration: 0,
+            status_text: str.slice(0, 100),
+          },
         token: process.env.MY_SLACK_TOKEN,
       });
     },
@@ -86,7 +86,7 @@ export async function setupOverallCron(app: ModifiedApp) {
   new Cron("* * * * *", async () => {
     // Sentry.profiler.startProfiler();
     //TODO: Add custom PFP's for music (cuz headphones would be nice)
-    const jellyfinStr = await getJellyfinStatus();
+    const jellyfinStr = null;
     const spotifyStr = await getSpotifyStatus();
     if (jellyfinStr) {
       updateStatus(":jellyfin:", jellyfinStr, app);
