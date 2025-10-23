@@ -6,13 +6,13 @@ export const banned_users = [
   // process.env.MY_USER_ID, so this was a bad idea
   "U07NKS9S8GZ",
   // no workspace owners lmao :3 (zrl, max) - anyways they found out
-//  "U0261EB1EG7",
+  //  "U0261EB1EG7",
   // u got deactivated 3 times () = bad
   "U07BMK9NSDB",
   "U020X4GCWSF",
   // no unless required
-//  "U07B4QD9F61",
-//  "U05A3TSL7UY",
+  //  "U07B4QD9F61",
+  //  "U05A3TSL7UY",
   // smt smt said smt related to neo nazi..
   "U08R4Q9H8EB",
   // other bans w/ no reason below
