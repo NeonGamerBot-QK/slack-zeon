@@ -71,7 +71,9 @@ export default class Message implements Command {
           if (!par.event.text) return;
           if (!par.event.text.startsWith("!")) return;
           if (!onlyForMe(par.event.user)) {
-            par.say(`Womp womp,\n_not so fun fact, jmeow found this out and reported it to neon!_`)
+            par.say(
+              `Womp womp,\n_not so fun fact, jmeow found this out and reported it to neon!_`,
+            );
             return;
           }
           //@ts-ignore
