@@ -114,6 +114,11 @@ export default class Message implements Command {
             } catch (e) {
               await say(`ERROR:\n\`\`\`${await clean(e.stack)}\`\`\``);
             }
+          } else if (cmd == "channelmap") {
+            const data = await app.db.get("channelmap") || []
+            const filteredIshData = [...new Set(data)]
+            say(`filtered dups hard:\n` + filteredIshData.map(d => `<#${d}>`).join(' -> '))
+            say(data.map(d => `<#${d}>`).join(' -> '))
           } else if (cmd == "afk") {
             const amIAfkRn = await app.db.get("neon_afk");
             if (amIAfkRn) {
