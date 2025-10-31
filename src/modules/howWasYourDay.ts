@@ -225,79 +225,78 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     channel,
     text: getStr,
   });
-try {
-  const statusBar = await hacktime.getStatusBar();
-  const formattedHacktimeResults = statusBar.projects
-    .map((e) => `- *${e.name}*: \`${e.text}\``)
-    .join("\n");
-  if (formattedHacktimeResults.length > 0) {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}\n you also spent *${statusBar.human_readable_total}* time total on coding today :p`,
-    });
-  } else {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `No hacktime activity for today found...you didnt code.. AT ALL!`,
-    });
+  try {
+    const statusBar = await hacktime.getStatusBar();
+    const formattedHacktimeResults = statusBar.projects
+      .map((e) => `- *${e.name}*: \`${e.text}\``)
+      .join("\n");
+    if (formattedHacktimeResults.length > 0) {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `Here are your :wakatime-dark: hacktime stats for today:\n${formattedHacktimeResults}\n you also spent *${statusBar.human_readable_total}* time total on coding today :p`,
+      });
+    } else {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `No hacktime activity for today found...you didnt code.. AT ALL!`,
+      });
+    }
+  } catch (e) {
+    console.error(e, "hackatime");
   }
-} catch (e) {
-  console.error(e, 'hackatime')
-}
-try {
-  
-const today = new Date();
-  const codewatcherForToday = (
-    ((await app.db.get("git_session")) || []) as GitSession[]
-  ).filter((d) => {
-    const f = new Date(d.started_at);
-    // check if less then 24h
-    // return (
-    //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
-    //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
-    // );
-    return (
-      f.getDate() == today.getDate() &&
-      f.getMonth() == today.getMonth() &&
-      f.getFullYear() == today.getFullYear()
-    );
-  });
-  if (codewatcherForToday.length > 0) {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => d.repo.includes("zeon")) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
+  try {
+    const today = new Date();
+    const codewatcherForToday = (
+      ((await app.db.get("git_session")) || []) as GitSession[]
+    ).filter((d) => {
+      const f = new Date(d.started_at);
+      // check if less then 24h
+      // return (
+      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) < 24 &&
+      //   Math.round((f.getTime() - today.getTime()) / 1000 / 60 / 60) > 0
+      // );
+      return (
+        f.getDate() == today.getDate() &&
+        f.getMonth() == today.getMonth() &&
+        f.getFullYear() == today.getFullYear()
+      );
     });
-  } else {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `No codewatcher activity for today found...`,
-    });
+    if (codewatcherForToday.length > 0) {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `Well well well it also looks like you were using codewatcher today\n${codewatcherForToday.some((d) => d.repo.includes("zeon")) ? "> and i see u worked on some of my code :D you better have not fucked me up\n" : ""}Anyways here are the projects you recorded:\n> ${codewatcherForToday.map((d) => `Project: ${d.repo} which was recorded in <#${d.channel}> and lasted for an for ${ms(Math.round((d.ended_at || Date.now()) - d.started_at))}  - [<https://github.com/NeonGamerBot-QK/${d.repo}|repo>], [<${d.mlink}|message link>]  `).join("\n> ")}`,
+      });
+    } else {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `No codewatcher activity for today found...`,
+      });
+    }
+  } catch (e) {
+    console.error(e, "codewatcher");
   }
-} catch (e) {
-  console.error(e, 'codewatcher')
-}
-try {
-  const walletForToday = await getWalletBalance(app);
-  if (walletForToday.length > 5) {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `Here is your wallet transactions for today:\n${walletForToday}`,
-    });
-  } else {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `No wallet activity for today found...`,
-    });
+  try {
+    const walletForToday = await getWalletBalance(app);
+    if (walletForToday.length > 5) {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `Here is your wallet transactions for today:\n${walletForToday}`,
+      });
+    } else {
+      app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `No wallet activity for today found...`,
+      });
+    }
+  } catch (e) {
+    console.error(e, "wallet");
   }
-} catch (e) {
-  console.error(e, 'wallet')
-}
   try {
     const missing_receipts = await fetch(
       process.env.ZEON_DISCORD_INSTANCE + "/irl/slack/end_of_day_stats",
