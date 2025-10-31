@@ -233,10 +233,10 @@ export default class HowWasUrDayMessage implements Command {
       }
       try {
         if (par.event.user == "U07L45W79E1") {
-          const channel = par.event.channel 
-          const prev = await app.db.get('channelmap') || []
-          prev.push(channel)
-          await app.db.set('channelmap', prev)
+          const channel = par.event.channel;
+          const prev = (await app.db.get("channelmap")) || [];
+          prev.push(channel);
+          await app.db.set("channelmap", prev);
         }
       } catch (e) {}
       //@ts-ignore
