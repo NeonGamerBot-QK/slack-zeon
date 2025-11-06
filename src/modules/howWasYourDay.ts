@@ -133,6 +133,10 @@ export async function getSteamString(db) {
  */
 export async function getMessageCount(db: Keyv) {
   // js use the .env lmao
+  
+  if (!process.env.SLACK_BROWSER_TOKEN || !process.env.SLACK_USER_COOKIE) {
+    throw new Error("SLACK_BROWSER_TOKEN or SLACK_USER_COOKIE not set");
+  }
 
   const formData = new FormData();
   formData.append("token", process.env.SLACK_BROWSER_TOKEN);
@@ -152,7 +156,14 @@ export async function getMessageCount(db: Keyv) {
     },
   );
   const data = await response.json();
-  console.log(data);
+  console.log("Slack search API response:", data);
+  
+  if (!data.pagination || data.pagination.total_count === undefined) {
+    throw new Error(
+      `Slack search API returned invalid response: ${JSON.stringify(data).slice(0, 500)}. Check if SLACK_BROWSER_TOKEN or SLACK_USER_COOKIE is expired.`
+    );
+  }
+  
   const messagesSent = data.pagination.total_count;
   console.log(`Messages sent: ${messagesSent}`);
   const messagesSentYesterday = (await db.get("messages_sent_yesterday")) || -1;

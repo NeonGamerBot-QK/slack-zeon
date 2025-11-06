@@ -26,27 +26,42 @@ function updateStatus(
   app: ModifiedApp,
   clearStats?: boolean,
 ) {
+  if (!process.env.MY_SLACK_TOKEN) {
+    console.error("MY_SLACK_TOKEN not set, skipping status update");
+    return;
+  }
   Sentry.startSpan(
     {
       op: "prod",
       name: "Update Status",
     },
-    () => {
-      // Sentry.profiler.startProfiler();
-      app.client.users.profile.set({
-        //@ts-ignore
-        profile: clearStats
-          ? {
-              status_emoji: "",
-              status_text: "",
-            }
-          : {
-              status_emoji: emoji,
-              status_expiration: 0,
-              status_text: str.slice(0, 100),
-            },
-        token: process.env.MY_SLACK_TOKEN,
-      });
+    async () => {
+      try {
+        // Sentry.profiler.startProfiler();
+        await app.client.users.profile.set({
+          //@ts-ignore
+          profile: clearStats
+            ? {
+                status_emoji: "",
+                status_text: "",
+              }
+            : {
+                status_emoji: emoji,
+                status_expiration: 0,
+                status_text: str.slice(0, 100),
+              },
+          token: process.env.MY_SLACK_TOKEN,
+        });
+      } catch (e) {
+        if (e.data?.error === "token_revoked") {
+          console.error(
+            "MY_SLACK_TOKEN is revoked - please update it in environment variables",
+          );
+        } else {
+          console.error("Status update error:", e.message);
+          console.error(e.stack);
+        }
+      }
     },
   );
   // Sentry.profiler.stopProfiler();
