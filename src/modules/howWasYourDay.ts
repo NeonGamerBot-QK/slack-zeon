@@ -37,8 +37,6 @@ export function diceDups(arr) {
 export async function getDayResponse(db: Keyv) {
   let hw;
 
-
-
   try {
     hw = await getTodaysEvents().then((e: any) => {
       const start = [];
@@ -55,7 +53,7 @@ export async function getDayResponse(db: Keyv) {
       }
     });
   } catch (e) {
-    hw = `No hw found :pensive: (error'd out)`
+    hw = `No hw found :pensive: (error'd out)`;
   }
   const lastMessageLink =
     (await db.get("howday_last_message_link")) ||
