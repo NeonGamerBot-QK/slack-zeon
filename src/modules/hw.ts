@@ -1,8 +1,12 @@
 import ical from "node-ical";
-export const getIcalParsedData = () =>
-  fetch(process.env.HW_URL)
+export const getIcalParsedData = () => {
+  if (!process.env.HW_URL) {
+    throw new Error("HW_URL environment variable is not set");
+  }
+  return fetch(process.env.HW_URL)
     .then((r) => r.text())
     .then((data) => ical.sync.parseICS(data));
+};
 export async function getEventsForDate(today) {
   //   const today = new Date('11-01-2024');
   const directEvents = await getIcalParsedData();
