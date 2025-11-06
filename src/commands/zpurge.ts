@@ -33,7 +33,7 @@ export default class Zpurge implements Command {
         );
       const userId = args[1];
       const threadTs = args[2]; // Optional thread timestamp
-      
+
       if (userId) {
         // check if user exists
         const user = await app.client.users
@@ -47,12 +47,12 @@ export default class Zpurge implements Command {
             `:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`,
           );
       }
-      
+
       const purgeMessage = await app.client.chat.postMessage({
         text: `:spin-loading: Purging \`${amount}\` messages ${userId ? `from user <@${userId}>` : ""}${threadTs ? ` in thread \`${threadTs}\`` : ""}`,
         channel: command.channel_id,
       });
-      
+
       // If thread_ts provided, get thread replies, otherwise get channel history
       const currentMessages = threadTs
         ? await app.client.conversations.replies({
