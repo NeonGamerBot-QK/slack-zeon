@@ -131,7 +131,9 @@ export async function getSteamString(db) {
  */
 export async function getMessageCount(db: Keyv, app: ModifiedApp) {
   if (!process.env.SLACK_USER_TOKEN && !process.env.MY_SLACK_TOKEN) {
-    throw new Error("SLACK_USER_TOKEN or MY_SLACK_TOKEN not set - search.messages requires a user token (xoxp)");
+    throw new Error(
+      "SLACK_USER_TOKEN or MY_SLACK_TOKEN not set - search.messages requires a user token (xoxp)",
+    );
   }
 
   const yesterday = new Date();
