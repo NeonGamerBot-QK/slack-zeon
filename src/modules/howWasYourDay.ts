@@ -191,6 +191,9 @@ function getMoneyEmoji(card: string) {
   }
 }
 export async function getWalletBalance(app: ModifiedApp) {
+  if (!process.env.ZEON_DISCORD_INSTANCE) {
+    return "";
+  }
   const walletData = await fetch(
     process.env.ZEON_DISCORD_INSTANCE + "/irl/transactions",
     {
@@ -244,7 +247,8 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       });
     }
   } catch (e) {
-    console.error(e, "hackatime");
+    console.error("hackatime error:", e.message);
+    console.error(e.stack);
   }
   try {
     const today = new Date();
@@ -277,7 +281,8 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       });
     }
   } catch (e) {
-    console.error(e, "codewatcher");
+    console.error("codewatcher error:", e.message);
+    console.error(e.stack);
   }
   try {
     const walletForToday = await getWalletBalance(app);
@@ -295,9 +300,13 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       });
     }
   } catch (e) {
-    console.error(e, "wallet");
+    console.error("wallet error:", e.message);
+    console.error(e.stack);
   }
   try {
+    if (!process.env.ZEON_DISCORD_INSTANCE) {
+      throw new Error("ZEON_DISCORD_INSTANCE not set");
+    }
     const missing_receipts = await fetch(
       process.env.ZEON_DISCORD_INSTANCE + "/irl/slack/end_of_day_stats",
       {
