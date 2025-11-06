@@ -6,7 +6,7 @@ export default class Zpurge implements Command {
   description: string;
   constructor() {
     this.name = `/zpurge`;
-    this.description = `Pings zeon`;
+    this.description = `Purge messages - Usage: /zpurge <amount> [user_id] [thread_ts]`;
   }
   run(app: ModifiedApp) {
     app.command(this.name, async ({ command, ack, respond }) => {
@@ -32,6 +32,8 @@ export default class Zpurge implements Command {
           `:x: You need to specify a valid number of messages to purge. (must be under 100 and above 0)`,
         );
       const userId = args[1];
+      const threadTs = args[2]; // Optional thread timestamp
+      
       if (userId) {
         // check if user exists
         const user = await app.client.users
@@ -45,14 +47,23 @@ export default class Zpurge implements Command {
             `:x: User ${userId} is  an admin. Cannot directly purge messages from admin.`,
           );
       }
+      
       const purgeMessage = await app.client.chat.postMessage({
-        text: `:spin-loading: Purging \`${amount}\` messages ${userId ? `from user <@${userId}>` : ""}`,
+        text: `:spin-loading: Purging \`${amount}\` messages ${userId ? `from user <@${userId}>` : ""}${threadTs ? ` in thread \`${threadTs}\`` : ""}`,
         channel: command.channel_id,
       });
-      const currentMessages = await app.client.conversations.history({
-        channel: command.channel_id,
-        count: amount || 100,
-      });
+      
+      // If thread_ts provided, get thread replies, otherwise get channel history
+      const currentMessages = threadTs
+        ? await app.client.conversations.replies({
+            channel: command.channel_id,
+            ts: threadTs,
+            limit: amount || 100,
+          })
+        : await app.client.conversations.history({
+            channel: command.channel_id,
+            limit: amount || 100,
+          });
       let cleared_messages = 0;
       for (const msg of currentMessages.messages) {
         if (userId) {
@@ -74,7 +85,7 @@ export default class Zpurge implements Command {
         channel: command.channel_id,
         reply_broadcast: true,
         thread_ts: purgeMessage.ts,
-        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user <@${userId}>` : ""}\nTook \`${Math.floor((Date.now() - stamp) / 1000)}s\``,
+        text: `:white_check_mark: Purged \`${cleared_messages}\` messages ${userId ? `from user <@${userId}>` : ""}${threadTs ? ` in thread \`${threadTs}\`` : ""}\nTook \`${Math.floor((Date.now() - stamp) / 1000)}s\``,
       });
     });
   }
