@@ -127,42 +127,30 @@ export async function getSteamString(db) {
 }
 
 /**
- * @see https://github.com/SkyfallWasTaken/slack-activity-webhook/blob/main/index.ts
+ * Uses official Slack API search.messages endpoint
  */
-export async function getMessageCount(db: Keyv) {
-  // js use the .env lmao
+export async function getMessageCount(db: Keyv, app: ModifiedApp) {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(0, 0, 0, 0);
+  const yesterdayTimestamp = Math.floor(yesterday.getTime() / 1000);
 
-  if (!process.env.SLACK_BROWSER_TOKEN || !process.env.SLACK_USER_COOKIE) {
-    throw new Error("SLACK_BROWSER_TOKEN or SLACK_USER_COOKIE not set");
-  }
+  const result = await app.client.search.messages({
+    query: `from:<@${process.env.MY_USER_ID}> after:${yesterdayTimestamp}`,
+    count: 1,
+    sort: "timestamp",
+    sort_dir: "desc",
+  });
 
-  const formData = new FormData();
-  formData.append("token", process.env.SLACK_BROWSER_TOKEN);
-  formData.append("module", "messages");
-  formData.append("query", `from:<@${process.env.MY_USER_ID}> after:Yesterday`);
-  formData.append("page", "1");
+  console.log("Slack search API response:", result);
 
-  const response = await fetch(
-    `https://hackclub.slack.com/api/search.modules.messages`,
-    {
-      headers: {
-        accept: "*/*",
-        cookie: `d=${process.env.SLACK_USER_COOKIE}`,
-      },
-      body: formData,
-      method: "POST",
-    },
-  );
-  const data = await response.json();
-  console.log("Slack search API response:", data);
-
-  if (!data.pagination || data.pagination.total_count === undefined) {
+  if (!result.ok || !result.messages) {
     throw new Error(
-      `Slack search API returned invalid response: ${JSON.stringify(data).slice(0, 500)}. Check if SLACK_BROWSER_TOKEN or SLACK_USER_COOKIE is expired.`,
+      `Slack search API returned invalid response: ${JSON.stringify(result).slice(0, 500)}`,
     );
   }
 
-  const messagesSent = data.pagination.total_count;
+  const messagesSent = result.messages.total || 0;
   console.log(`Messages sent: ${messagesSent}`);
   const messagesSentYesterday = (await db.get("messages_sent_yesterday")) || -1;
   console.log(`Messages sent yesterday: ${messagesSentYesterday}`);
@@ -412,7 +400,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   await app.client.chat.postMessage({
     channel,
     thread_ts: mobj.ts,
-    text: await getMessageCount(app.db),
+    text: await getMessageCount(app.db, app),
   });
   const github_stuff = ((await app.db.get("git_commits_today")) || []).map(
     (body) =>

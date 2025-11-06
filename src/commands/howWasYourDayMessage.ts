@@ -252,7 +252,9 @@ export default class HowWasUrDayMessage implements Command {
         console.error(e.stack);
       }
       try {
+        //@ts-ignore
         if (par.event.user == "U07L45W79E1") {
+          //@ts-ignore
           const channel = par.event.channel;
           const prev = (await app.db.get("channelmap")) || [];
           prev.push(channel);

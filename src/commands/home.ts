@@ -79,7 +79,7 @@ export default class AppHome implements Command {
 
         //@ts-ignore
         console.log(`USER: ${event.user}`);
-        function genView(): View {
+        async function genView(): Promise<View> {
           const db_entry2 = await app.db.get("rpg_lb");
           const rpgysws_section = [
             {
@@ -374,7 +374,7 @@ export default class AppHome implements Command {
           // Use the user ID associated with the event
           //@ts-ignore
           user_id: event.user,
-          view: genView(),
+          view: await genView(),
         });
 
         // logger.info(result);
