@@ -37,14 +37,14 @@ function updateStatus(
         //@ts-ignore
         profile: clearStats
           ? {
-              status_emoji: "",
-              status_text: "",
-            }
+            status_emoji: "",
+            status_text: "",
+          }
           : {
-              status_emoji: emoji,
-              status_expiration: 0,
-              status_text: str.slice(0, 100),
-            },
+            status_emoji: emoji,
+            status_expiration: 0,
+            status_text: str.slice(0, 100),
+          },
         token: process.env.MY_SLACK_TOKEN,
       });
     },
@@ -118,8 +118,11 @@ export async function setupOverallCron(app: ModifiedApp) {
           // uh guess what this doesnt run because this cron doesnt run ...
           app.client.chat.postMessage({
             channel: `C07R8DYAZMM`,
-            text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+            text: `[CRON inner] So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+          }).then(() => {
+            throw e;
           });
+
         }
       },
       {
@@ -130,7 +133,7 @@ export async function setupOverallCron(app: ModifiedApp) {
   } catch (e) {
     app.client.chat.postMessage({
       channel: `C07R8DYAZMM`,
-      text: `So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
+      text: `[root] So i was supposed to say How was your day neon right?? well guess what neon broke my damn code!! so he gets to deal with this shitty error: \`\`\`\n${e.stack}\`\`\``,
     });
   }
   cron.schedule(

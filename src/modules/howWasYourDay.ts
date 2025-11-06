@@ -249,6 +249,11 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   } catch (e) {
     console.error("hackatime error:", e.message);
     console.error(e.stack);
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `:x: Hackatime error: \`${e.message}\`\n\`\`\`${e.stack}\`\`\``,
+    });
   }
   try {
     const today = new Date();
@@ -283,6 +288,11 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   } catch (e) {
     console.error("codewatcher error:", e.message);
     console.error(e.stack);
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `:x: Codewatcher error: \`${e.message}\`\n\`\`\`${e.stack}\`\`\``,
+    });
   }
   try {
     const walletForToday = await getWalletBalance(app);
@@ -302,6 +312,11 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   } catch (e) {
     console.error("wallet error:", e.message);
     console.error(e.stack);
+    app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `:x: Wallet error: \`${e.message}\`\n\`\`\`${e.stack}\`\`\``,
+    });
   }
   try {
     if (!process.env.ZEON_DISCORD_INSTANCE) {

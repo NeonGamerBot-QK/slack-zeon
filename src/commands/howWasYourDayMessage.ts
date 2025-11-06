@@ -20,7 +20,8 @@ export default class HowWasUrDayMessage implements Command {
       process.env.SLACK_USER_TOKEN,
       process.env.SLACK_BOT_TOKEN,
       ...((await app.db.get("slack_reaction_tokens")) || []),
-    ];
+    ].filter(Boolean);
+    const validTokens = [];
     for (const t of tokens) {
       try {
         console.log("star");
@@ -30,10 +31,28 @@ export default class HowWasUrDayMessage implements Command {
           name: "star",
           token: t,
         });
+        validTokens.push(t);
         await new Promise((r) => setTimeout(r, 100));
       } catch (e) {
-        console.error(e);
+        if (e.data?.error === "token_revoked") {
+          console.error("Token revoked, skipping:", t.slice(0, 10) + "...");
+        } else {
+          console.error("Star message error:", e.message);
+          console.error(e.stack);
+        }
       }
+    }
+    // Update database with only valid tokens
+    const dbTokens = (await app.db.get("slack_reaction_tokens")) || [];
+    const newDbTokens = validTokens.filter(
+      (t) =>
+        t !== process.env.SLACK_USER_TOKEN && t !== process.env.SLACK_BOT_TOKEN,
+    );
+    if (newDbTokens.length !== dbTokens.length) {
+      await app.db.set("slack_reaction_tokens", newDbTokens);
+      console.log(
+        `Removed ${dbTokens.length - newDbTokens.length} revoked tokens`,
+      );
     }
   }
   async userTags(app: ModifiedApp, event) {
@@ -229,7 +248,8 @@ export default class HowWasUrDayMessage implements Command {
       try {
         this.handleAfk(app, par.event);
       } catch (e) {
-        console.error(e, "afk");
+        console.error("afk error:", e.message);
+        console.error(e.stack);
       }
       try {
         if (par.event.user == "U07L45W79E1") {

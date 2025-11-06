@@ -160,22 +160,77 @@ console.time("App Boot");
     }
 
     try {
+      // Create Amp-friendly error report
+      const errorReport = {
+        message: e.message,
+        name: e.name,
+        stack: e.stack,
+        timestamp: new Date().toISOString(),
+        code: e.code,
+        data: e.data,
+        cause: e.cause,
+        type: e.constructor?.name,
+        process: {
+          uptime: process.uptime(),
+          memoryUsage: process.memoryUsage(),
+          cwd: process.cwd(),
+        },
+      };
+
+      const fullInspect = util.inspect(e, {
+        showHidden: true,
+        depth: null,
+        colors: false,
+        breakLength: 120,
+      });
+
       app.client.chat.postMessage({
         channel:
           e.message == "TypeError: fetch failed"
             ? `C07LGLUTNH2`
             : `D07LBMXD9FF`,
-        text: `*Error:* *${e.message}*\n\`\`\`${e.stack}\`\`\`\n\n\`\`\`${util.inspect(
-          e,
+        text: `:x: *Error Report*\n*Type:* \`${errorReport.type}\`\n*Message:* \`${e.message}\`\n*Time:* ${errorReport.timestamp}\n*Uptime:* ${Math.floor(errorReport.process.uptime)}s`,
+        blocks: [
           {
-            showHidden: true, // include non-enumerable properties
-            depth: null, // no limit on recursion
-            colors: false, // disable ANSI colors (Slack-safe)
-            breakLength: 120, // nicer formatting
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: `:x: Error: ${e.message.slice(0, 100)}`,
+            },
           },
-        )}\`\`\``,
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `*Type:* \`${errorReport.type}\`\n*Time:* ${errorReport.timestamp}\n*Uptime:* ${Math.floor(errorReport.process.uptime)}s\n*Memory:* ${Math.round(errorReport.process.memoryUsage.heapUsed / 1024 / 1024)}MB / ${Math.round(errorReport.process.memoryUsage.heapTotal / 1024 / 1024)}MB`,
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `*Stack Trace:*\n\`\`\`${e.stack}\`\`\``,
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `*Full Error Object (for Amp):*\n\`\`\`json\n${JSON.stringify(errorReport, null, 2).slice(0, 2800)}\`\`\``,
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `*Detailed Inspect:*\n\`\`\`${fullInspect.slice(0, 2800)}\`\`\``,
+            },
+          },
+        ],
       });
-    } catch {}
+    } catch (dmError) {
+      console.error("Failed to send error DM:", dmError);
+    }
   }
 })();
 console.timeEnd("App Boot");
