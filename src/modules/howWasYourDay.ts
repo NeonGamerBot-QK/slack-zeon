@@ -127,15 +127,21 @@ export async function getSteamString(db) {
 }
 
 /**
- * Uses official Slack API search.messages endpoint
+ * Uses official Slack API search.messages endpoint (requires user token)
  */
 export async function getMessageCount(db: Keyv, app: ModifiedApp) {
+  if (!process.env.SLACK_USER_TOKEN && !process.env.MY_SLACK_TOKEN) {
+    throw new Error("SLACK_USER_TOKEN or MY_SLACK_TOKEN not set - search.messages requires a user token (xoxp)");
+  }
+
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setHours(0, 0, 0, 0);
   const yesterdayTimestamp = Math.floor(yesterday.getTime() / 1000);
 
+  // search.messages requires a user token (xoxp), not a bot token (xoxb)
   const result = await app.client.search.messages({
+    token: process.env.SLACK_USER_TOKEN || process.env.MY_SLACK_TOKEN,
     query: `from:<@${process.env.MY_USER_ID}> after:${yesterdayTimestamp}`,
     count: 1,
     sort: "timestamp",
