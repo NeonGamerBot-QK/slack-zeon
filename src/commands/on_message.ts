@@ -12,6 +12,7 @@ import { getMessageCount } from "../modules/howWasYourDay";
 import { getTextVersionOfData } from "../modules/flightly";
 import { banned_users } from "./joinchannel";
 import ms from "ms";
+import { getAmpBalance } from "../modules/ampcode";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -116,13 +117,24 @@ export default class Message implements Command {
             }
           } else if (cmd == "channelmap") {
             const data = (await app.db.get("channelmap")) || [];
-            const filteredIshData = [...new Set(data)];
-            say(
-              `filtered dups hard:\n` +
-                filteredIshData.map((d) => `<#${d}>`).join(" -> "),
+            // Filter out consecutive duplicates only
+            const filteredIshData = data.filter(
+              (item, index) => index === 0 || item !== data[index - 1],
             );
-            say(data.map((d) => `<#${d}>`).join(" -> "));
-          } else if (cmd == "afk") {
+            say(
+              `filtered consecutive dups:\n` +
+              filteredIshData.map((d) => `<#${d}>`).join(" -> "),
+            );
+            // say(data.map((d) => `<#${d}>`).join(" -> "));
+          } else if (cmd == "ampusage") {
+            const ampUsage = await getAmpBalance();
+            if (ampUsage) {
+              say(ampUsage)
+            } else {
+              say(`Amp usage broken, returned null`)
+            }
+          }
+          else if (cmd == "afk") {
             const amIAfkRn = await app.db.get("neon_afk");
             if (amIAfkRn) {
               // app.db.delete("neon_afk");
@@ -180,14 +192,14 @@ export default class Message implements Command {
                 const is_banned = banned_users.includes(user)
                   ? true
                   : await fetch(
-                      `https://hackatime.hackclub.com/api/v1/users/${user}/stats?features=projects&start_date=2025-07-01`,
-                    )
-                      .then((r) => r.json())
-                      .then((d) =>
-                        d.trust_factor
-                          ? d.trust_factor.trust_level == "red"
-                          : false,
-                      );
+                    `https://hackatime.hackclub.com/api/v1/users/${user}/stats?features=projects&start_date=2025-07-01`,
+                  )
+                    .then((r) => r.json())
+                    .then((d) =>
+                      d.trust_factor
+                        ? d.trust_factor.trust_level == "red"
+                        : false,
+                    );
                 console.log(`Checking ${user}`);
                 if (!is_banned) continue;
                 say(`Removing ${user}`);
