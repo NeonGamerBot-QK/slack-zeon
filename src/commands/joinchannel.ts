@@ -13,6 +13,7 @@ export const banned_users = [
   // no unless required
   //  "U07B4QD9F61",
   //  "U05A3TSL7UY",
+  "U04QH1TTMBP",
   // smt smt said smt related to neo nazi..
   "U08R4Q9H8EB",
   // other bans w/ no reason below
