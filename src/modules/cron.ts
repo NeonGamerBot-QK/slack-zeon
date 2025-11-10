@@ -346,7 +346,7 @@ export async function setupOverallCron(app: ModifiedApp) {
   // setupShipwrecked(app);
   scrapeStuff(app);
   setInterval(() => checkAmpCredits(app), 60 * 60 * 1000);
-  checkAmpCredits(app)
+  checkAmpCredits(app);
   // setupCronForHTN(app);
   // setInterval(
   //   async () => {
