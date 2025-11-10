@@ -47,7 +47,7 @@ export function extractJson(html: string) {
 
 export async function checkAmpCredits(app: any) {
   try {
-    const balanceText = await getAmpBalance(); 
+    const balanceText = await getAmpBalance();
 
     if (!balanceText) {
       console.warn("Failed to fetch AMP balance.");
