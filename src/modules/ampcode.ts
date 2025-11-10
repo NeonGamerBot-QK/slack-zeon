@@ -1,3 +1,5 @@
+let lastBalance = null;
+
 export function getHtmlText() {
   return fetch("https://ampcode.com/workspaces/hackclub", {
     headers: {
@@ -42,6 +44,43 @@ export function extractJson(html: string) {
   if (!data) return null;
   return data;
 }
+
+export async function checkAmpCredits(app: any) {
+  try {
+    const balanceText = await getAmpBalance(); // e.g. "current: 93253.2, total: 99988.3, used: 6735.1"
+
+    if (!balanceText) {
+      console.warn("Failed to fetch AMP balance.");
+      return;
+    }
+
+    const match = balanceText.match(/current: ([\d.]+)/);
+    if (!match) return;
+
+    const currentBalance = parseFloat(match[1]);
+    if (lastBalance === null) {
+      lastBalance = currentBalance;
+      await app.client.chat.postMessage({
+        channel: "C09JNTXEU9Z",
+     text:  `🔄 Initial AMP balance check: ${currentBalance.toFixed(2)}`
+    });
+      return;
+    }
+
+    const diff = currentBalance - lastBalance;
+    if (diff !== 0) {
+      const sign = diff > 0 ? "⬆️" : "⬇️";
+      const message = `${sign} AMP credits balance changed by ${diff.toFixed(2)}. Current: ${currentBalance.toFixed(2)}`;
+    } else {
+      console.log("No balance change detected.");
+    }
+
+    lastBalance = currentBalance;
+  } catch (err) {
+    console.error("Error checking AMP balance:", err);
+  }
+}
+
 
 export async function getAmpBalance() {
   const ampReq = await getHtmlText();

@@ -17,6 +17,7 @@ import { setupShipwrecked } from "./shipwrecked";
 import { whosHackingCron } from "./hacktime";
 import { scrapeStuff } from "./noramail";
 import { setupCronForHTN } from "./htn";
+import { checkAmpCredits } from "./ampcode";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -344,6 +345,8 @@ export async function setupOverallCron(app: ModifiedApp) {
   //  ActualCronForJourney(app);
   // setupShipwrecked(app);
   scrapeStuff(app);
+  setInterval(() => checkAmpCredits(app), 60 * 60 * 1000);
+  checkAmpCredits(app)
   // setupCronForHTN(app);
   // setInterval(
   //   async () => {
