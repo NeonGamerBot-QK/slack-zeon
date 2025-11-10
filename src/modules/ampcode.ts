@@ -47,7 +47,7 @@ export function extractJson(html: string) {
 
 export async function checkAmpCredits(app: any) {
   try {
-    const balanceText = await getAmpBalance(); // e.g. "current: 93253.2, total: 99988.3, used: 6735.1"
+    const balanceText = await getAmpBalance(); 
 
     if (!balanceText) {
       console.warn("Failed to fetch AMP balance.");
@@ -89,5 +89,5 @@ export async function getAmpBalance() {
   const currentBalance = credits?.available; // 93253.2
   const totalTokens = credits?.used + credits?.available; // 6735.1 + 93253.2 = 99988.3
   const usedTokens = credits?.used; // 6735.1
-  return `current: ${currentBalance}, total: ${totalTokens}, used: ${usedTokens}`;
+  return `current: ${Math.floor(currentBalance / 100)}, total: ${Math.floor(totalTokens / 100)}, used: ${usedTokens}`;
 }
