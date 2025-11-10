@@ -62,8 +62,8 @@ export async function checkAmpCredits(app: any) {
       lastBalance = currentBalance;
       await app.client.chat.postMessage({
         channel: "C09JNTXEU9Z",
-     text:  `🔄 Initial AMP balance check: ${currentBalance.toFixed(2)}`
-    });
+        text: `🔄 Initial AMP balance check: ${currentBalance.toFixed(2)}`,
+      });
       return;
     }
 
@@ -80,7 +80,6 @@ export async function checkAmpCredits(app: any) {
     console.error("Error checking AMP balance:", err);
   }
 }
-
 
 export async function getAmpBalance() {
   const ampReq = await getHtmlText();
