@@ -130,7 +130,7 @@ export default class Message implements Command {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${process.env.ZEON_HC_AI_TOKEN}`,
+              Authorization: `Bearer ${process.env.ZEON_HC_AI_TOKEN}`,
             },
             signal: controller.signal,
             body: JSON.stringify({
