@@ -125,14 +125,16 @@ export default class Message implements Command {
           controller.abort();
         }, 45_000);
         const aiReq00 = await fetch(
-          "https://ai.hackclub.com/chat/completions",
+          "https://ai.hackclub.com/proxy/v1/chat/completions",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${process.env.ZEON_HC_AI_TOKEN}`,
             },
             signal: controller.signal,
             body: JSON.stringify({
+              model: "qwen/qwen3-32b",
               messages: [
                 { role: "system", content: prompt },
                 { role: "user", content: event.text },
