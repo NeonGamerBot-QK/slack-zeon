@@ -71,6 +71,10 @@ export async function checkAmpCredits(app: any) {
     if (diff !== 0) {
       const sign = diff > 0 ? "⬆️" : "⬇️";
       const message = `${sign} AMP credits balance changed by ${diff.toFixed(2)}. Current: ${currentBalance.toFixed(2)}`;
+      await app.client.chat.postMessage({
+        channel: "C09JNTXEU9Z",
+        text: message,
+      });
     } else {
       console.log("No balance change detected.");
     }
