@@ -31,7 +31,7 @@ export default class Zpurge implements Command {
         return respond(
           `:x: You need to specify a valid number of messages to purge. (must be under 100 and above 0)`,
         );
-      
+
       // Default to command user's ID if no user specified
       const userId = args[1] || command.user_id;
       const threadTs = args[2]; // Optional thread timestamp
@@ -50,7 +50,9 @@ export default class Zpurge implements Command {
           );
         }
       } catch (e) {
-        return respond(`:x: Failed to fetch user info for <@${userId}>: ${e.message}`);
+        return respond(
+          `:x: Failed to fetch user info for <@${userId}>: ${e.message}`,
+        );
       }
 
       const purgeMessage = await app.client.chat.postMessage({
