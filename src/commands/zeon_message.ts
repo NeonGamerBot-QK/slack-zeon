@@ -248,7 +248,7 @@ export default class Message implements Command {
             `${ultraCursedUwuify(thonk || "No thinking").slice(0, 200)}... \n\n${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
             (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
             ":notcool: i didnt get a message/error im very scared... >> " +
-            JSON.stringify(aiReq),
+              JSON.stringify(aiReq),
         });
         switch (aiReq.type) {
           case "reminder":
@@ -325,7 +325,7 @@ export default class Message implements Command {
               timestamp: event.ts,
               name: r,
             });
-          } catch (e) { }
+          } catch (e) {}
         }
         await app.client.reactions.remove({
           channel: event.channel,
