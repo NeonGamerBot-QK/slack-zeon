@@ -141,16 +141,26 @@ export default class Message implements Command {
               ],
             }),
           },
-        ).then((r) => r.text());
-        let aiReq0 = null;
+        ).then((r) => r.json());
         clearTimeout(timeout);
+
+        // Extract content and reasoning from new API response format
+        let aiReq0 = null;
         let thonk = null;
         try {
-          aiReq0 = JSON.parse(aiReq00)
-            .choices[0].message.content.replace("```json", "")
-            .replace("```", "");
+          const messageContent = aiReq00.choices[0].message.content;
+          const reasoning = aiReq00.choices[0].message.reasoning;
+
+          // Store reasoning if available
+          if (reasoning) {
+            thonk = reasoning;
+          }
+
+          // The content should be the JSON response from the AI
+          aiReq0 = messageContent.replace("```json", "").replace("```", "");
         } catch (e) {
-          aiReq0 = aiReq00;
+          console.error("Failed to parse AI response:", e);
+          aiReq0 = typeof aiReq00 === 'string' ? aiReq00 : JSON.stringify(aiReq00);
         }
         function ultraCursedUwuify(text) {
           const faces = [
@@ -207,15 +217,25 @@ export default class Message implements Command {
         //     .replace("```json", "")
         //     .replace("```", ""),
         // );
-        console.log(aiReq0, `api responsne`);
+        console.log(aiReq0, `api response`);
         // await app.client.chat.postMessage({
         //   channel: event.channel,
         //   text: aiReq0,
         // });
         let aiReq;
-        thonk = aiReq0.split("<think>")[1].split("</think>")[0];
+
+        // Try to extract <think> tags if they exist in the content
+        if (!thonk && aiReq0.includes("<think>")) {
+          try {
+            thonk = aiReq0.split("<think>")[1].split("</think>")[0];
+            aiReq0 = aiReq0.split("</think>")[1].trim();
+          } catch (e) {
+            console.error("Failed to extract think tags:", e);
+          }
+        }
+
         try {
-          aiReq = JSON.parse(aiReq0.split("</think>")[1].trim());
+          aiReq = JSON.parse(aiReq0);
         } catch (e) {
           aiReq = { message: `Error:\n` + aiReq0 };
         }
@@ -227,7 +247,7 @@ export default class Message implements Command {
             `${ultraCursedUwuify(thonk || "No thinking").slice(0, 200)}... \n\n${aiReq.message || aiReq.comment} - \`${aiReq.type}\`` ||
             (aiReq.error ? `:notcool" ${aiReq.error}` : undefined) ||
             ":notcool: i didnt get a message/error im very scared... >> " +
-              JSON.stringify(aiReq),
+            JSON.stringify(aiReq),
         });
         switch (aiReq.type) {
           case "reminder":
@@ -304,7 +324,7 @@ export default class Message implements Command {
               timestamp: event.ts,
               name: r,
             });
-          } catch (e) {}
+          } catch (e) { }
         }
         await app.client.reactions.remove({
           channel: event.channel,
