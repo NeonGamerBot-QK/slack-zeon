@@ -126,7 +126,12 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
                   created_at: Date.now(),
                 });
               })
-              .catch(e => console.error("Failed to post new hacktime session:", e.message));
+              .catch((e) =>
+                console.error(
+                  "Failed to post new hacktime session:",
+                  e.message,
+                ),
+              );
           } else {
             await app.db.set("hackedhearts", {
               ...currentSession,
@@ -154,7 +159,7 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
                     thread_ts: currentSession.m_ts,
                   });
                 } catch (e) {
-                   console.error("Failed to post active warning:", e.message);
+                  console.error("Failed to post active warning:", e.message);
                 }
               }
             } else {
