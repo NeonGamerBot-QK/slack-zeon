@@ -14,6 +14,8 @@ export const banned_users = [
   //  "U07B4QD9F61",
   //  "U05A3TSL7UY",
   "U04QH1TTMBP",
+  // :3kcursed: uh to bad for gh rules i think maybe idk
+  "U077K9VR5LL",
   // smt smt said smt related to neo nazi..
   "U08R4Q9H8EB",
   // straight up posted neo nazi content
