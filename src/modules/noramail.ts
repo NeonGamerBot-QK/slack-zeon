@@ -90,40 +90,43 @@ function formatValue(value) {
 }
 
 export async function scrapeStuff(app: ModifiedApp) {
-  setInterval(async () => {
-    const theMailArray = (await app.db.get("mymail")) || [];
-    const data = await fetch("https://mail.hackclub.com/api/public/v1/mail", {
-      headers: {
-        Authorization: "Bearer " + process.env.HACKCLUB_MAIL_TOKEN,
-      },
-    })
-      .catch((e) => {
-        json: () => new Promise((r) => r({ mail: null }));
+  setInterval(
+    async () => {
+      const theMailArray = (await app.db.get("mymail")) || [];
+      const data = await fetch("https://mail.hackclub.com/api/public/v1/mail", {
+        headers: {
+          Authorization: "Bearer " + process.env.HACKCLUB_MAIL_TOKEN,
+        },
       })
-      .then((d) => d.json())
-      .then((d) => d?.mail as Mail[]);
-    if (!data) return;
-    for (const mail of data) {
-      if (theMailArray.some((m) => m.id == mail.id)) {
-        // run diff on each key
-        const diff = await diffMails(
-          theMailArray.find((m) => m.id == mail.id),
-          mail,
-        );
-        if (diff !== "✅ No changes detected.") {
+        .catch((e) => {
+          json: () => new Promise((r) => r({ mail: null }));
+        })
+        .then((d) => d.json())
+        .then((d) => d?.mail as Mail[]);
+      if (!data) return;
+      for (const mail of data) {
+        if (theMailArray.some((m) => m.id == mail.id)) {
+          // run diff on each key
+          const diff = await diffMails(
+            theMailArray.find((m) => m.id == mail.id),
+            mail,
+          );
+          if (diff !== "✅ No changes detected.") {
+            await app.client.chat.postMessage({
+              text: diff || "No diff",
+              channel: `C08U14VQ1HP`,
+            });
+          }
+        } else {
+          // theMailArray.push(mail)
           await app.client.chat.postMessage({
-            text: diff || "No diff",
+            text: formatNewMailNotification(mail) || "No new mail",
             channel: `C08U14VQ1HP`,
           });
         }
-      } else {
-        // theMailArray.push(mail)
-        await app.client.chat.postMessage({
-          text: formatNewMailNotification(mail) || "No new mail",
-          channel: `C08U14VQ1HP`,
-        });
       }
-    }
-    await app.db.set("mymail", data);
-  }, 5 * 60 * 1000);
+      await app.db.set("mymail", data);
+    },
+    5 * 60 * 1000,
+  );
 }
