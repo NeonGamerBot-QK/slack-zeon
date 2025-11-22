@@ -66,7 +66,7 @@ export default class JoinManager implements Command {
                 channel: config.logChannel,
                 text: `✅ <@${requesterId}> joined <#${channelId}> (Approved by <@${approverId}>).`,
               })
-              .catch(() => { });
+              .catch(() => {});
           }
         } catch (e: any) {
           const errorMsg = e.data?.error || e.message;
@@ -118,7 +118,9 @@ export default class JoinManager implements Command {
     app.command("/joinchannel", async ({ command, ack, respond }) => {
       await ack();
       const targetUserText = command.text.trim();
-      const userMatch = targetUserText.includes("<@") ? targetUserText.split("<@")[1].split(">")[0] : targetUserText;
+      const userMatch = targetUserText.includes("<@")
+        ? targetUserText.split("<@")[1].split(">")[0]
+        : targetUserText;
 
       if (!userMatch) {
         return respond({
@@ -264,7 +266,7 @@ export default class JoinManager implements Command {
       let managers: string[] = [];
       try {
         managers = await getChannelManagers(command.channel_id);
-      } catch (e) { }
+      } catch (e) {}
 
       if (
         !managers.includes(command.user_id) &&
