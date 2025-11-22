@@ -25,6 +25,10 @@ export interface IrlData {
 const mainTimezone = ["America/Kentucky/Louisville", `America/New_York`];
 // ontimezoneswitch;
 export async function watchTimezone(app: ModifiedApp, data: IrlData) {
+  if (!data?.latest_entry) {
+    console.warn("watchTimezone: No latest_entry found in data");
+    return;
+  }
   const tz = findTz(data.latest_entry.lat, data.latest_entry.long)[0];
   if (!mainTimezone.includes(tz) && !(await app.db.get(`tz`))) {
     const m = await app.client.chat.postMessage({
@@ -41,17 +45,25 @@ export async function watchTimezone(app: ModifiedApp, data: IrlData) {
       !mainTimezone.includes(await app.db.get("tz")) &&
       mainTimezone.includes(tz)
     ) {
-      await app.client.chat.postMessage({
-        thread_ts: (await app.db.get(`tz`)).m,
-        text: `Neon is back to his normal tz`,
-        channel: `C07R8DYAZMM`,
-        reply_broadcast: true,
-      });
+      try {
+        await app.client.chat.postMessage({
+          thread_ts: (await app.db.get(`tz`)).m,
+          text: `Neon is back to his normal tz`,
+          channel: `C07R8DYAZMM`,
+          reply_broadcast: true,
+        });
+      } catch (e) {
+        console.error("Failed to update timezone:", e.message);
+      }
       await app.db.delete(`tz`);
     }
   }
 }
 export async function watchBattery(app: ModifiedApp, data: IrlData) {
+  if (!data?.latest_entry) {
+      console.warn("watchBattery: No latest_entry found in data");
+      return;
+  }
   const newBattery = data.latest_entry.battery;
   const lastEntry = await app.db.get(`phone_battery`);
   if (newBattery != lastEntry && Math.abs(newBattery - lastEntry) > 50) {
@@ -75,16 +87,26 @@ export async function watchBattery(app: ModifiedApp, data: IrlData) {
 
 export function setupCronForIrl(app: ModifiedApp) {
   cron.schedule("*/5 * * * *", async () => {
-    const data = (await fetch(
-      process.env.ZEON_DISCORD_INSTANCE + "/irl/shortcut_updates",
-      {
-        headers: {
-          Authorization: process.env.IRL_AUTH,
+    try {
+      const data = (await fetch(
+        process.env.ZEON_DISCORD_INSTANCE + "/irl/shortcut_updates",
+        {
+          headers: {
+            Authorization: process.env.IRL_AUTH,
+          },
         },
-      },
-    ).then((r) => r.json())) as IrlData;
-    watchBattery(app, data);
-    watchTimezone(app, data);
+      ).then((r) => r.json())) as IrlData;
+      
+      if (!data) {
+        console.warn("setupCronForIrl: API returned null/undefined");
+        return;
+      }
+      
+      watchBattery(app, data);
+      watchTimezone(app, data);
+    } catch (e) {
+      console.error("Error in Irl Cron:", e);
+    }
   });
 }
 

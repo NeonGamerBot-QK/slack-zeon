@@ -125,5 +125,5 @@ export async function scrapeStuff(app: ModifiedApp) {
       }
     }
     await app.db.set("mymail", data);
-  }, 60 * 1000);
+  }, 5 * 60 * 1000);
 }

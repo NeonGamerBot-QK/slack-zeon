@@ -18,6 +18,6 @@ export default function watchMem(app: ModifiedApp) {
     // old.push(stats);
     // if (old.length > 100) old.shift();
     // app.dbs.memdebug.set(`memwatch`, old);
-    await app.dbs.memdebug.set(new Date().toISOString(), stats);
+    // await app.dbs.memdebug.set(new Date().toISOString(), stats);
   });
 }

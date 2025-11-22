@@ -99,7 +99,7 @@ export async function setupOverallCron(app: ModifiedApp) {
   cron.schedule("25 */22 * * *", sendRandomStuff);
   new Cron("15 */3 * * *", sendRandomStuff);
   new Cron("45 2 */2 * *", sendRandomStuff);
-  new Cron("* * * * *", async () => {
+  new Cron("*/2 * * * *", async () => {
     // Sentry.profiler.startProfiler();
     //TODO: Add custom PFP's for music (cuz headphones would be nice)
     const jellyfinStr = null;

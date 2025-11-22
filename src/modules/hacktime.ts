@@ -120,26 +120,20 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
                 text: getMessage("new", { d, currentSession }),
               })
               .then(async (d) => {
-                //  heartStore.set(user.user, {
-                //      active: true,
-                //      m_ts: d.ts,
-                //      created_at: Date.now()
-                //  })
                 await app.db.set(`hackedhearts`, {
                   active_index: 0,
                   m_ts: d.ts,
                   created_at: Date.now(),
                 });
-              });
+              })
+              .catch(e => console.error("Failed to post new hacktime session:", e.message));
           } else {
             await app.db.set("hackedhearts", {
               ...currentSession,
               active_index: -1,
-              // ...currentSession,
             });
           }
         } else {
-          console.debug(1);
           if (currentSession) {
             // check if still "active"
             if (
@@ -148,38 +142,41 @@ export function watchForWhenIUseHacktime(app: ModifiedApp) {
             ) {
               // set to not be active
               // pretty much this is a warning: if there is no new heartbeat im nuking it.
-              console.log("hmmm");
               await app.db.set("hackedhearts", {
                 ...currentSession,
                 active_index: currentSession.active_index - 1,
-                // ...currentSession,
               });
               if (currentSession.active_index == -1) {
-                app.client.chat.postMessage({
-                  channel: `C07R8DYAZMM`,
-                  text: getMessage("active", { d, currentSession }),
-                  thread_ts: currentSession.m_ts,
-                  // reply_broadcast: true
-                });
+                try {
+                  await app.client.chat.postMessage({
+                    channel: `C07R8DYAZMM`,
+                    text: getMessage("active", { d, currentSession }),
+                    thread_ts: currentSession.m_ts,
+                  });
+                } catch (e) {
+                   console.error("Failed to post active warning:", e.message);
+                }
               }
             } else {
-              console.log("over");
               // send time up message
-              app.client.chat.postMessage({
-                channel: `C07R8DYAZMM`,
-                text: getMessage("over", { d, currentSession }),
-                thread_ts: currentSession.m_ts,
-                reply_broadcast: true,
-              });
+              try {
+                await app.client.chat.postMessage({
+                  channel: `C07R8DYAZMM`,
+                  text: getMessage("over", { d, currentSession }),
+                  thread_ts: currentSession.m_ts,
+                  reply_broadcast: true,
+                });
+              } catch (e) {
+                console.error("Failed to post session end message:", e.message);
+              }
               // delete it
-              //  heartStore.delete(user.user)
               await app.db.delete(`hackedhearts`);
             }
           }
         }
       }
     } catch (e) {
-      console.error(e, `fucking hackatime`);
+      console.error("Error in hackatime cron:", e.message);
     }
     // console.log(userHacktimeDat)
   }, 1000 * 60);

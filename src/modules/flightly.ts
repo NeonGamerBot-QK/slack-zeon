@@ -147,7 +147,7 @@ export function getFlightData(flightId: string): Promise<Flight> {
     for (const script of $("script")) {
       const text = $(script).text();
       if (text.includes("var flight ")) {
-        console.log(text.split("var flight = ")[1].split("\n")[0].trim());
+        // console.log(text.split("var flight = ")[1].split("\n")[0].trim());
         const flight = JSON.parse(
           text.split("var flight = ")[1].split("\n")[0].trim().replace(";", ""),
         );
