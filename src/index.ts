@@ -113,7 +113,7 @@ console.time("App Boot");
   await setupOverallCron(app);
   monitorMemCpu(app);
   await resetSpotifyCache(app);
-  watchForWhenIUseHacktime(app);
+  // watchForWhenIUseHacktime(app);
 
   app.client.chat.postMessage({
     channel: `C07LEEB50KD`,
@@ -128,7 +128,7 @@ console.time("App Boot");
   setInterval(() => {
     fetch(
       "https://uptime.saahild.com/api/push/DioNHIGz58?status=up&msg=OK",
-    ).catch(() => setTimeout(() => {}, 5000));
+    ).catch(() => setTimeout(() => { }, 5000));
   }, 60_000);
 
   app.client.chat.postMessage({

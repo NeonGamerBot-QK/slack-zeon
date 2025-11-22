@@ -222,7 +222,7 @@ export default class JoinManager implements Command {
     });
 
     // --- Command: /join @User ---
-    app.command("/join", async ({ command, ack, respond, client }) => {
+    const handleJoin = async ({ command, ack, respond, client }) => {
       await ack();
       const targetUserText = command.text.trim();
       const userMatch = targetUserText.includes("<@")
@@ -386,7 +386,10 @@ export default class JoinManager implements Command {
           response_type: "ephemeral",
         });
       }
-    });
+    };
+
+    app.command("/join", handleJoin);
+    app.command("/joinchannel", handleJoin);
 
     // --- Command: /allowjoins ---
     app.command(this.name, async ({ command, ack, respond }) => {
