@@ -61,8 +61,8 @@ export async function watchTimezone(app: ModifiedApp, data: IrlData) {
 }
 export async function watchBattery(app: ModifiedApp, data: IrlData) {
   if (!data?.latest_entry) {
-      console.warn("watchBattery: No latest_entry found in data");
-      return;
+    console.warn("watchBattery: No latest_entry found in data");
+    return;
   }
   const newBattery = data.latest_entry.battery;
   const lastEntry = await app.db.get(`phone_battery`);
@@ -96,12 +96,12 @@ export function setupCronForIrl(app: ModifiedApp) {
           },
         },
       ).then((r) => r.json())) as IrlData;
-      
+
       if (!data) {
         console.warn("setupCronForIrl: API returned null/undefined");
         return;
       }
-      
+
       watchBattery(app, data);
       watchTimezone(app, data);
     } catch (e) {
