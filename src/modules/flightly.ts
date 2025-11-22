@@ -202,7 +202,7 @@ export function setupFlightlyCron(app: ModifiedApp) {
 }
 
 export async function cronForTrackingData(app: ModifiedApp) {
-  const IdsToTrack = await app.dbs.flightly.get("flightly-ids") || [];
+  const IdsToTrack = (await app.dbs.flightly.get("flightly-ids")) || [];
   for (const { flightIds, userId } of IdsToTrack) {
     for (const flightId of flightIds) {
       const flightD = await getFlightData(flightId);
