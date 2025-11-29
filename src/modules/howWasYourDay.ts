@@ -505,9 +505,8 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
         .join("\n");
 
       // Show movement pattern as choo choo train (limit to last 15 for readability)
-      const movementPattern = "🚂" + filteredChannels
-        .map((ch) => `<#${ch}>`)
-        .join("-");
+      const movementPattern =
+        "🚂" + filteredChannels.map((ch) => `<#${ch}>`).join("-");
 
       await app.client.chat.postMessage({
         channel,
