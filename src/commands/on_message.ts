@@ -121,11 +121,29 @@ export default class Message implements Command {
             const filteredIshData = data.filter(
               (item, index) => index === 0 || item !== data[index - 1],
             );
+            
+            // Count occurrences for summary
+            const channelCounts: Record<string, number> = {};
+            data.forEach((ch) => {
+              channelCounts[ch] = (channelCounts[ch] || 0) + 1;
+            });
+            
+            // Top channels
+            const topChannels = Object.entries(channelCounts)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5)
+              .map(([ch, count]) => `<#${ch}>: ${count}`)
+              .join(" | ");
+            
+            // Choo choo train format joined with dashes
+            const trainPath = "🚂" + filteredIshData.map((d) => `<#${d}>`).join("-");
+            
             say(
-              `filtered consecutive dups:\n` +
-                filteredIshData.map((d) => `<#${d}>`).join(" -> "),
+              `:steam_locomotive: *Channel Journey* :railway_car:\n` +
+              `*Top Stops:* ${topChannels}\n\n` +
+              `*Route:*\n${trainPath}\n\n` +
+              `_${data.length} total stops, ${filteredIshData.length} unique movements_`
             );
-            // say(data.map((d) => `<#${d}>`).join(" -> "));
           } else if (cmd == "ampusage") {
             const ampUsage = await getAmpBalance();
             if (ampUsage) {

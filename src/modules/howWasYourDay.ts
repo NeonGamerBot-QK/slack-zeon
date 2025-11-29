@@ -481,6 +481,58 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
   }
 
   await app.db.delete("git_commits_today");
+
+  // Channel activity map
+  try {
+    const channelMap = (await app.db.get("channelmap")) || [];
+    if (channelMap.length > 0) {
+      // Filter consecutive duplicates to show movement pattern
+      const filteredChannels = channelMap.filter(
+        (item, index) => index === 0 || item !== channelMap[index - 1],
+      );
+
+      // Count occurrences for summary
+      const channelCounts: Record<string, number> = {};
+      channelMap.forEach((ch) => {
+        channelCounts[ch] = (channelCounts[ch] || 0) + 1;
+      });
+
+      // Sort by count descending
+      const topChannels = Object.entries(channelCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([ch, count]) => `<#${ch}>: ${count} messages`)
+        .join("\n");
+
+      // Show movement pattern as choo choo train (limit to last 15 for readability)
+      const movementPattern = "🚂" + filteredChannels
+        .map((ch) => `<#${ch}>`)
+        .join("-");
+
+      await app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `*Channel Activity Today* :world_map:\n*Top Channels:*\n${topChannels}\n\n*Recent Movement:*\n${movementPattern}\n\n_Total: ${channelMap.length} messages across ${Object.keys(channelCounts).length} channels_`,
+      });
+
+      // Clear the channelmap for the next day
+      await app.db.delete("channelmap");
+    } else {
+      await app.client.chat.postMessage({
+        channel,
+        thread_ts: mobj.ts,
+        text: `No channel activity tracked today...`,
+      });
+    }
+  } catch (e) {
+    console.error("channelmap error:", e.message);
+    await app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `:x: Channel map error: \`${e.message}\``,
+    });
+  }
+
   if (
     (await app.db.get("messages_total")) &&
     (await app.db.get("messages_total")).length >= 7
