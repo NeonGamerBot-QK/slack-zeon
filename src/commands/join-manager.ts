@@ -411,12 +411,12 @@ export default class JoinManager implements Command {
         console.error("Failed to fetch channel info", e);
       }
 
-      if (!isPrivate) {
-        return respond({
-          text: ":x: This command is only available for private channels.",
-          response_type: "ephemeral",
-        });
-      }
+   //   if (!isPrivate) {
+//        return respond({
+  //        text: ":x: This command is only available for private channels.",
+   //       response_type: "ephemeral",
+   //     });
+     // }
 
       // Manager Check
       let managers: string[] = [];
