@@ -13,6 +13,7 @@ import { getTextVersionOfData } from "../modules/flightly";
 import { banned_users } from "./joinchannel";
 import ms from "ms";
 import { getAmpBalance } from "../modules/ampcode";
+import { getUserLevel, getLevelLeaderboard, getXPForNextLevel } from "../modules/leveling";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
@@ -391,6 +392,50 @@ export default class Message implements Command {
                 text: `Robotics schedule not sent!`,
                 user: event.user,
               });
+            }
+          } else if (cmd == "levels") {
+            const subcommand = args[0]?.toLowerCase();
+
+            if (!subcommand || subcommand === "lb") {
+              // Show leaderboard
+              const leaderboard = await getLevelLeaderboard(10);
+
+              if (leaderboard.length === 0) {
+                await say(`No users in the leveling system yet.`);
+                return;
+              }
+
+              const lbText = leaderboard
+                .map(
+                  (user, idx) =>
+                    `${idx + 1}. <@${user.userId}> - Level ${user.level} (${user.xp} XP)`,
+                )
+                .join("\n");
+
+              await say(`*📊 Level Leaderboard*\n${lbText}`);
+            } else if (subcommand === "check") {
+              // Check specific user's level
+              const userMention = args[1];
+              if (!userMention) {
+                await say(`Usage: \`!levels check @user\``);
+                return;
+              }
+
+              const userId = userMention
+                .replace("<@", "")
+                .replace(">", "")
+                .replace("!", "");
+
+              const userLevel = await getUserLevel(userId);
+              const xpForNext = getXPForNextLevel(userLevel.xp);
+
+              await say(
+                `<@${userId}> is Level ${userLevel.level} with ${userLevel.xp} XP (${xpForNext} XP until next level)`,
+              );
+            } else {
+              await say(
+                `Usage: \`!levels\` or \`!levels lb\` for leaderboard, \`!levels check @user\` to check a user's level`,
+              );
             }
           }
           console.debug(`#message-`);

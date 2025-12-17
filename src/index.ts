@@ -17,6 +17,7 @@ import monitorMemCpu from "./modules/alertcpu";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import initGitWatcher from "./modules/watch-git";
+import { initLevelingSystem, initPGPool, ensureTableExists } from "./modules/leveling";
 import util from "util";
 import KeyvPostgres from "@keyv/postgres";
 import Keyv from "keyv";
@@ -121,6 +122,9 @@ console.time("App Boot");
   });
 
   initGitWatcher(app);
+  initPGPool();
+  await ensureTableExists();
+  initLevelingSystem(app);
 
   const cmdLoader = new Loader(app, path.join(__dirname, "commands"));
   cmdLoader.runQuery();
