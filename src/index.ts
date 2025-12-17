@@ -17,7 +17,11 @@ import monitorMemCpu from "./modules/alertcpu";
 import { watchForWhenIUseHacktime } from "./modules/hacktime";
 import { resetSpotifyCache } from "./modules/howWasYourDay";
 import initGitWatcher from "./modules/watch-git";
-import { initLevelingSystem, initPGPool, ensureTableExists } from "./modules/leveling";
+import {
+  initLevelingSystem,
+  initPGPool,
+  ensureTableExists,
+} from "./modules/leveling";
 import util from "util";
 import KeyvPostgres from "@keyv/postgres";
 import Keyv from "keyv";
