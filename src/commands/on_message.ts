@@ -13,7 +13,11 @@ import { getTextVersionOfData } from "../modules/flightly";
 import { banned_users } from "./joinchannel";
 import ms from "ms";
 import { getAmpBalance } from "../modules/ampcode";
-import { getUserLevel, getLevelLeaderboard, getXPForNextLevel } from "../modules/leveling";
+import {
+  getUserLevel,
+  getLevelLeaderboard,
+  getXPForNextLevel,
+} from "../modules/leveling";
 const clean = async (text) => {
   // If our input is a promise, await it before continuing
   if (text && text.constructor?.name == "Promise") text = await text;
