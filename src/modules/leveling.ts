@@ -129,7 +129,7 @@ export function initLevelingSystem(app: ModifiedApp): void {
             : leveledUp.level % 5 === 0
               ? "⭐"
               : "✨";
-        
+
         await client.chat.postMessage({
           channel: NEONS_CHANNEL,
           //@ts-ignore
