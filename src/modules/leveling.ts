@@ -110,7 +110,18 @@ export function initLevelingSystem(app: ModifiedApp): void {
     try {
       const leveledUp = await updateUserLevel(userId, XP_PER_MESSAGE);
 
-      // Optionally announce level up
+      // Log XP gain to logsnag
+      try {
+        await app.logsnag.insight.increment({
+          icon: "⚡",
+          title: "XP Gained",
+          value: XP_PER_MESSAGE,
+        });
+      } catch (logError) {
+        console.error("Error logging XP gain to logsnag:", logError);
+      }
+
+      // Announce and log level up
       if (leveledUp) {
         const emoji =
           leveledUp.level % 10 === 0
@@ -118,12 +129,36 @@ export function initLevelingSystem(app: ModifiedApp): void {
             : leveledUp.level % 5 === 0
               ? "⭐"
               : "✨";
+        
         await client.chat.postMessage({
           channel: NEONS_CHANNEL,
           //@ts-ignore
           thread_ts: message.ts,
           text: `${emoji} <@${userId}> reached level ${leveledUp.level}!`,
         });
+
+        // Log level up event to logsnag
+        try {
+          await app.logsnag.track({
+            channel: "leveling",
+            event: "level_up",
+            user_id: userId,
+            icon: emoji,
+            tags: {
+              level: leveledUp.level,
+              total_xp: leveledUp.xp,
+            },
+          });
+
+          // Increment level up counter
+          await app.logsnag.insight.increment({
+            icon: emoji,
+            title: "Total Level Ups",
+            value: 1,
+          });
+        } catch (logError) {
+          console.error("Error logging level up to logsnag:", logError);
+        }
       }
     } catch (error) {
       console.error("Error updating user level:", error);
