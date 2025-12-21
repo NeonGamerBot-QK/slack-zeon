@@ -3,7 +3,8 @@ import { Pool } from "pg";
 
 const NEONS_CHANNEL = "C07R8DYAZMM";
 const XP_PER_MESSAGE = 10;
-const XP_PER_LEVEL = 100;
+const BASE_XP_PER_LEVEL = 100;
+const XP_LEVEL_SCALING = 20;
 const TABLE_NAME = "levelsystem";
 
 // Channel-specific XP multipliers
@@ -44,15 +45,28 @@ async function ensureTableExists(): Promise<void> {
   await pool.query(query);
 }
 
+// Calculate XP needed to reach a specific level
+function getXPForLevel(level: number): number {
+  let totalXp = 0;
+  for (let i = 0; i < level; i++) {
+    totalXp += BASE_XP_PER_LEVEL + i * XP_LEVEL_SCALING;
+  }
+  return totalXp;
+}
+
 // Calculate level from XP
 function getLevelFromXP(totalXp: number): number {
-  return Math.floor(totalXp / XP_PER_LEVEL);
+  let level = 0;
+  while (getXPForLevel(level + 1) <= totalXp) {
+    level++;
+  }
+  return level;
 }
 
 // Get XP needed for next level
 function getXPForNextLevel(currentXp: number): number {
   const currentLevel = getLevelFromXP(currentXp);
-  return (currentLevel + 1) * XP_PER_LEVEL - currentXp;
+  return getXPForLevel(currentLevel + 1) - currentXp;
 }
 
 // Calculate XP multiplier based on channel and day of week
