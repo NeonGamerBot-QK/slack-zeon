@@ -8,8 +8,8 @@ const TABLE_NAME = "levelsystem";
 
 // Channel-specific XP multipliers
 const CHANNEL_MULTIPLIERS: Record<string, number> = {
-  "C09KP0Y8947": 1.05,
-  "C0869S20RMM": 1.1,
+  C09KP0Y8947: 1.05,
+  C0869S20RMM: 1.1,
 };
 
 // All channels that track XP
