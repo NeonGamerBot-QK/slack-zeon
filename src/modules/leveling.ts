@@ -6,6 +6,15 @@ const XP_PER_MESSAGE = 10;
 const XP_PER_LEVEL = 100;
 const TABLE_NAME = "levelsystem";
 
+// Channel-specific XP multipliers
+const CHANNEL_MULTIPLIERS: Record<string, number> = {
+  "C09KP0Y8947": 1.05,
+  "C0869S20RMM": 1.1,
+};
+
+// All channels that track XP
+const LEVELING_CHANNELS = [NEONS_CHANNEL, ...Object.keys(CHANNEL_MULTIPLIERS)];
+
 interface UserLevel {
   userId: string;
   level: number;
@@ -44,6 +53,19 @@ function getLevelFromXP(totalXp: number): number {
 function getXPForNextLevel(currentXp: number): number {
   const currentLevel = getLevelFromXP(currentXp);
   return (currentLevel + 1) * XP_PER_LEVEL - currentXp;
+}
+
+// Calculate XP multiplier based on channel and day of week
+function getXPMultiplier(channelId: string): number {
+  let multiplier = CHANNEL_MULTIPLIERS[channelId] || 1;
+
+  // Double the multiplier on weekends (Saturday = 6, Sunday = 0)
+  const dayOfWeek = new Date().getDay();
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    multiplier *= 2;
+  }
+
+  return multiplier;
 }
 
 // Get user level data
@@ -86,10 +108,10 @@ async function updateUserLevel(
 
 // Initialize leveling system
 export function initLevelingSystem(app: ModifiedApp): void {
-  // Listen for messages in the specific channel
+  // Listen for messages in leveling channels
   app.message(async ({ message, client }) => {
-    // Only track messages in the target channel
-    if (message.channel !== NEONS_CHANNEL) return;
+    // Only track messages in leveling channels
+    if (!LEVELING_CHANNELS.includes(message.channel)) return;
 
     // Ignore bot messages, threads, and edits
     //@ts-ignore
@@ -108,14 +130,18 @@ export function initLevelingSystem(app: ModifiedApp): void {
     if (!userId) return;
 
     try {
-      const leveledUp = await updateUserLevel(userId, XP_PER_MESSAGE);
+      // Calculate XP gain with channel multiplier
+      const multiplier = getXPMultiplier(message.channel);
+      const xpGain = Math.floor(XP_PER_MESSAGE * multiplier);
+
+      const leveledUp = await updateUserLevel(userId, xpGain);
 
       // Log XP gain to logsnag
       try {
         await app.logsnag.insight.increment({
           icon: "⚡",
           title: "XP Gained",
-          value: XP_PER_MESSAGE,
+          value: xpGain,
         });
       } catch (logError) {
         console.error("Error logging XP gain to logsnag:", logError);
