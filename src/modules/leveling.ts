@@ -157,7 +157,7 @@ export function initLevelingSystem(app: ModifiedApp): void {
               : "✨";
 
         await client.chat.postMessage({
-          channel: NEONS_CHANNEL,
+          channel: message.channel,
           //@ts-ignore
           thread_ts: message.ts,
           text: `${emoji} <@${userId}> reached level ${leveledUp.level}!`,
