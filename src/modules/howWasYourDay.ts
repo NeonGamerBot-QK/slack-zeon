@@ -455,30 +455,7 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       text: `No steam activity for today found...`,
     });
   }
-  try {
-    const trustChanges = await fetchHackatimeTrustLogs().then(
-      summarizeTrustChanges,
-    );
-    if (trustChanges.length > 5) {
-      await app.client.chat.postMessage({
-        channel,
-        thread_ts: mobj.ts,
-        text: `Your hackatime changes today: \n> ${trustChanges}`,
-      });
-    } else {
-      await app.client.chat.postMessage({
-        channel,
-        thread_ts: mobj.ts,
-        text: `No hackatime bans today...`,
-      });
-    }
-  } catch (e) {
-    app.client.chat.postMessage({
-      channel,
-      thread_ts: mobj.ts,
-      text: `No hackatime bans today(err: ${e.message})...`,
-    });
-  }
+
 
   await app.db.delete("git_commits_today");
 
@@ -563,43 +540,4 @@ export async function sendWeeklyGraph(app: ModifiedApp, channel: string) {
 
   app.db.set("messages_total", []);
 }
-function fetchHackatimeTrustLogs() {
-  return fetch("https://hackatime.hackclub.com/api/admin/v1/execute", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + process.env.HACKATIME_API_KEY,
-      "Content-Type": "application/json",
-    },
-    // body: '{"query": "SELECT tla.*, u1.slack_uid  AS user_slack_uid, u2.slack_uid  AS changed_by_slack_uid FROM trust_level_audit_logs AS tla JOIN users AS u1 ON u1.id = tla.user_id JOIN users AS u2 ON u2.id = tla.changed_by_id LIMIT 1;"}',
-    body: JSON.stringify({
-      query:
-        "SELECT id, previous_trust_level, new_trust_level, created_at FROM trust_level_audit_logs WHERE changed_by_id = 41 AND created_at >= NOW() - INTERVAL '24 hours' ORDER BY id DESC",
-    }),
-  })
-    .then((d) => d.json())
-    .then(async (data) => {
-      return data.rows;
-    });
-}
 
-export function summarizeTrustChanges(data) {
-  let banned = 0;
-  let unbanned = 0;
-
-  for (const entry of data) {
-    const prev = entry.previous_trust_level[1];
-    const next = entry.new_trust_level[1];
-
-    // Count banned
-    if (next === "red" || (next === "yellow" && prev === "blue")) {
-      banned++;
-    }
-
-    // Count unbanned
-    if (prev === "red") {
-      unbanned++;
-    }
-  }
-
-  return `Banned: ${banned}, Unbanned: ${unbanned}, total changes: ${data.length}`;
-}
