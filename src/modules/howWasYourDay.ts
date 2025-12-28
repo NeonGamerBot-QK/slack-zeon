@@ -456,7 +456,6 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
     });
   }
 
-
   await app.db.delete("git_commits_today");
 
   // Channel activity map
@@ -540,4 +539,3 @@ export async function sendWeeklyGraph(app: ModifiedApp, channel: string) {
 
   app.db.set("messages_total", []);
 }
-
