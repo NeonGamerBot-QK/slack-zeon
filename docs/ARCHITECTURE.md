@@ -138,12 +138,12 @@ sequenceDiagram
     Main->>DB: Initialize JSON + Encrypted stores
     Main->>Bolt: app.start(PORT)
     Note over Bolt: HTTP Server UP ✅
-    
+
     par Deferred Init
         Main-->>Main: Import Sentry
         Main-->>Main: Import NocoDB
     end
-    
+
     Main->>Cron: setupOverallCron(app)
     Main->>Cron: monitorMemCpu(app)
     Main->>Cmd: CommandLoader.runQuery()
@@ -193,22 +193,22 @@ interface Command {
 
 ### Command Types
 
-| Type | Count | Examples |
-|------|-------|----------|
-| Slash Commands | 15+ | `/ping`, `/join`, `/tag`, `/zpurge`, `/bday` |
-| Event Handlers | 15+ | `message`, `team_join`, `app_home_opened` |
-| Actions/Views | 10+ | `send_mail`, `vote_poll`, `approve_join` |
+| Type           | Count | Examples                                     |
+| -------------- | ----- | -------------------------------------------- |
+| Slash Commands | 15+   | `/ping`, `/join`, `/tag`, `/zpurge`, `/bday` |
+| Event Handlers | 15+   | `message`, `team_join`, `app_home_opened`    |
+| Actions/Views  | 10+   | `send_mail`, `vote_poll`, `approve_join`     |
 
 ### Key Commands
 
-| Command | Description |
-|---------|-------------|
-| `/tag` | User-defined text snippets |
-| `/join` | Channel join approval workflow |
-| `/stickymessage` | Persistent channel messages |
-| `anondm` | Anonymous/blind mail system |
-| `zeon_message` | AI chatbot responses |
-| `leveling` | XP tracking on messages |
+| Command          | Description                    |
+| ---------------- | ------------------------------ |
+| `/tag`           | User-defined text snippets     |
+| `/join`          | Channel join approval workflow |
+| `/stickymessage` | Persistent channel messages    |
+| `anondm`         | Anonymous/blind mail system    |
+| `zeon_message`   | AI chatbot responses           |
+| `leveling`       | XP tracking on messages        |
 
 ---
 
@@ -216,29 +216,29 @@ interface Command {
 
 ### PostgreSQL (via Keyv)
 
-| Table | Purpose |
-|-------|---------|
-| `data` | Main key-value store |
+| Table            | Purpose                      |
+| ---------------- | ---------------------------- |
+| `data`           | Main key-value store         |
 | `channelhoister` | Channel name hoisting config |
-| `tags` | User-defined tags |
-| `stickymessages` | Sticky message config |
-| `joinchannel` | Auto-join settings |
-| `userjoin` | User join tracking |
-| `flightly` | Flight tracking data |
-| `mykcd` | School integration data |
+| `tags`           | User-defined tags            |
+| `stickymessages` | Sticky message config        |
+| `joinchannel`    | Auto-join settings           |
+| `userjoin`       | User join tracking           |
+| `flightly`       | Flight tracking data         |
+| `mykcd`          | School integration data      |
 
 ### PostgreSQL (Direct SQL)
 
-| Table | Purpose |
-|-------|---------|
+| Table         | Purpose             |
+| ------------- | ------------------- |
 | `levelsystem` | XP, levels per user |
 
 ### Local Files
 
-| File | Type | Purpose |
-|------|------|---------|
-| `data/discord-datamining.json` | JSONdb | Legacy cache |
-| `data/anondm.json` | EncryptedJsonDb | Anonymous DM mappings |
+| File                           | Type            | Purpose               |
+| ------------------------------ | --------------- | --------------------- |
+| `data/discord-datamining.json` | JSONdb          | Legacy cache          |
+| `data/anondm.json`             | EncryptedJsonDb | Anonymous DM mappings |
 
 ---
 
@@ -246,41 +246,41 @@ interface Command {
 
 ### Cron Schedule (cron.ts)
 
-| Schedule | Job |
-|----------|-----|
+| Schedule      | Job                                    |
+| ------------- | -------------------------------------- |
 | `*/2 * * * *` | Update Slack status (Spotify/Jellyfin) |
-| `1 7 * * 1-5` | Morning weekday greeting + homework |
-| `1 9 * * 6-7` | Weekend greeting |
-| `40 21 * * *` | "How was your day" summary |
-| `0 0 * * *` | Birthday announcements |
-| `0 * * * *` | Monero price check |
-| `0 12 * * *` | Outdated npm packages |
+| `1 7 * * 1-5` | Morning weekday greeting + homework    |
+| `1 9 * * 6-7` | Weekend greeting                       |
+| `40 21 * * *` | "How was your day" summary             |
+| `0 0 * * *`   | Birthday announcements                 |
+| `0 * * * *`   | Monero price check                     |
+| `0 12 * * *`  | Outdated npm packages                  |
 
 ### Intervals
 
-| Interval | Module | Purpose |
-|----------|--------|---------|
-| 60s | index.ts | Uptime heartbeat |
-| 30s | alertcpu.ts | CPU/memory monitoring |
-| 2min | hacktime.ts | Coding session tracking |
-| 5min | noramail.ts | Mail checking |
-| 60min | ampcode.ts | Amp credits balance |
+| Interval | Module      | Purpose                 |
+| -------- | ----------- | ----------------------- |
+| 60s      | index.ts    | Uptime heartbeat        |
+| 30s      | alertcpu.ts | CPU/memory monitoring   |
+| 2min     | hacktime.ts | Coding session tracking |
+| 5min     | noramail.ts | Mail checking           |
+| 60min    | ampcode.ts  | Amp credits balance     |
 
 ---
 
 ## External Integrations
 
-| Service | Purpose | Config |
-|---------|---------|--------|
-| **Sentry** | Error monitoring | `SENTRY_DSN` |
-| **LogSnag** | Event analytics | `LOGSNAG_TOKEN` |
-| **NocoDB** | Birthday database | `NOCODB_URL`, `NOCODB_TOKEN` |
-| **Spotify** | Now playing status | via Discord instance |
-| **Jellyfin** | Media status | `MY_JELLYFIN_INSTANCE` |
-| **Hack Club AI** | Chat completions | `ZEON_HC_AI_TOKEN` |
-| **Hackatime** | Coding tracking | `ENC_HACKTIME_TOKEN` |
-| **Steam** | Game tracking | `STEAM_API_KEY` |
-| **MyKCD/Blackbaud** | School grades | `KCD_COOKIE` |
+| Service             | Purpose            | Config                       |
+| ------------------- | ------------------ | ---------------------------- |
+| **Sentry**          | Error monitoring   | `SENTRY_DSN`                 |
+| **LogSnag**         | Event analytics    | `LOGSNAG_TOKEN`              |
+| **NocoDB**          | Birthday database  | `NOCODB_URL`, `NOCODB_TOKEN` |
+| **Spotify**         | Now playing status | via Discord instance         |
+| **Jellyfin**        | Media status       | `MY_JELLYFIN_INSTANCE`       |
+| **Hack Club AI**    | Chat completions   | `ZEON_HC_AI_TOKEN`           |
+| **Hackatime**       | Coding tracking    | `ENC_HACKTIME_TOKEN`         |
+| **Steam**           | Game tracking      | `STEAM_API_KEY`              |
+| **MyKCD/Blackbaud** | School grades      | `KCD_COOKIE`                 |
 
 ---
 
@@ -297,6 +297,7 @@ flowchart LR
 ```
 
 Global handlers in `index.ts`:
+
 - `process.on('unhandledRejection', handleError)`
 - `process.on('uncaughtException', handleError)`
 - `process.on('SIGINT', gracefulShutdown)`
@@ -306,11 +307,13 @@ Global handlers in `index.ts`:
 ## Leveling System
 
 XP formula:
+
 - **Base**: 10 XP per message
 - **Channel multipliers**: 1.05x - 1.1x for specific channels
 - **Weekend bonus**: 2x on Saturday/Sunday
 
 Level formula:
+
 - Level N requires: `100 + (N-1) * 20` XP from previous level
 - Level 1: 100 XP, Level 2: 220 total, Level 3: 360 total...
 
@@ -320,14 +323,14 @@ Level formula:
 
 Routes defined in `slackapp.ts`:
 
-| Route | Purpose |
-|-------|---------|
-| `/` | Static homepage |
-| `/happenings.xml` | RSS feed from channel history |
-| `/bday` | Birthday page renderer |
-| `/api/keys` | Auth-protected AI keys |
-| `/health` | Health check endpoint |
-| `/github-cb-for-slack` | GitHub webhook handler |
+| Route                  | Purpose                       |
+| ---------------------- | ----------------------------- |
+| `/`                    | Static homepage               |
+| `/happenings.xml`      | RSS feed from channel history |
+| `/bday`                | Birthday page renderer        |
+| `/api/keys`            | Auth-protected AI keys        |
+| `/health`              | Health check endpoint         |
+| `/github-cb-for-slack` | GitHub webhook handler        |
 
 ---
 
