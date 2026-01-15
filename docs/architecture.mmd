@@ -1,0 +1,113 @@
+flowchart TB
+    subgraph Entry["🚀 Bootstrap (index.ts)"]
+        Init[index.ts<br/>Composition Root]
+    end
+
+    subgraph SlackLayer["📡 Slack Layer"]
+        BoltApp[Bolt App<br/>HTTP Server :3000]
+        SlackAPI[Slack Platform<br/>Events + Web API]
+    end
+
+    subgraph CommandSystem["⚡ Command System"]
+        CmdLoader[CommandLoader<br/>Dynamic Loader]
+        subgraph Commands["Commands (37 files)"]
+            SlashCmds["/ping, /join, /tag<br/>/zpurge, /bday..."]
+            EventCmds["message, team_join<br/>app_home_opened..."]
+            ActionCmds["send_mail, vote_poll<br/>approve_join..."]
+        end
+    end
+
+    subgraph Modules["🔧 Modules"]
+        subgraph Core["Core"]
+            BaseCmd[BaseCommand]
+            Utils[utils/index.ts]
+        end
+        subgraph Features["Features"]
+            Leveling[leveling.ts<br/>XP/Levels]
+            Status[status.ts<br/>Now Playing]
+            Random[randomResponse.ts]
+            Hangman[hangman.ts]
+        end
+        subgraph Trackers["Trackers"]
+            School[school.ts<br/>Grades]
+            Hacktime[hacktime.ts<br/>Coding]
+            Flightly[flightly.ts<br/>Flights]
+            Journey[journey.ts<br/>Ships]
+        end
+    end
+
+    subgraph Background["⏰ Background Jobs"]
+        Cron[cron.ts<br/>Master Scheduler]
+        MemWatch[memwatch.ts]
+        AlertCPU[alertcpu.ts]
+        GitWatch[watch-git.ts]
+        Uptime[Uptime Ping<br/>60s interval]
+    end
+
+    subgraph Storage["💾 Persistence"]
+        subgraph Postgres["PostgreSQL"]
+            KeyvMain[(Keyv: data)]
+            KeyvTables[(channelhoister, tags<br/>stickymessages...)]
+            LevelDB[(levelsystem)]
+        end
+        subgraph LocalFiles["Local Files"]
+            JSONStore[JSONdb<br/>discord-datamining.json]
+            EncryptedDB[EncryptedJsonDb<br/>anondm.json]
+        end
+    end
+
+    subgraph External["🌐 External Services"]
+        Sentry[Sentry<br/>Error Monitoring]
+        LogSnag[LogSnag<br/>Analytics]
+        NocoDB[NocoDB<br/>Birthdays]
+        Spotify[Spotify<br/>Now Playing]
+        Jellyfin[Jellyfin<br/>Media Status]
+        HCMail[HC Mail<br/>Notifications]
+        HCAI[HC AI<br/>Chat API]
+        Steam[Steam API]
+        UptimeSvc[Uptime Service]
+    end
+
+    subgraph ErrorHandling["🚨 Error Handling"]
+        GlobalErr[Global Handler<br/>unhandledRejection]
+    end
+
+    Init --> BoltApp
+    Init --> KeyvMain
+    Init --> KeyvTables
+    Init --> JSONStore
+    Init --> EncryptedDB
+    Init --> Cron
+    Init --> CmdLoader
+
+    BoltApp <--> SlackAPI
+    CmdLoader --> Commands
+    Commands --> BoltApp
+
+    Cron --> Status
+    Cron --> School
+    Cron --> Hacktime
+    Cron --> Flightly
+    Cron --> Random
+
+    BoltApp --> Leveling
+    Leveling --> LevelDB
+    Leveling --> LogSnag
+
+    Status --> Spotify
+    Status --> Jellyfin
+
+    Init -.->|deferred| Sentry
+    Init -.->|deferred| NocoDB
+    Init --> LogSnag
+
+    GlobalErr --> Sentry
+    GlobalErr --> SlackAPI
+
+    MemWatch --> SlackAPI
+    AlertCPU --> SlackAPI
+    Uptime --> UptimeSvc
+
+    School -.-> KeyvTables
+    Hacktime -.-> SlackAPI
+    Journey -.-> SlackAPI
