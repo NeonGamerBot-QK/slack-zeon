@@ -18,6 +18,7 @@ import { whosHackingCron } from "./hacktime";
 import { scrapeStuff } from "./noramail";
 import { setupCronForHTN } from "./htn";
 import { checkAmpCredits } from "./ampcode";
+import { checkHCAICredits, initHCAIPool } from "./hcaiTracker";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -347,6 +348,13 @@ export async function setupOverallCron(app: ModifiedApp) {
   scrapeStuff(app);
   setInterval(() => checkAmpCredits(app), 60 * 60 * 1000);
   checkAmpCredits(app);
+
+  // Initialize and run HCAI tracker (hourly, same as AMP)
+  if (process.env.PSQL_URL) {
+    initHCAIPool(process.env.PSQL_URL);
+    setInterval(() => checkHCAICredits(app), 60 * 60 * 1000);
+    checkHCAICredits(app);
+  }
   // setupCronForHTN(app);
   // setInterval(
   //   async () => {
