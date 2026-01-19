@@ -27,16 +27,15 @@ export default class HowWasUrDayMessage implements Command {
         return;
       const message = par;
       const { event, say } = par;
-
       //   if (!par.ack) return;
       //   console.debug(0);
       //   if (!par.say) return;
       if (app.disable_wmi) return;
-      if (par.event.user == "UPJ04PRKJ") {
+      if (par.event.user == "U0912DSNWHF") {
         app.disable_wmi = true;
         app.client.chat.postMessage({
           channel: "C07LGLUTNH2",
-          text: "<@UPJ04PRKJ> is back",
+          text: "<@U0912DSNWHF> or well, the new one is back",
         });
         return;
       }
@@ -51,7 +50,7 @@ export default class HowWasUrDayMessage implements Command {
       let objectedIds = {};
       await app.client.chat.postMessage({
         channel: event.channel,
-        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "").replace("|", "")}`).join("\n")}\n (this will be disabled once radar is back up)\nradar i miss you please come back`,
+        text: `${ids.map((e) => `${e}: ${e.split("<")[1].split(">")[0].replace("@", "").replace("#", "").replace("|", "")}`).join("\n")}\n (this will be disabled once ~radar~ slackscan is back up)\nrip me`,
         thread_ts: event.ts,
       });
       const rids = ids.map((e) =>
