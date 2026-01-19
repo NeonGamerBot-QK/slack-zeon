@@ -69,7 +69,7 @@ async function fetchHCAIBalance(): Promise<number | null> {
  */
 async function getLastBalance(): Promise<number | null> {
   const result = await pool.query(
-    `SELECT balance FROM ${TABLE_NAME} ORDER BY recorded_at DESC LIMIT 1`
+    `SELECT balance FROM ${TABLE_NAME} ORDER BY recorded_at DESC LIMIT 1`,
   );
   if (result.rows.length === 0) {
     return null;
