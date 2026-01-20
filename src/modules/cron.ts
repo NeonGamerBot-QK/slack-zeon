@@ -19,6 +19,7 @@ import { scrapeStuff } from "./noramail";
 import { setupCronForHTN } from "./htn";
 import { checkAmpCredits } from "./ampcode";
 import { checkHCAICredits, initHCAIPool } from "./hcaiTracker";
+import { checkForNewLapses, initLapsePool } from "./lapseTracker";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -354,6 +355,11 @@ export async function setupOverallCron(app: ModifiedApp) {
     initHCAIPool(process.env.PSQL_URL);
     setInterval(() => checkHCAICredits(app), 60 * 60 * 1000);
     checkHCAICredits(app);
+
+    // Initialize and run lapse tracker (every 5 minutes for near real-time alerts)
+    initLapsePool(process.env.PSQL_URL);
+    setInterval(() => checkForNewLapses(app), 5 * 60 * 1000);
+    checkForNewLapses(app);
   }
   // setupCronForHTN(app);
   // setInterval(

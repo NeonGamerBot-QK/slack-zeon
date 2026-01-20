@@ -11,6 +11,7 @@ import { writeFileSync } from "fs";
 import path from "path";
 import { scrubPIIAuto } from "./randomResponseSystem";
 import Keyv from "keyv";
+import { getTodaysLapsesString } from "./lapseTracker";
 export let cached_spotify_songs = [];
 export async function resetSpotifyCache(app: ModifiedApp) {
   cached_spotify_songs = (await app.db.get("spotify_songs")) || [];
@@ -453,6 +454,23 @@ export default async function (app: ModifiedApp, channel = `C07R8DYAZMM`) {
       channel,
       thread_ts: mobj.ts,
       text: `No steam activity for today found...`,
+    });
+  }
+
+  // Lapse activity
+  try {
+    const lapsesString = await getTodaysLapsesString();
+    await app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: lapsesString,
+    });
+  } catch (e) {
+    console.error("lapse error:", e.message);
+    await app.client.chat.postMessage({
+      channel,
+      thread_ts: mobj.ts,
+      text: `:x: Lapse error: \`${e.message}\``,
     });
   }
 
