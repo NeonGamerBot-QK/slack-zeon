@@ -3,7 +3,7 @@ import { ModifiedApp } from "./slackapp";
 
 /**
  * Lapse Tracker Module
- * 
+ *
  * Fetches lapse data from https://lapse.hackclub.com/api/trpc/timelapse.findByUser
  * and alerts on new published lapses. Stores seen lapses in PostgreSQL.
  */
@@ -139,7 +139,7 @@ async function saveLapse(lapse: Timelapse): Promise<void> {
       lapse.thumbnailUrl,
       lapse.duration,
       lapse.createdAt,
-    ]
+    ],
   );
 }
 
@@ -185,10 +185,10 @@ export async function checkForNewLapses(app: ModifiedApp): Promise<void> {
             },
             accessory: lapse.thumbnailUrl
               ? {
-                type: "image",
-                image_url: lapse.thumbnailUrl,
-                alt_text: lapse.name,
-              }
+                  type: "image",
+                  image_url: lapse.thumbnailUrl,
+                  alt_text: lapse.name,
+                }
               : undefined,
           },
           {
@@ -201,7 +201,9 @@ export async function checkForNewLapses(app: ModifiedApp): Promise<void> {
                   text: "Watch Lapse",
                   emoji: true,
                 },
-                url: lapse.playbackUrl || `https://lapse.hackclub.com/@neon/${lapse.id}`,
+                url:
+                  lapse.playbackUrl ||
+                  `https://lapse.hackclub.com/@neon/${lapse.id}`,
                 action_id: `watch_lapse_${lapse.id}`,
               },
             ],
@@ -234,9 +236,7 @@ export async function getTodaysLapses(): Promise<Timelapse[]> {
     const todayStart = today.getTime();
 
     // Filter to lapses created today and published
-    return lapses.filter(
-      (l) => l.isPublished && l.createdAt >= todayStart
-    );
+    return lapses.filter((l) => l.isPublished && l.createdAt >= todayStart);
   } catch (err) {
     console.error("Error getting today's lapses:", err);
     return [];
