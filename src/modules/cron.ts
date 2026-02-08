@@ -20,6 +20,7 @@ import { setupCronForHTN } from "./htn";
 import { checkAmpCredits } from "./ampcode";
 import { checkHCAICredits, initHCAIPool } from "./hcaiTracker";
 import { checkForNewLapses, initLapsePool } from "./lapseTracker";
+import { checkSteamGaming } from "./steamGamingTracker";
 // import { onLoad } from "./lockinysws";
 const cronWithCheckIn = Sentry.cron.instrumentNodeCron(cron);
 
@@ -361,6 +362,10 @@ export async function setupOverallCron(app: ModifiedApp) {
     setInterval(() => checkForNewLapses(app), 5 * 60 * 1000);
     checkForNewLapses(app);
   }
+
+  // Steam gaming detection (every 2 minutes to catch sessions quickly)
+  setInterval(() => checkSteamGaming(app), 2 * 60 * 1000);
+  checkSteamGaming(app);
   // setupCronForHTN(app);
   // setInterval(
   //   async () => {
