@@ -116,7 +116,9 @@ export async function checkSteamGaming(app: ModifiedApp): Promise<void> {
       ],
     });
 
-    console.log(`Steam gaming alert: ${player.personaname} playing ${gameName}`);
+    console.log(
+      `Steam gaming alert: ${player.personaname} playing ${gameName}`,
+    );
     currentGame = gameName;
   } else if (!gameName && currentGame) {
     // Game session ended
