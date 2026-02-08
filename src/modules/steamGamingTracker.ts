@@ -97,12 +97,12 @@ export async function checkSteamGaming(app: ModifiedApp): Promise<void> {
         ...(storeUrl
           ? [
               {
-                type: "actions",
+                type: "actions" as const,
                 elements: [
                   {
-                    type: "button",
+                    type: "button" as const,
                     text: {
-                      type: "plain_text",
+                      type: "plain_text" as const,
                       text: "View on Steam",
                       emoji: true,
                     },
