@@ -247,15 +247,38 @@ export default class Message implements Command {
           } else if (cmd == "hello") {
             say(`Whats up`);
           } else if (cmd == "email") {
-            const uinfo = await app.client.users["info"]({ user: args[0] });
-            if (uinfo.user) {
-              await app.client.chat.postMessage({
-                text: `:email: ${uinfo.user.profile.email}`,
-                channel: event.channel,
+            // Split input by spaces or newlines to support multiple Slack IDs
+            const userIds = args.join(" ").split(/[\s\n]+/).filter(Boolean);
+            const results: string[] = [];
+            const csvRows: { userId: string; email: string }[] = [];
+            for (const userId of userIds) {
+              try {
+                const uinfo = await app.client.users["info"]({ user: userId });
+                if (uinfo.user) {
+                  const email = uinfo.user.profile.email || "N/A";
+                  results.push(`:email: <@${userId}>: ${email}`);
+                  csvRows.push({ userId, email });
+                } else {
+                  results.push(`:x: <@${userId}>: User not found!`);
+                }
+              } catch (e) {
+                results.push(`:x: ${userId}: User not found!`);
+              }
+            }
+
+            // Upload a CSV file if there are multiple successful lookups
+            if (csvRows.length > 1) {
+              const csvContent = "Slack ID,Email\n" + csvRows.map((r) => `${r.userId},${r.email}`).join("\n");
+              await app.client.files.uploadV2({
+                channel_id: event.channel,
+                content: csvContent,
+                filename: "emails.csv",
+                title: "Email Lookup Results",
+                initial_comment: results.join("\n"),
               });
             } else {
               await app.client.chat.postMessage({
-                text: `:x: User not found!`,
+                text: results.join("\n"),
                 channel: event.channel,
               });
             }
