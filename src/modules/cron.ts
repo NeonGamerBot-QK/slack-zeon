@@ -102,31 +102,32 @@ export async function setupOverallCron(app: ModifiedApp) {
   cron.schedule("25 */22 * * *", sendRandomStuff);
   new Cron("15 */3 * * *", sendRandomStuff);
   new Cron("45 2 */2 * *", sendRandomStuff);
-  new Cron("*/2 * * * *", async () => {
-    // Sentry.profiler.startProfiler();
-    //TODO: Add custom PFP's for music (cuz headphones would be nice)
-    const jellyfinStr = null;
-    const spotifyStr = await getSpotifyStatus();
-    if (jellyfinStr) {
-      updateStatus(":jellyfin:", jellyfinStr, app);
-    } else if (spotifyStr) {
-      cached_spotify_songs.push(spotifyStr);
-      await app.db.set("spotify_songs", cached_spotify_songs);
-      updateStatus(":new_spotify:", spotifyStr, app);
-    } else {
-      // clear status
-      updateStatus(
-        ":trash:",
-        "Zeons cleaning up neons status.. ignore this",
-        app,
-        true,
-      );
-    }
-    // Sentry.profiler.stopProfiler();
-    //TODO ADD MORE RPC
-    // at home? at school?
-    // set away if in any focus mode
-  });
+  // disabled: status-update cron (updateStatus)
+  // new Cron("*/2 * * * *", async () => {
+  //   // Sentry.profiler.startProfiler();
+  //   //TODO: Add custom PFP's for music (cuz headphones would be nice)
+  //   const jellyfinStr = null;
+  //   const spotifyStr = await getSpotifyStatus();
+  //   if (jellyfinStr) {
+  //     updateStatus(":jellyfin:", jellyfinStr, app);
+  //   } else if (spotifyStr) {
+  //     cached_spotify_songs.push(spotifyStr);
+  //     await app.db.set("spotify_songs", cached_spotify_songs);
+  //     updateStatus(":new_spotify:", spotifyStr, app);
+  //   } else {
+  //     // clear status
+  //     updateStatus(
+  //       ":trash:",
+  //       "Zeons cleaning up neons status.. ignore this",
+  //       app,
+  //       true,
+  //     );
+  //   }
+  //   // Sentry.profiler.stopProfiler();
+  //   //TODO ADD MORE RPC
+  //   // at home? at school?
+  //   // set away if in any focus mode
+  // });
   try {
     const job = new Cron(
       "40 21 * * *",
@@ -336,12 +337,12 @@ export async function setupOverallCron(app: ModifiedApp) {
   // setupCron(app);
   // highSeasCron(app);
   // temp? nah perm now
-  tempcronjob(app);
+  // tempcronjob(app); // disabled: was hitting kcd.myschoolapp.com
   // cronJobFor15daysofcode(app);
   // setupSeverCron(app);
   // cronJobForRPG(app);
   // onLoadForLockIn(app);
-  setupFlightlyCron(app);
+  // setupFlightlyCron(app); // disabled: was hitting live.flighty.app
   // cronJobForAvatar();
   // cronTS(app);
   // perm disabled

@@ -1,6 +1,6 @@
 import { Cron } from "croner";
 import { ModifiedApp } from "./slackapp";
-import { ChartJSNodeCanvas } from "chartjs-node-canvas";
+import type { ChartJSNodeCanvas as ChartJSNodeCanvasType } from "chartjs-node-canvas";
 
 export async function doMinUpdate(app: ModifiedApp) {
   //@ts-ignore
@@ -139,16 +139,28 @@ function formatDate(dateStr: string): string {
 }
 const width = 1200;
 const height = 600;
-const chartJSNodeCanvas = new ChartJSNodeCanvas({
-  width,
-  height,
-  backgroundColour: "white",
-  chartCallback: (ChartJS) => {
-    ChartJS.defaults.color = "#333";
-    ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
-    ChartJS.defaults.font.size = 14;
-  },
-});
+
+// Loaded on demand so the chart.js + native canvas binding aren't held in
+// memory for the process lifetime when nobody ever generates a graph.
+let chartJSNodeCanvasPromise: Promise<ChartJSNodeCanvasType> | null = null;
+function getChartCanvas(): Promise<ChartJSNodeCanvasType> {
+  if (!chartJSNodeCanvasPromise) {
+    chartJSNodeCanvasPromise = import("chartjs-node-canvas").then(
+      ({ ChartJSNodeCanvas }) =>
+        new ChartJSNodeCanvas({
+          width,
+          height,
+          backgroundColour: "white",
+          chartCallback: (ChartJS) => {
+            ChartJS.defaults.color = "#333";
+            ChartJS.defaults.font.family = "'Segoe UI', sans-serif";
+            ChartJS.defaults.font.size = 14;
+          },
+        }),
+    );
+  }
+  return chartJSNodeCanvasPromise;
+}
 export async function generateGraph(app: ModifiedApp) {
   // Settings
   const url = "https://slack.mybot.saahild.com/shipwreck-data.json";
@@ -248,6 +260,7 @@ export async function generateGraph(app: ModifiedApp) {
         },
       },
     };
+    const chartJSNodeCanvas = await getChartCanvas();
     //@ts-ignore
     const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
     return imageBuffer;
@@ -386,6 +399,7 @@ export async function generateGraph12h(app: ModifiedApp) {
         },
       },
     };
+    const chartJSNodeCanvas = await getChartCanvas();
     //@ts-ignore
     const imageBuffer = await chartJSNodeCanvas.renderToBuffer(config);
     //   await writeFile(imagePath, imageBuffer);

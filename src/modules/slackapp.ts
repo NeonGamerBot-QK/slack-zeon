@@ -7,11 +7,9 @@ import { handleGitRequest } from "./projectWaterydo";
 import { bdayutils } from "./index";
 import { Api } from "nocodb-sdk";
 import KeyvSqlite from "@keyv/sqlite";
-// import { ChartJSNodeCanvas } from "chartjs-node-canvas";
 
 import RSS from "rss";
 import { Update } from "./journey";
-import { generateGraph, generateGraph12h } from "./shipwrecked";
 import Keyv from "keyv";
 import { LogSnag } from "@logsnag/node";
 export interface ModifiedApp extends App<StringIndexed> {
